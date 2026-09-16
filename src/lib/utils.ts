@@ -25,9 +25,10 @@ export function prefersReducedMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-/** Экономия трафика: не грузим видео вообще */
+/** Экономия трафика (явная настройка пользователя): не грузим видео вообще.
+ *  effectiveType не используем — оценка Chrome часто врёт (эмуляции, in-app браузеры). */
 export function saveData(): boolean {
   if (typeof navigator === "undefined") return false;
-  const c = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
-  return Boolean(c?.saveData) || c?.effectiveType === "2g" || c?.effectiveType === "slow-2g";
+  const c = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+  return Boolean(c?.saveData);
 }

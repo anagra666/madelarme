@@ -54,7 +54,10 @@ function reconcile() {
   const touch = isTouch();
   const vis = [...entries].filter((e) => e.visible);
   if (!touch) {
-    for (const e of entries) (e.visible ? e.play() : e.pause());
+    for (const e of entries) {
+      if (e.visible) e.play();
+      else e.pause();
+    }
     return;
   }
   const mid = window.innerHeight / 2;
