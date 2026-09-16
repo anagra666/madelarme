@@ -8,13 +8,36 @@
     "turnaround": "сдача 4–8 недель",
     "fromPrice": 450000,
     "intro": "Главный продукт. Не отчёт о свадьбе, а фильм с завязкой, кульминацией и вашими голосами — клятвы, тосты, шёпот на прогулке. Смотрится через десять лет так же, как через неделю.",
-    "deliverables": ["Тизер 60–90 с в 16:9 и 9:16", "Фильм 8–15 мин", "5 Reels 9:16", "Полная версия церемонии и речей", "Исходники по договорённости"],
-    "process": ["Сборы и утро — с 9:00", "Церемония и прогулка", "Банкет — первый танец, речи, до последнего тоста", "Тизер через 7–14 дней, фильм через 4–8 недель"],
-    "faq": [
-      { "q": "Сколько операторов?", "a": "В кадре одна камера — я. Второй оператор нужен на церемонии с 150+ гостями и на большом тое, я скажу где." },
-      { "q": "Можно выбрать музыку?", "a": "Да, из лицензированных библиотек. Треки из соцсетей на сайт и YouTube не подходят." }
+    "deliverables": [
+      "Тизер 60–90 с в 16:9 и 9:16",
+      "Фильм 8–15 мин",
+      "5 Reels 9:16",
+      "Полная версия церемонии и речей",
+      "Исходники по договорённости"
     ],
-    "loop": { "mp4H": "/media/loops/f-wedding-h.mp4", "posterH": "/media/posters/f-wedding-h.webp" },
+    "process": [
+      "Сборы и утро — с 9:00",
+      "Церемония и прогулка",
+      "Банкет — первый танец, речи, до последнего тоста",
+      "Тизер через 7–14 дней, фильм через 4–8 недель"
+    ],
+    "faq": [
+      {
+        "q": "Сколько операторов?",
+        "a": "В кадре одна камера — я. Второй оператор нужен на церемонии с 150+ гостями и на большом тое, я скажу где."
+      },
+      {
+        "q": "Можно выбрать музыку?",
+        "a": "Да, из лицензированных библиотек. Треки из соцсетей на сайт и YouTube не подходят."
+      }
+    ],
+    "loop": {
+      "mp4H": "/media/loops/f-wedding-h.mp4",
+      "mp4V": "/media/loops/f-wedding-v.mp4",
+      "posterH": "/media/posters/f-wedding-h.webp",
+      "posterV": "/media/posters/f-wedding-v.webp",
+      "seconds": 8
+    },
     "isPublished": true,
     "sortOrder": 10
   },
@@ -27,8 +50,18 @@
     "turnaround": "сдача 3–4 недели",
     "fromPrice": 250000,
     "intro": "Короткая версия дня под один трек. Для тех, кому важнее ритм и эмоция, чем хронология.",
-    "deliverables": ["Клип 3–5 мин", "Тизер 45–60 с", "3 Reels 9:16"],
-    "loop": { "mp4H": "/media/loops/f-highlight-h.mp4", "posterH": "/media/posters/f-highlight-h.webp" },
+    "deliverables": [
+      "Клип 3–5 мин",
+      "Тизер 45–60 с",
+      "3 Reels 9:16"
+    ],
+    "loop": {
+      "mp4H": "/media/loops/f-highlight-h.mp4",
+      "mp4V": "/media/loops/f-highlight-v.mp4",
+      "posterH": "/media/posters/f-highlight-h.webp",
+      "posterV": "/media/posters/f-highlight-v.webp",
+      "seconds": 8
+    },
     "isPublished": true,
     "sortOrder": 20
   },
@@ -39,7 +72,9 @@
     "term": "teaser / social teaser",
     "duration": "45–90 с",
     "intro": "Входит во все свадебные коллекции: первое, что вы увидите через неделю после свадьбы, — сразу в 16:9 и 9:16.",
-    "deliverables": ["Тизер в 16:9 и 9:16"],
+    "deliverables": [
+      "Тизер в 16:9 и 9:16"
+    ],
     "isAddon": true,
     "isPublished": true,
     "sortOrder": 30
@@ -53,7 +88,10 @@
     "turnaround": "показ на банкете",
     "fromPrice": 200000,
     "intro": "Монтирую на площадке днём, показываем гостям вечером. Самый громкий момент банкета после первого танца.",
-    "deliverables": ["Ролик 1–3 мин к 22:00", "Показ на экране площадки"],
+    "deliverables": [
+      "Ролик 1–3 мин к 22:00",
+      "Показ на экране площадки"
+    ],
     "isPublished": true,
     "sortOrder": 40
   },
@@ -64,7 +102,11 @@
     "term": "documentary edit / full-length",
     "duration": "40 мин – 3 ч",
     "intro": "Церемония, речи, танцы без монтажных сокращений — для родителей и для архива.",
-    "deliverables": ["Полная церемония", "Полные речи и танцы", "Многокамерный монтаж при втором операторе"],
+    "deliverables": [
+      "Полная церемония",
+      "Полные речи и танцы",
+      "Многокамерный монтаж при втором операторе"
+    ],
     "isAddon": true,
     "isPublished": true,
     "sortOrder": 50
@@ -78,8 +120,18 @@
     "turnaround": "сдача 2–3 недели",
     "fromPrice": 180000,
     "intro": "Один съёмочный день в горах или в городе — фильм, который открывает свадьбу или живёт сам по себе.",
-    "deliverables": ["Фильм 2–5 мин", "3 Reels 9:16", "20 стоп-кадров"],
-    "loop": { "mp4H": "/media/loops/f-lovestory-h.mp4", "posterH": "/media/posters/f-lovestory-h.webp" },
+    "deliverables": [
+      "Фильм 2–5 мин",
+      "3 Reels 9:16",
+      "20 стоп-кадров"
+    ],
+    "loop": {
+      "mp4H": "/media/loops/f-lovestory-h.mp4",
+      "mp4V": "/media/loops/f-lovestory-v.mp4",
+      "posterH": "/media/posters/f-lovestory-h.webp",
+      "posterV": "/media/posters/f-lovestory-v.webp",
+      "seconds": 8
+    },
     "isPublished": true,
     "sortOrder": 60
   },
@@ -91,7 +143,11 @@
     "duration": "2–3 мин",
     "fromPrice": 150000,
     "intro": "До 4 часов утра: сборы, письма, первые слёзы мамы. Коллекция «Утро» — если нужен только этот кусок дня.",
-    "deliverables": ["Ролик 2–3 мин", "Тизер 45 с", "3 Reels"],
+    "deliverables": [
+      "Ролик 2–3 мин",
+      "Тизер 45 с",
+      "3 Reels"
+    ],
     "isPublished": true,
     "sortOrder": 70
   },
@@ -103,11 +159,16 @@
     "duration": "как свадьба",
     "fromPrice": 700000,
     "intro": "Большой той на 200–500 гостей и семейные обряды снимаю как фильм, а не как трансляцию: с двумя операторами там, где это нужно, и с SDE для показа на банкете.",
-    "deliverables": ["Тизер", "Фильм 10–15 мин", "SDE", "Полная версия", "8 Reels"],
+    "deliverables": [
+      "Тизер",
+      "Фильм 10–15 мин",
+      "SDE",
+      "Полная версия",
+      "8 Reels"
+    ],
     "isPublished": true,
     "sortOrder": 80
   },
-
   {
     "slug": "brand-film",
     "group": "brand",
@@ -117,8 +178,18 @@
     "turnaround": "сдача 2–3 недели",
     "fromPrice": 450000,
     "intro": "История бренда через людей и руки, а не через слайды. Hero-версия для сайта и короткие версии для соцсетей.",
-    "deliverables": ["Hero-ролик 1–3 мин", "Версии 9:16 и 1:1", "Стоп-кадры для сайта"],
-    "loop": { "mp4H": "/media/loops/f-brand-h.mp4", "posterH": "/media/posters/f-brand-h.webp" },
+    "deliverables": [
+      "Hero-ролик 1–3 мин",
+      "Версии 9:16 и 1:1",
+      "Стоп-кадры для сайта"
+    ],
+    "loop": {
+      "mp4H": "/media/loops/f-brand-h.mp4",
+      "mp4V": "/media/loops/f-brand-v.mp4",
+      "posterH": "/media/posters/f-brand-h.webp",
+      "posterV": "/media/posters/f-brand-v.webp",
+      "seconds": 8
+    },
     "isPublished": true,
     "sortOrder": 110
   },
@@ -131,7 +202,11 @@
     "turnaround": "сдача 1–2 недели",
     "fromPrice": 300000,
     "intro": "Один продукт, одна мысль, до минуты. Под таргет, экраны в заведении и сайт.",
-    "deliverables": ["Ролик 15–60 с", "Версии 16:9 / 9:16 / 1:1", "2 раунда правок"],
+    "deliverables": [
+      "Ролик 15–60 с",
+      "Версии 16:9 / 9:16 / 1:1",
+      "2 раунда правок"
+    ],
     "isPublished": true,
     "sortOrder": 120
   },
@@ -144,8 +219,18 @@
     "turnaround": "сдача 48 часов",
     "fromPrice": 300000,
     "intro": "Фестиваль, концерт, конференция — ролик, после которого начинают продаваться билеты на следующий год. Сдаю за 48 часов, пока не остыло.",
-    "deliverables": ["Aftermovie 60–120 с", "3 вертикальные нарезки", "Спикер-интервью по запросу"],
-    "loop": { "mp4H": "/media/loops/f-aftermovie-h.mp4", "posterH": "/media/posters/f-aftermovie-h.webp" },
+    "deliverables": [
+      "Aftermovie 60–120 с",
+      "3 вертикальные нарезки",
+      "Спикер-интервью по запросу"
+    ],
+    "loop": {
+      "mp4H": "/media/loops/f-aftermovie-h.mp4",
+      "mp4V": "/media/loops/f-aftermovie-v.mp4",
+      "posterH": "/media/posters/f-aftermovie-h.webp",
+      "posterV": "/media/posters/f-aftermovie-v.webp",
+      "seconds": 8
+    },
     "isPublished": true,
     "sortOrder": 130
   },
@@ -157,7 +242,10 @@
     "duration": "1–2 мин",
     "fromPrice": 300000,
     "intro": "Промо-акции, запуски, спортивные ивенты — быстро, в движении, с людьми в кадре.",
-    "deliverables": ["Ролик 1–2 мин", "Вертикальные нарезки"],
+    "deliverables": [
+      "Ролик 1–2 мин",
+      "Вертикальные нарезки"
+    ],
     "isPublished": true,
     "sortOrder": 140
   },
@@ -170,7 +258,11 @@
     "turnaround": "сдача 7–10 дней",
     "fromPrice": 150000,
     "intro": "Две камеры, петлички, свет — и монтаж, который не даёт заскучать. Подкасты, экспертные Reels, HR-интервью.",
-    "deliverables": ["1–3 ролика", "Субтитры", "Вертикальные нарезки"],
+    "deliverables": [
+      "1–3 ролика",
+      "Субтитры",
+      "Вертикальные нарезки"
+    ],
     "isPublished": true,
     "sortOrder": 150
   },
@@ -182,11 +274,14 @@
     "duration": "30–90 с",
     "fromPrice": 250000,
     "intro": "Рестораны, кофейни, отели: огонь, пар, руки шефа, терраса с видом. Для меню, delivery и соцсетей.",
-    "deliverables": ["Ролик 30–90 с", "Блюда по 10 с в 9:16", "Стоп-кадры для меню"],
+    "deliverables": [
+      "Ролик 30–90 с",
+      "Блюда по 10 с в 9:16",
+      "Стоп-кадры для меню"
+    ],
     "isPublished": true,
     "sortOrder": 160
   },
-
   {
     "slug": "content-day",
     "group": "content",
@@ -196,8 +291,18 @@
     "turnaround": "сдача 5–7 дней",
     "fromPrice": 180000,
     "intro": "Один съёмочный день — месяц контента. Три световые схемы, четыре сценария, быстрый монтаж с субтитрами.",
-    "deliverables": ["8–12 Reels 9:16 по 10–20 с", "Субтитры", "30 стоп-кадров"],
-    "loop": { "mp4H": "/media/loops/f-content-h.mp4", "posterH": "/media/posters/f-content-h.webp" },
+    "deliverables": [
+      "8–12 Reels 9:16 по 10–20 с",
+      "Субтитры",
+      "30 стоп-кадров"
+    ],
+    "loop": {
+      "mp4H": "/media/loops/f-content-h.mp4",
+      "mp4V": "/media/loops/f-content-v.mp4",
+      "posterH": "/media/posters/f-content-h.webp",
+      "posterV": "/media/posters/f-content-v.webp",
+      "seconds": 8
+    },
     "isPublished": true,
     "sortOrder": 210
   },
@@ -210,8 +315,18 @@
     "turnaround": "сдача 3–4 недели",
     "fromPrice": 500000,
     "intro": "Ночной Алматы как декорация, одна-две ночи съёмок, вертикальный кат для соцсетей в комплекте.",
-    "deliverables": ["Клип 3–4 мин", "Вертикальный кат 60 с", "Тизер 15 с"],
-    "loop": { "mp4H": "/media/loops/f-music-h.mp4", "posterH": "/media/posters/f-music-h.webp" },
+    "deliverables": [
+      "Клип 3–4 мин",
+      "Вертикальный кат 60 с",
+      "Тизер 15 с"
+    ],
+    "loop": {
+      "mp4H": "/media/loops/f-music-h.mp4",
+      "mp4V": "/media/loops/f-music-v.mp4",
+      "posterH": "/media/posters/f-music-h.webp",
+      "posterV": "/media/posters/f-music-v.webp",
+      "seconds": 8
+    },
     "isPublished": true,
     "sortOrder": 220
   },
@@ -223,7 +338,11 @@
     "duration": "1–2 мин",
     "fromPrice": 350000,
     "intro": "Студия против фактурного города. Для запуска коллекции и первого экрана сайта бренда.",
-    "deliverables": ["Фильм 60–120 с", "10 Reels по 6–8 с", "15 стоп-кадров"],
+    "deliverables": [
+      "Фильм 60–120 с",
+      "10 Reels по 6–8 с",
+      "15 стоп-кадров"
+    ],
     "isPublished": true,
     "sortOrder": 230
   },
@@ -234,7 +353,9 @@
     "term": "BTS",
     "duration": "30–90 с",
     "intro": "Аддон к любому формату: как это снималось.",
-    "deliverables": ["Ролик 30–90 с в 9:16"],
+    "deliverables": [
+      "Ролик 30–90 с в 9:16"
+    ],
     "isAddon": true,
     "isPublished": true,
     "sortOrder": 240
@@ -246,7 +367,9 @@
     "term": "drone / aerial",
     "duration": "—",
     "intro": "Аддон: дрон-переходы через город к горам. Разрешения на съёмку в городе — на мне.",
-    "deliverables": ["Аэрокадры в фильме и тизере"],
+    "deliverables": [
+      "Аэрокадры в фильме и тизере"
+    ],
     "isAddon": true,
     "isPublished": true,
     "sortOrder": 250

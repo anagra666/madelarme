@@ -1,8 +1,8 @@
 [
   {
     "slug": "tau-toi-r1",
-    "title": "Тау-той · первый танец",
-    "caption": "Айгерим & Данияр · Медеу",
+    "title": "Тау-той · выход невесты",
+    "caption": "Айгерим & Данияр · ЗАГС Медеуского района",
     "caseSlug": "tau-toi",
     "loop": { "mp4H": "/media/loops/tau-toi-r1-v.mp4", "mp4V": "/media/loops/tau-toi-r1-v.mp4", "posterH": "/media/posters/tau-toi-r1-v.webp", "posterV": "/media/posters/tau-toi-r1-v.webp", "seconds": 8 },
     "isPlaceholder": true,
@@ -10,7 +10,7 @@
   },
   {
     "slug": "gorod-r1",
-    "title": "Город не спит · переход",
+    "title": "Город не спит · вывески",
     "caption": "Neon Dreams · Алматы ночью",
     "caseSlug": "gorod-ne-spit",
     "loop": { "mp4H": "/media/loops/gorod-r1-v.mp4", "mp4V": "/media/loops/gorod-r1-v.mp4", "posterH": "/media/posters/gorod-r1-v.webp", "posterV": "/media/posters/gorod-r1-v.webp", "seconds": 8 },
@@ -25,5 +25,59 @@
     "loop": { "mp4H": "/media/loops/oyu-r1-v.mp4", "mp4V": "/media/loops/oyu-r1-v.mp4", "posterH": "/media/posters/oyu-r1-v.webp", "posterV": "/media/posters/oyu-r1-v.webp", "seconds": 8 },
     "isPlaceholder": true,
     "sortOrder": 3
+  },
+  {
+    "slug": "utro-r1",
+    "title": "Утро здесь · бариста",
+    "caption": "Bulut Coffee · Панфилова",
+    "caseSlug": "utro-zdes",
+    "loop": { "mp4H": "/media/loops/utro-r1-v.mp4", "mp4V": "/media/loops/utro-r1-v.mp4", "posterH": "/media/posters/utro-r1-v.webp", "posterV": "/media/posters/utro-r1-v.webp", "seconds": 8 },
+    "isPlaceholder": true,
+    "sortOrder": 4
+  },
+  {
+    "slug": "sneg-r1",
+    "title": "Первый снег · Шымбулак",
+    "caption": "Камила & Ерлан · верхняя станция",
+    "caseSlug": "pervyj-sneg",
+    "loop": { "mp4H": "/media/loops/sneg-r1-v.mp4", "mp4V": "/media/loops/sneg-r1-v.mp4", "posterH": "/media/posters/sneg-r1-v.webp", "posterV": "/media/posters/sneg-r1-v.webp", "seconds": 6 },
+    "isPlaceholder": true,
+    "sortOrder": 5
+  },
+  {
+    "slug": "qara-r1",
+    "title": "Осень–зима · студия",
+    "caption": "Tuman Atelier · день первый",
+    "caseSlug": "qara-osen-zima",
+    "loop": { "mp4H": "/media/loops/qara-r1-v.mp4", "mp4V": "/media/loops/qara-r1-v.mp4", "posterH": "/media/posters/qara-r1-v.webp", "posterV": "/media/posters/qara-r1-v.webp", "seconds": 6 },
+    "isPlaceholder": true,
+    "sortOrder": 6
+  },
+  {
+    "slug": "utro-r2",
+    "title": "Утро здесь · колд-брю",
+    "caption": "Bulut Coffee · продуктовый день",
+    "caseSlug": "utro-zdes",
+    "loop": { "mp4H": "/media/loops/utro-r2-v.mp4", "mp4V": "/media/loops/utro-r2-v.mp4", "posterH": "/media/posters/utro-r2-v.webp", "posterV": "/media/posters/utro-r2-v.webp", "seconds": 6 },
+    "isPlaceholder": true,
+    "sortOrder": 7
+  },
+  {
+    "slug": "stroim-r1",
+    "title": "Здесь строим · выезд",
+    "caption": "Arqa Soft · командный день в горах",
+    "caseSlug": "my-zdes-stroim",
+    "loop": { "mp4H": "/media/loops/stroim-r1-v.mp4", "mp4V": "/media/loops/stroim-r1-v.mp4", "posterH": "/media/posters/stroim-r1-v.webp", "posterV": "/media/posters/stroim-r1-v.webp", "seconds": 7 },
+    "isPlaceholder": true,
+    "sortOrder": 8
+  },
+  {
+    "slug": "reels-r1",
+    "title": "12 Reels · схема света №3",
+    "caption": "Tynys Yoga · зал студии",
+    "caseSlug": "12-reels",
+    "loop": { "mp4H": "/media/loops/reels-r1-v.mp4", "mp4V": "/media/loops/reels-r1-v.mp4", "posterH": "/media/posters/reels-r1-v.webp", "posterV": "/media/posters/reels-r1-v.webp", "seconds": 5 },
+    "isPlaceholder": true,
+    "sortOrder": 9
   }
 ]

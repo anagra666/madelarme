@@ -187,10 +187,11 @@ export default function CinemaVideo({
   return (
     <div
       ref={boxRef}
-      className={cn("relative overflow-hidden bg-ink", className)}
+      className={cn("overflow-hidden bg-ink", className)}
       data-playing={isPlaying || undefined}
       {...hoverProps}
     >
+     <div className="relative h-full w-full">
       {/* постер — SSR, корректная ориентация через <picture>, LCP без JS */}
       <picture>
         {loop.posterV && orientation !== "h" && (
@@ -256,6 +257,7 @@ export default function CinemaVideo({
           <span id={id} className="sr-only">Фоновое видео без звука</span>
         </button>
       )}
+     </div>
     </div>
   );
 }

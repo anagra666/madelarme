@@ -1,11 +1,495 @@
 {
+  "_readme": "Демо-медиа. Источники: Pexels (Pexels License), Mixkit (Mixkit Free License), Coverr (Coverr License), Unsplash (Unsplash License) — коммерческое использование без атрибуции. Все клиенты кейсов вымышлены. Сборка: pnpm media. Kinds: loop (H+V+постеры), vloop (только 9:16), still (webp 1600 / 4:5).",
   "items": [
     {
       "name": "showreel",
       "kind": "loop",
       "src": "https://videos.pexels.com/video-files/34219692/14503455_1280_720_60fps.mp4",
       "srcV": "https://videos.pexels.com/video-files/28927581/12519411_720_1280_60fps.mp4",
-      "start": 3, "duration": 10, "startV": 2
+      "start": 3,
+      "duration": 10,
+      "startV": 2
+    },
+    {
+      "name": "tau-toi",
+      "kind": "loop",
+      "src": "https://videos.pexels.com/video-files/8776127/8776127-hd_1280_720_25fps.mp4",
+      "srcV": "https://videos.pexels.com/video-files/9122066/9122066-hd_720_1280_25fps.mp4",
+      "start": 3,
+      "duration": 8,
+      "startV": 2
+    },
+    {
+      "name": "gorod-ne-spit",
+      "kind": "loop",
+      "src": "https://videos.pexels.com/video-files/35116342/14877194_1280_720_25fps.mp4",
+      "srcV": "https://videos.pexels.com/video-files/7197863/7197863-hd_720_1280_25fps.mp4",
+      "start": 4,
+      "duration": 8,
+      "startV": 2,
+      "crf": 27,
+      "crfV": 28
+    },
+    {
+      "name": "oyu-fest",
+      "kind": "loop",
+      "src": "https://videos.pexels.com/video-files/34059094/14445517_1280_720_30fps.mp4",
+      "srcV": "https://videos.pexels.com/video-files/35323903/14966333_720_1280_30fps.mp4",
+      "start": 1,
+      "duration": 8,
+      "startV": 5,
+      "crf": 27,
+      "crfV": 28
+    },
+    {
+      "name": "pervyj-sneg",
+      "kind": "loop",
+      "src": "https://videos.pexels.com/video-files/4601020/4601020-hd_1280_720_25fps.mp4",
+      "srcV": "https://videos.pexels.com/video-files/29806541/12804903_720_1280_25fps.mp4",
+      "start": 1,
+      "duration": 8,
+      "startV": 2
+    },
+    {
+      "name": "utro-zdes",
+      "kind": "loop",
+      "src": "https://videos.pexels.com/video-files/6769788/6769788-hd_1280_720_24fps.mp4",
+      "srcV": "https://videos.pexels.com/video-files/34232314/14507641_720_1280_30fps.mp4",
+      "start": 4,
+      "duration": 8,
+      "startV": 6
+    },
+    {
+      "name": "techsummit",
+      "kind": "loop",
+      "src": "https://videos.pexels.com/video-files/16848788/16848788-hd_1280_720_30fps.mp4",
+      "srcV": "https://videos.pexels.com/video-files/32822009/13990454_720_1280_24fps.mp4",
+      "start": 3,
+      "duration": 8,
+      "startV": 0
+    },
+    {
+      "name": "uzhin-na-vysote",
+      "kind": "loop",
+      "src": "https://videos.pexels.com/video-files/39453040/16803041_1280_720_50fps.mp4",
+      "srcV": "https://videos.pexels.com/video-files/3209012/3209012-hd_1280_720_25fps.mp4",
+      "start": 2,
+      "duration": 8,
+      "startV": 8
+    },
+    {
+      "name": "qara-osen-zima",
+      "kind": "loop",
+      "src": "https://videos.pexels.com/video-files/33191769/14145270_1280_720_24fps.mp4",
+      "srcV": "https://videos.pexels.com/video-files/34373833/14561896_720_1280_30fps.mp4",
+      "start": 0,
+      "duration": 6,
+      "startV": 3
+    },
+    {
+      "name": "my-zdes-stroim",
+      "kind": "loop",
+      "src": "https://videos.pexels.com/video-files/8716788/8716788-hd_1280_720_25fps.mp4",
+      "srcV": "https://videos.pexels.com/video-files/38437973/16322773_720_1280_30fps.mp4",
+      "start": 5,
+      "duration": 8,
+      "startV": 8
+    },
+    {
+      "name": "12-reels",
+      "kind": "loop",
+      "src": "https://videos.pexels.com/video-files/38492076/16347228_2048_1080_30fps.mp4",
+      "srcV": "https://assets.mixkit.co/videos/2373/2373-720.mp4",
+      "start": 2,
+      "duration": 8,
+      "startV": 2
+    },
+    {
+      "name": "n-n",
+      "kind": "loop",
+      "src": "https://videos.pexels.com/video-files/5763323/5763323-hd_1280_720_24fps.mp4",
+      "srcV": "https://videos.pexels.com/video-files/32182240/13724366_720_1280_30fps.mp4",
+      "start": 0,
+      "duration": 6.5,
+      "startV": 3
+    },
+    {
+      "name": "f-wedding",
+      "kind": "loop",
+      "poster45": false,
+      "crfV": 30,
+      "src": "https://videos.pexels.com/video-files/34506426/14620218_1280_720_30fps.mp4",
+      "start": 1,
+      "duration": 8
+    },
+    {
+      "name": "f-highlight",
+      "kind": "loop",
+      "poster45": false,
+      "crfV": 28,
+      "src": "https://assets.mixkit.co/videos/40596/40596-720.mp4",
+      "start": 4,
+      "duration": 8,
+      "srcV": "https://videos.pexels.com/video-files/8776998/8776998-hd_720_1280_25fps.mp4",
+      "startV": 14
+    },
+    {
+      "name": "f-lovestory",
+      "kind": "loop",
+      "poster45": false,
+      "crfV": 30,
+      "src": "https://assets.mixkit.co/videos/4829/4829-720.mp4",
+      "start": 1,
+      "duration": 8
+    },
+    {
+      "name": "f-brand",
+      "kind": "loop",
+      "poster45": false,
+      "crfV": 30,
+      "src": "https://videos.pexels.com/video-files/3209012/3209012-hd_1280_720_25fps.mp4",
+      "start": 0,
+      "duration": 8
+    },
+    {
+      "name": "f-aftermovie",
+      "kind": "loop",
+      "poster45": false,
+      "crf": 27,
+      "crfV": 30,
+      "src": "https://assets.mixkit.co/videos/14087/14087-720.mp4",
+      "start": 0,
+      "duration": 8
+    },
+    {
+      "name": "f-content",
+      "kind": "loop",
+      "poster45": false,
+      "crfV": 30,
+      "src": "https://assets.mixkit.co/videos/2378/2378-720.mp4",
+      "start": 2,
+      "duration": 8
+    },
+    {
+      "name": "f-music",
+      "kind": "loop",
+      "poster45": false,
+      "crf": 27,
+      "crfV": 30,
+      "src": "https://videos.pexels.com/video-files/7315362/7315362-hd_1280_720_25fps.mp4",
+      "start": 2,
+      "duration": 8
+    },
+    {
+      "name": "tau-toi-r1",
+      "kind": "vloop",
+      "srcV": "https://videos.pexels.com/video-files/8776998/8776998-hd_720_1280_25fps.mp4",
+      "startV": 6,
+      "duration": 8
+    },
+    {
+      "name": "tau-toi-r2",
+      "kind": "vloop",
+      "srcV": "https://videos.pexels.com/video-files/26028171/11925669_720_1280_30fps.mp4",
+      "startV": 0,
+      "duration": 8
+    },
+    {
+      "name": "gorod-r1",
+      "kind": "vloop",
+      "srcV": "https://videos.pexels.com/video-files/8113096/8113096-hd_720_1280_30fps.mp4",
+      "startV": 2,
+      "duration": 8,
+      "crfV": 28
+    },
+    {
+      "name": "gorod-r2",
+      "kind": "vloop",
+      "srcV": "https://videos.pexels.com/video-files/8111962/8111962-hd_720_1280_30fps.mp4",
+      "startV": 2,
+      "duration": 8,
+      "crfV": 28
+    },
+    {
+      "name": "music-r1",
+      "kind": "vloop",
+      "srcV": "https://videos.pexels.com/video-files/8135212/8135212-hd_720_1280_50fps.mp4",
+      "startV": 2,
+      "duration": 8
+    },
+    {
+      "name": "oyu-r1",
+      "kind": "vloop",
+      "srcV": "https://cdn.coverr.co/videos/coverr-having-fun-at-a-concert-3590/720p.mp4",
+      "startV": 1,
+      "duration": 8,
+      "crfV": 28
+    },
+    {
+      "name": "sneg-r1",
+      "kind": "vloop",
+      "srcV": "https://videos.pexels.com/video-files/15191742/15191742-hd_1280_720_24fps.mp4",
+      "startV": 0,
+      "duration": 6
+    },
+    {
+      "name": "utro-r1",
+      "kind": "vloop",
+      "srcV": "https://videos.pexels.com/video-files/13736675/13736675-hd_720_1280_24fps.mp4",
+      "startV": 1,
+      "duration": 8
+    },
+    {
+      "name": "utro-r2",
+      "kind": "vloop",
+      "srcV": "https://videos.pexels.com/video-files/35035084/14840928_720_1280_30fps.mp4",
+      "startV": 0,
+      "duration": 6
+    },
+    {
+      "name": "utro-r3",
+      "kind": "vloop",
+      "srcV": "https://assets.mixkit.co/videos/41865/41865-720.mp4",
+      "startV": 3,
+      "duration": 8
+    },
+    {
+      "name": "techsummit-r1",
+      "kind": "vloop",
+      "srcV": "https://assets.mixkit.co/videos/1512/1512-720.mp4",
+      "startV": 5,
+      "duration": 8
+    },
+    {
+      "name": "uzhin-r1",
+      "kind": "vloop",
+      "srcV": "https://videos.pexels.com/video-files/3209012/3209012-hd_1280_720_25fps.mp4",
+      "startV": 16,
+      "duration": 8
+    },
+    {
+      "name": "qara-r1",
+      "kind": "vloop",
+      "srcV": "https://videos.pexels.com/video-files/34373833/14561896_720_1280_30fps.mp4",
+      "startV": 8,
+      "duration": 6
+    },
+    {
+      "name": "stroim-r1",
+      "kind": "vloop",
+      "srcV": "https://videos.pexels.com/video-files/28962683/12529288_720_1280_30fps.mp4",
+      "startV": 0,
+      "duration": 7.5
+    },
+    {
+      "name": "reels-r1",
+      "kind": "vloop",
+      "srcV": "https://videos.pexels.com/video-files/34555217/14647696_720_1280_50fps.mp4",
+      "startV": 0,
+      "duration": 5
+    },
+    {
+      "name": "portrait",
+      "kind": "still",
+      "src": "https://images.unsplash.com/photo-1617461073601-b8222743b613?w=2000&q=80&fm=jpg",
+      "w": 1600,
+      "also45": true
+    },
+    {
+      "name": "backstage-1",
+      "kind": "still",
+      "src": "https://images.unsplash.com/photo-1543242594-c8bae8b9e708?w=2000&q=80&fm=jpg",
+      "w": 1600,
+      "h": 1067
+    },
+    {
+      "name": "backstage-2",
+      "kind": "still",
+      "src": "https://images.unsplash.com/photo-1543242594-80fc0e1b2a35?w=2000&q=80&fm=jpg",
+      "w": 1600,
+      "h": 1067
+    },
+    {
+      "name": "backstage-3",
+      "kind": "still",
+      "src": "https://images.unsplash.com/photo-1534961165765-5c9795af911b?w=2000&q=80&fm=jpg",
+      "w": 1200,
+      "h": 1500
+    },
+    {
+      "name": "backstage-4",
+      "kind": "still",
+      "src": "https://images.pexels.com/photos/1408984/pexels-photo-1408984.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      "w": 1600,
+      "h": 1067
+    },
+    {
+      "name": "tau-toi-1",
+      "kind": "still",
+      "src": "https://images.pexels.com/photos/14238232/pexels-photo-14238232.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "tau-toi-2",
+      "kind": "still",
+      "src": "https://images.pexels.com/photos/28958897/pexels-photo-28958897.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      "w": 1200,
+      "h": 1500
+    },
+    {
+      "name": "tau-toi-3",
+      "kind": "still",
+      "src": "https://images.unsplash.com/photo-1659651117607-d2b397cf100f?w=2000&q=80&fm=jpg",
+      "w": 1600,
+      "h": 1000
+    },
+    {
+      "name": "sneg-1",
+      "kind": "still",
+      "src": "https://images.unsplash.com/photo-1716835018054-5b13e5ef53b0?w=2000&q=80&fm=jpg",
+      "w": 1600,
+      "h": 1000
+    },
+    {
+      "name": "sneg-2",
+      "kind": "still",
+      "src": "https://images.pexels.com/photos/15197000/pexels-photo-15197000.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      "w": 1600,
+      "h": 1067
+    },
+    {
+      "name": "sneg-3",
+      "kind": "still",
+      "src": "https://videos.pexels.com/video-files/36510380/15481097_1280_720_30fps.mp4",
+      "w": 1280,
+      "h": 720
+    },
+    {
+      "name": "oyu-1",
+      "kind": "still",
+      "src": "https://videos.pexels.com/video-files/34059053/14445443_1920_1080_30fps.mp4",
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "oyu-2",
+      "kind": "still",
+      "src": "https://assets.mixkit.co/videos/48509/48509-720.mp4",
+      "w": 1280,
+      "h": 720
+    },
+    {
+      "name": "gorod-1",
+      "kind": "still",
+      "src": "https://images.pexels.com/photos/16970675/pexels-photo-16970675.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      "w": 1200,
+      "h": 1500
+    },
+    {
+      "name": "gorod-2",
+      "kind": "still",
+      "src": "https://videos.pexels.com/video-files/8134963/8134963-hd_1920_1080_25fps.mp4",
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "utro-1",
+      "kind": "still",
+      "src": "https://videos.pexels.com/video-files/6769788/6769788-hd_1920_1080_24fps.mp4",
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "utro-2",
+      "kind": "still",
+      "src": "https://videos.pexels.com/video-files/13736675/13736675-hd_720_1280_24fps.mp4",
+      "w": 720,
+      "h": 900
+    },
+    {
+      "name": "techsummit-1",
+      "kind": "still",
+      "src": "https://videos.pexels.com/video-files/34917492/14791122_1920_1080_60fps.mp4",
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "techsummit-2",
+      "kind": "still",
+      "src": "https://videos.pexels.com/video-files/20320583/20320583-hd_1920_1080_60fps.mp4",
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "uzhin-1",
+      "kind": "still",
+      "src": "https://videos.pexels.com/video-files/3209012/3209012-hd_1920_1080_25fps.mp4",
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "uzhin-2",
+      "kind": "still",
+      "src": "https://images.unsplash.com/photo-1716835018087-e618d839eb59?w=2000&q=80&fm=jpg",
+      "w": 1600,
+      "h": 1000
+    },
+    {
+      "name": "qara-1",
+      "kind": "still",
+      "src": "https://images.unsplash.com/photo-1642266488300-1a57609d73aa?w=2000&q=80&fm=jpg",
+      "w": 1600,
+      "h": 1000
+    },
+    {
+      "name": "qara-2",
+      "kind": "still",
+      "src": "https://videos.pexels.com/video-files/33191769/14145276_1920_1080_24fps.mp4",
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "stroim-1",
+      "kind": "still",
+      "src": "https://images.unsplash.com/photo-1572940734104-684309ed7ac9?w=2000&q=80&fm=jpg",
+      "w": 1600,
+      "h": 1000
+    },
+    {
+      "name": "stroim-2",
+      "kind": "still",
+      "src": "https://videos.pexels.com/video-files/31916293/13595533_1920_1080_60fps.mp4",
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "reels-1",
+      "kind": "still",
+      "src": "https://images.pexels.com/photos/3917682/pexels-photo-3917682.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      "w": 1200,
+      "h": 1500
+    },
+    {
+      "name": "reels-2",
+      "kind": "still",
+      "src": "https://images.pexels.com/photos/10024770/pexels-photo-10024770.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      "w": 1600,
+      "h": 1067
+    },
+    {
+      "name": "n-n-1",
+      "kind": "still",
+      "src": "https://images.pexels.com/photos/37736458/pexels-photo-37736458.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      "w": 1600,
+      "h": 1067
+    },
+    {
+      "name": "n-n-2",
+      "kind": "still",
+      "src": "https://images.pexels.com/photos/35024115/pexels-photo-35024115.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      "w": 1600,
+      "h": 1067
     }
   ]
 }

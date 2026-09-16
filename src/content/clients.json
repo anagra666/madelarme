@@ -1,5 +1,9 @@
 [
   { "name": "Red Bull Kazakhstan", "confirmed": false },
   { "name": "OYU Fest", "confirmed": false, "caseSlug": "oyu-fest" },
-  { "name": "N&N", "confirmed": false }
+  { "name": "N&N", "confirmed": false, "caseSlug": "n-n" },
+  { "name": "Bulut Coffee", "confirmed": false, "caseSlug": "utro-zdes" },
+  { "name": "Alatau Tech Summit", "confirmed": false, "caseSlug": "techsummit" },
+  { "name": "Tuman Atelier", "confirmed": false, "caseSlug": "qara-osen-zima" },
+  { "name": "Arqa Soft", "confirmed": false, "caseSlug": "my-zdes-stroim" }
 ]

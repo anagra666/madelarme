@@ -1,0 +1,148 @@
+"use client";
+
+import Image from "next/image";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import type { Still } from "@/content/types";
+import { useScrollLock } from "@/lib/hooks";
+import { Eyebrow } from "@/components/ui/Section";
+import { pad2 } from "@/lib/utils";
+
+/**
+ * Кадры кейса: сетка 2/3 колонки, у каждого бокса aspect-ratio из w/h (CLS 0).
+ * Тап — простой лайтбокс: Esc / клик по фону закрывает, ← → листают, фокус возвращается.
+ */
+export default function Stills({ stills, title }: { stills: Still[]; title: string }) {
+  const [idx, setIdx] = useState<number | null>(null);
+  const restoreRef = useRef<HTMLElement | null>(null);
+  const closeBtn = useRef<HTMLButtonElement>(null);
+  const open = idx !== null;
+  useScrollLock(open);
+
+  const close = useCallback(() => setIdx(null), []);
+  const step = useCallback(
+    (d: number) => setIdx((i) => (i === null ? i : (i + d + stills.length) % stills.length)),
+    [stills.length],
+  );
+
+  useEffect(() => {
+    if (!open) {
+      restoreRef.current?.focus?.();
+      restoreRef.current = null;
+      return;
+    }
+    closeBtn.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowRight") step(1);
+      if (e.key === "ArrowLeft") step(-1);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open, close, step]);
+
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent("madelarme:overlay", { detail: { open, kind: "lightbox" } }));
+  }, [open]);
+
+  const cur = idx !== null ? stills[idx] : null;
+
+  return (
+    <section className="border-t border-rule px-gutter py-10 lg:py-16" aria-label={`Кадры — ${title}`}>
+      <div className="mb-5 flex items-baseline justify-between">
+        <Eyebrow>[ Кадры ]</Eyebrow>
+        <span className="mono text-meta">{stills.length} шт.</span>
+      </div>
+
+      <ul className="grid grid-cols-2 gap-2 lg:grid-cols-3 lg:gap-4">
+        {stills.map((s, i) => (
+          <li key={s.src}>
+            <button
+              type="button"
+              onClick={(e) => {
+                restoreRef.current = e.currentTarget;
+                setIdx(i);
+              }}
+              aria-label={`Открыть кадр ${i + 1}: ${s.alt}`}
+              className="group relative block w-full overflow-hidden bg-ink-2"
+              style={{ aspectRatio: `${s.w} / ${s.h}` }}
+            >
+              <Image
+                src={s.src}
+                alt={s.alt}
+                fill
+                sizes="(min-width: 1024px) 33vw, 50vw"
+                className="object-cover opacity-85 transition-opacity duration-500 group-hover:opacity-100"
+              />
+              <span className="mono-sm absolute bottom-2 left-2 text-milk/70 opacity-0 transition-opacity group-hover:opacity-100">
+                {pad2(i + 1)}
+              </span>
+            </button>
+          </li>
+        ))}
+      </ul>
+
+      {/* портал: над шапкой и вне stacking-context секции */}
+      {open && cur && createPortal(
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Кадр ${idx! + 1} из ${stills.length}`}
+          className="fixed inset-0 z-50 flex flex-col bg-ink"
+          onClick={close}
+          data-lenis-prevent
+        >
+          <div className="flex h-14 shrink-0 items-center justify-between pl-gutter pr-2" onClick={(e) => e.stopPropagation()}>
+            <span className="mono text-milk">
+              [ {pad2(idx! + 1)} / {pad2(stills.length)} ]{cur.caption && <span className="text-meta"> · {cur.caption}</span>}
+            </span>
+            <button
+              ref={closeBtn}
+              type="button"
+              onClick={close}
+              aria-label="Закрыть"
+              className="grid h-11 w-11 place-items-center text-milk hover:text-signal"
+            >
+              <X size={20} strokeWidth={1.5} />
+            </button>
+          </div>
+
+          <div className="relative min-h-0 flex-1">
+            <Image
+              key={cur.src}
+              src={cur.src}
+              alt={cur.alt}
+              fill
+              sizes="100vw"
+              className="object-contain"
+              priority
+            />
+          </div>
+
+          {stills.length > 1 && (
+            <div className="flex h-14 shrink-0 items-center justify-between px-2 pb-[env(safe-area-inset-bottom)]" onClick={(e) => e.stopPropagation()}>
+              <button
+                type="button"
+                onClick={() => step(-1)}
+                aria-label="Предыдущий кадр"
+                className="mono flex h-11 items-center gap-2 px-3 text-milk hover:text-signal"
+              >
+                <ChevronLeft size={18} strokeWidth={1.5} /> пред.
+              </button>
+              <button
+                type="button"
+                onClick={() => step(1)}
+                aria-label="Следующий кадр"
+                className="mono flex h-11 items-center gap-2 px-3 text-milk hover:text-signal"
+              >
+                след. <ChevronRight size={18} strokeWidth={1.5} />
+              </button>
+            </div>
+          )}
+        </div>,
+        document.body,
+      )}
+    </section>
+  );
+}

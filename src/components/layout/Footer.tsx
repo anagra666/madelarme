@@ -1,5 +1,102 @@
-/* STUB — заменяется агентом layout. */
-import { settings } from "@/lib/content";
+import Link from "next/link";
+import type { ReactNode } from "react";
+import { getFormats, settings } from "@/lib/content";
+import { igLink, telLink, tgLink, waLink } from "@/lib/links";
+import { AlmatyClock } from "@/components/layout/StickyCTA";
+import { LangRow } from "@/components/layout/MenuOverlay";
+
+const NAV = [
+  { href: "/work", label: "Работы" },
+  { href: "/formats", label: "Форматы" },
+  { href: "/pricing", label: "Цены" },
+  { href: "/about", label: "Маша" },
+  { href: "/contact", label: "Контакты" },
+  { href: "/reels", label: "Reels" },
+  { href: "/showreel", label: "Шоурил" },
+];
+
+const link = "mono inline-flex min-h-11 items-center py-1 text-milk transition-colors hover:text-signal";
+
+function Col({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <div className="flex flex-col gap-2 border-t border-rule pt-4">
+      <h2 className="mono text-meta">[ {title} ]</h2>
+      {children}
+    </div>
+  );
+}
+
+/**
+ * Футер: 4 моно-колонки (2×2 на телефоне), контурный вордмарк во всю ширину,
+ * нижняя строка с © и языками. На телефоне — отступ снизу под sticky-полосу.
+ */
 export default function Footer() {
-  return <footer className="px-gutter py-16 mono text-meta">© 2026 {settings.brand.person}</footer>;
+  const formats = getFormats().filter((f) => !f.isAddon);
+  const c = settings.contacts;
+
+  return (
+    <footer className="grain relative border-t border-rule bg-ink text-milk pb-[calc(var(--sticky-h)+env(safe-area-inset-bottom))] lg:pb-0">
+      <div className="relative z-2 px-gutter pt-12 lg:pt-16">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4 lg:gap-x-8">
+          <Col title="навигация">
+            <ul className="flex flex-col">
+              {NAV.map((n) => (
+                <li key={n.href}><Link href={n.href} className={link}>{n.label}</Link></li>
+              ))}
+            </ul>
+          </Col>
+
+          <Col title="форматы">
+            <ul className="flex flex-col">
+              {formats.map((f) => (
+                <li key={f.slug}><Link href={`/formats/${f.slug}`} className={link}>{f.name}</Link></li>
+              ))}
+            </ul>
+          </Col>
+
+          <Col title="контакты">
+            <ul className="flex flex-col">
+              <li><a href={waLink()} target="_blank" rel="noopener" className={link}>WhatsApp</a></li>
+              <li><a href={tgLink()} target="_blank" rel="noopener" className={link}>Telegram</a></li>
+              <li><a href={igLink()} target="_blank" rel="noopener" className={link}>Instagram</a></li>
+              {c.youtube && <li><a href={c.youtube} target="_blank" rel="noopener" className={link}>YouTube</a></li>}
+              <li><a href={`mailto:${c.email}`} className={`${link} normal-case tracking-normal`}>{c.email}</a></li>
+              <li><a href={telLink()} className={link}>{c.phoneDisplay}</a></li>
+            </ul>
+          </Col>
+
+          <Col title="где я">
+            <p className="mono text-meta leading-6">
+              {settings.brand.city} · <AlmatyClock className="text-milk" /> · снимаю по Казахстану и куда позовёте
+            </p>
+            <p className="mono mt-2 text-meta">{settings.season}</p>
+          </Col>
+        </div>
+
+        {/* контурный вордмарк — во всю ширину, на телефоне подрезан справа */}
+        <Link
+          href="/"
+          aria-label={`${settings.brand.wordmark} — на главную`}
+          className="group mt-14 block overflow-hidden lg:mt-20"
+        >
+          <span
+            aria-hidden="true"
+            className="disp block whitespace-nowrap leading-[0.8] text-transparent text-[26vw] lg:text-[clamp(120px,24.5vw,400px)] [-webkit-text-stroke:1px_var(--color-milk)] transition-colors duration-500 group-hover:text-signal group-hover:[-webkit-text-stroke-color:var(--color-signal)] group-focus-visible:text-signal"
+          >
+            {settings.brand.wordmark}
+          </span>
+        </Link>
+
+        <div className="mono flex flex-col gap-3 border-t border-rule py-5 text-meta lg:flex-row lg:items-center lg:justify-between">
+          <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span>© 2026 {settings.brand.person}</span>
+            {settings.legal.entity && <span>· {settings.legal.entity}</span>}
+            <span>·</span>
+            <Link href="/privacy" className="inline-flex min-h-11 items-center text-milk transition-colors hover:text-signal lg:min-h-0">политика конфиденциальности</Link>
+          </p>
+          <LangRow />
+        </div>
+      </div>
+    </footer>
+  );
 }

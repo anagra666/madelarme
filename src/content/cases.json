@@ -5,10 +5,22 @@
     "logline": "Два дня, два города и одна гроза над Алматы, которую мы превратили в лучший кадр фильма.",
     "client": "Айгерим & Данияр",
     "format": "wedding-film",
-    "extraFormats": ["sde", "teaser", "drone"],
-    "mood": ["bold", "documentary"],
+    "extraFormats": [
+      "sde",
+      "teaser",
+      "drone"
+    ],
+    "mood": [
+      "bold",
+      "documentary"
+    ],
     "city": "Алматы",
-    "venues": ["сборы на Достык", "ЗАГС Медеуского района", "Медеу", "ресторан у Талгарской трассы"],
+    "venues": [
+      "сборы на Достык",
+      "ЗАГС Медеуского района",
+      "Медеу",
+      "ресторан у Талгарской трассы"
+    ],
     "date": "июль 2026",
     "year": 2026,
     "loop": {
@@ -19,41 +31,125 @@
       "poster45": "/media/posters/tau-toi-45.webp",
       "seconds": 8
     },
-    "fullVideo": { "provider": "self", "id": "/media/loops/tau-toi-h.mp4", "duration": "08:12", "hasSound": false },
-    "shooting": { "days": 2, "hours": 12, "operators": "1 оператор + второй на церемонии", "drone": true, "gear": ["Sony ZV-E1", "стедикам", "дрон"] },
-    "post": { "delivery": "SDE в день свадьбы · тизер 9 дней · фильм 6 недель", "notes": "монтаж, цвет, звук — Мария" },
+    "fullVideo": {
+      "provider": "self",
+      "id": "/media/loops/tau-toi-h.mp4",
+      "duration": "08:12",
+      "hasSound": false
+    },
+    "shooting": {
+      "days": 2,
+      "hours": 12,
+      "operators": "1 оператор + второй на церемонии",
+      "drone": true,
+      "gear": [
+        "Sony ZV-E1",
+        "стедикам",
+        "дрон"
+      ]
+    },
+    "post": {
+      "delivery": "SDE в день свадьбы · тизер 9 дней · фильм 6 недель",
+      "notes": "монтаж, цвет, звук — Мария"
+    },
     "task": "Свадебный фильм и SDE-тизер к вечеру, чтобы показать гостям на банкете. 300 гостей, два дня: қыз ұзату и той.",
     "approach": "Свадьба как роуд-муви: от утра невесты на Достык до банкета в предгорьях, дрон-переходы через город к горам. Гроза в 17:40 пошла в фильм, а не в отменённые кадры — под неё легли клятвы.",
     "result": {
       "text": "Тизер показан на банкете в 22:40.",
       "metrics": [
-        { "value": "180 000", "label": "просмотров Reels за месяц" },
-        { "value": "4", "label": "обращения от гостей" }
+        {
+          "value": "180 000",
+          "label": "просмотров Reels за месяц"
+        },
+        {
+          "value": "4",
+          "label": "обращения от гостей"
+        }
       ]
     },
     "deliverables": [
-      { "name": "Тизер", "duration": "0:60", "aspect": "16:9 + 9:16" },
-      { "name": "SDE", "duration": "1:30", "note": "показан на банкете в 22:40" },
-      { "name": "Фильм", "duration": "8:12", "aspect": "16:9" },
-      { "name": "Reels", "duration": "5 × 0:15–0:30", "aspect": "9:16" },
-      { "name": "Полная церемония", "duration": "42:00" }
+      {
+        "name": "Тизер",
+        "duration": "0:60",
+        "aspect": "16:9 + 9:16"
+      },
+      {
+        "name": "SDE",
+        "duration": "1:30",
+        "note": "показан на банкете в 22:40"
+      },
+      {
+        "name": "Фильм",
+        "duration": "8:12",
+        "aspect": "16:9"
+      },
+      {
+        "name": "Reels",
+        "duration": "5 × 0:15–0:30",
+        "aspect": "9:16"
+      },
+      {
+        "name": "Полная церемония",
+        "duration": "42:00"
+      }
     ],
     "credits": [
-      { "role": "Режиссёр, оператор, монтаж, цвет", "name": "Мария Волкова" },
-      { "role": "Второй оператор", "name": "— (плейсхолдер)" },
-      { "role": "Музыка", "name": "лицензия Artlist" }
+      {
+        "role": "Режиссёр, оператор, монтаж, цвет",
+        "name": "Мария Волкова"
+      },
+      {
+        "role": "Второй оператор",
+        "name": "— (плейсхолдер)"
+      },
+      {
+        "role": "Музыка",
+        "name": "лицензия Artlist"
+      }
     ],
     "reels": [
-      { "mp4H": "/media/loops/tau-toi-r1-v.mp4", "mp4V": "/media/loops/tau-toi-r1-v.mp4", "posterH": "/media/posters/tau-toi-r1-v.webp", "posterV": "/media/posters/tau-toi-r1-v.webp", "seconds": 8 }
+      {
+        "mp4H": "/media/loops/tau-toi-r1-v.mp4",
+        "mp4V": "/media/loops/tau-toi-r1-v.mp4",
+        "posterH": "/media/posters/tau-toi-r1-v.webp",
+        "posterV": "/media/posters/tau-toi-r1-v.webp",
+        "seconds": 8
+      },
+      {
+        "mp4H": "/media/loops/tau-toi-r2-v.mp4",
+        "mp4V": "/media/loops/tau-toi-r2-v.mp4",
+        "posterH": "/media/posters/tau-toi-r2-v.webp",
+        "posterV": "/media/posters/tau-toi-r2-v.webp",
+        "seconds": 8
+      }
     ],
     "stills": [
-      { "src": "/media/stills/tau-toi-1.webp", "alt": "Пара на Медеу", "w": 1600, "h": 900 },
-      { "src": "/media/stills/tau-toi-2.webp", "alt": "Кольца", "w": 1600, "h": 900 }
+      {
+        "src": "/media/stills/tau-toi-1.webp",
+        "alt": "Каток Медеу с дрона",
+        "w": 1600,
+        "h": 900,
+        "caption": "Медеу, 16:10 — дрон-переход к горам"
+      },
+      {
+        "src": "/media/stills/tau-toi-2.webp",
+        "alt": "Алматы с высоты, снежные горы",
+        "w": 1200,
+        "h": 1500
+      },
+      {
+        "src": "/media/stills/tau-toi-3.webp",
+        "alt": "Город и гора на фоне",
+        "w": 1600,
+        "h": 1000,
+        "caption": "гроза уходит за Талгарский пик"
+      }
     ],
     "testimonial": {
       "quote": "Мы не хотели свадебное видео. Маша сняла кино — и первые три минуты мы плакали, потому что это были мы, а не «жених и невеста».",
       "author": "Айгерим & Данияр",
       "role": "свадьба · 2026",
+      "caseSlug": "tau-toi",
       "confirmed": false
     },
     "isPlaceholder": true,
@@ -67,9 +163,16 @@
     "logline": "Ночной Алматы как декорация: одна ночь, семь локаций, ноль разрешений на перекрытие улиц.",
     "client": "Neon Dreams",
     "format": "music-video",
-    "mood": ["bold"],
+    "mood": [
+      "bold"
+    ],
     "city": "Алматы",
-    "venues": ["Арбат", "переход у гостиницы «Казахстан»", "крыша на Тимирязева", "Кок-Тобе"],
+    "venues": [
+      "Арбат",
+      "переход у гостиницы «Казахстан»",
+      "крыша на Тимирязева",
+      "Кок-Тобе"
+    ],
     "date": "май 2025",
     "year": 2025,
     "loop": {
@@ -77,23 +180,112 @@
       "mp4V": "/media/loops/gorod-ne-spit-v.mp4",
       "posterH": "/media/posters/gorod-ne-spit-h.webp",
       "posterV": "/media/posters/gorod-ne-spit-v.webp",
+      "poster45": "/media/posters/gorod-ne-spit-45.webp",
       "seconds": 8
     },
-    "fullVideo": { "provider": "self", "id": "/media/loops/gorod-ne-spit-h.mp4", "duration": "03:20", "hasSound": false },
-    "shooting": { "days": 2, "hours": 14, "operators": "2 оператора", "drone": false, "gear": ["Sony ZV-E1", "гимбал", "LED-трубки"] },
-    "post": { "delivery": "клип 3 недели · вертикальный кат вместе с клипом" },
+    "fullVideo": {
+      "provider": "self",
+      "id": "/media/loops/gorod-ne-spit-h.mp4",
+      "duration": "03:20",
+      "hasSound": false
+    },
+    "shooting": {
+      "days": 2,
+      "hours": 14,
+      "operators": "2 оператора",
+      "drone": false,
+      "gear": [
+        "Sony ZV-E1",
+        "гимбал",
+        "LED-трубки"
+      ]
+    },
+    "post": {
+      "delivery": "клип 3 недели · вертикальный кат вместе с клипом"
+    },
     "task": "Клип на сингл к релизу на стримингах и вертикальная версия для Reels и TikTok.",
     "approach": "Неоновая палитра маджента / циан, анаморфные блики, длинные выдержки из окна машины по Аль-Фараби, хореография в подземном переходе. Две ночи, без перекрытий — снимали между машинами.",
-    "result": { "metrics": [{ "value": "400 000", "label": "просмотров за 2 недели" }, { "value": "1", "label": "ротация на музыкальном ТВ" }] },
+    "result": {
+      "metrics": [
+        {
+          "value": "400 000",
+          "label": "просмотров за 2 недели"
+        },
+        {
+          "value": "1",
+          "label": "ротация на музыкальном ТВ"
+        }
+      ]
+    },
     "deliverables": [
-      { "name": "Клип", "duration": "3:20", "aspect": "16:9" },
-      { "name": "Вертикальный кат", "duration": "1:00", "aspect": "9:16" },
-      { "name": "Тизер", "duration": "0:15", "aspect": "9:16" }
+      {
+        "name": "Клип",
+        "duration": "3:20",
+        "aspect": "16:9"
+      },
+      {
+        "name": "Вертикальный кат",
+        "duration": "1:00",
+        "aspect": "9:16"
+      },
+      {
+        "name": "Тизер",
+        "duration": "0:15",
+        "aspect": "9:16"
+      }
     ],
     "credits": [
-      { "role": "Режиссёр, оператор, монтаж, цвет", "name": "Мария Волкова" },
-      { "role": "Второй оператор", "name": "— (плейсхолдер)" },
-      { "role": "Артист", "name": "Neon Dreams (вымышленная группа)" }
+      {
+        "role": "Режиссёр, оператор, монтаж, цвет",
+        "name": "Мария Волкова"
+      },
+      {
+        "role": "Второй оператор",
+        "name": "— (плейсхолдер)"
+      },
+      {
+        "role": "Артист",
+        "name": "Neon Dreams (вымышленная группа)"
+      }
+    ],
+    "reels": [
+      {
+        "mp4H": "/media/loops/gorod-r1-v.mp4",
+        "mp4V": "/media/loops/gorod-r1-v.mp4",
+        "posterH": "/media/posters/gorod-r1-v.webp",
+        "posterV": "/media/posters/gorod-r1-v.webp",
+        "seconds": 8
+      },
+      {
+        "mp4H": "/media/loops/gorod-r2-v.mp4",
+        "mp4V": "/media/loops/gorod-r2-v.mp4",
+        "posterH": "/media/posters/gorod-r2-v.webp",
+        "posterV": "/media/posters/gorod-r2-v.webp",
+        "seconds": 8
+      },
+      {
+        "mp4H": "/media/loops/music-r1-v.mp4",
+        "mp4V": "/media/loops/music-r1-v.mp4",
+        "posterH": "/media/posters/music-r1-v.webp",
+        "posterV": "/media/posters/music-r1-v.webp",
+        "seconds": 8
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/stills/gorod-1.webp",
+        "alt": "Алматы с высоты, Тянь-Шань",
+        "w": 1200,
+        "h": 1500,
+        "caption": "Кок-Тобе, 02:10"
+      },
+      {
+        "src": "/media/stills/gorod-2.webp",
+        "alt": "Вокалистка у микрофона в студии",
+        "w": 1600,
+        "h": 900,
+        "caption": "запись вокала для лайв-версии"
+      }
     ],
     "isPlaceholder": true,
     "isPublished": true,
@@ -106,9 +298,14 @@
     "logline": "Два дня, четырнадцать артистов, двадцать тысяч зрителей — и девяносто секунд, после которых начали продаваться билеты на следующий год.",
     "client": "OYU Fest",
     "format": "aftermovie",
-    "mood": ["bold", "documentary"],
+    "mood": [
+      "bold",
+      "documentary"
+    ],
     "city": "Алматы",
-    "venues": ["Первомайские пруды"],
+    "venues": [
+      "Первомайские пруды"
+    ],
     "date": "июль 2026",
     "year": 2026,
     "loop": {
@@ -116,26 +313,1090 @@
       "mp4V": "/media/loops/oyu-fest-v.mp4",
       "posterH": "/media/posters/oyu-fest-h.webp",
       "posterV": "/media/posters/oyu-fest-v.webp",
+      "poster45": "/media/posters/oyu-fest-45.webp",
       "seconds": 8
     },
-    "fullVideo": { "provider": "youtube", "id": "vyl19vK1u4M", "duration": "01:05", "hasSound": true },
-    "shooting": { "days": 2, "operators": "1 оператор + гимбал", "drone": false, "gear": ["Sony ZV-E1", "гимбал"] },
-    "post": { "delivery": "aftermovie за 48 часов · вертикальные нарезки по дням" },
+    "fullVideo": {
+      "provider": "youtube",
+      "id": "vyl19vK1u4M",
+      "duration": "01:05",
+      "hasSound": true
+    },
+    "shooting": {
+      "days": 2,
+      "operators": "1 оператор + гимбал",
+      "drone": false,
+      "gear": [
+        "Sony ZV-E1",
+        "гимбал"
+      ]
+    },
+    "post": {
+      "delivery": "aftermovie за 48 часов · вертикальные нарезки по дням"
+    },
     "task": "Официальный aftermovie для запуска продаж early-bird и вертикальные нарезки по каждому дню фестиваля.",
     "approach": "Ритмический монтаж от рассвета до последнего бита; звук собран из живых шумов площадки, без стоковой музыки.",
-    "result": { "text": "Реальная работа Марии — полный ролик на YouTube. Цифры результата — плейсхолдер до подтверждения.", "metrics": [{ "value": "1,2 млн", "label": "просмотров суммарно" }] },
+    "result": {
+      "text": "Реальная работа Марии — полный ролик на YouTube. Цифры результата — плейсхолдер до подтверждения.",
+      "metrics": [
+        {
+          "value": "1,2 млн",
+          "label": "просмотров суммарно"
+        }
+      ]
+    },
     "deliverables": [
-      { "name": "Aftermovie", "duration": "1:05", "aspect": "16:9" },
-      { "name": "Дневные recap", "duration": "2 × 0:30", "aspect": "9:16" },
-      { "name": "Артист-клипы", "duration": "10 × 0:15", "aspect": "9:16" }
+      {
+        "name": "Aftermovie",
+        "duration": "1:05",
+        "aspect": "16:9"
+      },
+      {
+        "name": "Дневные recap",
+        "duration": "2 × 0:30",
+        "aspect": "9:16"
+      },
+      {
+        "name": "Артист-клипы",
+        "duration": "10 × 0:15",
+        "aspect": "9:16"
+      }
     ],
     "credits": [
-      { "role": "Оператор, монтаж, цвет", "name": "Мария Волкова" },
-      { "role": "Организатор", "name": "OYU Fest" }
+      {
+        "role": "Оператор, монтаж, цвет",
+        "name": "Мария Волкова"
+      },
+      {
+        "role": "Организатор",
+        "name": "OYU Fest"
+      }
+    ],
+    "reels": [
+      {
+        "mp4H": "/media/loops/oyu-r1-v.mp4",
+        "mp4V": "/media/loops/oyu-r1-v.mp4",
+        "posterH": "/media/posters/oyu-r1-v.webp",
+        "posterV": "/media/posters/oyu-r1-v.webp",
+        "seconds": 8
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/stills/oyu-1.webp",
+        "alt": "Толпа под фиолетовым светом сцены",
+        "w": 1600,
+        "h": 900,
+        "caption": "день 2, хедлайнер"
+      },
+      {
+        "src": "/media/stills/oyu-2.webp",
+        "alt": "Руки зрителей, слоумо",
+        "w": 1280,
+        "h": 720
+      }
     ],
     "isPlaceholder": true,
     "isPublished": true,
     "featured": true,
     "sortOrder": 3
+  },
+  {
+    "slug": "pervyj-sneg",
+    "title": "Первый снег",
+    "logline": "Они познакомились на подъёмнике — и я сняла их там же, в первый снегопад на Шымбулаке.",
+    "client": "Камила & Ерлан",
+    "format": "love-story",
+    "extraFormats": [
+      "teaser"
+    ],
+    "mood": [
+      "gentle",
+      "documentary"
+    ],
+    "city": "Алматы",
+    "venues": [
+      "Шымбулак, верхняя станция",
+      "канатка Медеу — Шымбулак",
+      "кофейня на Медеу"
+    ],
+    "date": "ноябрь 2025",
+    "year": 2025,
+    "loop": {
+      "mp4H": "/media/loops/pervyj-sneg-h.mp4",
+      "mp4V": "/media/loops/pervyj-sneg-v.mp4",
+      "posterH": "/media/posters/pervyj-sneg-h.webp",
+      "posterV": "/media/posters/pervyj-sneg-v.webp",
+      "poster45": "/media/posters/pervyj-sneg-45.webp",
+      "seconds": 8
+    },
+    "fullVideo": {
+      "provider": "self",
+      "id": "/media/loops/pervyj-sneg-h.mp4",
+      "duration": "03:04",
+      "hasSound": false
+    },
+    "shooting": {
+      "days": 1,
+      "hours": 4,
+      "operators": "1 оператор",
+      "drone": false,
+      "gear": [
+        "Sony ZV-E1",
+        "35 мм",
+        "петлички"
+      ]
+    },
+    "post": {
+      "delivery": "тизер 5 дней · фильм 2 недели",
+      "notes": "диалог пары записан на петлички и лёг под видео как voice-over"
+    },
+    "task": "Love story к годовщине — подарок друг другу и ролик, который откроет свадьбу. Плюс три вертикальных фрагмента для приглашений.",
+    "approach": "Минимум постановки, много дыхания: ручная камера, 24 кадра, только естественный свет. Поднялась с ними на канатке от Медеу до верхней станции Шымбулака и просто слушала — их разговор про первую встречу стал закадровым текстом. Снег пошёл в 14:20, как по сценарию, которого не было.",
+    "result": {
+      "text": "Ролик открыл свадьбу в апреле. Через месяц пара заказала свадебный фильм.",
+      "metrics": [
+        {
+          "value": "1",
+          "label": "свадьба заказана после love story"
+        },
+        {
+          "value": "3",
+          "label": "Reels в приглашениях"
+        }
+      ]
+    },
+    "deliverables": [
+      {
+        "name": "Фильм",
+        "duration": "3:04",
+        "aspect": "16:9"
+      },
+      {
+        "name": "Тизер",
+        "duration": "0:45",
+        "aspect": "9:16"
+      },
+      {
+        "name": "Reels",
+        "duration": "3 × 0:12–0:20",
+        "aspect": "9:16"
+      },
+      {
+        "name": "Стоп-кадры",
+        "duration": "20 шт."
+      }
+    ],
+    "credits": [
+      {
+        "role": "Оператор, монтаж, цвет, звук",
+        "name": "Мария Волкова"
+      },
+      {
+        "role": "Пара",
+        "name": "Камила & Ерлан (вымышленные)"
+      },
+      {
+        "role": "Музыка",
+        "name": "лицензия Artlist"
+      }
+    ],
+    "reels": [
+      {
+        "mp4H": "/media/loops/sneg-r1-v.mp4",
+        "mp4V": "/media/loops/sneg-r1-v.mp4",
+        "posterH": "/media/posters/sneg-r1-v.webp",
+        "posterV": "/media/posters/sneg-r1-v.webp",
+        "seconds": 6
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/stills/sneg-1.webp",
+        "alt": "Заснеженный склон и домик",
+        "w": 1600,
+        "h": 1000,
+        "caption": "Шымбулак, верхняя станция"
+      },
+      {
+        "src": "/media/stills/sneg-2.webp",
+        "alt": "Каток Медеу и заснеженные горы",
+        "w": 1600,
+        "h": 1067
+      },
+      {
+        "src": "/media/stills/sneg-3.webp",
+        "alt": "Заснеженный хребет с дрона",
+        "w": 1280,
+        "h": 720,
+        "caption": "верхняя станция, 14:20 — пошёл снег"
+      }
+    ],
+    "testimonial": {
+      "quote": "Мы думали, что будем стесняться камеры. Маша ехала с нами в кабинке и просто разговаривала — в фильме мы не позируем, мы живём.",
+      "author": "Камила & Ерлан",
+      "role": "love story · 2025",
+      "caseSlug": "pervyj-sneg",
+      "confirmed": false
+    },
+    "isPlaceholder": true,
+    "isPublished": true,
+    "featured": true,
+    "sortOrder": 4
+  },
+  {
+    "slug": "utro-zdes",
+    "title": "Утро здесь",
+    "logline": "Три кофейни, один бариста-герой и тридцать секунд, за которые хочется выйти из дома.",
+    "client": "Bulut Coffee",
+    "format": "promo",
+    "extraFormats": [
+      "content-day"
+    ],
+    "mood": [
+      "gentle"
+    ],
+    "city": "Алматы",
+    "venues": [
+      "кофейня на Панфилова",
+      "студия для продуктовых макро"
+    ],
+    "date": "март 2026",
+    "year": 2026,
+    "loop": {
+      "mp4H": "/media/loops/utro-zdes-h.mp4",
+      "mp4V": "/media/loops/utro-zdes-v.mp4",
+      "posterH": "/media/posters/utro-zdes-h.webp",
+      "posterV": "/media/posters/utro-zdes-v.webp",
+      "poster45": "/media/posters/utro-zdes-45.webp",
+      "seconds": 8
+    },
+    "fullVideo": {
+      "provider": "self",
+      "id": "/media/loops/utro-zdes-h.mp4",
+      "duration": "00:30",
+      "hasSound": false
+    },
+    "shooting": {
+      "days": 1,
+      "hours": 9,
+      "operators": "1 оператор + ассистент",
+      "drone": false,
+      "gear": [
+        "Sony ZV-E1",
+        "макро 90 мм",
+        "слайдер",
+        "продуктовый свет"
+      ]
+    },
+    "post": {
+      "delivery": "hero-ролик 10 дней · Reels вместе с роликом",
+      "notes": "две версии кадрирования: 16:9 для экранов в зале, 9:16 для таргета"
+    },
+    "task": "Имиджевый ролик для таргета в Instagram и TikTok и для экранов в трёх кофейнях. Цель — утренний поток гостей.",
+    "approach": "Один непрерывный маршрут чашки: помол, пролив, рука бариста, рука гостя. Макро на слайдере, чтобы пар и капли читались даже на телефоне с выключенным звуком. Снимала в кофейне на Панфилова до открытия, с 6:30 — настоящий утренний свет с Алатау в окне стал финальным кадром.",
+    "result": {
+      "text": "Ролик стоит на первом экране сайта и на экранах во всех трёх точках.",
+      "metrics": [
+        {
+          "value": "+40%",
+          "label": "новых гостей за первый месяц"
+        },
+        {
+          "value": "−27%",
+          "label": "стоимость лида в таргете"
+        }
+      ]
+    },
+    "deliverables": [
+      {
+        "name": "Hero-ролик",
+        "duration": "0:30",
+        "aspect": "16:9 + 9:16"
+      },
+      {
+        "name": "Продуктовые Reels",
+        "duration": "6 × 0:08–0:12",
+        "aspect": "9:16"
+      },
+      {
+        "name": "Стоп-кадры для меню",
+        "duration": "20 шт."
+      }
+    ],
+    "credits": [
+      {
+        "role": "Режиссёр, оператор, монтаж, цвет",
+        "name": "Мария Волкова"
+      },
+      {
+        "role": "Ассистент",
+        "name": "— (плейсхолдер)"
+      },
+      {
+        "role": "Клиент",
+        "name": "Bulut Coffee (вымышленная сеть кофеен)"
+      }
+    ],
+    "reels": [
+      {
+        "mp4H": "/media/loops/utro-r1-v.mp4",
+        "mp4V": "/media/loops/utro-r1-v.mp4",
+        "posterH": "/media/posters/utro-r1-v.webp",
+        "posterV": "/media/posters/utro-r1-v.webp",
+        "seconds": 8
+      },
+      {
+        "mp4H": "/media/loops/utro-r2-v.mp4",
+        "mp4V": "/media/loops/utro-r2-v.mp4",
+        "posterH": "/media/posters/utro-r2-v.webp",
+        "posterV": "/media/posters/utro-r2-v.webp",
+        "seconds": 6
+      },
+      {
+        "mp4H": "/media/loops/utro-r3-v.mp4",
+        "mp4V": "/media/loops/utro-r3-v.mp4",
+        "posterH": "/media/posters/utro-r3-v.webp",
+        "posterV": "/media/posters/utro-r3-v.webp",
+        "seconds": 8
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/stills/utro-1.webp",
+        "alt": "Эспрессо-машина крупным планом",
+        "w": 1600,
+        "h": 900,
+        "caption": "06:40, первый пролив"
+      },
+      {
+        "src": "/media/stills/utro-2.webp",
+        "alt": "Бариста за стойкой",
+        "w": 720,
+        "h": 900
+      }
+    ],
+    "testimonial": {
+      "quote": "Мы просили «красивый ролик про кофе». Получили тридцать секунд, после которых гости спрашивают, где та кофейня с окном на горы. Это наша кофейня.",
+      "author": "Дана Сейткали",
+      "role": "бренд-менеджер, Bulut Coffee",
+      "caseSlug": "utro-zdes",
+      "confirmed": false
+    },
+    "isPlaceholder": true,
+    "isPublished": true,
+    "featured": true,
+    "sortOrder": 5
+  },
+  {
+    "slug": "techsummit",
+    "title": "Саммит ’25",
+    "logline": "1 200 участников, 40 спикеров, шесть часов контента — и aftermovie, готовый к утру.",
+    "client": "Alatau Tech Summit",
+    "format": "aftermovie",
+    "extraFormats": [
+      "interview"
+    ],
+    "mood": [
+      "documentary"
+    ],
+    "city": "Алматы",
+    "venues": [
+      "конференц-зал отеля в центре",
+      "лобби с прожекторным светом"
+    ],
+    "date": "октябрь 2025",
+    "year": 2025,
+    "loop": {
+      "mp4H": "/media/loops/techsummit-h.mp4",
+      "mp4V": "/media/loops/techsummit-v.mp4",
+      "posterH": "/media/posters/techsummit-h.webp",
+      "posterV": "/media/posters/techsummit-v.webp",
+      "poster45": "/media/posters/techsummit-45.webp",
+      "seconds": 5
+    },
+    "fullVideo": {
+      "provider": "self",
+      "id": "/media/loops/techsummit-h.mp4",
+      "duration": "02:00",
+      "hasSound": false
+    },
+    "shooting": {
+      "days": 2,
+      "operators": "1 оператор + второй на интервью",
+      "drone": false,
+      "gear": [
+        "Sony ZV-E1",
+        "гимбал",
+        "петлички",
+        "свет для интервью"
+      ]
+    },
+    "post": {
+      "delivery": "aftermovie 14 часов · интервью 7 дней · цитаты дня 3 дня",
+      "notes": "черновой монтаж собирала прямо в лобби между секциями"
+    },
+    "task": "Aftermovie для спонсоров и продажи следующего года, интервью с восемью спикерами и вертикальные «цитаты дня» для соцсетей конференции.",
+    "approach": "Вместо говорящих голов — живые реакции зала: смех на первом ряду, ручки на полях, очередь к спикеру после доклада. Интервью писала в лобби на фоне прожекторов, а не у баннера. Монтаж шёл параллельно с программой, поэтому aftermovie ушёл спонсорам на утро после закрытия.",
+    "result": {
+      "text": "Aftermovie отправлен спонсорам через 14 часов после закрытия.",
+      "metrics": [
+        {
+          "value": "6 из 8",
+          "label": "спонсорских контрактов продлено"
+        },
+        {
+          "value": "14 ч",
+          "label": "от закрытия до сдачи"
+        }
+      ]
+    },
+    "deliverables": [
+      {
+        "name": "Aftermovie",
+        "duration": "2:00",
+        "aspect": "16:9"
+      },
+      {
+        "name": "Интервью",
+        "duration": "8 × 1:00–1:30",
+        "aspect": "16:9"
+      },
+      {
+        "name": "Цитаты дня",
+        "duration": "12 × 0:20",
+        "aspect": "9:16"
+      }
+    ],
+    "credits": [
+      {
+        "role": "Оператор, монтаж, цвет",
+        "name": "Мария Волкова"
+      },
+      {
+        "role": "Второй оператор на интервью",
+        "name": "— (плейсхолдер)"
+      },
+      {
+        "role": "Организатор",
+        "name": "Alatau Tech Summit (вымышленная конференция)"
+      }
+    ],
+    "reels": [
+      {
+        "mp4H": "/media/loops/techsummit-r1-v.mp4",
+        "mp4V": "/media/loops/techsummit-r1-v.mp4",
+        "posterH": "/media/posters/techsummit-r1-v.webp",
+        "posterV": "/media/posters/techsummit-r1-v.webp",
+        "seconds": 8
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/stills/techsummit-1.webp",
+        "alt": "Зал слушает доклад",
+        "w": 1600,
+        "h": 900,
+        "caption": "секция про ИИ, второй день"
+      },
+      {
+        "src": "/media/stills/techsummit-2.webp",
+        "alt": "Спикер на сцене",
+        "w": 1600,
+        "h": 900
+      }
+    ],
+    "isPlaceholder": true,
+    "isPublished": true,
+    "featured": false,
+    "sortOrder": 6
+  },
+  {
+    "slug": "uzhin-na-vysote",
+    "title": "Ужин на высоте",
+    "logline": "Современная казахская кухня, снятая как фуд-документалка: руки, огонь и терраса с видом на Алатау.",
+    "client": "Terrace Дала",
+    "format": "food",
+    "extraFormats": [
+      "backstage"
+    ],
+    "mood": [
+      "gentle",
+      "documentary"
+    ],
+    "city": "Алматы",
+    "venues": [
+      "кухня ресторана",
+      "терраса, Медеуский район"
+    ],
+    "date": "сентябрь 2025",
+    "year": 2025,
+    "loop": {
+      "mp4H": "/media/loops/uzhin-na-vysote-h.mp4",
+      "mp4V": "/media/loops/uzhin-na-vysote-v.mp4",
+      "posterH": "/media/posters/uzhin-na-vysote-h.webp",
+      "posterV": "/media/posters/uzhin-na-vysote-v.webp",
+      "poster45": "/media/posters/uzhin-na-vysote-45.webp",
+      "seconds": 8
+    },
+    "fullVideo": {
+      "provider": "self",
+      "id": "/media/loops/uzhin-na-vysote-h.mp4",
+      "duration": "00:45",
+      "hasSound": false
+    },
+    "shooting": {
+      "days": 1,
+      "hours": 8,
+      "operators": "1 оператор",
+      "drone": false,
+      "gear": [
+        "Sony ZV-E1",
+        "макро 90 мм",
+        "слоумо 50 fps"
+      ]
+    },
+    "post": {
+      "delivery": "ролик 10 дней · блюда 9:16 через 2 недели"
+    },
+    "task": "Ролик для запуска сезонного меню, восемь блюд для Instagram и приложений доставки, короткий backstage с кухни.",
+    "approach": "Шеф — герой, кухня — площадка. Снимала одна, без постановочного света: только огонь плиты и окно кухни. Плейтинг в 50 кадров, чтобы соус и пар шли медленно. Финал — терраса в золотой час, когда Алатау подсвечивается сзади и стол не нужно ничем украшать.",
+    "result": {
+      "text": "Ролик открыл новое меню в соцсетях и в приложениях доставки.",
+      "metrics": [
+        {
+          "value": "+35%",
+          "label": "броней на выходные за 2 недели"
+        },
+        {
+          "value": "8",
+          "label": "блюд в вертикальном формате"
+        }
+      ]
+    },
+    "deliverables": [
+      {
+        "name": "Ролик",
+        "duration": "0:45",
+        "aspect": "16:9 + 9:16"
+      },
+      {
+        "name": "Блюда",
+        "duration": "8 × 0:10",
+        "aspect": "9:16"
+      },
+      {
+        "name": "Backstage",
+        "duration": "0:40",
+        "aspect": "9:16"
+      },
+      {
+        "name": "Стоп-кадры для меню",
+        "duration": "15 шт."
+      }
+    ],
+    "credits": [
+      {
+        "role": "Оператор, монтаж, цвет",
+        "name": "Мария Волкова"
+      },
+      {
+        "role": "Шеф-повар",
+        "name": "— (плейсхолдер)"
+      },
+      {
+        "role": "Клиент",
+        "name": "Terrace Дала (вымышленный ресторан)"
+      }
+    ],
+    "reels": [
+      {
+        "mp4H": "/media/loops/uzhin-r1-v.mp4",
+        "mp4V": "/media/loops/uzhin-r1-v.mp4",
+        "posterH": "/media/posters/uzhin-r1-v.webp",
+        "posterV": "/media/posters/uzhin-r1-v.webp",
+        "seconds": 8
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/stills/uzhin-1.webp",
+        "alt": "Плейтинг стейка с овощами",
+        "w": 1600,
+        "h": 900,
+        "caption": "сезонное меню, блюдо 3 из 8"
+      },
+      {
+        "src": "/media/stills/uzhin-2.webp",
+        "alt": "Город и горы с террасы",
+        "w": 1600,
+        "h": 1000,
+        "caption": "вид с террасы, 19:15"
+      }
+    ],
+    "isPlaceholder": true,
+    "isPublished": true,
+    "featured": false,
+    "sortOrder": 7
+  },
+  {
+    "slug": "qara-osen-zima",
+    "title": "Осень–зима ’25",
+    "logline": "Первая «взрослая» кампания локального бренда: стерильная студия против фактурного Алматы.",
+    "client": "Tuman Atelier",
+    "format": "fashion",
+    "extraFormats": [
+      "content-day"
+    ],
+    "mood": [
+      "bold"
+    ],
+    "city": "Алматы",
+    "venues": [
+      "студия",
+      "ТЮЗ",
+      "панельки Орбиты",
+      "Кок-Тобе"
+    ],
+    "date": "август 2025",
+    "year": 2025,
+    "loop": {
+      "mp4H": "/media/loops/qara-osen-zima-h.mp4",
+      "mp4V": "/media/loops/qara-osen-zima-v.mp4",
+      "posterH": "/media/posters/qara-osen-zima-h.webp",
+      "posterV": "/media/posters/qara-osen-zima-v.webp",
+      "poster45": "/media/posters/qara-osen-zima-45.webp",
+      "seconds": 6
+    },
+    "fullVideo": {
+      "provider": "self",
+      "id": "/media/loops/qara-osen-zima-h.mp4",
+      "duration": "01:00",
+      "hasSound": false
+    },
+    "shooting": {
+      "days": 2,
+      "operators": "1 оператор + стилист",
+      "drone": false,
+      "gear": [
+        "Sony ZV-E1",
+        "гимбал",
+        "студийный свет"
+      ]
+    },
+    "post": {
+      "delivery": "фильм 2 недели · Reels вместе с фильмом",
+      "notes": "холодная цветокоррекция под минимал-техно"
+    },
+    "task": "Fashion-фильм для сайта и запуска коллекции, десять продуктовых Reels и стоп-кадры для лукбука.",
+    "approach": "День первый — студия: белый фон, жёсткий свет, ничего лишнего. День второй — город: лестницы ТЮЗа, панельки на Орбите, парковка Кок-Тобе. Одни и те же вещи в двух мирах, монтаж встык. Кадры под холодный грейд и минимал-техно, который бренд лицензировал заранее.",
+    "result": {
+      "text": "Фильм стоит на первом экране сайта бренда.",
+      "metrics": [
+        {
+          "value": "3 нед.",
+          "label": "до sold-out капсулы"
+        },
+        {
+          "value": "10",
+          "label": "Reels по 6–8 с"
+        }
+      ]
+    },
+    "deliverables": [
+      {
+        "name": "Fashion-фильм",
+        "duration": "1:00",
+        "aspect": "16:9"
+      },
+      {
+        "name": "Reels",
+        "duration": "10 × 0:06–0:08",
+        "aspect": "9:16"
+      },
+      {
+        "name": "Стоп-кадры",
+        "duration": "15 шт."
+      }
+    ],
+    "credits": [
+      {
+        "role": "Режиссёр, оператор, монтаж, цвет",
+        "name": "Мария Волкова"
+      },
+      {
+        "role": "Стилист",
+        "name": "— (плейсхолдер)"
+      },
+      {
+        "role": "Бренд",
+        "name": "Tuman Atelier (вымышленный бренд)"
+      }
+    ],
+    "reels": [
+      {
+        "mp4H": "/media/loops/qara-r1-v.mp4",
+        "mp4V": "/media/loops/qara-r1-v.mp4",
+        "posterH": "/media/posters/qara-r1-v.webp",
+        "posterV": "/media/posters/qara-r1-v.webp",
+        "seconds": 6
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/stills/qara-1.webp",
+        "alt": "Камера на штативе на красно-фиолетовом фоне",
+        "w": 1600,
+        "h": 1000,
+        "caption": "студия, схема света №2"
+      },
+      {
+        "src": "/media/stills/qara-2.webp",
+        "alt": "Студийная fashion-съёмка",
+        "w": 1600,
+        "h": 900
+      }
+    ],
+    "isPlaceholder": true,
+    "isPublished": true,
+    "featured": true,
+    "sortOrder": 8
+  },
+  {
+    "slug": "my-zdes-stroim",
+    "title": "Здесь строим",
+    "logline": "IT-компании нужно нанять пятьдесят инженеров за квартал — и фильм, который делает это за неё.",
+    "client": "Arqa Soft",
+    "format": "brand-film",
+    "extraFormats": [
+      "interview"
+    ],
+    "mood": [
+      "documentary",
+      "gentle"
+    ],
+    "city": "Алматы",
+    "venues": [
+      "офис в Бостандыкском районе",
+      "Большое Алматинское озеро"
+    ],
+    "date": "июнь 2025",
+    "year": 2025,
+    "loop": {
+      "mp4H": "/media/loops/my-zdes-stroim-h.mp4",
+      "mp4V": "/media/loops/my-zdes-stroim-v.mp4",
+      "posterH": "/media/posters/my-zdes-stroim-h.webp",
+      "posterV": "/media/posters/my-zdes-stroim-v.webp",
+      "poster45": "/media/posters/my-zdes-stroim-45.webp",
+      "seconds": 8
+    },
+    "fullVideo": {
+      "provider": "self",
+      "id": "/media/loops/my-zdes-stroim-h.mp4",
+      "duration": "02:30",
+      "hasSound": false
+    },
+    "shooting": {
+      "days": 3,
+      "operators": "1 оператор + второй на выезде",
+      "drone": false,
+      "gear": [
+        "Sony ZV-E1",
+        "петлички",
+        "свет для интервью"
+      ]
+    },
+    "post": {
+      "delivery": "фильм 3 недели · интервью 10 дней"
+    },
+    "task": "HR-фильм для карьерной страницы и LinkedIn, шесть коротких интервью сотрудников и пять Reels для рекрутинговых кампаний.",
+    "approach": "Без корпоративных штампов: ни одного кадра с ноутбуком крупно. Один день из жизни трёх сотрудников — тимлида, джуна и дизайнера, — снятый документально, с петличками и без «повторите ещё раз». Финал — командный выезд на Большое Алматинское озеро, где все наконец забыли про камеру.",
+    "result": {
+      "text": "Фильм на карьерной странице и в шапке LinkedIn компании.",
+      "metrics": [
+        {
+          "value": "×2,4",
+          "label": "откликов на вакансии за месяц"
+        },
+        {
+          "value": "6",
+          "label": "интервью сотрудников"
+        }
+      ]
+    },
+    "deliverables": [
+      {
+        "name": "HR-фильм",
+        "duration": "2:30",
+        "aspect": "16:9"
+      },
+      {
+        "name": "Интервью",
+        "duration": "6 × 0:45",
+        "aspect": "16:9 + 9:16"
+      },
+      {
+        "name": "Reels",
+        "duration": "5 × 0:15",
+        "aspect": "9:16"
+      }
+    ],
+    "credits": [
+      {
+        "role": "Режиссёр, оператор, монтаж, цвет",
+        "name": "Мария Волкова"
+      },
+      {
+        "role": "Второй оператор на выезде",
+        "name": "— (плейсхолдер)"
+      },
+      {
+        "role": "Клиент",
+        "name": "Arqa Soft (вымышленная IT-компания)"
+      }
+    ],
+    "reels": [
+      {
+        "mp4H": "/media/loops/stroim-r1-v.mp4",
+        "mp4V": "/media/loops/stroim-r1-v.mp4",
+        "posterH": "/media/posters/stroim-r1-v.webp",
+        "posterV": "/media/posters/stroim-r1-v.webp",
+        "seconds": 7
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/stills/stroim-1.webp",
+        "alt": "Большое Алматинское озеро",
+        "w": 1600,
+        "h": 1000,
+        "caption": "командный выезд, финальная сцена"
+      },
+      {
+        "src": "/media/stills/stroim-2.webp",
+        "alt": "Свет и камера для интервью",
+        "w": 1600,
+        "h": 900,
+        "caption": "сетап для интервью в переговорке"
+      }
+    ],
+    "testimonial": {
+      "quote": "Мы боялись получить «корпоративное видео». Маша сняла людей, а не компанию — и именно это теперь смотрят кандидаты перед собеседованием.",
+      "author": "Айдар Нурланов",
+      "role": "HR-директор, Arqa Soft",
+      "caseSlug": "my-zdes-stroim",
+      "confirmed": false
+    },
+    "isPlaceholder": true,
+    "isPublished": true,
+    "featured": false,
+    "sortOrder": 9
+  },
+  {
+    "slug": "12-reels",
+    "title": "12 Reels",
+    "logline": "Йога-студия, один съёмочный день, контент на месяц вперёд.",
+    "client": "Tynys Yoga",
+    "format": "content-day",
+    "mood": [
+      "gentle"
+    ],
+    "city": "Алматы",
+    "venues": [
+      "зал студии, Бостандыкский район"
+    ],
+    "date": "февраль 2026",
+    "year": 2026,
+    "loop": {
+      "mp4H": "/media/loops/12-reels-h.mp4",
+      "mp4V": "/media/loops/12-reels-v.mp4",
+      "posterH": "/media/posters/12-reels-h.webp",
+      "posterV": "/media/posters/12-reels-v.webp",
+      "poster45": "/media/posters/12-reels-45.webp",
+      "seconds": 8
+    },
+    "fullVideo": {
+      "provider": "self",
+      "id": "/media/loops/12-reels-h.mp4",
+      "duration": "00:20",
+      "hasSound": false
+    },
+    "shooting": {
+      "days": 1,
+      "hours": 6,
+      "operators": "1 оператор",
+      "drone": false,
+      "gear": [
+        "Sony ZV-E1",
+        "гимбал",
+        "два источника света",
+        "петличка"
+      ]
+    },
+    "post": {
+      "delivery": "12 Reels за 6 дней",
+      "notes": "субтитры вшиты, обложки подобраны под сетку профиля"
+    },
+    "task": "Закрыть контент-план студии на месяц вертикальными видео: практика, интервью основательницы, абонементы и атмосфера зала.",
+    "approach": "Три световые схемы в одном зале и четыре сценария, расписанных по минутам: утро — практика на общем свете, день — интервью основательницы на петличку, вечер — продукт и атмосфера с одним тёплым источником. Каждый Reel с субтитрами, потому что их смотрят без звука в очереди за кофе.",
+    "result": {
+      "text": "Контент-план студии закрыт на месяц одним съёмочным днём.",
+      "metrics": [
+        {
+          "value": "+180%",
+          "label": "охватов аккаунта за месяц"
+        },
+        {
+          "value": "40",
+          "label": "новых пробных занятий"
+        }
+      ]
+    },
+    "deliverables": [
+      {
+        "name": "Reels",
+        "duration": "12 × 0:10–0:20",
+        "aspect": "9:16"
+      },
+      {
+        "name": "Обложки",
+        "duration": "12 шт.",
+        "aspect": "4:5"
+      },
+      {
+        "name": "Стоп-кадры",
+        "duration": "30 шт."
+      }
+    ],
+    "credits": [
+      {
+        "role": "Оператор, монтаж, субтитры",
+        "name": "Мария Волкова"
+      },
+      {
+        "role": "Основательница студии",
+        "name": "— (плейсхолдер)"
+      },
+      {
+        "role": "Клиент",
+        "name": "Tynys Yoga (вымышленная студия)"
+      }
+    ],
+    "reels": [
+      {
+        "mp4H": "/media/loops/reels-r1-v.mp4",
+        "mp4V": "/media/loops/reels-r1-v.mp4",
+        "posterH": "/media/posters/reels-r1-v.webp",
+        "posterV": "/media/posters/reels-r1-v.webp",
+        "seconds": 5
+      },
+      {
+        "mp4H": "/media/loops/12-reels-v.mp4",
+        "mp4V": "/media/loops/12-reels-v.mp4",
+        "posterH": "/media/posters/12-reels-v.webp",
+        "posterV": "/media/posters/12-reels-v.webp",
+        "seconds": 8
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/stills/reels-1.webp",
+        "alt": "Женщина за камерой",
+        "w": 1200,
+        "h": 1500,
+        "caption": "схема света №3, вечер"
+      },
+      {
+        "src": "/media/stills/reels-2.webp",
+        "alt": "Видеограф снимает на камеру",
+        "w": 1600,
+        "h": 1067
+      }
+    ],
+    "isPlaceholder": true,
+    "isPublished": true,
+    "featured": false,
+    "sortOrder": 10
+  },
+  {
+    "slug": "n-n",
+    "title": "N&N",
+    "logline": "Love story на двоих — и весь Чарын в качестве массовки.",
+    "client": "N&N",
+    "format": "love-story",
+    "mood": [
+      "gentle"
+    ],
+    "city": "Алматы",
+    "venues": [
+      "Чарынский каньон"
+    ],
+    "date": "2025",
+    "year": 2025,
+    "loop": {
+      "mp4H": "/media/loops/n-n-h.mp4",
+      "mp4V": "/media/loops/n-n-v.mp4",
+      "posterH": "/media/posters/n-n-h.webp",
+      "posterV": "/media/posters/n-n-v.webp",
+      "poster45": "/media/posters/n-n-45.webp",
+      "seconds": 6
+    },
+    "fullVideo": {
+      "provider": "youtube",
+      "id": "TsCSXDzaojg",
+      "duration": "02:30",
+      "hasSound": true
+    },
+    "shooting": {
+      "days": 1,
+      "operators": "1 оператор",
+      "drone": false,
+      "gear": [
+        "Sony ZV-E1"
+      ]
+    },
+    "post": {
+      "delivery": "фильм 2 недели"
+    },
+    "task": "Love story для пары перед свадьбой — фильм, который открывает праздник и живёт сам по себе.",
+    "approach": "Один день, одна камера и дорога до каньона. Без сценария: пара гуляет, я иду рядом. Локация, дата и детали — плейсхолдер до подтверждения с Марией; полный ролик на YouTube — реальная работа.",
+    "result": {
+      "text": "Реальная работа Марии — полный ролик на YouTube. Факты кейса не подтверждены."
+    },
+    "deliverables": [
+      {
+        "name": "Фильм",
+        "duration": "2:30",
+        "aspect": "16:9"
+      }
+    ],
+    "credits": [
+      {
+        "role": "Оператор, монтаж, цвет",
+        "name": "Мария Волкова"
+      },
+      {
+        "role": "Пара",
+        "name": "N&N"
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/stills/n-n-1.webp",
+        "alt": "Чарынский каньон",
+        "w": 1600,
+        "h": 1067
+      },
+      {
+        "src": "/media/stills/n-n-2.webp",
+        "alt": "Чарынский каньон, вид сверху",
+        "w": 1600,
+        "h": 1067
+      }
+    ],
+    "isPlaceholder": true,
+    "isPublished": true,
+    "featured": false,
+    "sortOrder": 11
   }
 ]
