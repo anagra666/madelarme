@@ -142,6 +142,22 @@ export function AlmatyClock({ className }: { className?: string }) {
    Sticky-полоса CTA (только телефон, <1024px)
    ════════════════════════════════════════════════════════════════════════ */
 const HIDDEN_ON = ["/contact", "/reels"];
+/** id финальной секции (FinalCTA) — там те же кнопки, полоса дублировала бы их */
+const FINAL_CTA_ID = "cta";
+
+/** true, пока секция #cta видна хотя бы на 30 % (перепроверяется при смене маршрута) */
+function useFinalCtaInView(pathname: string): boolean {
+  /* состояние привязано к маршруту: на новой странице сбрасывается без setState в эффекте */
+  const [state, setState] = useState<{ path: string; inView: boolean }>({ path: pathname, inView: false });
+  useEffect(() => {
+    const el = document.getElementById(FINAL_CTA_ID);
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([e]) => setState({ path: pathname, inView: e.isIntersecting }), { threshold: 0.3 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [pathname]);
+  return state.path === pathname && state.inView;
+}
 
 export default function StickyCTA() {
   const pathname = usePathname();
@@ -149,6 +165,7 @@ export default function StickyCTA() {
   const overlay = useOverlayOpen();
   const { dir, y } = useScrollDirection();
   const reduce = useReducedMotion();
+  const ctaInView = useFinalCtaInView(pathname);
   const [vh, setVh] = useState(0);
 
   useEffect(() => {
@@ -160,7 +177,7 @@ export default function StickyCTA() {
 
   if (HIDDEN_ON.some((p) => pathname === p || pathname.startsWith(p + "/"))) return null;
 
-  const visible = !overlay && vh > 0 && y > vh * 0.6 && dir === "up";
+  const visible = !overlay && !ctaInView && vh > 0 && y > vh * 0.6 && dir === "up";
 
   return (
     <motion.div

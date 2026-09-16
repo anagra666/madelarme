@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState, type FocusEvent } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useReducedMotion } from "motion/react";
@@ -23,7 +23,8 @@ const NAV = [
 
 /**
  * Шапка 56px: прозрачная над hero, после 80px — bg-ink/80 + blur.
- * Прячется при скролле вниз, возвращается вверх; не прячется, пока открыт оверлей.
+ * Прячется при скролле вниз, возвращается вверх; не прячется, пока открыт оверлей
+ * или пока фокус клавиатуры внутри неё (иначе Tab попадал бы в невидимые ссылки).
  * Монтирует MenuOverlay и ContactPanel (они fixed, вне потока).
  */
 export default function Header() {
@@ -41,8 +42,15 @@ export default function Header() {
   const [prevPath, setPrevPath] = useState(pathname);
   if (prevPath !== pathname) { setPrevPath(pathname); setMenu(false); }
 
+  /* фокус внутри шапки → не прятать (ссылки уехавшей шапки оставались бы фокусируемыми) */
+  const [focusWithin, setFocusWithin] = useState(false);
+  const onFocusCapture = useCallback(() => setFocusWithin(true), []);
+  const onBlurCapture = useCallback((e: FocusEvent<HTMLElement>) => {
+    if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocusWithin(false);
+  }, []);
+
   const solid = y > 80;
-  const hidden = !overlay && !menu && dir === "down" && y > 120;
+  const hidden = !overlay && !menu && !focusWithin && dir === "down" && y > 120;
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
 
   return (
@@ -51,6 +59,8 @@ export default function Header() {
         initial={false}
         animate={{ y: hidden ? "-100%" : 0 }}
         transition={reduce ? { duration: 0 } : { duration: 0.5, ease: EASE }}
+        onFocusCapture={onFocusCapture}
+        onBlurCapture={onBlurCapture}
         className={cn(
           "fixed inset-x-0 top-0 z-40 flex h-(--header-h) items-center justify-between px-gutter",
           "transition-[background-color,backdrop-filter] duration-500",

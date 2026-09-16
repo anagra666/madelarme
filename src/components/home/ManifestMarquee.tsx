@@ -13,7 +13,7 @@ const MARKS: { label: string; slug: string }[] = [
 
 export default function ManifestMarquee() {
   return (
-    <section aria-label="Что снимаю" className="flex min-h-[10vh] items-center overflow-hidden bg-signal text-ink lg:min-h-[14vh]">
+    <section id="manifest" aria-label="Что снимаю" className="flex min-h-[10vh] items-center overflow-hidden bg-signal text-ink lg:min-h-[14vh]">
       <Marquee duration={45} gap="0" className="w-full py-[0.5vh]">
         {MARKS.map(({ label, slug }) => (
           <span key={slug} className="flex items-center">
@@ -23,7 +23,8 @@ export default function ManifestMarquee() {
             >
               {label}
             </Link>
-            <span aria-hidden="true" className="px-[3vw] font-mono text-[6vw] leading-none lg:px-[1.5vw] lg:text-[3vw]">
+            {/* оптический центр: точка моно сидит ниже центра капса дисплейного — поднимаем на 0.15em */}
+            <span aria-hidden="true" className="-translate-y-[0.15em] px-[3vw] font-mono text-[6vw] leading-none lg:px-[1.5vw] lg:text-[3vw]">
               ·
             </span>
           </span>

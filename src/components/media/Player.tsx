@@ -7,6 +7,8 @@ import { Maximize2, Pause, Play, Volume2, VolumeX, X } from "lucide-react";
 import type { FullVideo } from "@/content/types";
 import { useScrollLock } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
+import { useFocusTrap } from "@/components/layout/ContactPanel";
+import { emitOverlay } from "@/components/layout/StickyCTA";
 
 /**
  * Плеер-оверлей «сеанс»: две чернильные шторки-летербокс закрываются сверху/снизу,
@@ -80,8 +82,6 @@ function tc(sec: number): string {
   return `${h ? `${h}:` : ""}${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
-const FOCUSABLE = 'button:not([disabled]), [href], iframe, [tabindex]:not([tabindex="-1"])';
-
 type Phase = "idle" | "closing" | "film" | "leaving";
 
 /* ── host ──────────────────────────────────────────────────────────────── */
@@ -100,15 +100,18 @@ export default function Player() {
     else if (phase !== "idle") setPhase("leaving");
   }
 
-  /* событие для sticky-CTA / шапки (не на первом рендере) */
-  const mounted = useRef(false);
+  /* шина оверлеев (sticky-CTA / шапка): ровно один emit на открытие и один на закрытие, ничего на маунте */
   useEffect(() => {
-    if (!mounted.current) { mounted.current = true; return; }
-    window.dispatchEvent(new CustomEvent("madelarme:overlay", { detail: { open: isOpen, kind: "player" } }));
+    if (!isOpen) return;
+    emitOverlay(true);
+    return () => emitOverlay(false);
   }, [isOpen]);
 
   const active = phase !== "idle";
   useScrollLock(active);
+
+  /* Esc → закрыть, Tab по кругу внутри диалога, фокус назад на кнопку-триггер при закрытии */
+  useFocusTrap(rootRef, active, closePlayer, () => restoreEl);
 
   /* страховка: если анимация шторок не завершилась (скрытая вкладка, reduced motion) — двигаем фазу по таймеру */
   useEffect(() => {
@@ -120,40 +123,10 @@ export default function Player() {
     return () => window.clearTimeout(id);
   }, [phase, reduce]);
 
-  /* Esc + focus trap */
+  /* фокус на крестик, когда шторки открылись и фильм смонтирован (трап при активации ещё не видит кнопок) */
   useEffect(() => {
-    if (!active) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        closePlayer();
-        return;
-      }
-      if (e.key === "Tab" && rootRef.current) {
-        const els = Array.from(rootRef.current.querySelectorAll<HTMLElement>(FOCUSABLE));
-        if (!els.length) return;
-        const first = els[0];
-        const last = els[els.length - 1];
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [active]);
-
-  /* фокус: на крестик при открытии, назад — при закрытии */
-  useEffect(() => {
-    if (phase === "film") closeRef.current?.focus();
-    if (phase === "idle" && restoreEl) {
-      restoreEl.focus?.();
-      restoreEl = null;
-    }
+    if (phase === "film") closeRef.current?.focus({ preventScroll: true });
+    if (phase === "idle") restoreEl = null;
   }, [phase]);
 
   const barsClosed = phase === "closing" || phase === "leaving";
@@ -333,7 +306,7 @@ function SelfVideo({ video }: { video: FullVideo }) {
       </button>
 
       {/* нижняя строка: таймкод · таймлайн · звук · fullscreen */}
-      <div className="absolute inset-x-0 bottom-0 z-20 flex h-14 items-center gap-3 pl-gutter pr-2 pb-[env(safe-area-inset-bottom)]">
+      <div className="absolute inset-x-0 bottom-0 z-20 flex min-h-14 items-center gap-3 pl-gutter pr-2 pb-[env(safe-area-inset-bottom)]">
         <button
           type="button"
           onClick={toggle}

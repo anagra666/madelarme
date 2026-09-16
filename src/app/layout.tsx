@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Sofia_Sans_Extra_Condensed, Inter_Tight, Roboto_Mono } from "next/font/google";
+import { Sofia_Sans_Extra_Condensed, Inter_Tight, Roboto_Mono, Oswald } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import Header from "@/components/layout/Header";
@@ -9,13 +9,21 @@ import Player from "@/components/media/Player";
 import { ReelsStoryHost } from "@/components/media/ReelsStory";
 import { getReels } from "@/lib/content";
 
-/* Дисплей: сверхузкий капс с кириллицей (RU/EN). Для казахских страниц — Oswald (см. план, §4). */
+/* Дисплей: сверхузкий капс с кириллицей (RU/EN). Oswald стоит следующим в стеке — браузер берёт из него
+   только казахские буквы (Ә Ғ Қ Ң Ө Ұ Ү Һ), которых нет в Sofia Sans; файл грузится лишь на таких страницах. */
 const disp = Sofia_Sans_Extra_Condensed({
   variable: "--font-disp",
   weight: "800",
   subsets: ["latin", "cyrillic"],
   display: "swap",
   preload: true,
+});
+const dispKz = Oswald({
+  variable: "--font-disp-kz",
+  weight: "600",
+  subsets: ["latin", "cyrillic"],
+  display: "swap",
+  preload: false,
 });
 const body = Inter_Tight({
   variable: "--font-body",
@@ -50,7 +58,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="ru" className={`${disp.variable} ${body.variable} ${mono.variable} h-full antialiased`}>
+    <html lang="ru" className={`${disp.variable} ${dispKz.variable} ${body.variable} ${mono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-ink text-milk">
         <SmoothScroll />
         <Header />

@@ -42,5 +42,7 @@ export default function CaseJsonLd({ c }: { c: Case }) {
     inLanguage: "ru",
     author: { "@type": "Person", name: settings.brand.person, url: site },
   };
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
+  /* «<» экранируем: внутри <script> строка «</script>» из контента иначе закрыла бы тег */
+  const json = JSON.stringify(data).replace(/</g, "\\u003c");
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: json }} />;
 }

@@ -54,7 +54,7 @@ function reconcile() {
   const touch = isTouch();
   const vis = [...entries].filter((e) => e.visible);
   if (!touch) {
-    vis.forEach((e) => e.play());
+    for (const e of entries) (e.visible ? e.play() : e.pause());
     return;
   }
   const mid = window.innerHeight / 2;

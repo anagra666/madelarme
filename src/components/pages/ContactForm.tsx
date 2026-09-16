@@ -15,7 +15,7 @@ type Status = "idle" | "sending" | "ok" | "error";
 const field =
   "h-14 w-full border border-rule bg-transparent px-4 text-[17px] text-milk placeholder:text-meta/70 focus:border-milk focus:outline-none";
 
-/** Форма заявки: 5 полей, без email. POST JSON → /api/lead. */
+/** Форма заявки: 5 полей, без email. POST JSON → /api/lead (формат уходит человеческим названием, не slug). */
 export default function ContactForm({ formats, waHref }: { formats: FormatChip[]; waHref: string }) {
   const [status, setStatus] = useState<Status>("idle");
   const [format, setFormat] = useState<string>("");
@@ -28,7 +28,7 @@ export default function ContactForm({ formats, waHref }: { formats: FormatChip[]
     const body = {
       name: String(fd.get("name") ?? "").trim(),
       contact: String(fd.get("contact") ?? "").trim(),
-      format: format || undefined,
+      format: formats.find((f) => f.slug === format)?.label || undefined,
       when: String(fd.get("when") ?? "").trim() || undefined,
       message: String(fd.get("message") ?? "").trim() || undefined,
       consent,

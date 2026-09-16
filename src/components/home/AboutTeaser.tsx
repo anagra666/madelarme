@@ -3,7 +3,7 @@ import { settings } from "@/lib/content";
 import { Reveal, Line } from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
 import { Section, Eyebrow, Container } from "@/components/ui/Section";
-import AlmatyClock from "./AlmatyClock.client";
+import { AlmatyClock } from "@/components/layout/StickyCTA";
 
 const TITLE = ["Я Маша.", "Снимаю одна,", "чтобы вы забыли,", "что вас снимают."];
 
@@ -32,7 +32,8 @@ export default function AboutTeaser() {
             ) : (
               <div className="mono absolute inset-0 grid place-items-center text-meta">[ портрет ]</div>
             )}
-            <span className="mono-sm absolute bottom-3 left-3 text-milk [--color-milk:#ece7df]">
+            {/* подпись поверх фото — всегда светлая, независимо от paper-перевёртыша */}
+            <span className="mono-sm absolute bottom-3 left-3 text-paper">
               {brand.person} · {brand.role}
             </span>
           </div>
@@ -75,7 +76,7 @@ export default function AboutTeaser() {
             )}
 
             <div>
-              <Button href="/about" variant="paper" size="lg" className="w-full [--color-milk:#ece7df] sm:w-auto">
+              <Button href="/about" variant="paper" size="lg" className="w-full sm:w-auto">
                 обо мне подробнее →
               </Button>
             </div>

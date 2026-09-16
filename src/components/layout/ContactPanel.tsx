@@ -87,7 +87,18 @@ export function useFocusTrap(
 const EASE = [0.16, 1, 0.3, 1] as const;
 type Status = "idle" | "sending" | "ok" | "fail";
 
-const formats = getFormats().filter((f) => !f.isAddon);
+/**
+ * Чипы форматов: у одинаковых имён (два «Клип») добавляем первый термин —
+ * «Клип · highlight film» / «Клип · music video». В /api/lead уходит именно label.
+ */
+const formats = (() => {
+  const base = getFormats().filter((f) => !f.isAddon);
+  const dup = new Set(base.map((f) => f.name).filter((n, i, a) => a.indexOf(n) !== i));
+  return base.map((f) => ({
+    slug: f.slug,
+    label: dup.has(f.name) ? `${f.name} · ${f.term.split("/")[0].trim()}` : f.name,
+  }));
+})();
 
 export default function ContactPanel() {
   const { isOpen, close } = useContactPanel();
@@ -121,11 +132,11 @@ export default function ContactPanel() {
     if (status === "sending") return;
     setStatus("sending");
     /* контракт /api/lead: name, contact, format?, when?, message?, consent: true */
-    const formatName = formats.find((f) => f.slug === format)?.name;
+    const formatLabel = formats.find((f) => f.slug === format)?.label;
     const payload = {
       name: draft.name,
       contact: draft.contact,
-      format: formatName,
+      format: formatLabel,
       when: draft.when,
       message: [draft.message, `[со страницы ${pathname}]`].filter(Boolean).join("\n"),
       consent: true as const,
@@ -139,7 +150,7 @@ export default function ContactPanel() {
   const fallbackText = [
     text,
     draft.name && `Я ${draft.name}`,
-    format && `формат: ${formats.find((f) => f.slug === format)?.name ?? format}`,
+    format && `формат: ${formats.find((f) => f.slug === format)?.label ?? format}`,
     draft.when && `когда: ${draft.when}`,
     draft.message,
   ].filter(Boolean).join(". ");
@@ -172,7 +183,7 @@ export default function ContactPanel() {
               "absolute flex flex-col overflow-y-auto overscroll-contain border-rule bg-ink text-milk",
               desktop
                 ? "inset-y-0 right-0 w-[480px] border-l"
-                : "inset-x-0 bottom-0 top-0 border-t pt-[env(safe-area-inset-top)]",
+                : "inset-x-0 bottom-0 top-0 border-t pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]",
             )}
           >
             <div className="flex h-(--header-h) shrink-0 items-center justify-between border-b border-rule pl-gutter lg:pl-8">
@@ -235,22 +246,21 @@ export default function ContactPanel() {
 
                   <fieldset className="flex flex-col gap-2">
                     <legend className="mono text-meta mb-2">формат</legend>
-                    <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Формат">
+                    <div className="flex flex-wrap gap-2">
                       {formats.map((f) => {
                         const on = format === f.slug;
                         return (
                           <button
                             key={f.slug}
                             type="button"
-                            role="radio"
-                            aria-checked={on}
+                            aria-pressed={on}
                             onClick={() => setFormat(on ? "" : f.slug)}
                             className={cn(
                               "mono-sm h-11 border px-3 transition-colors",
                               on ? "border-signal bg-signal text-ink" : "border-rule text-milk hover:border-milk",
                             )}
                           >
-                            {f.name}
+                            {f.label}
                           </button>
                         );
                       })}

@@ -94,7 +94,7 @@ export default function FormatsPreview({ items }: { items: PreviewItem[] }) {
             className={cn("object-cover transition-opacity duration-200", active === it.slug ? "opacity-100" : "opacity-0")}
           />
         ))}
-        <span className="mono-sm absolute bottom-2 left-2 text-milk [--color-milk:#ece7df]">
+        <span className="mono-sm absolute bottom-2 left-2 text-paper">
           {items.find((i) => i.slug === active)?.alt ?? ""}
         </span>
       </div>

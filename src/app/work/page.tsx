@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { countByFormat, getCases, getFormat, getFormats, moods } from "@/lib/content";
 import { Container, Section } from "@/components/ui/Section";
-import WorkFilters, { type FilterSelection } from "@/components/work/WorkFilters";
-/* INTEGRATOR: заменить на  import WorkIndex from "@/components/home/WorkIndex";  когда появится */
-import WorkIndex from "@/components/work/WorkListFallback";
+import WorkIndex from "@/components/home/WorkIndex";
+import WorkFilters, { shortLabel, type FilterSelection } from "@/components/work/WorkFilters";
 
 export const metadata: Metadata = {
   title: "Работы",
@@ -22,7 +21,6 @@ export default async function WorkPage({ searchParams }: { searchParams: Promise
 
   const format = formatParam && getFormat(formatParam) ? formatParam : undefined;
   const mood = moods.some((m) => m.key === moodParam) ? moodParam : undefined;
-  const view: FilterSelection["view"] = one(sp.view) === "grid" ? "grid" : "list";
 
   const all = getCases();
   const city = cityParam && all.some((c) => c.city === cityParam) ? cityParam : undefined;
@@ -32,33 +30,41 @@ export default async function WorkPage({ searchParams }: { searchParams: Promise
 
   const formatChips = getFormats()
     .filter((f) => !f.isAddon)
-    .map((f) => ({ key: f.slug, label: f.name, count: countByFormat(f.slug) }))
+    .map((f) => ({ key: f.slug, label: shortLabel(f.name), count: countByFormat(f.slug) }))
     .filter((f) => f.count > 0);
 
-  const selected: FilterSelection = { format, mood, view, city };
+  const selected: FilterSelection = { format, mood, city };
 
   return (
-    <Section className="pt-[calc(var(--header-h)+32px)] pb-[calc(var(--sticky-h)+48px)] lg:pt-[calc(var(--header-h)+64px)]">
-      <Container>
-        <header className="flex flex-col gap-6 border-b border-rule pb-6 lg:gap-10 lg:pb-8">
-          <div className="flex items-end gap-4">
-            <h1 className="disp text-h1">Работы</h1>
-            <span className="mono mb-[0.35em] text-meta">
-              [ {cases.length} / {all.length} ]
-            </span>
-          </div>
-          <WorkFilters
-            formats={formatChips}
-            moods={moods.map((m) => ({ key: m.key, label: m.label }))}
-            total={all.length}
-            selected={selected}
-          />
-        </header>
+    <>
+      {/* шапка страницы без grain — иначе зерно двух секций складывается в светлую полосу на стыке */}
+      <section className="relative pt-[calc(var(--header-h)+32px)] lg:pt-[calc(var(--header-h)+64px)]">
+        <Container>
+          <header className="flex flex-col gap-6 border-b border-rule pb-6 lg:gap-10 lg:pb-8">
+            <div className="flex items-end gap-4">
+              <h1 className="disp text-h1">Работы</h1>
+              <span className="mono mb-[0.35em] text-meta">
+                [ {cases.length} / {all.length} ]
+              </span>
+            </div>
+            <WorkFilters
+              formats={formatChips}
+              moods={moods.map((m) => ({ key: m.key, label: m.label }))}
+              total={all.length}
+              selected={selected}
+            />
+          </header>
+        </Container>
+      </section>
 
-        <div className="pt-8 lg:pt-12">
-          {cases.length ? (
-            <WorkIndex cases={cases} limit={100} showAllLink={false} title="[ Все работы ]" view={view} />
-          ) : (
+      {/* WorkIndex — своя Section (grain, отступы, скобки, переключатель вида); отрицательный margin гасит её верхний отступ, pb — запас под sticky-CTA */}
+      {cases.length ? (
+        <div className="-mt-8 pb-8 lg:-mt-20 lg:pb-0">
+          <WorkIndex cases={cases} limit={100} showAllLink={false} title="Все работы" num="01" />
+        </div>
+      ) : (
+        <Section className="pb-[calc(var(--sticky-h)+48px)]">
+          <Container>
             <div className="flex flex-col items-start gap-4 py-16">
               <p className="disp text-h3">Пока пусто.</p>
               <p className="max-w-[40ch] text-meta">Таких работ ещё нет — но я снимаю такое. Напишите, обсудим.</p>
@@ -66,9 +72,9 @@ export default async function WorkPage({ searchParams }: { searchParams: Promise
                 [ сбросить фильтры ]
               </Link>
             </div>
-          )}
-        </div>
-      </Container>
-    </Section>
+          </Container>
+        </Section>
+      )}
+    </>
   );
 }

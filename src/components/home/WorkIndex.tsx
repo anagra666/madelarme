@@ -15,39 +15,45 @@ export default function WorkIndex({
   limit = 8,
   showAllLink = true,
   title = "ИЗБРАННЫЕ РАБОТЫ",
+  num = "03",
 }: {
   cases?: Case[];
   limit?: number;
   showAllLink?: boolean;
   title?: string;
+  /** номер секции в моно-подписи: [ 03 ] · ИЗБРАННЫЕ РАБОТЫ */
+  num?: string;
 }) {
   const total = getCases().length;
   const rows = (cases ?? getCases({ featured: true })).slice(0, limit).map(toRow);
   if (rows.length === 0) return null;
   const counter = `${pad2(rows.length)} / ${pad2(total)}`;
+  const eyebrow = `[ ${num} ] · ${title}`;
 
   return (
-    <Section id="work" aria-labelledby="work-title" className="pb-24 lg:pb-32">
-      <Container className="pt-20 lg:pt-32">
+    <Section id="work" aria-labelledby="work-title" className="py-[clamp(64px,10vw,160px)]">
+      <Container>
         <h2 id="work-title" className="sr-only">{title}</h2>
 
-        <WorkIndexDesktop rows={rows} title={title} counter={counter} total={total} showAllLink={showAllLink} />
+        <WorkIndexDesktop rows={rows} eyebrow={eyebrow} counter={counter} total={total} showAllLink={showAllLink} />
 
         {/* ── телефон: две строки текста + мини-тизер справа, tap = кейс ── */}
         <div className="lg:hidden">
-          <header className="mono flex items-center justify-between text-meta">
-            <span>[ {title} ]</span>
-            <span>[ {counter} ]</span>
+          <header className="mono flex items-center justify-between gap-4 text-meta">
+            <span className="truncate">{eyebrow}</span>
+            <span className="shrink-0">[ {counter} ]</span>
           </header>
           <ul className="mt-6 border-b border-rule">
             {rows.map((r) => (
               <li key={r.slug} className="border-t border-rule">
-                <Link
-                  href={`/work/${r.slug}`}
-                  className="cq grid h-28 grid-cols-[minmax(0,1fr)_56px] items-center gap-3 active:text-signal"
-                >
-                  <span className="min-w-0">
-                    <span className="mono-sm block normal-case text-meta">
+                {/* CinemaVideo может рендерить <button> (▶ при блокировке автоплея) — поэтому он
+                    сосед ссылки, а не её потомок; зона тапа на всю строку — через ::after ссылки */}
+                <div className="cq relative grid h-28 grid-cols-[minmax(0,1fr)_56px] items-center gap-3">
+                  <Link
+                    href={`/work/${r.slug}`}
+                    className="block min-w-0 active:text-signal after:absolute after:inset-0 after:z-10 after:content-['']"
+                  >
+                    <span className="mono-sm block truncate normal-case text-meta">
                       {[r.num, r.formatName.toLowerCase(), r.city, r.year, r.duration].filter(Boolean).join(" · ")}
                     </span>
                     <span
@@ -58,15 +64,15 @@ export default function WorkIndex({
                     >
                       {r.title}
                     </span>
-                  </span>
+                  </Link>
                   <CinemaVideo
                     loop={r.loop}
                     mode="visible"
-                    orientation={r.loop.mp4V ? "v" : "h"}
-                    className="h-[100px] w-14 border border-rule"
+                    orientation="v"
+                    className="h-[100px] w-14 shrink-0 border border-rule"
                     sizes="56px"
                   />
-                </Link>
+                </div>
               </li>
             ))}
           </ul>

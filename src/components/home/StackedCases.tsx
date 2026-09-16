@@ -82,7 +82,7 @@ function Card({ c, i, total }: { c: Case; i: number; total: number }) {
               href={`/work/${c.slug}`}
               variant={paper ? "paper" : "outline"}
               size="lg"
-              className={paper ? "w-full [--color-milk:#ece7df] sm:w-auto" : "w-full sm:w-auto"}
+              className="w-full sm:w-auto"
             >
               Читать кейс →
             </Button>

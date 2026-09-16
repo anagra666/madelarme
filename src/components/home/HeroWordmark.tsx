@@ -70,12 +70,14 @@ export default function HeroWordmark() {
   const display = useTransform(p, (v) => (v >= 1 ? "none" : "block"));
 
   if (!on) return null;
+  /* Верхняя треть экрана: под шапкой и моно-строкой, над H1 (§05 — вордмарк → H1 → подпись + CTA).
+     Обёртка на весь вьюпорт (не top-[11vh]): иначе overflow-hidden срезает текст, когда он улетает вверх в слот шапки. */
   return (
-    <div ref={wrap} className="pointer-events-none fixed inset-x-0 top-[12vh] z-30 flex justify-center overflow-hidden px-gutter" aria-hidden="true">
+    <div ref={wrap} className="pointer-events-none fixed inset-0 z-30 flex items-start justify-center overflow-hidden px-gutter pt-[11vh]" aria-hidden="true">
       <motion.div
         ref={text}
         style={{ transform, opacity, display, transformOrigin: "0 0" }}
-        className="disp whitespace-nowrap text-[21vw] text-milk mix-blend-difference will-change-transform"
+        className="disp whitespace-nowrap text-[17vw] text-milk mix-blend-difference will-change-transform"
       >
         {settings.brand.wordmark}
       </motion.div>
@@ -83,13 +85,19 @@ export default function HeroWordmark() {
   );
 }
 
-/** Блок H1/CTA гаснет, пока вордмарк уезжает в шапку. Вне десктопа — просто дети. */
+/**
+ * Блок H1/CTA гаснет, пока вордмарк уезжает в шапку. Вне десктопа — просто дети.
+ * Погасший блок нельзя нажать и он не в порядке табуляции: pointer-events/visibility
+ * считаются от того же прогресса, что и opacity (opacity 0 сама по себе кликабельна).
+ */
 export function HeroFade({ children, className }: { children: ReactNode; className?: string }) {
   const on = useSignature();
   const p = useHeroProgress();
   const opacity = useTransform(p, [0, 0.45], [1, 0]);
+  const pointerEvents = useTransform(p, (v) => (v > 0.45 ? "none" : "auto"));
+  const visibility = useTransform(p, (v) => (v > 0.45 ? "hidden" : "visible"));
   return (
-    <motion.div style={on ? { opacity } : undefined} className={className}>
+    <motion.div style={on ? { opacity, pointerEvents, visibility } : undefined} className={className}>
       {children}
     </motion.div>
   );

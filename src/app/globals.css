@@ -16,7 +16,7 @@
   --color-on-milk: #0e0d0c;    /* текст поверх milk-заливки (кнопки); на бумаге — светлый */
 
   /* type */
-  --font-disp: var(--font-disp), "Oswald", "Arial Narrow", Impact, sans-serif;
+  --font-disp: var(--font-disp), var(--font-disp-kz), "Arial Narrow", Impact, sans-serif;
   --font-body: var(--font-body), "Inter", "Helvetica Neue", Arial, sans-serif;
   --font-mono: var(--font-mono), ui-monospace, Menlo, monospace;
 

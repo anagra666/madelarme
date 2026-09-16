@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore, type KeyboardEvent, type RefObject } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { X } from "lucide-react";
+import { ChevronDown, ChevronUp, X } from "lucide-react";
 import type { Reel } from "@/content/types";
 import CinemaVideo from "@/components/media/CinemaVideo";
+import { useFocusTrap } from "@/components/layout/ContactPanel";
+import { emitOverlay } from "@/components/layout/StickyCTA";
 import { useScrollLock } from "@/lib/hooks";
+import { cn, pad2 } from "@/lib/utils";
 
 /* ── store: открыть story с любой страницы ─────────────────────────────── */
 type StoryState = { open: boolean; index: number };
@@ -27,7 +30,7 @@ export function useReelsStory() {
   return { open: openStory, close: closeStory, isOpen: s.open, index: s.index };
 }
 
-/** Монтировать ОДИН раз (page.tsx / layout.tsx): <ReelsStoryHost reels={getReels()} /> */
+/** Монтировать ОДИН раз (layout.tsx): <ReelsStoryHost reels={getReels()} /> */
 export function ReelsStoryHost({ reels }: { reels: Reel[] }) {
   const { isOpen, index } = useReelsStory();
   return (
@@ -39,30 +42,59 @@ export function ReelsStoryHost({ reels }: { reels: Reel[] }) {
   );
 }
 
+/* ── общее для оверлея и страницы: шаг ленты и клавиатура ──────────────── */
+/* высоту задаёт вызывающий: оверлей — h-svh, страница — svh минус шапка (под ней распорка) */
+const SCROLLER_CLASS =
+  "snap-y snap-mandatory overflow-y-auto overscroll-contain outline-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
+
+type Scroller = RefObject<HTMLDivElement | null>;
+
+function stepFeed(scroller: Scroller, dir: 1 | -1) {
+  const el = scroller.current;
+  el?.scrollBy({ top: dir * el.clientHeight, behavior: "smooth" });
+}
+
+/** ↓ / PageDown — следующий reel, ↑ / PageUp — предыдущий (шаг = высота ленты, снап доводит) */
+function feedKeys(e: KeyboardEvent, scroller: Scroller) {
+  if (e.altKey || e.ctrlKey || e.metaKey) return;
+  if (e.key === "ArrowDown" || e.key === "PageDown") { e.preventDefault(); stepFeed(scroller, 1); }
+  else if (e.key === "ArrowUp" || e.key === "PageUp") { e.preventDefault(); stepFeed(scroller, -1); }
+}
+
+/** Текущий индекс ленты по IntersectionObserver над её секциями (root — сам скроллер) */
+function useFeedIndex(scroller: Scroller, count: number, initial = 0) {
+  const [current, setCurrent] = useState(initial);
+  useEffect(() => {
+    const root = scroller.current;
+    if (!root) return;
+    const items = Array.from(root.children) as HTMLElement[];
+    const io = new IntersectionObserver(
+      (list) => {
+        /* isIntersecting истинно и при касании края (ratio 0) — считаем только ≥60% видимости */
+        for (const x of list) {
+          if (x.intersectionRatio >= 0.6) setCurrent(items.indexOf(x.target as HTMLElement));
+        }
+      },
+      { root, threshold: 0.6 },
+    );
+    items.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [scroller, count]);
+  return Math.max(0, Math.min(current, count - 1));
+}
+
 /* ── оверлей ───────────────────────────────────────────────────────────── */
 export default function ReelsStory({ reels, index, onClose }: { reels: Reel[]; index: number; onClose: () => void }) {
+  const root = useRef<HTMLDivElement>(null);
   const scroller = useRef<HTMLDivElement>(null);
-  const closeBtn = useRef<HTMLButtonElement>(null);
   const touchY = useRef<number | null>(null);
-  const [current, setCurrent] = useState(index);
+  const current = useFeedIndex(scroller, reels.length, index);
   useScrollLock(true);
 
-  /* событие для StickyCTA + фокус: на кнопку закрытия, назад при закрытии */
-  useEffect(() => {
-    const prev = document.activeElement as HTMLElement | null;
-    window.dispatchEvent(new CustomEvent("madelarme:overlay", { detail: { open: true } }));
-    closeBtn.current?.focus();
-    return () => {
-      window.dispatchEvent(new CustomEvent("madelarme:overlay", { detail: { open: false } }));
-      prev?.focus?.();
-    };
-  }, []);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
+  /* фокус: на кнопку закрытия (data-autofocus), Tab по кругу, Esc → onClose, возврат фокуса на триггер */
+  useFocusTrap(root, true, onClose);
+  /* StickyCTA: ровно один emit на открытие и один на закрытие (компонент живёт только пока открыт) */
+  useEffect(() => { emitOverlay(true); return () => emitOverlay(false); }, []);
 
   /* стартовая позиция — до первой отрисовки, без прыжка */
   useLayoutEffect(() => {
@@ -70,16 +102,13 @@ export default function ReelsStory({ reels, index, onClose }: { reels: Reel[]; i
     if (el) el.scrollTop = index * el.clientHeight;
   }, [index]);
 
-  const onScroll = () => {
-    const el = scroller.current;
-    if (el) setCurrent(Math.round(el.scrollTop / el.clientHeight));
-  };
-
   return (
     <motion.div
+      ref={root}
       role="dialog"
       aria-modal="true"
       aria-label="Reels"
+      onKeyDown={(e) => feedKeys(e, scroller)}
       className="fixed inset-0 z-100 bg-ink text-milk"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -91,11 +120,11 @@ export default function ReelsStory({ reels, index, onClose }: { reels: Reel[]; i
         style={{ top: "calc(env(safe-area-inset-top) + 12px)" }}
         aria-live="polite"
       >
-        {current + 1} / {reels.length}
+        {pad2(current + 1)} / {pad2(reels.length)}
       </div>
       <button
-        ref={closeBtn}
         type="button"
+        data-autofocus
         onClick={onClose}
         aria-label="Закрыть"
         className="absolute right-3 z-20 grid h-11 w-11 place-items-center border border-milk/40 bg-ink/40 text-milk transition-colors hover:border-milk hover:text-signal"
@@ -106,8 +135,9 @@ export default function ReelsStory({ reels, index, onClose }: { reels: Reel[]; i
 
       <div
         ref={scroller}
+        tabIndex={0}
+        aria-label="Лента reels"
         data-lenis-prevent
-        onScroll={onScroll}
         onTouchStart={(e) => { touchY.current = e.touches[0].clientY; }}
         onTouchMove={(e) => {
           const el = scroller.current;
@@ -115,7 +145,7 @@ export default function ReelsStory({ reels, index, onClose }: { reels: Reel[]; i
           if (e.touches[0].clientY - touchY.current > 80) { touchY.current = null; onClose(); }
         }}
         onTouchEnd={() => { touchY.current = null; }}
-        className="h-svh snap-y snap-mandatory overflow-y-auto overscroll-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className={cn("h-svh", SCROLLER_CLASS)}
       >
         {reels.map((r) => <ReelItem key={r.slug} reel={r} />)}
       </div>
@@ -123,19 +153,49 @@ export default function ReelsStory({ reels, index, onClose }: { reels: Reel[]; i
   );
 }
 
-/* ── страничный режим для /reels: та же лента без хрома оверлея ────────── */
+/* ── страничный режим для /reels: та же лента как собственный скроллер ────
+ * Страница ставит распорку --header-h под фиксированной шапкой, поэтому лента = svh − шапка. */
 export function ReelsFeed({ reels }: { reels: Reel[] }) {
+  const scroller = useRef<HTMLDivElement>(null);
+  const current = useFeedIndex(scroller, reels.length);
+  const arrow =
+    "grid h-11 w-11 place-items-center border border-milk/40 bg-ink/40 text-milk transition-colors hover:border-milk hover:text-signal disabled:pointer-events-none disabled:opacity-30";
+
   return (
-    <div className="snap-y snap-mandatory">
-      {reels.map((r) => <ReelItem key={r.slug} reel={r} badge />)}
+    <div className="relative h-[calc(100svh-var(--header-h))]">
+      {/* счётчик — сразу под шапкой */}
+      <div className="mono pointer-events-none absolute left-gutter top-1 z-20 leading-11 text-milk" aria-live="polite">
+        {pad2(current + 1)} / {pad2(reels.length)}
+      </div>
+
+      {/* десктоп: ↑↓ справа по центру */}
+      <div className="absolute right-gutter top-1/2 z-20 hidden -translate-y-1/2 flex-col gap-2 lg:flex">
+        <button type="button" aria-label="Предыдущий reel" disabled={current <= 0} onClick={() => stepFeed(scroller, -1)} className={arrow}>
+          <ChevronUp size={18} strokeWidth={1.5} />
+        </button>
+        <button type="button" aria-label="Следующий reel" disabled={current >= reels.length - 1} onClick={() => stepFeed(scroller, 1)} className={arrow}>
+          <ChevronDown size={18} strokeWidth={1.5} />
+        </button>
+      </div>
+
+      <div
+        ref={scroller}
+        tabIndex={0}
+        aria-label="Лента reels"
+        data-lenis-prevent
+        onKeyDown={(e) => feedKeys(e, scroller)}
+        className={cn("h-full", SCROLLER_CLASS)}
+      >
+        {reels.map((r, i) => <ReelItem key={r.slug} reel={r} badge last={i === reels.length - 1} />)}
+      </div>
     </div>
   );
 }
 
-function ReelItem({ reel, badge = false }: { reel: Reel; badge?: boolean }) {
+function ReelItem({ reel, badge = false, last = false }: { reel: Reel; badge?: boolean; last?: boolean }) {
   return (
-    <section className="grid h-svh snap-start place-items-center" aria-label={reel.title}>
-      <div className="relative h-svh w-full lg:aspect-[9/16] lg:h-[90vh] lg:w-auto lg:border lg:border-rule">
+    <section className="grid h-full snap-start place-items-center" aria-label={reel.title}>
+      <div className="relative h-full w-full lg:aspect-[9/16] lg:h-[90%] lg:w-auto lg:border lg:border-rule">
         <CinemaVideo
           loop={reel.loop}
           mode="visible"
@@ -145,10 +205,15 @@ function ReelItem({ reel, badge = false }: { reel: Reel; badge?: boolean }) {
         />
         <div className="scrim-b pointer-events-none absolute inset-x-0 bottom-0 h-1/2" aria-hidden="true" />
         <div
-          className="absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-4 p-4"
-          style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 16px)" }}
+          className={cn(
+            "absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-4 p-4",
+            /* последний экран: запас под мобильный sticky-бар, чтобы подпись не перекрывалась */
+            last
+              ? "pb-[calc(env(safe-area-inset-bottom)+var(--sticky-h)+16px)] lg:pb-[calc(env(safe-area-inset-bottom)+16px)]"
+              : "pb-[calc(env(safe-area-inset-bottom)+16px)]",
+          )}
         >
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             {badge && reel.isPlaceholder && (
               <span className="mono-sm inline-block border border-meta/60 px-1.5 py-0.5 text-meta">ДЕМО-КОНТЕНТ</span>
             )}

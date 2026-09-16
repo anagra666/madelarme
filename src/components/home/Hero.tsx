@@ -29,7 +29,7 @@ export default function Hero() {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-linear-to-b from-ink/70 to-transparent" aria-hidden="true" />
       <HeroWordmark />
 
-      <div className="pointer-events-none absolute inset-0 z-10 flex flex-col justify-between px-gutter pb-[calc(var(--spacing-gutter)+60px)] pt-[calc(var(--header-h)+12px)]">
+      <div className="pointer-events-none absolute inset-0 z-10 flex flex-col justify-between px-gutter pb-[calc(var(--spacing-gutter)+60px)] pt-[calc(var(--header-h)+8px)] lg:pt-[calc(var(--header-h)+12px)]">
         {/* верх: моно-строка слева, OSD справа (десктоп) */}
         <div className="flex items-start justify-between gap-6">
           <p className="mono-sm lg:mono flex flex-wrap items-center gap-x-2 gap-y-1 text-milk/85">
@@ -50,7 +50,7 @@ export default function Hero() {
         {/* низ: H1 + подпись слева, кнопки справа (десктоп) / в столбик (телефон) */}
         <HeroFade className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
           <div className="min-w-0">
-            <h1 className="disp text-[15vw] lg:text-h1">
+            <h1 className="disp text-[15vw] lg:text-[clamp(72px,9.5vw,150px)]">
               {manifest.map((line) => {
                 const [word, dot] = splitDot(line);
                 return (
@@ -61,7 +61,7 @@ export default function Hero() {
                 );
               })}
             </h1>
-            <p className="mt-4 max-w-[44ch] text-[15px] leading-snug text-milk/85 lg:mt-6 lg:text-[17px]">{heroSub}</p>
+            <p className="mt-4 max-w-[40ch] text-[15px] leading-snug text-milk/85 lg:mt-6 lg:text-[17px]">{heroSub}</p>
           </div>
 
           <div className="pointer-events-auto flex shrink-0 flex-col items-stretch gap-3 lg:flex-row lg:items-center lg:gap-3">

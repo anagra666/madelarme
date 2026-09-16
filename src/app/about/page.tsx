@@ -74,9 +74,9 @@ export default function AboutPage() {
           <Container className="py-10 md:py-16">
             <dl className="grid grid-cols-2 gap-px border border-rule bg-rule md:grid-cols-4">
               {counters.map((c) => (
-                <div key={c.label} className="bg-ink p-5 md:p-8">
-                  <dd className="disp text-h2 tabular-nums">{c.value}</dd>
+                <div key={c.label} className="flex min-w-0 flex-col-reverse bg-ink p-5 md:p-8">
                   <dt className="mono mt-2 text-meta">{c.label}</dt>
+                  <dd className="disp text-h2 tabular-nums">{c.value}</dd>
                 </div>
               ))}
             </dl>

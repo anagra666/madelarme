@@ -2,10 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Case } from "@/content/types";
 import { waLink, prefill } from "@/lib/links";
+import { cn } from "@/lib/utils";
 import Button from "@/components/ui/Button";
 
 /**
- * «СЛЕДУЮЩАЯ → {title}» гигантской строкой (hover — постер за строкой, только картинка),
+ * «СЛЕДУЮЩАЯ → {title}» гигантской строкой (≤14 символов — в одну строку, длиннее — перенос с balance;
+ * hover — постер за строкой, только картинка),
  * «← {prev}» мельче, затем мини-CTA «Хочу как у {client}» в WhatsApp.
  */
 export default function NextCase({ c, next, prev }: { c: Case; next?: Case; prev?: Case }) {
@@ -25,7 +27,12 @@ export default function NextCase({ c, next, prev }: { c: Case; next?: Case; prev
           />
           <span className="relative z-10 block">
             <span className="mono block text-meta">[ Следующая ]</span>
-            <span className="disp text-h2 mt-3 block whitespace-nowrap transition-colors duration-300 group-hover:text-signal">
+            <span
+              className={cn(
+                "disp text-h2 mt-3 block transition-colors duration-300 group-hover:text-signal",
+                next.title.length > 14 ? "[text-wrap:balance]" : "whitespace-nowrap",
+              )}
+            >
               → {next.title}
             </span>
           </span>

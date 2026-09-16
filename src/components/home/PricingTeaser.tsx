@@ -26,14 +26,14 @@ export default function PricingTeaser() {
                 href="/pricing#wedding"
                 className="group grid grid-cols-1 gap-3 border-t border-rule py-5 lg:grid-cols-12 lg:items-baseline lg:gap-x-gutter lg:py-6"
               >
-                <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2 lg:col-span-5">
+                <div className="flex min-w-0 flex-wrap items-baseline gap-x-4 gap-y-2 lg:col-span-5">
                   <span className="disp text-row transition-colors duration-300 group-hover:text-signal">{c.name}</span>
                   {c.badge && <span className="mono-sm text-signal">{c.badge}</span>}
                 </div>
                 {showPrices && (
                   <span className="mono text-milk lg:col-span-3 lg:text-right">{formatPrice(c.fromPrice)}</span>
                 )}
-                <span className={showPrices ? "mono text-meta lg:col-span-4 lg:col-start-9" : "mono text-meta lg:col-span-7"}>
+                <span className={showPrices ? "mono min-w-0 text-meta lg:col-span-4 lg:col-start-9" : "mono min-w-0 text-meta lg:col-span-7"}>
                   {c.lines.map((l) => l.v).join(" · ")}
                 </span>
               </Link>

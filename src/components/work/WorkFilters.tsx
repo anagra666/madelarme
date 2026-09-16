@@ -2,9 +2,10 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 /**
- * Фильтры /work — состояние живёт в URL (?format=&mood=&view=&city=), фильтрует сервер.
+ * Фильтры /work — состояние живёт в URL (?format=&mood=&city=), фильтрует сервер.
  * Ссылки, а не кнопки: работают без JS, шарятся, индексируются. scroll={false} — страница не прыгает.
  * Телефон: rail-чипы 40px (tap-цель 44px). Десктоп: две строки моно-ссылок «ВСЕ (24) · СВАДЬБА (12) · …».
+ * Вид «список/сетка» переключает сам WorkIndex (клиент), в URL его нет.
  */
 
 export interface FilterChip {
@@ -13,7 +14,12 @@ export interface FilterChip {
   count?: number;
 }
 
-export type FilterSelection = { format?: string; mood?: string; view: "list" | "grid"; city?: string };
+export type FilterSelection = { format?: string; mood?: string; city?: string };
+
+/** «SDE — ролик в день свадьбы» → «SDE», «Қыз ұзату · Үйлену той · Сырға салу» → «Қыз ұзату» */
+export function shortLabel(name: string): string {
+  return name.split(/\s+[—·]\s+/)[0].trim();
+}
 
 export interface WorkFiltersProps {
   formats: FilterChip[];
@@ -28,7 +34,6 @@ export function filterHref(sel: FilterSelection, patch: Partial<FilterSelection>
   if (next.format) p.set("format", next.format);
   if (next.mood) p.set("mood", next.mood);
   if (next.city) p.set("city", next.city);
-  if (next.view === "grid") p.set("view", "grid");
   const q = p.toString();
   return q ? `/work?${q}` : "/work";
 }
@@ -46,8 +51,8 @@ function Chip({ active, to, children }: { active: boolean; to: string; children:
           "mono flex h-10 items-center whitespace-nowrap border px-3 transition-colors duration-300",
           "lg:h-auto lg:border-x-0 lg:border-t-0 lg:px-0 lg:pb-1",
           active
-            ? "border-milk text-milk lg:border-signal"
-            : "border-rule text-milk opacity-30 group-hover:opacity-100 lg:border-transparent",
+            ? "border-signal text-milk"
+            : "border-rule text-meta group-hover:text-milk lg:border-transparent lg:group-hover:border-rule",
         )}
       >
         {children}
@@ -81,42 +86,22 @@ export default function WorkFilters({ formats, moods, total, selected }: WorkFil
         ))}
       </div>
 
-      {/* настроение · город · вид */}
-      <div className="flex items-center justify-between gap-4">
-        <div className={row("lg:[&>a:not(:last-child)]:after:content-['/']")}>
-          {moods.map((m) => (
-            <Chip
-              key={m.key}
-              active={selected.mood === m.key}
-              to={filterHref(selected, { mood: selected.mood === m.key ? undefined : m.key })}
-            >
-              {m.label}
-            </Chip>
-          ))}
-          {selected.city && (
-            <Chip active to={filterHref(selected, { city: undefined })}>
-              {selected.city} ×
-            </Chip>
-          )}
-        </div>
-
-        <div className="mono hidden shrink-0 text-meta lg:flex lg:items-center lg:gap-2">
-          <span>[</span>
-          {(["list", "grid"] as const).map((v, i) => (
-            <span key={v} className="flex items-center gap-2">
-              {i > 0 && <span>|</span>}
-              <Link
-                href={filterHref(selected, { view: v })}
-                scroll={false}
-                aria-current={selected.view === v ? "true" : undefined}
-                className={cn("py-1 transition-opacity hover:opacity-100", selected.view === v ? "text-milk" : "opacity-40")}
-              >
-                {v === "list" ? "список" : "сетка"}
-              </Link>
-            </span>
-          ))}
-          <span>]</span>
-        </div>
+      {/* настроение · город */}
+      <div className={row("lg:[&>a:not(:last-child)]:after:content-['/']")}>
+        {moods.map((m) => (
+          <Chip
+            key={m.key}
+            active={selected.mood === m.key}
+            to={filterHref(selected, { mood: selected.mood === m.key ? undefined : m.key })}
+          >
+            {m.label}
+          </Chip>
+        ))}
+        {selected.city && (
+          <Chip active to={filterHref(selected, { city: undefined })}>
+            {selected.city} ×
+          </Chip>
+        )}
       </div>
     </nav>
   );

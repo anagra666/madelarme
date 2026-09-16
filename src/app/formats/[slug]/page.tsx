@@ -60,7 +60,7 @@ export default async function FormatPage({ params }: Props) {
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
 
       {f.loop ? (
         <section className="relative h-[60svh] min-h-[420px]">
@@ -151,8 +151,8 @@ export default async function FormatPage({ params }: Props) {
       <Section>
         <Container className="flex flex-col items-start gap-6 py-16 pb-[calc(64px+var(--sticky-h))] md:py-24 md:pb-[calc(96px+var(--sticky-h))]">
           <p className="mono text-meta">[ следующий шаг ]</p>
-          <Button variant="signal" size="xl" href={waLink(prefill("format", f.name))} className="max-w-full whitespace-normal text-left">
-            Хочу обсудить {f.name}
+          <Button variant="signal" size="xl" href={waLink(prefill("format", f.name))} className="max-w-full">
+            Хочу обсудить формат<span className="sr-only"> {f.name}</span>
           </Button>
         </Container>
       </Section>

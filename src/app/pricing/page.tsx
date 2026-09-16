@@ -21,7 +21,7 @@ export default function PricingPage() {
   const faq = getFaq("pricing");
 
   const grid = (list: typeof collections) => (
-    <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+    <div className="grid min-w-0 grid-cols-1 gap-4 lg:grid-cols-3">
       {list.map((c) => (
         <PriceCard key={c.slug} c={c} />
       ))}
@@ -66,8 +66,8 @@ export default function PricingPage() {
           <SectionTitle num="01">Дополнительно</SectionTitle>
           <dl className="mono mt-8 border-t border-rule">
             {extras.map((x) => (
-              <div key={x.name} className="grid min-h-12 grid-cols-[1fr_auto] items-baseline gap-x-6 border-b border-rule py-3">
-                <dt>
+              <div key={x.name} className="grid min-h-12 grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-4 md:gap-x-6 border-b border-rule py-3">
+                <dt className="min-w-0">
                   {x.name}
                   {x.note && <span className="text-meta"> · {x.note}</span>}
                 </dt>

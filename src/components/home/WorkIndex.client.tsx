@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import type { MediaLoop } from "@/content/types";
 import CinemaVideo from "@/components/media/CinemaVideo";
 import { cn } from "@/lib/utils";
@@ -24,13 +24,14 @@ type View = "list" | "grid";
 
 export default function WorkIndexDesktop({
   rows,
-  title,
+  eyebrow,
   counter,
   total,
   showAllLink,
 }: {
   rows: IndexRow[];
-  title: string;
+  /** моно-подпись секции: [ 03 ] · ИЗБРАННЫЕ РАБОТЫ */
+  eyebrow: string;
   counter: string;
   total: number;
   showAllLink: boolean;
@@ -52,7 +53,7 @@ export default function WorkIndexDesktop({
       <div className="relative z-10">
         <header className="mono flex items-center justify-between text-meta">
           <div className="flex gap-6">
-            <span>[ {title} ]</span>
+            <span>{eyebrow}</span>
             <span>[ {counter} ]</span>
           </div>
           <div className="flex items-center gap-2" role="group" aria-label="Вид списка">
@@ -92,19 +93,7 @@ export default function WorkIndexDesktop({
           </ul>
         ) : (
           <ul className="mt-8 grid grid-cols-3 gap-x-4 gap-y-12">
-            {rows.map((r) => (
-              <li key={r.slug}>
-                <Link href={`/work/${r.slug}`} className="group block">
-                  <div className="grayscale transition-[filter] duration-500 group-hover:grayscale-0 group-focus-visible:grayscale-0">
-                    <CinemaVideo loop={r.loop} mode="hover" orientation="h" className="aspect-video" sizes="33vw" />
-                  </div>
-                  <div className="mono mt-3 text-meta">
-                    {r.client} · {r.formatName} · {r.city}
-                  </div>
-                  <div className="disp text-h3 mt-1 whitespace-nowrap transition-colors duration-300 group-hover:text-signal">{r.title}</div>
-                </Link>
-              </li>
-            ))}
+            {rows.map((r) => <GridTile key={r.slug} row={r} />)}
           </ul>
         )}
 
@@ -126,6 +115,31 @@ function metaLine(r: IndexRow): string {
   return [r.client, r.formatName, r.year, r.duration].filter(Boolean).join(" · ");
 }
 
+/** Плитка сетки: видео — сосед ссылки (не потомок), зона клика — ::after ссылки на всю плитку. */
+function GridTile({ row: r }: { row: IndexRow }) {
+  const [on, setOn] = useState(false);
+  return (
+    <li className="group relative" onMouseEnter={() => setOn(true)} onMouseLeave={() => setOn(false)}>
+      <div className="grayscale transition-[filter] duration-500 group-hover:grayscale-0 group-focus-within:grayscale-0">
+        <CinemaVideo loop={r.loop} mode="manual" playing={on} orientation="h" className="aspect-video" sizes="33vw" />
+      </div>
+      <Link
+        href={`/work/${r.slug}`}
+        onFocus={() => setOn(true)}
+        onBlur={() => setOn(false)}
+        className="block after:absolute after:inset-0 after:z-10 after:content-['']"
+      >
+        <span className="mono mt-3 block text-meta">
+          {r.client} · {r.formatName} · {r.city}
+        </span>
+        <span className="disp text-h3 mt-1 block whitespace-nowrap transition-colors duration-300 group-hover:text-signal group-focus-within:text-signal">
+          {r.title}
+        </span>
+      </Link>
+    </li>
+  );
+}
+
 function ViewButton({ active, onClick, children }: { active: boolean; onClick: () => void; children: string }) {
   return (
     <button
@@ -141,9 +155,11 @@ function ViewButton({ active, onClick, children }: { active: boolean; onClick: (
 
 /**
  * Слой лупов за списком: один <CinemaVideo mode="manual"> на посещённый кейс, все absolute inset-0.
- * Смена — «склейка»: opacity 200ms + кадр белой засветки 40ms. Сверху скрим 40% для текста.
+ * Смена — «склейка»: opacity 200ms + кадр засветки 40ms (не ярче 0.6, при reduced-motion — без него).
+ * Сверху скрим 40% для текста. Ссылки списка содержат только текст — слой с видео лежит вне их.
  */
 function VideoLayer({ rows, hovered }: { rows: IndexRow[]; hovered: string | null }) {
+  const reduce = useReducedMotion();
   return (
     <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
       {rows.map((r) => {
@@ -155,11 +171,11 @@ function VideoLayer({ rows, hovered }: { rows: IndexRow[]; hovered: string | nul
         );
       })}
       <div className="absolute inset-0 bg-ink/40" />
-      {hovered && (
+      {hovered && !reduce && (
         <motion.div
           key={hovered}
           className="absolute inset-0 bg-milk"
-          initial={{ opacity: 1 }}
+          initial={{ opacity: 0.6 }}
           animate={{ opacity: 0 }}
           transition={{ duration: 0.04, ease: "linear" }}
         />

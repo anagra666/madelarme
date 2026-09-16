@@ -8,16 +8,21 @@ export const metadata: Metadata = {
   alternates: { canonical: "/reels" },
 };
 
+/**
+ * Лента reels — собственный скроллер (ReelsFeed), поэтому без лишних обёрток:
+ * только распорка под фиксированную шапку (--header-h) и sr-only H1.
+ */
 export default function ReelsPage() {
   const reels = getReels();
   return (
-    <div className="bg-ink">
+    <>
       <h1 className="sr-only">Reels</h1>
+      <div aria-hidden="true" className="h-(--header-h)" />
       {reels.length ? (
         <ReelsFeed reels={reels} />
       ) : (
         <p className="mono px-gutter py-24 text-center text-meta">reels появятся здесь</p>
       )}
-    </div>
+    </>
   );
 }

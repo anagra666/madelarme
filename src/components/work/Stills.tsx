@@ -8,15 +8,17 @@ import type { Still } from "@/content/types";
 import { useScrollLock } from "@/lib/hooks";
 import { Eyebrow } from "@/components/ui/Section";
 import { pad2 } from "@/lib/utils";
+import { useFocusTrap } from "@/components/layout/ContactPanel";
+import { emitOverlay } from "@/components/layout/StickyCTA";
 
 /**
  * Кадры кейса: сетка 2/3 колонки, у каждого бокса aspect-ratio из w/h (CLS 0).
- * Тап — простой лайтбокс: Esc / клик по фону закрывает, ← → листают, фокус возвращается.
+ * Тап — простой лайтбокс: Esc / клик по фону закрывает, ← → листают, Tab по кругу, фокус возвращается (useFocusTrap).
  */
 export default function Stills({ stills, title }: { stills: Still[]; title: string }) {
   const [idx, setIdx] = useState<number | null>(null);
   const restoreRef = useRef<HTMLElement | null>(null);
-  const closeBtn = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const open = idx !== null;
   useScrollLock(open);
 
@@ -26,24 +28,25 @@ export default function Stills({ stills, title }: { stills: Still[]; title: stri
     [stills.length],
   );
 
+  /* Esc, Tab по кругу, фокус на крестик (data-autofocus) и возврат на нажатый кадр */
+  useFocusTrap(dialogRef, open, close, () => restoreRef.current);
+
+  /* ← → листают */
   useEffect(() => {
-    if (!open) {
-      restoreRef.current?.focus?.();
-      restoreRef.current = null;
-      return;
-    }
-    closeBtn.current?.focus();
+    if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
       if (e.key === "ArrowRight") step(1);
       if (e.key === "ArrowLeft") step(-1);
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [open, close, step]);
+  }, [open, step]);
 
+  /* шина оверлеев: только пока открыт, один emit на открытие и один на закрытие */
   useEffect(() => {
-    window.dispatchEvent(new CustomEvent("madelarme:overlay", { detail: { open, kind: "lightbox" } }));
+    if (!open) return;
+    emitOverlay(true);
+    return () => emitOverlay(false);
   }, [open]);
 
   const cur = idx !== null ? stills[idx] : null;
@@ -86,6 +89,7 @@ export default function Stills({ stills, title }: { stills: Still[]; title: stri
       {/* портал: над шапкой и вне stacking-context секции */}
       {open && cur && createPortal(
         <div
+          ref={dialogRef}
           role="dialog"
           aria-modal="true"
           aria-label={`Кадр ${idx! + 1} из ${stills.length}`}
@@ -93,13 +97,13 @@ export default function Stills({ stills, title }: { stills: Still[]; title: stri
           onClick={close}
           data-lenis-prevent
         >
-          <div className="flex h-14 shrink-0 items-center justify-between pl-gutter pr-2" onClick={(e) => e.stopPropagation()}>
+          <div className="flex min-h-14 shrink-0 items-center justify-between pl-gutter pr-2" onClick={(e) => e.stopPropagation()}>
             <span className="mono text-milk">
               [ {pad2(idx! + 1)} / {pad2(stills.length)} ]{cur.caption && <span className="text-meta"> · {cur.caption}</span>}
             </span>
             <button
-              ref={closeBtn}
               type="button"
+              data-autofocus
               onClick={close}
               aria-label="Закрыть"
               className="grid h-11 w-11 place-items-center text-milk hover:text-signal"
@@ -121,7 +125,7 @@ export default function Stills({ stills, title }: { stills: Still[]; title: stri
           </div>
 
           {stills.length > 1 && (
-            <div className="flex h-14 shrink-0 items-center justify-between px-2 pb-[env(safe-area-inset-bottom)]" onClick={(e) => e.stopPropagation()}>
+            <div className="flex min-h-14 shrink-0 items-center justify-between px-2 pb-[env(safe-area-inset-bottom)]" onClick={(e) => e.stopPropagation()}>
               <button
                 type="button"
                 onClick={() => step(-1)}

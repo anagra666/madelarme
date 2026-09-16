@@ -31,7 +31,7 @@ export default function PricingTabs({ tabs }: { tabs: PricingTab[] }) {
 
   return (
     <div>
-      <div role="tablist" aria-label="Разделы прайса" className="flex border-y border-rule">
+      <div role="tablist" aria-label="Разделы прайса" className="grid grid-cols-2 border-y border-rule">
         {tabs.map((t) => {
           const on = t.key === active;
           return (
@@ -53,7 +53,7 @@ export default function PricingTabs({ tabs }: { tabs: PricingTab[] }) {
                 document.getElementById(`${id}-tab-${next.key}`)?.focus();
               }}
               className={cn(
-                "disp text-h3 relative flex h-16 flex-1 items-center justify-center px-2 transition-colors duration-300 ease-out-expo md:h-24",
+                "disp text-h3 relative flex min-h-16 min-w-0 items-center justify-center px-2 py-3 text-center text-balance leading-[0.9] transition-colors duration-300 ease-out-expo md:min-h-24",
                 on ? "text-milk" : "text-meta hover:text-milk",
               )}
             >

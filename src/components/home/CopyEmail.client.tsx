@@ -26,7 +26,7 @@ export default function CopyEmail({ email }: { email: string }) {
 
   return (
     <span className="inline-flex items-center gap-1">
-      <a href={`mailto:${email}`} className="mono inline-flex min-h-11 items-center text-milk hover:text-signal">
+      <a href={`mailto:${email}`} className="mono inline-flex min-h-11 items-center normal-case tracking-normal text-milk hover:text-signal">
         {email}
       </a>
       <button

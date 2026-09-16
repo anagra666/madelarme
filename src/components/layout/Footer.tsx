@@ -33,10 +33,11 @@ function Col({ title, children }: { title: string; children: ReactNode }) {
 export default function Footer() {
   const formats = getFormats().filter((f) => !f.isAddon);
   const c = settings.contacts;
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="grain relative border-t border-rule bg-ink text-milk pb-[calc(var(--sticky-h)+env(safe-area-inset-bottom))] lg:pb-0">
-      <div className="relative z-2 px-gutter pt-12 lg:pt-16">
+    <footer className="grain relative overflow-hidden border-t border-rule bg-ink text-milk pb-[calc(var(--sticky-h)+env(safe-area-inset-bottom))] lg:pb-0">
+      <div className="relative z-2 max-w-full px-gutter pt-12 lg:pt-16">
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4 lg:gap-x-8">
           <Col title="навигация">
             <ul className="flex flex-col">
@@ -73,11 +74,11 @@ export default function Footer() {
           </Col>
         </div>
 
-        {/* контурный вордмарк — во всю ширину, на телефоне подрезан справа */}
+        {/* контурный вордмарк — во всю ширину, на телефоне подрезан справа (обёртка режет, страница не расширяется) */}
         <Link
           href="/"
           aria-label={`${settings.brand.wordmark} — на главную`}
-          className="group mt-14 block overflow-hidden lg:mt-20"
+          className="group mt-14 block max-w-full overflow-hidden lg:mt-20"
         >
           <span
             aria-hidden="true"
@@ -89,7 +90,7 @@ export default function Footer() {
 
         <div className="mono flex flex-col gap-3 border-t border-rule py-5 text-meta lg:flex-row lg:items-center lg:justify-between">
           <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
-            <span>© 2026 {settings.brand.person}</span>
+            <span>© {year} {settings.brand.person}</span>
             {settings.legal.entity && <span>· {settings.legal.entity}</span>}
             <span>·</span>
             <Link href="/privacy" className="inline-flex min-h-11 items-center text-milk transition-colors hover:text-signal lg:min-h-0">политика конфиденциальности</Link>
