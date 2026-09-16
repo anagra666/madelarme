@@ -1,5 +1,5 @@
 import type {
-  Case, Format, PriceCollection, Extra, FaqItem, Reel, Client, Settings, Testimonial, FormatGroup,
+  Case, Format, PriceCollection, Extra, FaqItem, Reel, Client, Testimonial, FormatGroup,
 } from "@/content/types";
 import casesJson from "@/content/cases.json";
 import formatsJson from "@/content/formats.json";
@@ -8,9 +8,9 @@ import faqJson from "@/content/faq.json";
 import reelsJson from "@/content/reels.json";
 import clientsJson from "@/content/clients.json";
 import testimonialsJson from "@/content/testimonials.json";
-import settingsJson from "@/content/settings.json";
+import { settings } from "@/lib/settings";
 
-export const settings = settingsJson as Settings;
+export { settings };
 
 const allCases = (casesJson as Case[]).slice().sort((a, b) => a.sortOrder - b.sortOrder);
 const allFormats = (formatsJson as Format[]).slice().sort((a, b) => a.sortOrder - b.sortOrder);

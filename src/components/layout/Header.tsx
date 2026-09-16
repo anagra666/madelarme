@@ -54,7 +54,7 @@ export default function Header() {
         className={cn(
           "fixed inset-x-0 top-0 z-40 flex h-(--header-h) items-center justify-between px-gutter",
           "transition-[background-color,backdrop-filter] duration-500",
-          solid ? "bg-ink/80 backdrop-blur-md" : "bg-transparent",
+          solid ? "bg-ink/80 backdrop-blur-md" : "bg-linear-to-b from-ink/60 to-transparent",
         )}
       >
         <Link href="/" className="disp -ml-1 flex h-11 items-center px-1 text-[28px] leading-none text-milk hover:text-signal" aria-label={`${settings.brand.wordmark} — на главную`}>

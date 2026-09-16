@@ -1,4 +1,4 @@
-import { settings } from "@/lib/content";
+import { settings } from "@/lib/settings";
 
 /** Deep-link в WhatsApp с предзаполненным текстом. Номер — только цифры с кодом страны. */
 export function waLink(text?: string): string {

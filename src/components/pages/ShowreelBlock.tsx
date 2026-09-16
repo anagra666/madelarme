@@ -1,13 +1,13 @@
 "use client";
 
 import CinemaVideo from "@/components/media/CinemaVideo";
-import Player, { usePlayer } from "@/components/media/Player";
+import { usePlayer } from "@/components/media/Player";
 import Button from "@/components/ui/Button";
 import type { FullVideo, MediaLoop } from "@/content/types";
 
 /**
  * Большой луп шоурила 16:9 + кнопка «смотреть со звуком», открывающая Player-оверлей.
- * Хост <Player /> монтируется здесь; если интегратор смонтирует его в layout — убрать отсюда.
+ * Хост <Player /> смонтирован в layout.tsx.
  */
 export default function ShowreelBlock({ video, loop, title }: { video: FullVideo; loop: MediaLoop; title: string }) {
   const { open } = usePlayer();
@@ -19,10 +19,9 @@ export default function ShowreelBlock({ video, loop, title }: { video: FullVideo
           {video.duration} · {video.hasSound ? "звук: есть" : "звук: выкл"}
         </p>
         <Button variant="signal" size="lg" onClick={() => open(video, title)}>
-          ▶ смотреть со звуком
+          {video.hasSound ? "▶ смотреть со звуком" : "▶ смотреть целиком"}
         </Button>
       </div>
-      <Player />
     </div>
   );
 }

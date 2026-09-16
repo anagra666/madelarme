@@ -8,10 +8,11 @@ type Size = "md" | "lg" | "xl";
 const base =
   "mono inline-flex items-center justify-center gap-2 border transition-colors duration-300 ease-out-expo select-none whitespace-nowrap";
 const variants: Record<Variant, string> = {
-  signal: "border-signal bg-signal text-ink hover:bg-milk hover:border-milk font-medium",
-  outline: "border-milk/50 text-milk hover:border-milk hover:bg-milk hover:text-ink",
+  /* цвета берутся из токенов milk / on-milk, которые секция .paper переключает сама */
+  signal: "border-signal bg-signal text-ink hover:bg-milk hover:border-milk hover:text-on-milk font-medium",
+  outline: "border-milk/50 text-milk hover:border-milk hover:bg-milk hover:text-on-milk",
   ghost: "border-transparent text-milk hover:text-signal",
-  paper: "border-ink bg-ink text-milk hover:bg-signal hover:border-signal hover:text-ink",
+  paper: "border-milk bg-milk text-on-milk hover:bg-signal hover:border-signal hover:text-ink",
 };
 const sizes: Record<Size, string> = {
   md: "h-11 px-5",

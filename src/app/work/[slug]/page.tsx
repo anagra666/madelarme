@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getAdjacentCases, getCase, getCases, getFormat, settings } from "@/lib/content";
-import Player from "@/components/media/Player";
 import CaseTeaser from "@/components/work/CaseTeaser";
 import TitleCard from "@/components/work/TitleCard";
 import CaseBody from "@/components/work/CaseBody";
@@ -67,8 +66,6 @@ export default async function CasePage({ params }: { params: Params }) {
         <Credits c={c} />
         <NextCase c={c} next={next?.slug !== c.slug ? next : undefined} prev={prev?.slug !== c.slug ? prev : undefined} />
       </div>
-      {/* INTEGRATOR: хост плеера — один на приложение. Если переносите в layout.tsx, уберите отсюда. */}
-      <Player />
     </article>
   );
 }

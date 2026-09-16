@@ -13,6 +13,7 @@
   --color-meta-paper: #766e65; /* служебный текст на бумаге */
   --color-rule: #2b2724;       /* линейки на тёмном */
   --color-rule-paper: #d9d0c3; /* линейки на бумаге */
+  --color-on-milk: #0e0d0c;    /* текст поверх milk-заливки (кнопки); на бумаге — светлый */
 
   /* type */
   --font-disp: var(--font-disp), "Oswald", "Arial Narrow", Impact, sans-serif;
@@ -105,12 +106,13 @@ video, img {
   --color-meta: var(--color-meta-paper);
   --color-rule: var(--color-rule-paper);
   --color-ink-2: var(--color-paper-2);
+  --color-on-milk: #f3eee6;
   color-scheme: light;
 }
 
 /* film grain over dark sections — only on pointer devices, cheap on compositor */
 @utility grain {
-  position: relative;
+  isolation: isolate;
 }
 .grain::after {
   content: "";

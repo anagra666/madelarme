@@ -1,11 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import { Sofia_Sans_Extra_Condensed, Inter_Tight, Roboto_Mono } from "next/font/google";
 import "./globals.css";
-import { settings } from "@/lib/content";
 import SmoothScroll from "@/components/layout/SmoothScroll";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import StickyCTA from "@/components/layout/StickyCTA";
+import Player from "@/components/media/Player";
+import { ReelsStoryHost } from "@/components/media/ReelsStory";
+import { getReels } from "@/lib/content";
 
 /* Дисплей: сверхузкий капс с кириллицей (RU/EN). Для казахских страниц — Oswald (см. план, §4). */
 const disp = Sofia_Sans_Extra_Condensed({
@@ -55,9 +57,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <main className="flex-1">{children}</main>
         <Footer />
         <StickyCTA />
-        {settings.toggles.showPlaceholders && (
-          <div className="sr-only" aria-hidden="true">Демо-контент</div>
-        )}
+        {/* оверлеи — по одному хосту на приложение */}
+        <Player />
+        <ReelsStoryHost reels={getReels()} />
       </body>
     </html>
   );

@@ -29,6 +29,7 @@ export default function Marquee({
         <div
           key={i}
           aria-hidden={i === 1 || undefined}
+          inert={i === 1 || undefined}
           className={cn(
             "flex shrink-0 items-center gap-(--gap) pr-(--gap) will-change-transform",
             "animate-[marquee_var(--dur)_linear_infinite] group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused] motion-reduce:animate-none",

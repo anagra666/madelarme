@@ -1,7 +1,6 @@
 import Link from "next/link";
 import CinemaVideo from "@/components/media/CinemaVideo";
 import Button from "@/components/ui/Button";
-import { Line, Reveal } from "@/components/ui/Reveal";
 import { settings } from "@/lib/content";
 import { prefill, waLink } from "@/lib/links";
 import HeroOSD, { HeroClock } from "./HeroOSD";
@@ -27,6 +26,7 @@ export default function Hero() {
         <CinemaVideo loop={showreel.loop} priority pauseButton mode="visible" className="absolute inset-0" alt="" />
       )}
       <div className="scrim-b pointer-events-none absolute inset-x-0 bottom-0 h-[60%]" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-linear-to-b from-ink/70 to-transparent" aria-hidden="true" />
       <HeroWordmark />
 
       <div className="pointer-events-none absolute inset-0 z-10 flex flex-col justify-between px-gutter pb-[calc(var(--spacing-gutter)+60px)] pt-[calc(var(--header-h)+12px)]">
@@ -50,17 +50,17 @@ export default function Hero() {
         {/* низ: H1 + подпись слева, кнопки справа (десктоп) / в столбик (телефон) */}
         <HeroFade className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
           <div className="min-w-0">
-            <Reveal as="h1" className="disp text-[17vw] lg:text-h1">
+            <h1 className="disp text-[15vw] lg:text-h1">
               {manifest.map((line) => {
                 const [word, dot] = splitDot(line);
                 return (
-                  <Line key={line}>
+                  <span key={line} className="block">
                     {word}
                     {dot && <span className="text-signal">.</span>}
-                  </Line>
+                  </span>
                 );
               })}
-            </Reveal>
+            </h1>
             <p className="mt-4 max-w-[44ch] text-[15px] leading-snug text-milk/85 lg:mt-6 lg:text-[17px]">{heroSub}</p>
           </div>
 
