@@ -1,0 +1,141 @@
+[
+  {
+    "slug": "tau-toi",
+    "title": "Тау-той",
+    "logline": "Два дня, два города и одна гроза над Алматы, которую мы превратили в лучший кадр фильма.",
+    "client": "Айгерим & Данияр",
+    "format": "wedding-film",
+    "extraFormats": ["sde", "teaser", "drone"],
+    "mood": ["bold", "documentary"],
+    "city": "Алматы",
+    "venues": ["сборы на Достык", "ЗАГС Медеуского района", "Медеу", "ресторан у Талгарской трассы"],
+    "date": "июль 2026",
+    "year": 2026,
+    "loop": {
+      "mp4H": "/media/loops/tau-toi-h.mp4",
+      "mp4V": "/media/loops/tau-toi-v.mp4",
+      "posterH": "/media/posters/tau-toi-h.webp",
+      "posterV": "/media/posters/tau-toi-v.webp",
+      "poster45": "/media/posters/tau-toi-45.webp",
+      "seconds": 8
+    },
+    "fullVideo": { "provider": "self", "id": "/media/loops/tau-toi-h.mp4", "duration": "08:12", "hasSound": false },
+    "shooting": { "days": 2, "hours": 12, "operators": "1 оператор + второй на церемонии", "drone": true, "gear": ["Sony ZV-E1", "стедикам", "дрон"] },
+    "post": { "delivery": "SDE в день свадьбы · тизер 9 дней · фильм 6 недель", "notes": "монтаж, цвет, звук — Мария" },
+    "task": "Свадебный фильм и SDE-тизер к вечеру, чтобы показать гостям на банкете. 300 гостей, два дня: қыз ұзату и той.",
+    "approach": "Свадьба как роуд-муви: от утра невесты на Достык до банкета в предгорьях, дрон-переходы через город к горам. Гроза в 17:40 пошла в фильм, а не в отменённые кадры — под неё легли клятвы.",
+    "result": {
+      "text": "Тизер показан на банкете в 22:40.",
+      "metrics": [
+        { "value": "180 000", "label": "просмотров Reels за месяц" },
+        { "value": "4", "label": "обращения от гостей" }
+      ]
+    },
+    "deliverables": [
+      { "name": "Тизер", "duration": "0:60", "aspect": "16:9 + 9:16" },
+      { "name": "SDE", "duration": "1:30", "note": "показан на банкете в 22:40" },
+      { "name": "Фильм", "duration": "8:12", "aspect": "16:9" },
+      { "name": "Reels", "duration": "5 × 0:15–0:30", "aspect": "9:16" },
+      { "name": "Полная церемония", "duration": "42:00" }
+    ],
+    "credits": [
+      { "role": "Режиссёр, оператор, монтаж, цвет", "name": "Мария Волкова" },
+      { "role": "Второй оператор", "name": "— (плейсхолдер)" },
+      { "role": "Музыка", "name": "лицензия Artlist" }
+    ],
+    "reels": [
+      { "mp4H": "/media/loops/tau-toi-r1-v.mp4", "mp4V": "/media/loops/tau-toi-r1-v.mp4", "posterH": "/media/posters/tau-toi-r1-v.webp", "posterV": "/media/posters/tau-toi-r1-v.webp", "seconds": 8 }
+    ],
+    "stills": [
+      { "src": "/media/stills/tau-toi-1.webp", "alt": "Пара на Медеу", "w": 1600, "h": 900 },
+      { "src": "/media/stills/tau-toi-2.webp", "alt": "Кольца", "w": 1600, "h": 900 }
+    ],
+    "testimonial": {
+      "quote": "Мы не хотели свадебное видео. Маша сняла кино — и первые три минуты мы плакали, потому что это были мы, а не «жених и невеста».",
+      "author": "Айгерим & Данияр",
+      "role": "свадьба · 2026",
+      "confirmed": false
+    },
+    "isPlaceholder": true,
+    "isPublished": true,
+    "featured": true,
+    "sortOrder": 1
+  },
+  {
+    "slug": "gorod-ne-spit",
+    "title": "Город не спит",
+    "logline": "Ночной Алматы как декорация: одна ночь, семь локаций, ноль разрешений на перекрытие улиц.",
+    "client": "Neon Dreams",
+    "format": "music-video",
+    "mood": ["bold"],
+    "city": "Алматы",
+    "venues": ["Арбат", "переход у гостиницы «Казахстан»", "крыша на Тимирязева", "Кок-Тобе"],
+    "date": "май 2025",
+    "year": 2025,
+    "loop": {
+      "mp4H": "/media/loops/gorod-ne-spit-h.mp4",
+      "mp4V": "/media/loops/gorod-ne-spit-v.mp4",
+      "posterH": "/media/posters/gorod-ne-spit-h.webp",
+      "posterV": "/media/posters/gorod-ne-spit-v.webp",
+      "seconds": 8
+    },
+    "fullVideo": { "provider": "self", "id": "/media/loops/gorod-ne-spit-h.mp4", "duration": "03:20", "hasSound": false },
+    "shooting": { "days": 2, "hours": 14, "operators": "2 оператора", "drone": false, "gear": ["Sony ZV-E1", "гимбал", "LED-трубки"] },
+    "post": { "delivery": "клип 3 недели · вертикальный кат вместе с клипом" },
+    "task": "Клип на сингл к релизу на стримингах и вертикальная версия для Reels и TikTok.",
+    "approach": "Неоновая палитра маджента / циан, анаморфные блики, длинные выдержки из окна машины по Аль-Фараби, хореография в подземном переходе. Две ночи, без перекрытий — снимали между машинами.",
+    "result": { "metrics": [{ "value": "400 000", "label": "просмотров за 2 недели" }, { "value": "1", "label": "ротация на музыкальном ТВ" }] },
+    "deliverables": [
+      { "name": "Клип", "duration": "3:20", "aspect": "16:9" },
+      { "name": "Вертикальный кат", "duration": "1:00", "aspect": "9:16" },
+      { "name": "Тизер", "duration": "0:15", "aspect": "9:16" }
+    ],
+    "credits": [
+      { "role": "Режиссёр, оператор, монтаж, цвет", "name": "Мария Волкова" },
+      { "role": "Второй оператор", "name": "— (плейсхолдер)" },
+      { "role": "Артист", "name": "Neon Dreams (вымышленная группа)" }
+    ],
+    "isPlaceholder": true,
+    "isPublished": true,
+    "featured": true,
+    "sortOrder": 2
+  },
+  {
+    "slug": "oyu-fest",
+    "title": "OYU Fest ’26",
+    "logline": "Два дня, четырнадцать артистов, двадцать тысяч зрителей — и девяносто секунд, после которых начали продаваться билеты на следующий год.",
+    "client": "OYU Fest",
+    "format": "aftermovie",
+    "mood": ["bold", "documentary"],
+    "city": "Алматы",
+    "venues": ["Первомайские пруды"],
+    "date": "июль 2026",
+    "year": 2026,
+    "loop": {
+      "mp4H": "/media/loops/oyu-fest-h.mp4",
+      "mp4V": "/media/loops/oyu-fest-v.mp4",
+      "posterH": "/media/posters/oyu-fest-h.webp",
+      "posterV": "/media/posters/oyu-fest-v.webp",
+      "seconds": 8
+    },
+    "fullVideo": { "provider": "youtube", "id": "vyl19vK1u4M", "duration": "01:05", "hasSound": true },
+    "shooting": { "days": 2, "operators": "1 оператор + гимбал", "drone": false, "gear": ["Sony ZV-E1", "гимбал"] },
+    "post": { "delivery": "aftermovie за 48 часов · вертикальные нарезки по дням" },
+    "task": "Официальный aftermovie для запуска продаж early-bird и вертикальные нарезки по каждому дню фестиваля.",
+    "approach": "Ритмический монтаж от рассвета до последнего бита; звук собран из живых шумов площадки, без стоковой музыки.",
+    "result": { "text": "Реальная работа Марии — полный ролик на YouTube. Цифры результата — плейсхолдер до подтверждения.", "metrics": [{ "value": "1,2 млн", "label": "просмотров суммарно" }] },
+    "deliverables": [
+      { "name": "Aftermovie", "duration": "1:05", "aspect": "16:9" },
+      { "name": "Дневные recap", "duration": "2 × 0:30", "aspect": "9:16" },
+      { "name": "Артист-клипы", "duration": "10 × 0:15", "aspect": "9:16" }
+    ],
+    "credits": [
+      { "role": "Оператор, монтаж, цвет", "name": "Мария Волкова" },
+      { "role": "Организатор", "name": "OYU Fest" }
+    ],
+    "isPlaceholder": true,
+    "isPublished": true,
+    "featured": true,
+    "sortOrder": 3
+  }
+]

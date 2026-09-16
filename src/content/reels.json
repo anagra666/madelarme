@@ -1,0 +1,29 @@
+[
+  {
+    "slug": "tau-toi-r1",
+    "title": "Тау-той · первый танец",
+    "caption": "Айгерим & Данияр · Медеу",
+    "caseSlug": "tau-toi",
+    "loop": { "mp4H": "/media/loops/tau-toi-r1-v.mp4", "mp4V": "/media/loops/tau-toi-r1-v.mp4", "posterH": "/media/posters/tau-toi-r1-v.webp", "posterV": "/media/posters/tau-toi-r1-v.webp", "seconds": 8 },
+    "isPlaceholder": true,
+    "sortOrder": 1
+  },
+  {
+    "slug": "gorod-r1",
+    "title": "Город не спит · переход",
+    "caption": "Neon Dreams · Алматы ночью",
+    "caseSlug": "gorod-ne-spit",
+    "loop": { "mp4H": "/media/loops/gorod-r1-v.mp4", "mp4V": "/media/loops/gorod-r1-v.mp4", "posterH": "/media/posters/gorod-r1-v.webp", "posterV": "/media/posters/gorod-r1-v.webp", "seconds": 8 },
+    "isPlaceholder": true,
+    "sortOrder": 2
+  },
+  {
+    "slug": "oyu-r1",
+    "title": "OYU Fest · день 2",
+    "caption": "Первомайские пруды",
+    "caseSlug": "oyu-fest",
+    "loop": { "mp4H": "/media/loops/oyu-r1-v.mp4", "mp4V": "/media/loops/oyu-r1-v.mp4", "posterH": "/media/posters/oyu-r1-v.webp", "posterV": "/media/posters/oyu-r1-v.webp", "seconds": 8 },
+    "isPlaceholder": true,
+    "sortOrder": 3
+  }
+]

@@ -1,0 +1,5 @@
+[
+  { "name": "Red Bull Kazakhstan", "confirmed": false },
+  { "name": "OYU Fest", "confirmed": false, "caseSlug": "oyu-fest" },
+  { "name": "N&N", "confirmed": false }
+]

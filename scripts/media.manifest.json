@@ -1,0 +1,11 @@
+{
+  "items": [
+    {
+      "name": "showreel",
+      "kind": "loop",
+      "src": "https://videos.pexels.com/video-files/34219692/14503455_1280_720_60fps.mp4",
+      "srcV": "https://videos.pexels.com/video-files/28927581/12519411_720_1280_60fps.mp4",
+      "start": 3, "duration": 10, "startV": 2
+    }
+  ]
+}

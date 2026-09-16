@@ -1,26 +1,182 @@
 @import "tailwindcss";
 
+/* ── Design tokens (концепт «Титры») ─────────────────────────────────────── */
+@theme {
+  /* palette — 6 tokens, no gradients, radius 0 */
+  --color-ink: #0e0d0c;        /* фон видео-секций, тёплый почти-чёрный */
+  --color-ink-2: #171514;      /* поверхности на тёмном */
+  --color-paper: #f3eee6;      /* секции-перевёртыши */
+  --color-paper-2: #e9e2d7;    /* поверхности на бумаге */
+  --color-milk: #ece7df;       /* текст на тёмном */
+  --color-signal: #ff4d2e;     /* единственный акцент: интерактив, REC, подпись */
+  --color-meta: #8f877d;       /* таймкоды, служебный текст на тёмном */
+  --color-meta-paper: #766e65; /* служебный текст на бумаге */
+  --color-rule: #2b2724;       /* линейки на тёмном */
+  --color-rule-paper: #d9d0c3; /* линейки на бумаге */
+
+  /* type */
+  --font-disp: var(--font-disp), "Oswald", "Arial Narrow", Impact, sans-serif;
+  --font-body: var(--font-body), "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, Menlo, monospace;
+
+  /* motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-quart: cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* layout */
+  --spacing-gutter: clamp(16px, 3.2vw, 64px);
+  --breakpoint-xs: 30rem;
+}
+
+/* ── Base ────────────────────────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
+  --header-h: 56px;
+  --sticky-h: 56px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--color-ink);
+  color: var(--color-milk);
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.5;
+  font-feature-settings: "ss01", "cv11";
+  overflow-x: clip;
 }
+
+::selection {
+  background: var(--color-signal);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 3px;
+}
+
+/* All media reserve space — CLS 0 */
+video, img {
+  display: block;
+  max-width: 100%;
+}
+
+/* ── Type utilities ──────────────────────────────────────────────────────── */
+@utility disp {
+  font-family: var(--font-disp);
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 0.86;
+  letter-spacing: -0.005em;
+}
+
+@utility mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+@utility mono-sm {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+/* display scale */
+@utility text-h1 { font-size: clamp(64px, 13vw, 200px); }
+@utility text-h2 { font-size: clamp(44px, 8vw, 128px); }
+@utility text-h3 { font-size: clamp(32px, 4.2vw, 64px); }
+@utility text-row { font-size: clamp(32px, 5.2vw, 84px); }
+
+/* ── Surfaces ────────────────────────────────────────────────────────────── */
+/* секция на бумаге — все цвета переключаются одним классом */
+@utility paper {
+  background: var(--color-paper);
+  color: #141210;
+  --color-milk: #141210;
+  --color-meta: var(--color-meta-paper);
+  --color-rule: var(--color-rule-paper);
+  --color-ink-2: var(--color-paper-2);
+  color-scheme: light;
+}
+
+/* film grain over dark sections — only on pointer devices, cheap on compositor */
+@utility grain {
+  position: relative;
+}
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+  background-size: 200px 200px;
+}
+@media (pointer: coarse) {
+  .grain::after { display: none; }
+}
+
+/* scrim under text on video */
+@utility scrim-b {
+  background: linear-gradient(180deg, rgba(14, 13, 12, 0) 0%, rgba(14, 13, 12, 0.72) 100%);
+}
+
+/* crop marks in corners of paper sections */
+@utility cropmarks {
+  position: relative;
+}
+.cropmarks::before,
+.cropmarks::after {
+  content: "+";
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--color-meta);
+  line-height: 1;
+}
+.cropmarks::before { top: 12px; left: 12px; }
+.cropmarks::after { bottom: 12px; right: 12px; }
+
+/* horizontal snap rails (mobile lists) */
+@utility rail {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 24px;
+  padding-inline: 24px;
+  gap: 12px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.rail::-webkit-scrollbar { display: none; }
+.rail > * { scroll-snap-align: start; flex: 0 0 auto; }
+
+/* container query helper for phone-width components */
+@utility cq { container-type: inline-size; }
+
+/* ── Motion safety ───────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Lenis */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
