@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MADELARME — сайт видеографа Марии Волковой
 
-## Getting Started
+Next.js 16 (App Router) · Tailwind v4 · Motion · Lenis. Концепт «Титры» — см. `docs/plan-v1.html` / `docs/MADELARME-plan-v1.pdf`.
 
-First, run the development server:
+## Запуск
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+pnpm media      # скачать и перекодировать демо-лупы/постеры (ffmpeg-static), ~5 мин, ~60 МБ в public/media
+pnpm dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`pnpm build && pnpm start` — продакшн. `pnpm typecheck`, `pnpm lint`, `node scripts/check-media.mjs` — проверки.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Где что
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `src/content/*.json` — весь контент (кейсы, форматы, цены, FAQ, reels, настройки). Схема — `src/content/types.ts`, это контракт будущей админки (Payload CMS).
+- `src/lib/content.ts` — выборки; `src/lib/links.ts` — WhatsApp/Telegram deep-links с предзаполнением; `src/lib/settings.ts`.
+- `src/components/media/CinemaVideo.tsx` — единственный видео-примитив (постер SSR, один луп на телефоне, fallback при блокировке автоплея).
+- `src/components/home/*` — секции главной; `src/components/work/*` — работы и кейс; `src/components/pages/*` — остальные страницы; `src/components/layout/*` — шапка, меню, sticky-CTA, футер, панель контактов.
+- `scripts/media.mjs` + `scripts/media.manifest.json` — медиа-пайплайн (Pexels/Mixkit/Coverr → 720p H.264 ≤4 МБ + WebP).
+- `docs/BUILD-BRIEF.md` — правила разработки; `docs/research/` — ресёрч.
 
-## Learn More
+## Демо-контент
 
-To learn more about Next.js, take a look at the following resources:
+Все кейсы помечены `isPlaceholder: true` (клиенты вымышлены, видео — стоки), скрываются тумблером `toggles.showPlaceholders` в `settings.json`. Реальные ролики Марии (OYU Fest, N&N) открываются в плеере с YouTube.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Заявки
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`POST /api/lead` шлёт в Telegram при `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID` в `.env.local`, иначе пишет в консоль.
