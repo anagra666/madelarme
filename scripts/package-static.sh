@@ -6,7 +6,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 STAMP=$(date +%Y%m%d-%H%M)
-NAME="madelarme-static-$STAMP"
+NAME="madelarme-site-$STAMP"
 OUT="dist/$NAME"
 PREVIEW_URL="${PREVIEW_URL:-https://madelarme.seoweb.kz}"
 
@@ -30,15 +30,13 @@ rm -f "$OUT/media/manifest.json"
 cp scripts/static.htaccess "$OUT/.htaccess"
 
 cat > "$OUT/README-DEPLOY.md" <<README
-# MADELARME — статическая тестовая сборка ($STAMP)
+# MADELARME — тестовая сборка ($STAMP)
 
-Обычные HTML/CSS/JS-файлы — залить **содержимое этой папки** (включая скрытый .htaccess) в корень сайта (httpdocs / public_html / www). Node не нужен.
-Собрано под адрес $PREVIEW_URL. **Индексация запрещена**: robots.txt (Disallow: /), meta robots на каждой странице, X-Robots-Tag через .htaccess.
+Статические файлы. Распаковать архив в корень сайта (httpdocs / public_html) так, чтобы index.html и .htaccess лежали прямо в нём. Node не нужен, ничего настраивать не нужно.
+Собрано под адрес $PREVIEW_URL. Индексация запрещена: robots.txt (Disallow: /), meta robots на каждой странице, X-Robots-Tag через .htaccess.
 
-Отличия от Node-версии: форма заявки открывает WhatsApp с готовым текстом (серверного /api/lead на статике нет); всё остальное идентично.
-
-Проверка после заливки: $PREVIEW_URL/ , $PREVIEW_URL/work/ , $PREVIEW_URL/robots.txt (должно быть Disallow: /).
-Если адреса вида /work/ отдают 403 или 404 — у хостинга выключен индексный файл index.html для папок (DirectoryIndex); в Plesk он включён по умолчанию.
+Форма заявки на этой сборке открывает WhatsApp с готовым текстом (серверной части нет).
+Если после заливки сайт отдаёт 500 — удалите .htaccess (сайт и запрет индексации работают и без него).
 README
 
 echo "▸ zipping"
