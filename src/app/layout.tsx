@@ -45,7 +45,10 @@ export const metadata: Metadata = {
   description:
     "Мария Волкова, видеограф. Свадебное кино для тех, кто не любит свадебное видео. Бренды, фестивали, клипы — Алматы и куда позовёте.",
   openGraph: { type: "website", locale: "ru_KZ", siteName: "MADELARME" },
-  robots: { index: true, follow: true },
+  robots:
+    process.env.NEXT_PUBLIC_NOINDEX === "1"
+      ? { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false, noimageindex: true } }
+      : { index: true, follow: true },
 };
 
 export const viewport: Viewport = {

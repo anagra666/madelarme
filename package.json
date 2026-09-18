@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "media": "node scripts/media.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "package:preview": "bash scripts/package-preview.sh",
+    "media:check": "node scripts/check-media.mjs"
   },
   "dependencies": {
     "clsx": "^2.1.1",
