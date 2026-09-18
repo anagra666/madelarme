@@ -10,7 +10,8 @@
     "media": "node scripts/media.mjs",
     "typecheck": "tsc --noEmit",
     "package:preview": "bash scripts/package-preview.sh",
-    "media:check": "node scripts/check-media.mjs"
+    "media:check": "node scripts/check-media.mjs",
+    "package:static": "bash scripts/package-static.sh"
   },
   "dependencies": {
     "clsx": "^2.1.1",

@@ -1,0 +1,23 @@
+# MADELARME — тестовая статическая сборка. Индексация запрещена на трёх уровнях.
+<IfModule mod_headers.c>
+  Header set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet, noimageindex"
+  <FilesMatch "\.(mp4|webp|woff2)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+  <FilesMatch "\.(js|css)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>
+ErrorDocument 404 /404.html
+Options -Indexes
+DirectoryIndex index.html
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # /work → /work/ (папка с index.html)
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteCond %{REQUEST_URI} !/$
+  RewriteRule ^(.*)$ /$1/ [R=301,L]
+</IfModule>
+<FilesMatch "\.(md|env)$">
+  Require all denied
+</FilesMatch>

@@ -1,5 +1,7 @@
 "use client";
 
+import { sendLead } from "@/lib/lead";
+
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
 import Button from "@/components/ui/Button";
@@ -34,17 +36,7 @@ export default function ContactForm({ formats, waHref }: { formats: FormatChip[]
       consent,
     };
     setStatus("sending");
-    try {
-      const r = await fetch("/api/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      const j = (await r.json().catch(() => null)) as { ok?: boolean } | null;
-      setStatus(r.ok && j?.ok ? "ok" : "error");
-    } catch {
-      setStatus("error");
-    }
+    setStatus((await sendLead({ ...body, consent: true })) ? "ok" : "error");
   }
 
   if (status === "ok") {

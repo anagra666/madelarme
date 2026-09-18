@@ -1,5 +1,8 @@
 import type { MetadataRoute } from "next";
 
+/** robots.txt статичен в любом режиме (нужно для output: export) */
+export const dynamic = "force-static";
+
 const NOINDEX = process.env.NEXT_PUBLIC_NOINDEX === "1";
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://madelarme.kz";
 

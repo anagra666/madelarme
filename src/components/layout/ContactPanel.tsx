@@ -1,5 +1,7 @@
 "use client";
 
+import { sendLead } from "@/lib/lead";
+
 import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore, type FormEvent, type ReactNode, type RefObject } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -141,10 +143,7 @@ export default function ContactPanel() {
       message: [draft.message, `[со страницы ${pathname}]`].filter(Boolean).join("\n"),
       consent: true as const,
     };
-    try {
-      const r = await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-      setStatus(r.ok ? "ok" : "fail");
-    } catch { setStatus("fail"); }
+    setStatus((await sendLead(payload, text)) ? "ok" : "fail");
   };
 
   const fallbackText = [
