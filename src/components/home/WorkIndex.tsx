@@ -16,6 +16,7 @@ export default function WorkIndex({
   showAllLink = true,
   title = "ИЗБРАННЫЕ РАБОТЫ",
   num = "03",
+  sectionClassName,
 }: {
   cases?: Case[];
   limit?: number;
@@ -23,6 +24,8 @@ export default function WorkIndex({
   title?: string;
   /** номер секции в моно-подписи: [ 03 ] · ИЗБРАННЫЕ РАБОТЫ */
   num?: string;
+  /** переопределить отступы секции (на /work верхний отступ меньше, без отрицательных margin) */
+  sectionClassName?: string;
 }) {
   const total = getCases().length;
   const rows = (cases ?? getCases({ featured: true })).slice(0, limit).map(toRow);
@@ -31,7 +34,7 @@ export default function WorkIndex({
   const eyebrow = `[ ${num} ] · ${title}`;
 
   return (
-    <Section id="work" aria-labelledby="work-title" className="py-[clamp(64px,10vw,160px)]">
+    <Section id="work" aria-labelledby="work-title" className={cn("py-[clamp(64px,10vw,160px)]", sectionClassName)}>
       <Container>
         <h2 id="work-title" className="sr-only">{title}</h2>
 

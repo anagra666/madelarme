@@ -35,6 +35,8 @@ export interface CinemaVideoProps {
   /** sizes для <img> постера */
   sizes?: string;
   alt?: string;
+  /** показывать большую ▶ при заблокированном автоплее (false — если CinemaVideo лежит внутри ссылки/кнопки) */
+  playButton?: boolean;
   onPlayingChange?: (playing: boolean) => void;
 }
 
@@ -55,7 +57,7 @@ function reconcile() {
   const vis = [...entries].filter((e) => e.visible);
   if (!touch) {
     for (const e of entries) {
-      if (e.visible) e.play();
+      if (e.visible && !occluded(e.el)) e.play();
       else e.pause();
     }
     return;
@@ -72,6 +74,17 @@ function reconcile() {
     if (e === best) e.play();
     else e.pause();
   }
+}
+/** элемент перекрыт другим слоем (прилипшие карточки кейсов) — центр бокса занят чужим элементом */
+function occluded(el: HTMLElement): boolean {
+  const r = el.getBoundingClientRect();
+  const x = Math.min(Math.max(r.left + r.width / 2, 0), window.innerWidth - 1);
+  const y = Math.min(Math.max(r.top + r.height / 2, 0), window.innerHeight - 1);
+  const hit = document.elementFromPoint(x, y);
+  if (!hit || el.contains(hit)) return false;
+  // текст/кнопки поверх видео в той же секции — не перекрытие
+  const section = el.closest("section, article");
+  return !(section && section.contains(hit));
 }
 function schedule() {
   if (!raf) raf = requestAnimationFrame(reconcile);
@@ -127,6 +140,7 @@ export default function CinemaVideo({
   focus = "50% 50%",
   sizes = "100vw",
   alt = "",
+  playButton = true,
   onPlayingChange,
 }: CinemaVideoProps) {
   const ref = useRef<HTMLVideoElement>(null);
@@ -150,10 +164,11 @@ export default function CinemaVideo({
     setSrc(portrait && loop.mp4V ? loop.mp4V : loop.mp4H);
   }, [src, orientation, hasV, loop.mp4H, loop.mp4V]);
 
-  const tryPlay = useCallback(() => {
+  /** force — явный жест пользователя (▶): игнорирует prefers-reduced-motion и ручную паузу */
+  const tryPlay = useCallback((force = false) => {
     const v = ref.current;
-    if (!v || userPaused) return;
-    if (prefersReducedMotion()) { setBlocked(true); return; }
+    if (!v || (userPaused && !force)) return;
+    if (!force && prefersReducedMotion()) { setBlocked(true); return; }
     ensureSrc();
     wantPlay.current = true;
     const attempt = () => {
@@ -235,7 +250,9 @@ export default function CinemaVideo({
       ? { onMouseEnter: () => tryPlay(), onMouseLeave: () => doPause(), onFocus: () => tryPlay(), onBlur: () => doPause() }
       : {};
 
-  const showPlayButton = (blocked || noVideo) && !isPlaying && mode !== "hover";
+  const showPlayButton = playButton && (blocked || noVideo) && !isPlaying && mode !== "hover";
+  /* кнопка паузы показывает правду: если видео не играет (заблокировано/не началось) — это «▶» */
+  const shownPaused = userPaused || !isPlaying;
   const posterSrc = orientation === "v" && loop.posterV ? loop.posterV : loop.posterH;
 
   return (
@@ -276,26 +293,26 @@ export default function CinemaVideo({
           <button
             type="button"
             aria-label="Воспроизвести"
-            onClick={() => { setUserPaused(false); setBlocked(false); ensureSrc(); tryPlay(); }}
+            onClick={() => { setUserPaused(false); setBlocked(false); ensureSrc(); tryPlay(true); }}
             className="absolute inset-0 z-10 grid place-items-center"
           >
             <span className="mono grid h-14 w-14 place-items-center border border-milk/60 bg-ink/40 text-milk backdrop-blur-[2px]">▶</span>
           </button>
         )}
 
-        {pauseButton && !noVideo && (
+        {pauseButton && !noVideo && !showPlayButton && (
           <button
             type="button"
-            aria-pressed={userPaused}
-            aria-label={userPaused ? "Воспроизвести видео" : "Остановить видео"}
+            aria-pressed={shownPaused}
+            aria-label={shownPaused ? "Воспроизвести видео" : "Остановить видео"}
             aria-describedby={id}
             onClick={() => {
-              if (userPaused) { setUserPaused(false); wantPlay.current = true; ref.current?.play().catch(() => setBlocked(true)); }
+              if (shownPaused) { setUserPaused(false); setBlocked(false); tryPlay(true); }
               else { setUserPaused(true); doPause(); }
             }}
             className="mono-sm absolute bottom-4 right-4 z-10 grid h-11 w-11 place-items-center border border-milk/40 bg-ink/40 text-milk backdrop-blur-[2px] hover:border-milk"
           >
-            {userPaused ? "▶" : "❚❚"}
+            {shownPaused ? "▶" : "❚❚"}
             <span id={id} className="sr-only">Фоновое видео без звука</span>
           </button>
         )}

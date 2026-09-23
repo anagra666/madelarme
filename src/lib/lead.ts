@@ -24,17 +24,31 @@ export function leadToText(p: LeadPayload, intro?: string): string {
     .join("\n");
 }
 
-/** Отправка заявки: POST /api/lead, а без API — переход в WhatsApp с собранным текстом. Возвращает true при успехе. */
-export async function sendLead(p: LeadPayload, intro?: string): Promise<boolean> {
+/** Ссылка WhatsApp с полным текстом заявки — для кнопки «Открыть WhatsApp», если попап заблокирован. */
+export function leadWaLink(p: LeadPayload, intro?: string): string {
+  return waLink(leadToText(p, intro));
+}
+
+/**
+ * Результат отправки:
+ *  "sent" — заявка принята сервером (/api/lead) → показываем «Получила!»;
+ *  "wa"   — статический сайт: открыт WhatsApp с готовым текстом, заявку ещё надо отправить там →
+ *           показываем «Осталось нажать «Отправить» в WhatsApp» + постоянную кнопку leadWaLink();
+ *  "fail" — ошибка сети/сервера → fallback на WhatsApp.
+ * ВАЖНО: вызывать синхронно из обработчика клика/submit (до любых await) — иначе браузер заблокирует window.open.
+ */
+export type LeadResult = "sent" | "wa" | "fail";
+
+export async function sendLead(p: LeadPayload, intro?: string): Promise<LeadResult> {
   if (STATIC_SITE) {
-    window.open(waLink(leadToText(p, intro)), "_blank", "noopener");
-    return true;
+    window.open(leadWaLink(p, intro), "_blank", "noopener");
+    return "wa";
   }
   try {
     const r = await fetch("/api/lead", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(p) });
     const j = (await r.json().catch(() => null)) as { ok?: boolean } | null;
-    return Boolean(r.ok && j?.ok);
+    return r.ok && j?.ok ? "sent" : "fail";
   } catch {
-    return false;
+    return "fail";
   }
 }

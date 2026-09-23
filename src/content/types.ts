@@ -83,6 +83,8 @@ export interface Case {
   logline: string;
   /** Пара или бренд: «Айгерим & Данияр», «Brew Coffee» */
   client: string;
+  /** родительный падеж для CTA «Хочу как у …»: «Айгерим & Данияра». Нет — берётся title кейса */
+  clientGen?: string;
   /** slug формата из formats.json */
   format: string;
   /** дополнительные форматы (например, SDE + Reels внутри свадьбы) */
@@ -123,6 +125,8 @@ export interface Case {
   featuredIn?: string;
   /** демо-контент: сток + вымышленный клиент. В проде скрывается одной кнопкой, вне sitemap */
   isPlaceholder: boolean;
+  /** работа реальная (видео Марии), но факты кейса ещё не подтверждены — плашка «факты на согласовании» вместо «клиент вымышлен» */
+  factsUnconfirmed?: boolean;
   isPublished: boolean;
   /** показывать в «избранном» на главной */
   featured: boolean;
@@ -135,6 +139,8 @@ export interface Format {
   group: FormatGroup;
   /** «Свадебный фильм» */
   name: string;
+  /** короткое имя для <title>/SEO, если name длинное («Той и қыз ұзату») */
+  seoName?: string;
   /** «wedding film / feature film» */
   term: string;
   /** «8–15 мин» */
