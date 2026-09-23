@@ -5,6 +5,7 @@ import { PageHead, SectionTitle } from "@/components/pages/PageHead";
 import PricingTabs from "@/components/pages/PricingTabs";
 import { PriceCard } from "@/components/pages/PriceCard";
 import { Faq } from "@/components/pages/Faq";
+import PrefillSetter from "@/components/layout/PrefillSetter";
 import { getFaq, getPricing, settings } from "@/lib/content";
 import { prefill, waLink } from "@/lib/links";
 
@@ -20,20 +21,26 @@ export default function PricingPage() {
   const brand = collections.filter((c) => c.tab === "brand");
   const faq = getFaq("pricing");
 
-  const grid = (list: typeof collections) => (
-    <div className="grid min-w-0 grid-cols-1 gap-4 lg:grid-cols-3">
-      {list.map((c) => (
-        <PriceCard key={c.slug} c={c} />
-      ))}
-    </div>
+  /* sr-only h2 — чтобы между H1 «Цены» и h3 карточек не было пропуска уровня */
+  const grid = (label: string, list: typeof collections) => (
+    <>
+      <h2 className="sr-only">{label}</h2>
+      <div className="grid min-w-0 grid-cols-1 gap-4 lg:grid-cols-3">
+        {list.map((c) => (
+          <PriceCard key={c.slug} c={c} />
+        ))}
+      </div>
+    </>
   );
 
   return (
     <>
+      {/* prefill("pricing") требует название коллекции ({title}); для страницы в целом — «Хочу проверить дату» */}
+      <PrefillSetter kind="contact" />
       <Section>
         <PageHead title="Цены" sub="в результатах, а не в камерах и часах">
           {settings.toggles.showPlaceholders && (
-            <p className="mono-sm mt-6 text-signal">все цифры — плейсхолдеры до утверждения</p>
+            <p className="mono-sm mt-6 text-meta">цены — демо, до согласования</p>
           )}
         </PageHead>
       </Section>
@@ -42,22 +49,30 @@ export default function PricingPage() {
         <Container className="pb-16 md:pb-24">
           <PricingTabs
             tabs={[
-              { key: "wedding", label: "Свадьбы", content: grid(wedding) },
+              {
+                key: "wedding",
+                label: "Свадьбы",
+                content: (
+                  <>
+                    {grid("Свадьбы", wedding)}
+                    <p className="mt-8 max-w-[52ch] text-[15px] leading-relaxed text-meta">
+                      Второй оператор — только там, где он реально нужен: на церемонии и большом тое. И я скажу где.
+                    </p>
+                  </>
+                ),
+              },
               {
                 key: "brand",
                 label: "Бренды и контент",
                 content: (
                   <>
-                    {grid(brand)}
+                    {grid("Бренды и контент", brand)}
                     <p className="mono mt-8 text-meta">Крупные проекты — индивидуально, смета за 2 дня.</p>
                   </>
                 ),
               },
             ]}
           />
-          <p className="mt-8 max-w-[52ch] text-[15px] leading-relaxed text-meta">
-            Второй оператор — только там, где он реально нужен: на церемонии и большом тое. И я скажу где.
-          </p>
         </Container>
       </Section>
 

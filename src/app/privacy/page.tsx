@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Section, Container } from "@/components/ui/Section";
 import { settings } from "@/lib/content";
+import { STATIC_SITE } from "@/lib/lead";
 
 export const metadata: Metadata = {
   title: "Персональные данные",
@@ -44,8 +45,12 @@ export default function PrivacyPage() {
     {
       h: "Куда попадают данные",
       p: [
-        `Заявка из формы отправляется мне уведомлением в Telegram (через бота, сервис Telegram Messenger Inc.) и на почту ${contacts.email}. Переписка в WhatsApp, Telegram и Instagram ведётся по правилам этих сервисов.`,
-        "Сайт размещён на хостинге за пределами Казахстана; заявки не хранятся в базе сайта дольше, чем нужно для доставки уведомления.",
+        STATIC_SITE
+          ? "Форма не отправляет данные на сервер сайта: она открывает WhatsApp с уже заполненным текстом заявки, и вы сами решаете, отправлять ли его мне. Переписка в WhatsApp, Telegram и Instagram ведётся по правилам этих сервисов."
+          : "Заявка из формы отправляется мне уведомлением в Telegram (через бота, сервис Telegram Messenger Inc.). Переписка в WhatsApp, Telegram и Instagram ведётся по правилам этих сервисов.",
+        STATIC_SITE
+          ? "Сайт размещён на хостинге за пределами Казахстана; заявки на сайте не хранятся."
+          : "Сайт размещён на хостинге за пределами Казахстана; заявки не хранятся в базе сайта дольше, чем нужно для доставки уведомления.",
       ],
     },
     {
@@ -81,7 +86,7 @@ export default function PrivacyPage() {
             {sections.map((s, i) => (
               <section key={s.h} className="border-t border-rule py-8 md:py-10">
                 <h2 className="flex items-baseline gap-4">
-                  <span className="mono text-signal">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="mono text-meta">{String(i + 1).padStart(2, "0")}</span>
                   <span className="disp text-h3">{s.h}</span>
                 </h2>
                 {s.p.map((para) => (

@@ -2,7 +2,7 @@
 
 import { motion, useMotionValue, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useEffect, useLayoutEffect, useRef, type ReactNode } from "react";
-import { settings } from "@/lib/content";
+import { settings } from "@/lib/settings";
 import { useFinePointer, useMediaQuery } from "@/lib/hooks";
 
 /** Подпись hero живёт только на десктопе с мышью и без reduced-motion. */
@@ -30,6 +30,7 @@ function useHeroProgress() {
 }
 
 const HEADER_LINE = 22; // px — высота вордмарка в слоте шапки
+const DOCK_GAP = 12; // px — зазор от монограммы «M.» до севшего вордмарка
 
 /**
  * Гигантский MADELARME поверх видео (mix-blend: difference). При первом скролле
@@ -52,8 +53,11 @@ export default function HeroWordmark() {
       const wr = w.getBoundingClientRect();
       const gutter = parseFloat(getComputedStyle(w).paddingLeft) || 16;
       const headerH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 56;
+      /* садимся справа от монограммы, а не на неё: иначе «M.» и MADELARME ложатся друг на друга */
+      const logo = document.querySelector<HTMLElement>('header a[href="/"]');
+      const dockX = logo ? logo.getBoundingClientRect().right + DOCK_GAP : gutter;
       endS.set(HEADER_LINE / t.offsetHeight);
-      endX.set(gutter - (wr.left + t.offsetLeft));
+      endX.set(dockX - (wr.left + t.offsetLeft));
       endY.set((headerH - HEADER_LINE) / 2 - (wr.top + t.offsetTop));
     };
     measure();
@@ -71,9 +75,10 @@ export default function HeroWordmark() {
 
   if (!on) return null;
   /* Верхняя треть экрана: под шапкой и моно-строкой, над H1 (§05 — вордмарк → H1 → подпись + CTA).
-     Обёртка на весь вьюпорт (не top-[11vh]): иначе overflow-hidden срезает текст, когда он улетает вверх в слот шапки. */
+     Обёртка на весь вьюпорт (не top-[11vh]): иначе overflow-hidden срезает текст, когда он улетает вверх в слот шапки.
+     z-45: над шапкой (z-40, bg-ink/80 + blur закрывал «посадку»), но под меню (z-50) и панелью контактов (z-60). */
   return (
-    <div ref={wrap} className="pointer-events-none fixed inset-0 z-30 flex items-start justify-center overflow-hidden px-gutter pt-[11vh]" aria-hidden="true">
+    <div ref={wrap} className="pointer-events-none fixed inset-0 z-45 flex items-start justify-center overflow-hidden px-gutter pt-[11vh]" aria-hidden="true">
       <motion.div
         ref={text}
         style={{ transform, opacity, display, transformOrigin: "0 0" }}

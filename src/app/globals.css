@@ -10,15 +10,18 @@
   --color-milk: #ece7df;       /* текст на тёмном */
   --color-signal: #ff4d2e;     /* единственный акцент: интерактив, REC, подпись */
   --color-meta: #8f877d;       /* таймкоды, служебный текст на тёмном */
-  --color-meta-paper: #766e65; /* служебный текст на бумаге */
+  --color-meta-paper: #6b635a; /* служебный текст на бумаге (5.1:1 на paper, 4.6:1 на paper-2) */
   --color-rule: #2b2724;       /* линейки на тёмном */
   --color-rule-paper: #d9d0c3; /* линейки на бумаге */
   --color-on-milk: #0e0d0c;    /* текст поверх milk-заливки (кнопки); на бумаге — светлый */
 
-  /* type */
-  --font-disp: var(--font-disp), var(--font-disp-kz), "Arial Narrow", Impact, sans-serif;
-  --font-body: var(--font-body), "Inter", "Helvetica Neue", Arial, sans-serif;
-  --font-mono: var(--font-mono), ui-monospace, Menlo, monospace;
+  /* type — переменные next/font (--font-sofia, --font-oswald, --font-inter-tight, --font-roboto-mono)
+     ставит layout.tsx на <html>; имена намеренно не совпадают с токенами, иначе стек схлопывается.
+     Дисплей: Sofia Sans → Oswald (только казахские буквы Ә Ғ Қ Ң Ө Ұ Ү Һ) → метрический fallback Sofia.
+     --font-sofia-face / --font-sofia-fallback / --font-oswald-face — части стеков next/font (layout.tsx). */
+  --font-disp: var(--font-sofia-face), var(--font-oswald-face), var(--font-sofia-fallback), "Arial Narrow", Impact, sans-serif;
+  --font-body: var(--font-inter-tight), "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-roboto-mono), ui-monospace, Menlo, monospace;
 
   /* motion */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -59,6 +62,14 @@ body {
   outline: 2px solid var(--color-signal);
   outline-offset: 3px;
 }
+/* signal на бумаге даёт 2.9:1 — кольцо фокуса там чернильное */
+.paper :focus-visible {
+  outline-color: #141210;
+}
+/* цель ссылки «К содержимому» — фокус переносится, но рамка вокруг всей страницы не нужна */
+#main:focus-visible {
+  outline: none;
+}
 
 /* All media reserve space — CLS 0 */
 video, img {
@@ -70,6 +81,8 @@ video, img {
 @utility disp {
   font-family: var(--font-disp);
   font-weight: 800;
+  /* казахские буквы из Oswald выше Sofia Sans — подгоняем их прописные к высоте прописных Sofia */
+  font-size-adjust: cap-height from-font;
   text-transform: uppercase;
   line-height: 0.86;
   letter-spacing: -0.005em;
@@ -149,6 +162,45 @@ video, img {
 }
 .cropmarks::before { top: 12px; left: 12px; }
 .cropmarks::after { bottom: 12px; right: 12px; }
+
+/* Две бумажные секции подряд — один лист: без двойного отступа на стыке и без меток посередине.
+   Вне @layer, чтобы перекрыть утилиту py-… самой секции. */
+.paper + .paper { padding-top: 0; }
+.cropmarks + .cropmarks::before { display: none; }
+.cropmarks:has(+ .cropmarks)::after { display: none; }
+
+/* Страница начинается с бумаги (about, privacy, formats/[slug] без лупа): прозрачная шапка
+   с градиентом под видео легла бы грязной полосой — сразу плотная, как после прокрутки.
+   Верхняя метка «+» уходит под шапку. */
+body:has(> main > section.paper:first-of-type) > header {
+  background-image: none;
+  background-color: color-mix(in oklab, var(--color-ink) 80%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+main > section.cropmarks:first-of-type::before { top: calc(var(--header-h) + 12px); }
+
+/* Строка «A · B · C» без висячих точек: разделитель рисуется перед каждым пунктом,
+   а ведущая точка каждой строки уходит за левый край и срезается clip-path. */
+.dots {
+  --dot: 1.6em;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  margin-left: calc(var(--dot) * -1);
+  clip-path: inset(-8px -8px -8px var(--dot));
+}
+.dots > * {
+  position: relative;
+  padding-left: var(--dot);
+}
+.dots > *::before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  width: var(--dot);
+  text-align: center;
+}
 
 /* horizontal snap rails (mobile lists) */
 @utility rail {

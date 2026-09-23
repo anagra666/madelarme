@@ -6,8 +6,9 @@ import { LedgerLine } from "@/components/work/Ledger";
 /** «Титры» — две колонки моно с точками-лидерами, Мария всегда первой. Ниже теги-фильтры. */
 export default function Credits({ c }: { c: Case }) {
   const person = settings.brand.person;
+  /* «— (плейсхолдер)» — незаполненная строка титров: не показываем */
   const credits = c.credits
-    .slice()
+    .filter((cr) => !cr.name.trim().startsWith("—"))
     .sort((a, b) => Number(b.name.includes(person)) - Number(a.name.includes(person)));
   const tags = [
     ...c.mood.map((m) => ({ label: moods.find((x) => x.key === m)?.label ?? m, href: `/work?mood=${m}` })),

@@ -15,9 +15,13 @@ export default function FinalCTA() {
       aria-labelledby="cta-title"
       className="overflow-hidden bg-ink"
     >
-      <div className="relative flex w-full items-center pb-[calc(var(--sticky-h)+env(safe-area-inset-bottom)+clamp(48px,8vw,96px))] pt-[clamp(64px,10vw,160px)] lg:min-h-svh lg:pb-[clamp(64px,10vw,160px)]">
-      {/* контурная марка на фоне — декорация */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex items-center">
+      <div className="relative flex w-full items-center pb-[calc(var(--sticky-h)+env(safe-area-inset-bottom)+clamp(96px,16vw,144px))] pt-[clamp(64px,10vw,160px)] lg:min-h-svh lg:pb-[clamp(64px,10vw,160px)]">
+      {/* контурная марка на фоне — декорация. На телефоне — под контактами (в нижнем отступе над sticky-полосой),
+          чтобы контур не шёл по подписям кнопок; на десктопе — по центру, за текстом (§07-10) */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 flex items-end pb-[calc(var(--sticky-h)+env(safe-area-inset-bottom)+8px)] lg:items-center lg:pb-0"
+      >
         <Marquee duration={48} gap="0.35em" className="w-full">
           <span className="disp text-h1 whitespace-nowrap text-transparent [-webkit-text-stroke:1px_rgb(236_231_223/0.28)]">
             ДАВАЙ СНИМАТЬ ·
@@ -42,7 +46,7 @@ export default function FinalCTA() {
             <Button href={tgLink()} variant="outline" size="lg" className="w-full sm:w-auto">
               Telegram
             </Button>
-            <Button href={igDmLink()} variant="ghost" size="lg" className="w-full sm:w-auto">
+            <Button href={igDmLink()} variant="outline" size="lg" className="w-full sm:w-auto">
               Instagram
             </Button>
           </div>

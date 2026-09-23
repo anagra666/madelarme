@@ -4,30 +4,24 @@ import { useCallback, useRef, useState, type FocusEvent } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, useReducedMotion } from "motion/react";
-import { getCases, settings } from "@/lib/content";
+import { settings } from "@/lib/settings";
 import { waLink } from "@/lib/links";
 import { cn } from "@/lib/utils";
-import MenuOverlay from "@/components/layout/MenuOverlay";
-import ContactPanel, { useContactPanel } from "@/components/layout/ContactPanel";
+import MenuOverlay, { type MenuCounts } from "@/components/layout/MenuOverlay";
+import ContactPanel, { useContactPanel, type FormatChip } from "@/components/layout/ContactPanel";
 import { useOverlayOpen, useScrollDirection, useStickyPrefill, WhatsAppGlyph } from "@/components/layout/StickyCTA";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
-const WORKS = getCases().length;
-
-const NAV = [
-  { href: "/work", label: `Работы (${WORKS})` },
-  { href: "/formats", label: "Форматы" },
-  { href: "/pricing", label: "Цены" },
-  { href: "/about", label: "Маша" },
-];
 
 /**
  * Шапка 56px: прозрачная над hero, после 80px — bg-ink/80 + blur.
  * Прячется при скролле вниз, возвращается вверх; не прячется, пока открыт оверлей
  * или пока фокус клавиатуры внутри неё (иначе Tab попадал бы в невидимые ссылки).
+ * На главной не прячется, пока вордмарк hero «летит» в шапку (первые 1.2 экрана).
  * Монтирует MenuOverlay и ContactPanel (они fixed, вне потока).
+ * Счётчики и форматы приходят с сервера (layout.tsx), чтобы бандл не тянул JSON контента.
  */
-export default function Header() {
+export default function Header({ counts, formats }: { counts: MenuCounts; formats: FormatChip[] }) {
   const pathname = usePathname();
   const reduce = useReducedMotion();
   const { dir, y } = useScrollDirection();
@@ -49,8 +43,17 @@ export default function Header() {
     if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocusWithin(false);
   }, []);
 
+  const nav = [
+    { href: "/work", label: `Работы (${counts.works})` },
+    { href: "/formats", label: "Форматы" },
+    { href: "/pricing", label: "Цены" },
+    { href: "/about", label: "Маша" },
+  ];
+
   const solid = y > 80;
-  const hidden = !overlay && !menu && !focusWithin && dir === "down" && y > 120;
+  /* на главной вордмарк hero садится в шапку к ~1.2 экрана — до этого шапка остаётся на месте */
+  const heroFlight = pathname === "/" && typeof window !== "undefined" && y < window.innerHeight * 1.2;
+  const hidden = !overlay && !menu && !focusWithin && !heroFlight && dir === "down" && y > 120;
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
 
   return (
@@ -67,13 +70,13 @@ export default function Header() {
           solid ? "bg-ink/80 backdrop-blur-md" : "bg-linear-to-b from-ink/60 to-transparent",
         )}
       >
-        <Link href="/" className="disp -ml-1 flex h-11 items-center px-1 text-[28px] leading-none text-milk hover:text-signal" aria-label={`${settings.brand.wordmark} — на главную`}>
+        <Link href="/" prefetch={false} className="disp -ml-1 flex h-11 items-center px-1 text-[28px] leading-none text-milk hover:text-signal" aria-label={`${settings.brand.wordmark} — на главную`}>
           {settings.brand.monogram}
         </Link>
 
         {/* desktop */}
         <nav aria-label="Основная навигация" className="mono hidden items-center gap-7 lg:flex">
-          {NAV.map((n) => (
+          {nav.map((n) => (
             <Link
               key={n.href}
               href={n.href}
@@ -89,7 +92,7 @@ export default function Header() {
           <button
             type="button"
             onClick={openContact}
-            className="flex h-11 items-center text-milk transition-colors hover:text-signal"
+            className="flex h-11 items-center uppercase text-milk transition-colors hover:text-signal"
           >
             [ Написать ]
           </button>
@@ -119,8 +122,8 @@ export default function Header() {
         </div>
       </motion.header>
 
-      <MenuOverlay open={menu} onClose={closeMenu} triggerRef={menuBtn} />
-      <ContactPanel />
+      <MenuOverlay open={menu} onClose={closeMenu} triggerRef={menuBtn} counts={counts} />
+      <ContactPanel formats={formats} />
     </>
   );
 }

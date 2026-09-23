@@ -64,11 +64,21 @@ function render(lead: Lead, ip: string): string {
     .join("\n");
 }
 
+/**
+ * IP для rate-limit. X-Real-IP ставит наш nginx ($remote_addr) — клиент его не подделает.
+ * Без него берём ПОСЛЕДНИЙ элемент X-Forwarded-For: его дописывает ближайший прокси,
+ * а первые элементы присылает сам клиент.
+ */
+function clientIp(req: Request): string {
+  return (
+    req.headers.get("x-real-ip")?.trim() ||
+    req.headers.get("x-forwarded-for")?.split(",").pop()?.trim() ||
+    "local"
+  );
+}
+
 export async function POST(req: Request) {
-  const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    req.headers.get("x-real-ip") ||
-    "local";
+  const ip = clientIp(req);
 
   if (rateLimited(ip)) {
     return NextResponse.json({ ok: false, error: "rate_limited" }, { status: 429 });
@@ -79,6 +89,10 @@ export async function POST(req: Request) {
     body = await req.json();
   } catch {
     return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 });
+  }
+  /* honeypot: скрытое поле «website» люди не заполняют — боту отвечаем «ок», но никуда не шлём */
+  if (body && typeof body === "object" && str((body as Record<string, unknown>).website, 200)) {
+    return NextResponse.json({ ok: true });
   }
   const lead = parse(body);
   if (!lead) return NextResponse.json({ ok: false, error: "invalid_body" }, { status: 400 });

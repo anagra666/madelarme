@@ -3,6 +3,7 @@ import type { Case, Format } from "@/content/types";
 import { pad2 } from "@/lib/utils";
 import CinemaVideo from "@/components/media/CinemaVideo";
 import PlayFilmButton from "@/components/work/PlayFilmButton";
+import { realFilm } from "@/components/work/film";
 
 /**
  * Экран-тизер кейса (100svh): беззвучный луп, моно-строка [ 01 / 24 ] · [ формат ] · [ город · год ],
@@ -23,6 +24,14 @@ export default function CaseTeaser({
   format?: Format;
 }) {
   const longTitle = c.title.length > 14;
+  /* демо-луп вместо фильма кнопку не получает: «08:12» на 8-секундном лупе выглядит как сломанный плеер */
+  const film = realFilm(c.fullVideo);
+  /* реальное видео с фактами на согласовании ≠ вымышленный клиент */
+  const badge = c.factsUnconfirmed
+    ? "Факты на согласовании"
+    : c.isPlaceholder
+      ? "Демо-контент · клиент вымышлен"
+      : null;
   return (
     <section className="relative h-svh min-h-[560px] overflow-hidden bg-ink">
       <CinemaVideo loop={c.loop} priority mode="visible" pauseButton className="absolute inset-0" alt="" />
@@ -37,19 +46,19 @@ export default function CaseTeaser({
             {format && <span className={chip}>[ {format.name} ]</span>}
             <span className={chip}>[ {c.city} · {c.year} ]</span>
           </div>
-          {c.isPlaceholder && (
+          {badge && (
             <span className="mono-sm self-start border border-milk/40 bg-ink/50 px-2 py-1 text-milk/80 backdrop-blur-[2px] lg:hidden">
-              Демо-контент · клиент вымышлен
+              {badge}
             </span>
           )}
         </div>
         <div className="order-1 flex items-center justify-between gap-3 lg:order-2 lg:flex-col lg:items-end lg:gap-2">
-          <Link href="/work" className="mono inline-flex h-11 items-center text-milk hover:text-signal">
-            ← работы
+          <Link href="/work" className="mono inline-flex h-11 items-center self-start text-milk hover:text-signal"><span className="bg-ink/50 px-1.5 py-0.5 backdrop-blur-[2px]">
+            ← работы</span>
           </Link>
-          {c.isPlaceholder && (
+          {badge && (
             <span className="mono-sm hidden border border-milk/40 bg-ink/50 px-2 py-1 text-right text-milk/80 backdrop-blur-[2px] lg:block">
-              Демо-контент · клиент вымышлен
+              {badge}
             </span>
           )}
         </div>
@@ -69,9 +78,9 @@ export default function CaseTeaser({
           </h1>
           <p className="mt-4 max-w-[46ch] text-[18px] leading-snug text-milk/90 lg:text-[20px]">{c.logline}</p>
         </div>
-        {c.fullVideo && (
+        {film && (
           <div className="shrink-0">
-            <PlayFilmButton video={c.fullVideo} title={c.title} size="lg" className="w-full lg:w-auto" />
+            <PlayFilmButton video={film} title={c.title} size="lg" className="w-full lg:w-auto" />
           </div>
         )}
       </div>

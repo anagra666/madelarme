@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import CinemaVideo from "@/components/media/CinemaVideo";
@@ -7,6 +8,7 @@ import { SectionTitle } from "@/components/pages/PageHead";
 import { CaseCards } from "@/components/pages/CaseCards";
 import { Faq } from "@/components/pages/Faq";
 import { ProcessList } from "@/components/pages/ProcessList";
+import PrefillSetter from "@/components/layout/PrefillSetter";
 import { formatPrice, getCases, getFaq, getFormat, getFormats, settings } from "@/lib/content";
 import { prefill, waLink } from "@/lib/links";
 import { pad2 } from "@/lib/utils";
@@ -21,13 +23,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const f = getFormat(slug);
   if (!f) return {};
-  const title = `${f.name} — цены и примеры · Алматы`;
+  const title = `${f.seoName ?? f.name} — цены и примеры · Алматы`;
   const description = f.intro.length > 160 ? `${f.intro.slice(0, 157)}…` : f.intro;
+  const url = `/formats/${f.slug}`;
+  /* превью ссылки: свой луп → первая работа формата → шоурил */
+  const image = f.loop?.posterH ?? getCases({ format: f.slug })[0]?.loop.posterH ?? settings.showreel?.loop.posterH;
   return {
     title,
     description,
-    alternates: { canonical: `/formats/${f.slug}` },
-    openGraph: { title, description, images: f.loop ? [{ url: f.loop.posterH }] : undefined },
+    alternates: { canonical: url },
+    /* openGraph страницы заменяет объект из layout целиком — базовые поля повторяем */
+    openGraph: {
+      type: "website",
+      locale: "ru_KZ",
+      siteName: "MADELARME",
+      url,
+      title,
+      description,
+      images: image ? [{ url: image }] : undefined,
+    },
+    twitter: { card: image ? "summary_large_image" : "summary" },
   };
 }
 
@@ -37,9 +52,15 @@ export default async function FormatPage({ params }: Props) {
   if (!f) notFound();
 
   const cases = getCases({ format: f.slug }).slice(0, 6);
-  const meta = [f.term, f.duration, f.turnaround].filter(Boolean).join(" · ");
+  const meta = [f.term, f.duration, f.turnaround].filter((x) => x && x !== "—").join(" · ");
   const showPrice = settings.toggles.showPrices;
-  const priceText = f.fromPrice ? formatPrice(f.fromPrice) : "индивидуально";
+  /* аддон без своей цены, который сам о себе пишет «Входит во все … коллекции» (тизер) — не «индивидуально» */
+  const included = Boolean(f.isAddon && !f.fromPrice && /^входит/i.test(f.intro));
+  const priceText = f.fromPrice ? formatPrice(f.fromPrice) : included ? "входит в коллекции" : "индивидуально";
+
+  /* номера разделов по факту рендера: «Как проходит» и «Работы» бывают не у всех форматов */
+  let n = 0;
+  const num = () => pad2(++n);
 
   const globalFaq = getFaq(f.group === "wedding" ? "wedding" : "brand");
   const own = f.faq ?? [];
@@ -60,17 +81,19 @@ export default async function FormatPage({ params }: Props) {
 
   return (
     <>
+      <PrefillSetter kind="format" title={f.name} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
 
       {f.loop ? (
-        <section className="relative h-[60svh] min-h-[420px]">
-          <CinemaVideo loop={f.loop} priority mode="visible" orientation="h" className="absolute inset-0" alt={f.name} />
+        <section className="relative flex min-h-[max(60svh,420px)] flex-col justify-end pt-[calc(var(--header-h)+24px)]">
+          <CinemaVideo loop={f.loop} priority mode="visible" orientation="auto" className="absolute inset-0" alt={f.name} />
           <div className="scrim-b absolute inset-x-0 bottom-0 h-2/3" />
-          <Container className="absolute inset-x-0 bottom-0 pb-8 md:pb-12">
-            <p className="mono mb-4 text-milk/80">
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-linear-to-b from-ink/70 to-transparent" aria-hidden="true" />
+          <Container className="relative pb-8 md:pb-12">
+            <p className="mono mb-4 self-start text-milk"><span className="bg-ink/50 px-1.5 py-0.5 backdrop-blur-[2px]">
               {f.group === "wedding" ? "01" : f.group === "brand" ? "02" : "03"} · {meta}
-            </p>
-            <h1 className="disp text-h1 max-w-[14ch] text-balance">{f.name}</h1>
+            </span></p>
+            <h1 className={cn("disp max-w-[14ch] text-balance", f.name.length > 18 ? "text-[clamp(44px,8vw,120px)]" : "text-h1")}>{f.name}</h1>
           </Container>
         </section>
       ) : (
@@ -90,10 +113,10 @@ export default async function FormatPage({ params }: Props) {
 
       <Section paper>
         <Container className="py-14 md:py-20">
-          <SectionTitle num="01">Что получаете</SectionTitle>
+          <SectionTitle num={num()}>Что получаете</SectionTitle>
           <ul className="mt-8 grid grid-cols-1 gap-px border border-rule bg-rule sm:grid-cols-2">
             {f.deliverables.map((d, i) => (
-              <li key={d} className="flex min-h-28 flex-col justify-between gap-4 bg-paper p-5 md:p-6">
+              <li key={d} className="flex min-h-28 flex-col justify-between gap-4 bg-paper p-5 sm:last:odd:col-span-2 md:p-6">
                 <span className="mono text-meta">[ {pad2(i + 1)} ]</span>
                 <span className="text-[19px] font-medium leading-snug md:text-[22px]">{d}</span>
               </li>
@@ -105,7 +128,7 @@ export default async function FormatPage({ params }: Props) {
       {f.process && f.process.length > 0 && (
         <Section paper className="border-t border-rule-paper">
           <Container className="py-14 md:py-20">
-            <SectionTitle num="02">Как проходит съёмка</SectionTitle>
+            <SectionTitle num={num()}>Как проходит съёмка</SectionTitle>
             <div className="mt-8">
               <ProcessList steps={f.process.map((p) => ({ step: p }))} />
             </div>
@@ -119,7 +142,9 @@ export default async function FormatPage({ params }: Props) {
             <div>
               <p className="mono text-meta">[ цена ]</p>
               <p className="disp text-h2 mt-3 tabular-nums">{priceText}</p>
-              {!f.fromPrice && <p className="mono mt-3 text-meta">смета за два дня после созвона</p>}
+              {!f.fromPrice && (
+                <p className="mono mt-3 text-meta">{included ? "в любой свадебной коллекции" : "смета за два дня после созвона"}</p>
+              )}
             </div>
             <Button variant="outline" size="lg" href={`/pricing#${f.group === "wedding" ? "wedding" : "brand"}`}>
               весь прайс →
@@ -128,19 +153,21 @@ export default async function FormatPage({ params }: Props) {
         </Section>
       )}
 
-      <Section>
-        <Container className="py-14 md:py-20">
-          <SectionTitle num="03">Работы в этом формате</SectionTitle>
-          <div className="mt-8 md:mt-12">
-            <CaseCards cases={cases} />
-          </div>
-        </Container>
-      </Section>
+      {cases.length > 0 && (
+        <Section>
+          <Container className="py-14 md:py-20">
+            <SectionTitle num={num()}>Работы в этом формате</SectionTitle>
+            <div className="mt-8 md:mt-12">
+              <CaseCards cases={cases} />
+            </div>
+          </Container>
+        </Section>
+      )}
 
       {faq.length > 0 && (
         <Section paper>
           <Container className="py-14 md:py-20">
-            <SectionTitle num="04">Вопросы</SectionTitle>
+            <SectionTitle num={num()}>Вопросы</SectionTitle>
             <div className="mt-8">
               <Faq items={faq} />
             </div>

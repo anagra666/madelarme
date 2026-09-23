@@ -52,7 +52,7 @@ export default function ShowreelPage() {
                 <li key={c.slug} className="border-b border-rule">
                   <Link href={`/work/${c.slug}`} className="group flex min-h-14 items-center gap-4 py-3 md:gap-8">
                     <span className="mono w-14 shrink-0 text-meta tabular-nums">{timecode(step * i)}</span>
-                    <span className="disp text-h3 min-w-0 flex-1 truncate whitespace-nowrap transition-colors duration-300 group-hover:text-signal">
+                    <span className="disp text-h3 min-w-0 flex-1 overflow-x-clip text-ellipsis whitespace-nowrap transition-colors duration-300 group-hover:text-signal">
                       {c.title}
                     </span>
                     <span className="mono hidden text-meta md:block">{c.client}</span>

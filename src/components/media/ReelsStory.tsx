@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore, type KeyboardEvent, type RefObject } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ChevronDown, ChevronUp, X } from "lucide-react";
@@ -33,6 +34,9 @@ export function useReelsStory() {
 /** Монтировать ОДИН раз (layout.tsx): <ReelsStoryHost reels={getReels()} /> */
 export function ReelsStoryHost({ reels }: { reels: Reel[] }) {
   const { isOpen, index } = useReelsStory();
+  /* переход по «смотреть кейс →» или «назад» в браузере меняет маршрут — story не должна висеть поверх новой страницы */
+  const pathname = usePathname();
+  useEffect(() => { closeStory(); }, [pathname]);
   return (
     <AnimatePresence>
       {isOpen && reels.length > 0 && (
@@ -147,7 +151,7 @@ export default function ReelsStory({ reels, index, onClose }: { reels: Reel[]; i
         onTouchEnd={() => { touchY.current = null; }}
         className={cn("h-svh", SCROLLER_CLASS)}
       >
-        {reels.map((r) => <ReelItem key={r.slug} reel={r} />)}
+        {reels.map((r, i) => <ReelItem key={r.slug} reel={r} priority={i === index} />)}
       </div>
     </motion.div>
   );
@@ -186,13 +190,15 @@ export function ReelsFeed({ reels }: { reels: Reel[] }) {
         onKeyDown={(e) => feedKeys(e, scroller)}
         className={cn("h-full", SCROLLER_CLASS)}
       >
-        {reels.map((r, i) => <ReelItem key={r.slug} reel={r} badge last={i === reels.length - 1} />)}
+        {reels.map((r, i) => <ReelItem key={r.slug} reel={r} badge priority={i === 0} last={i === reels.length - 1} />)}
       </div>
     </div>
   );
 }
 
-function ReelItem({ reel, badge = false, last = false }: { reel: Reel; badge?: boolean; last?: boolean }) {
+function ReelItem({ reel, badge = false, last = false, priority = false }: { reel: Reel; badge?: boolean; last?: boolean; priority?: boolean }) {
+  /* на странице /reels заголовок reel идёт сразу после sr-only H1 — h2; в оверлее (свой dialog) — h3 */
+  const Title = badge ? "h2" : "h3";
   return (
     <section className="grid h-full snap-start place-items-center" aria-label={reel.title}>
       <div className="relative h-full w-full lg:aspect-[9/16] lg:h-[90%] lg:w-auto lg:border lg:border-rule">
@@ -200,10 +206,13 @@ function ReelItem({ reel, badge = false, last = false }: { reel: Reel; badge?: b
           loop={reel.loop}
           mode="visible"
           orientation="v"
+          priority={priority}
           className="absolute inset-0"
           sizes="(min-width: 1024px) 50vh, 100vw"
         />
-        <div className="scrim-b pointer-events-none absolute inset-x-0 bottom-0 h-1/2" aria-hidden="true" />
+        {/* скримы: сверху под счётчик «01 / 09», снизу под подпись — кадры бывают почти белыми (платье, студия) */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-linear-to-b from-ink/65 to-transparent" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-linear-to-b from-transparent via-ink/50 to-ink/85" aria-hidden="true" />
         <div
           className={cn(
             "absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-4 p-4",
@@ -215,10 +224,10 @@ function ReelItem({ reel, badge = false, last = false }: { reel: Reel; badge?: b
         >
           <div className="min-w-0 flex-1">
             {badge && reel.isPlaceholder && (
-              <span className="mono-sm inline-block border border-meta/60 px-1.5 py-0.5 text-meta">ДЕМО-КОНТЕНТ</span>
+              <span className="mono-sm inline-block border border-milk/40 bg-ink/60 px-1.5 py-0.5 text-milk/85">ДЕМО-КОНТЕНТ</span>
             )}
-            <h3 className="disp mt-2 text-[clamp(28px,7vw,44px)]">{reel.title}</h3>
-            {reel.caption && <p className="mono mt-2 text-meta">{reel.caption}</p>}
+            <Title className="disp mt-2 text-[clamp(28px,7vw,44px)]">{reel.title}</Title>
+            {reel.caption && <p className="mono mt-2 text-milk/80">{reel.caption}</p>}
             {reel.caseSlug && (
               <Link href={`/work/${reel.caseSlug}`} className="mono mt-1 inline-flex h-11 items-center text-milk transition-colors hover:text-signal">
                 смотреть кейс →

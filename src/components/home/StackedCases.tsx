@@ -34,11 +34,13 @@ function Card({ c, i, total }: { c: Case; i: number; total: number }) {
       aria-labelledby={`stacked-${c.slug}`}
       style={{ zIndex: i + 1 }}
       className={[
-        "isolate lg:sticky lg:top-(--header-h)",
+        /* липнем к top-0 (шапка при скролле вниз спрятана) и только на экранах, где карточка
+           целиком влезает по высоте: на ноутбуках 1366×657 / 1280×720 карточки просто листаются */
+        "isolate lg:[@media(min-height:780px)]:sticky lg:[@media(min-height:780px)]:top-0",
         paper ? "" : "bg-ink",
       ].join(" ")}
     >
-      <div className="grid min-h-[80svh] grid-cols-1 lg:h-[88vh] lg:min-h-0 lg:grid-cols-12">
+      <div className="grid min-h-[80svh] grid-cols-1 lg:min-h-[88vh] lg:grid-cols-12">
         {/* луп: сверху на телефоне, слева 7/12 на десктопе */}
         <div className="relative lg:col-span-7">
           <CinemaVideo

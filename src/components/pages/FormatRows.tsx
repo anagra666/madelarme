@@ -28,7 +28,7 @@ export function FormatRows({ formats }: { formats: Format[] }) {
               {f.name}
             </span>
             <span className="mono order-3 col-span-2 mt-2 min-w-0 text-meta md:order-none md:col-span-1 md:mt-0">
-              {f.term} · {f.duration}
+              {[f.term, f.duration].filter((x) => x && x !== "—").join(" · ")}
             </span>
             {showPrices && (
               <span className="mono order-2 col-span-2 mt-3 text-meta group-hover:text-signal md:order-none md:col-span-1 md:mt-0 md:justify-self-start">

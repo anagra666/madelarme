@@ -7,11 +7,15 @@ import { AlmatyClock } from "@/components/layout/StickyCTA";
 
 const TITLE = ["Я Маша.", "Снимаю одна,", "чтобы вы забыли,", "что вас снимают."];
 
+/** «·» перед каждым элементом; ряд сдвинут на ширину разделителя внутри overflow-x: clip — в начале строки точка срезается */
+const SEP = "before:inline-block before:w-6 before:text-center before:content-['·']";
+
 /** 07 · Привет, я Маша — портрет, заголовок, два абзаца, статус-строка, счётчики */
 export default function AboutTeaser() {
   const { about, counters, season, statusNow, brand } = settings;
   const portrait = about.portrait;
-  const paragraphs = about.paragraphs.slice(0, 2);
+  /* paragraphs[0] («Привет, я Маша. Снимаю одна…») дословно повторяет заголовок — берём следующие два */
+  const paragraphs = about.paragraphs.slice(1, 3);
 
   return (
     <Section paper aria-labelledby="about-title" className="py-[clamp(64px,10vw,160px)]">
@@ -49,19 +53,23 @@ export default function AboutTeaser() {
             </Reveal>
 
             <div className="grid max-w-[60ch] gap-4 text-[16px] leading-relaxed lg:text-[18px]">
-              {paragraphs.map((p) => (
-                <p key={p.slice(0, 24)}>{p}</p>
+              {/* на телефоне — один абзац (план §07-07) */}
+              {paragraphs.map((p, i) => (
+                <p key={p.slice(0, 24)} className={i > 0 ? "hidden sm:block" : undefined}>
+                  {p}
+                </p>
               ))}
             </div>
 
-            <div className="mono flex flex-wrap gap-x-2 gap-y-1 border-t border-rule pt-3 text-meta">
-              <span>{brand.city}</span>
-              <span aria-hidden="true">·</span>
-              <AlmatyClock />
-              <span aria-hidden="true">·</span>
-              <span>{season}</span>
-              <span aria-hidden="true">·</span>
-              <span className="text-milk">сейчас: {statusNow}</span>
+            <div className="mono overflow-x-clip border-t border-rule pt-3 text-meta">
+              <div className="-ml-6 flex flex-wrap gap-y-1">
+                <span className={SEP}>{brand.city}</span>
+                <span className={SEP}>
+                  <AlmatyClock />
+                </span>
+                <span className={SEP}>{season}</span>
+                <span className={`${SEP} before:text-meta text-milk`}>сейчас: {statusNow}</span>
+              </div>
             </div>
 
             {counters && counters.length > 0 && (

@@ -3,6 +3,21 @@ import { formatPrice, getPricing, settings } from "@/lib/content";
 import Button from "@/components/ui/Button";
 import { Section, Eyebrow, Container } from "@/components/ui/Section";
 
+/** «·» приклеен неразрывным пробелом к предыдущему пункту — строка не начинается с висячей точки */
+const SEP = "\u00a0· ";
+
+/**
+ * Состав коллекции одной строкой: «съёмка до 10 ч, 1 оператор · тизер 1:00–1:30, 16:9 + 9:16 · фильм 8–12 мин…».
+ * Без ключей значения нечитаемы («1:00–1:30» — это что?); «·» внутри значения → «,», чтобы разделители
+ * между пунктами не путались с разделителями внутри. Сроки сдачи — на странице прайса.
+ */
+function summary(lines: { k: string; v: string }[]): string {
+  return lines
+    .filter((l) => l.k !== "Сдача")
+    .map((l) => `${l.k}\u00a0${l.v.replaceAll(" · ", ", ").replace(/ ([×+]) /g, "\u00a0$1\u00a0").replace(/(\d)–(\d)/g, "$1\u2060–\u2060$2")}`)
+    .join(SEP);
+}
+
 /** 09 · Сколько стоит — свадебные коллекции строками-титрами, ссылка на весь прайс */
 export default function PricingTeaser() {
   const { collections, terms } = getPricing();
@@ -34,7 +49,7 @@ export default function PricingTeaser() {
                   <span className="mono text-milk lg:col-span-3 lg:text-right">{formatPrice(c.fromPrice)}</span>
                 )}
                 <span className={showPrices ? "mono min-w-0 text-meta lg:col-span-4 lg:col-start-9" : "mono min-w-0 text-meta lg:col-span-7"}>
-                  {c.lines.map((l) => l.v).join(" · ")}
+                  {summary(c.lines)}
                 </span>
               </Link>
             </li>
@@ -45,7 +60,7 @@ export default function PricingTeaser() {
           <Button href="/pricing" variant="outline" size="lg" className="w-full sm:w-auto">
             Весь прайс + бренды ↗
           </Button>
-          {terms.length > 0 && <p className="mono-sm max-w-[48ch] text-meta">{terms.join(" · ")}</p>}
+          {terms.length > 0 && <p className="mono-sm max-w-[48ch] text-meta">{terms.map((t) => t.replaceAll(" · ", SEP)).join(SEP)}</p>}
         </div>
       </Container>
     </Section>

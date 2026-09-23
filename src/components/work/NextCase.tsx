@@ -8,7 +8,8 @@ import Button from "@/components/ui/Button";
 /**
  * «СЛЕДУЮЩАЯ → {title}» гигантской строкой (≤14 символов — в одну строку, длиннее — перенос с balance;
  * hover — постер за строкой, только картинка),
- * «← {prev}» мельче, затем мини-CTA «Хочу как у {client}» в WhatsApp.
+ * «← {prev}» мельче, затем мини-CTA «Хочу как у {clientGen}» в WhatsApp (clientGen — клиент в родительном падеже;
+ * без него — «Хочу как в «{title}»», как в тексте предзаполнения: «как у «Тау-той»» и имя в именительном после «у» неграмотны).
  */
 export default function NextCase({ c, next, prev }: { c: Case; next?: Case; prev?: Case }) {
   return (
@@ -51,7 +52,7 @@ export default function NextCase({ c, next, prev }: { c: Case; next?: Case; prev
           <span />
         )}
         <Button variant="signal" size="lg" href={waLink(prefill("case", c.title))} className="w-full lg:w-auto">
-          Хочу как у {c.client}
+          {c.clientGen ? `Хочу как у ${c.clientGen}` : `Хочу как в «${c.title}»`}
         </Button>
       </div>
     </section>

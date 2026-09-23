@@ -43,7 +43,8 @@ export function Reveal({
 /** Одна строка внутри <Reveal>: маска + сдвиг. */
 export function Line({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <span className={cn("block overflow-hidden", className)}>
+    /* маска расширена вверх на 0.2em без сдвига строки: бреве «Й»/«Ё» выше строчного бокса (.disp lh .86) */
+    <span className={cn("-mt-[0.2em] block overflow-hidden pt-[0.2em]", className)}>
       <motion.span
         className="block"
         variants={{ hidden: { y: "110%", rotate: 1.5 }, show: { y: 0, rotate: 0, transition: { duration: 0.8, ease: EASE } } }}

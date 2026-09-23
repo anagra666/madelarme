@@ -12,11 +12,13 @@ export function collectionPrice(c: PriceCollection): string {
 /** «Прайс как титры»: название дисплеем, ledger с точками-лидерами, цена моно, бейдж сигналом. */
 export function PriceCard({ c }: { c: PriceCollection }) {
   return (
-    <article className="relative flex min-w-0 flex-col border border-rule p-5 md:p-7">
+    <article className="relative flex min-w-0 flex-col border border-rule p-5 pt-9 md:p-7 md:pt-10">
       {c.badge && (
         <span className="mono-sm absolute right-0 top-0 bg-signal px-2 py-1 text-ink">{c.badge}</span>
       )}
-      <h3 className="disp text-h2 min-w-0 pr-24 text-balance">{c.name}</h3>
+      {/* бейдж висит в углу над заголовком (pt-9/10), поэтому справа место не резервируем;
+          в трёх колонках кегль от ширины колонки, а не экрана, и две строки под заголовок — цены встают в линию */}
+      <h3 className="disp text-h2 min-w-0 text-balance [overflow-wrap:break-word] lg:min-h-[2lh] lg:text-[clamp(40px,3.6vw,72px)]">{c.name}</h3>
       <p className="mt-4 font-mono text-[22px] uppercase tracking-[0.04em] tabular-nums">{collectionPrice(c)}</p>
 
       <dl className="mono mt-8 flex flex-col gap-3 text-milk">

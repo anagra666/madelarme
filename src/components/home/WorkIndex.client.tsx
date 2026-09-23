@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import type { MediaLoop } from "@/content/types";
 import CinemaVideo from "@/components/media/CinemaVideo";
@@ -54,7 +54,7 @@ export default function WorkIndexDesktop({
         <header className="mono flex items-center justify-between text-meta">
           <div className="flex gap-6">
             <span>{eyebrow}</span>
-            <span>[ {counter} ]</span>
+            {counter && <span>[ {counter} ]</span>}
           </div>
           <div className="flex items-center gap-2" role="group" aria-label="Вид списка">
             <span>[ ВИД:</span>
@@ -71,6 +71,7 @@ export default function WorkIndexDesktop({
               <li key={r.slug} className="border-t border-rule">
                 <Link
                   href={`/work/${r.slug}`}
+                  prefetch={false}
                   onMouseEnter={() => hover(r.slug)}
                   onFocus={() => hover(r.slug)}
                   onBlur={() => setHovered(null)}
@@ -125,6 +126,7 @@ function GridTile({ row: r }: { row: IndexRow }) {
       </div>
       <Link
         href={`/work/${r.slug}`}
+        prefetch={false}
         onFocus={() => setOn(true)}
         onBlur={() => setOn(false)}
         className="block after:absolute after:inset-0 after:z-10 after:content-['']"
@@ -155,13 +157,35 @@ function ViewButton({ active, onClick, children }: { active: boolean; onClick: (
 
 /**
  * Слой лупов за списком: один <CinemaVideo mode="manual"> на посещённый кейс, все absolute inset-0.
+ * Слой растянут на всю секцию, включая её вертикальные отступы (иначе видео обрывается жёстким краем
+ * под «ВСЕ РАБОТЫ»): отступы задаёт Section (и sectionClassName на /work), поэтому край меряем, а не хардкодим.
  * Смена — «склейка»: opacity 200ms + кадр засветки 40ms (не ярче 0.6, при reduced-motion — без него).
- * Сверху скрим 40% для текста. Ссылки списка содержат только текст — слой с видео лежит вне их.
+ * Сверху скрим (к правому краю плотнее — там мелкая мета). Ссылки списка содержат только текст — слой вне их.
  */
 function VideoLayer({ rows, hovered }: { rows: IndexRow[]; hovered: string | null }) {
   const reduce = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    const sec = el?.closest("section");
+    if (!el || !sec) return;
+    const measure = () => {
+      const host = el.offsetParent; // null, пока десктопный блок скрыт (<1024)
+      if (!host) return;
+      const s = sec.getBoundingClientRect();
+      const h = host.getBoundingClientRect();
+      el.style.top = `${s.top - h.top}px`;
+      el.style.bottom = `${h.bottom - s.bottom}px`;
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(sec);
+    return () => ro.disconnect();
+  }, []);
+
   return (
-    <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
+    <div ref={ref} className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
       {rows.map((r) => {
         const on = hovered === r.slug;
         return (
@@ -170,7 +194,7 @@ function VideoLayer({ rows, hovered }: { rows: IndexRow[]; hovered: string | nul
           </div>
         );
       })}
-      <div className="absolute inset-0 bg-ink/40" />
+      <div className="absolute inset-0 bg-linear-to-r from-ink/40 to-ink/65" />
       {hovered && !reduce && (
         <motion.div
           key={hovered}

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { getFormats, settings } from "@/lib/content";
+import { settings } from "@/lib/settings";
 import { igLink, telLink, tgLink, waLink } from "@/lib/links";
 import { AlmatyClock } from "@/components/layout/StickyCTA";
 import { LangRow } from "@/components/layout/MenuOverlay";
@@ -29,9 +29,9 @@ function Col({ title, children }: { title: string; children: ReactNode }) {
 /**
  * Футер: 4 моно-колонки (2×2 на телефоне), контурный вордмарк во всю ширину,
  * нижняя строка с © и языками. На телефоне — отступ снизу под sticky-полосу.
+ * Список форматов приходит из layout.tsx.
  */
-export default function Footer() {
-  const formats = getFormats().filter((f) => !f.isAddon);
+export default function Footer({ formats }: { formats: { slug: string; name: string }[] }) {
   const c = settings.contacts;
   const year = new Date().getFullYear();
 
@@ -50,7 +50,7 @@ export default function Footer() {
           <Col title="форматы">
             <ul className="flex flex-col">
               {formats.map((f) => (
-                <li key={f.slug}><Link href={`/formats/${f.slug}`} className={link}>{f.name}</Link></li>
+                <li key={f.slug}><Link href={`/formats/${f.slug}`} prefetch={false} className={link}>{f.name}</Link></li>
               ))}
             </ul>
           </Col>
@@ -67,33 +67,38 @@ export default function Footer() {
           </Col>
 
           <Col title="где я">
-            <p className="mono text-meta leading-6">
-              {settings.brand.city} · <AlmatyClock className="text-milk" /> · снимаю по Казахстану и куда позовёте
+            <p className="mono dots text-meta leading-6">
+              <span>{settings.brand.city}</span>
+              <span><AlmatyClock className="text-milk" /></span>
+              <span>снимаю по Казахстану и куда позовёте</span>
             </p>
             <p className="mono mt-2 text-meta">{settings.season}</p>
           </Col>
         </div>
 
-        {/* контурный вордмарк — во всю ширину, на телефоне подрезан справа (обёртка режет, страница не расширяется) */}
+        {/* контурный вордмарк — ровно во всю ширину: размер от ширины контейнера (cqw), а не окна,
+            ширина слова ≈ 3.9 кегля → 25.4cqw помещается без обрезки на любом экране */}
         <Link
           href="/"
+          prefetch={false}
           aria-label={`${settings.brand.wordmark} — на главную`}
-          className="group mt-14 block max-w-full overflow-hidden lg:mt-20"
+          className="@container group mt-14 block max-w-full overflow-hidden lg:mt-20"
         >
           <span
             aria-hidden="true"
-            className="disp block whitespace-nowrap leading-[0.8] text-transparent text-[26vw] lg:text-[clamp(120px,24.5vw,400px)] [-webkit-text-stroke:1px_var(--color-milk)] transition-colors duration-500 group-hover:text-signal group-hover:[-webkit-text-stroke-color:var(--color-signal)] group-focus-visible:text-signal"
+            className="disp block whitespace-nowrap leading-[0.8] text-transparent text-[25.4cqw] [-webkit-text-stroke:1px_var(--color-milk)] transition-colors duration-500 group-hover:text-signal group-hover:[-webkit-text-stroke-color:var(--color-signal)] group-focus-visible:text-signal"
           >
             {settings.brand.wordmark}
           </span>
         </Link>
 
         <div className="mono flex flex-col gap-3 border-t border-rule py-5 text-meta lg:flex-row lg:items-center lg:justify-between">
-          <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
+          <p className="dots gap-y-1">
             <span>© {year} {settings.brand.person}</span>
-            {settings.legal.entity && <span>· {settings.legal.entity}</span>}
-            <span>·</span>
-            <Link href="/privacy" className="inline-flex min-h-11 items-center text-milk transition-colors hover:text-signal lg:min-h-0">политика конфиденциальности</Link>
+            {settings.legal.entity && <span>{settings.legal.entity}</span>}
+            <span className="inline-flex items-center">
+              <Link href="/privacy" className="inline-flex min-h-11 items-center text-milk transition-colors hover:text-signal lg:min-h-0">политика конфиденциальности</Link>
+            </span>
           </p>
           <LangRow />
         </div>

@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import ActiveChipIntoView from "@/components/work/ActiveChipIntoView";
 
 /**
- * Фильтры /work — состояние живёт в URL (?format=&mood=&city=), фильтрует сервер.
+ * Фильтры /work — состояние живёт в URL (?format=&mood=&city=), фильтрует клиент (WorkCatalog).
  * Ссылки, а не кнопки: работают без JS, шарятся, индексируются. scroll={false} — страница не прыгает.
  * Телефон: rail-чипы 40px (tap-цель 44px). Десктоп: две строки моно-ссылок «ВСЕ (24) · СВАДЬБА (12) · …».
  * Вид «список/сетка» переключает сам WorkIndex (клиент), в URL его нет.
@@ -73,6 +74,7 @@ const row = (sep: string) =>
 export default function WorkFilters({ formats, moods, total, selected }: WorkFiltersProps) {
   return (
     <nav aria-label="Фильтры работ" className="flex flex-col gap-2 lg:gap-3">
+      <ActiveChipIntoView deps={filterHref(selected, {})} />
       {/* форматы */}
       <div className={row("lg:[&>a:not(:last-child)]:after:content-['·']")}>
         <Chip active={!selected.format} to={filterHref(selected, { format: undefined })}>

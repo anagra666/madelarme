@@ -1,5 +1,5 @@
 {
-  "_readme": "Демо-медиа. Источники: Pexels (Pexels License), Mixkit (Mixkit Free License), Coverr (Coverr License), Unsplash (Unsplash License) — коммерческое использование без атрибуции. Все клиенты кейсов вымышлены. Сборка: pnpm media. Kinds: loop (H+V+постеры), vloop (только 9:16), still (webp 1600 / 4:5).",
+  "_readme": "Демо-медиа. Источники: Pexels (Pexels License), Mixkit (Mixkit Free License), Coverr (Coverr License), Unsplash (Unsplash License) — коммерческое использование без атрибуции. Клиенты демо-кейсов вымышлены; OYU Fest и N&N — реальные ролики Марии на YouTube, факты кейсов не подтверждены. Сборка: pnpm media. Kinds: loop (H+V+постеры), vloop (только 9:16), still (webp 1600 / 4:5; из видео — кадр на секунде at). Поля: crf/crfV, maxrate/maxrateV, cropXV — см. scripts/media.mjs.",
   "items": [
     {
       "name": "showreel",
@@ -8,7 +8,9 @@
       "srcV": "https://videos.pexels.com/video-files/28927581/12519411_720_1280_60fps.mp4",
       "start": 3,
       "duration": 10,
-      "startV": 2
+      "startV": 2,
+      "crfV": 30,
+      "maxrateV": "950k"
     },
     {
       "name": "tau-toi",
@@ -44,11 +46,10 @@
     {
       "name": "pervyj-sneg",
       "kind": "loop",
-      "src": "https://videos.pexels.com/video-files/4601020/4601020-hd_1280_720_25fps.mp4",
-      "srcV": "https://videos.pexels.com/video-files/29806541/12804903_720_1280_25fps.mp4",
+      "src": "https://assets.mixkit.co/videos/39497/39497-720.mp4",
       "start": 1,
       "duration": 8,
-      "startV": 2
+      "cropXV": 0.6
     },
     {
       "name": "utro-zdes",
@@ -108,10 +109,9 @@
       "name": "n-n",
       "kind": "loop",
       "src": "https://videos.pexels.com/video-files/5763323/5763323-hd_1280_720_24fps.mp4",
-      "srcV": "https://videos.pexels.com/video-files/32182240/13724366_720_1280_30fps.mp4",
       "start": 0,
       "duration": 6.5,
-      "startV": 3
+      "cropXV": 0.5
     },
     {
       "name": "f-wedding",
@@ -326,23 +326,50 @@
     {
       "name": "tau-toi-1",
       "kind": "still",
-      "src": "https://images.pexels.com/photos/14238232/pexels-photo-14238232.jpeg?auto=compress&cs=tinysrgb&w=2000",
-      "w": 1600,
-      "h": 900
+      "src": "https://videos.pexels.com/video-files/8776127/8776127-hd_1280_720_25fps.mp4",
+      "at": 4.5,
+      "w": 1280,
+      "h": 720
     },
     {
       "name": "tau-toi-2",
       "kind": "still",
-      "src": "https://images.pexels.com/photos/28958897/pexels-photo-28958897.jpeg?auto=compress&cs=tinysrgb&w=2000",
-      "w": 1200,
-      "h": 1500
+      "src": "https://videos.pexels.com/video-files/8776127/8776127-hd_1280_720_25fps.mp4",
+      "at": 12,
+      "w": 1280,
+      "h": 720
     },
     {
       "name": "tau-toi-3",
       "kind": "still",
-      "src": "https://images.unsplash.com/photo-1659651117607-d2b397cf100f?w=2000&q=80&fm=jpg",
-      "w": 1600,
-      "h": 1000
+      "src": "https://videos.pexels.com/video-files/8776998/8776998-hd_720_1280_25fps.mp4",
+      "at": 3,
+      "w": 720,
+      "h": 900
+    },
+    {
+      "name": "tau-toi-4",
+      "kind": "still",
+      "src": "https://videos.pexels.com/video-files/8776998/8776998-hd_720_1280_25fps.mp4",
+      "at": 9,
+      "w": 720,
+      "h": 900
+    },
+    {
+      "name": "tau-toi-5",
+      "kind": "still",
+      "src": "https://videos.pexels.com/video-files/8776998/8776998-hd_720_1280_25fps.mp4",
+      "at": 15,
+      "w": 720,
+      "h": 900
+    },
+    {
+      "name": "tau-toi-6",
+      "kind": "still",
+      "src": "https://videos.pexels.com/video-files/8776998/8776998-hd_720_1280_25fps.mp4",
+      "at": 22,
+      "w": 720,
+      "h": 900
     },
     {
       "name": "sneg-1",

@@ -5,10 +5,10 @@
 ## Стек и запуск
 - Next.js 16.3 (App Router, Turbopack, **async `params`**: `const { slug } = await params`), React 19, TypeScript strict.
 - Tailwind v4 — токены в `src/app/globals.css` (`@theme`), никаких tailwind.config.
-- Motion 13 (`motion/react`) — единственный движок анимаций в мобильной сборке. GSAP + ScrollTrigger — только `dynamic import` для десктопных pin-секций. Lenis уже подключён глобально (`SmoothScroll`, только `pointer: fine`).
+- Motion 13 (`motion/react`) — единственный движок анимаций (GSAP убран из зависимостей: десктопные pin-секции не понадобились). Lenis уже подключён глобально (`SmoothScroll`, только `pointer: fine`).
 - Иконки: `lucide-react`. Классы: `cn()` из `@/lib/utils` (clsx).
 - **Не запускать** `next dev` / `next build` — dev-сервер уже поднят на :3033 (Turbopack-кэш общий). Проверка: `pnpm typecheck` и `pnpm exec eslint <файлы>`.
-- Шрифты подключены в `layout.tsx`: `--font-disp` (Sofia Sans Extra Condensed 800), `--font-body` (Inter Tight), `--font-mono` (Roboto Mono).
+- Шрифты подключены в `layout.tsx` через next/font с переменными `--font-sofia` (Sofia Sans Extra Condensed 800), `--font-oswald` (Oswald 700 — только казахские буквы Ә Ғ Қ Ң Ө Ұ Ү Һ, которых нет в Sofia), `--font-inter-tight` (Inter Tight 400/500), `--font-roboto-mono` (Roboto Mono 400). Стеки-токены собираются в `globals.css` → `@theme`: `--font-disp` (Sofia → Oswald → метрический fallback), `--font-body`, `--font-mono` — в коде используйте их (`disp`, `mono`, `font-mono`). Не называйте переменные next/font так же, как токены: значение next/font перекроет стек.
 
 ## Токены (globals.css)
 Цвета: `ink` #0E0D0C (фон), `ink-2` поверхности, `paper` #F3EEE6, `paper-2`, `milk` #ECE7DF (текст на тёмном), `signal` #FF4D2E (единственный акцент — только интерактив, REC, подпись), `meta` #8F877D, `rule` #2B2724. Tailwind: `bg-ink text-milk border-rule text-signal bg-paper`…
@@ -29,7 +29,7 @@
 ## Общие правила вёрстки
 - Mobile-first от 390px, проверять 360 и 430; десктоп от 1024. Hero = `h-svh` (не vh). H1 и CTA рендерятся сервером (никакого `opacity:0` до гидратации — anti-pattern текущего сайта).
 - Server Components по умолчанию; `"use client"` только там, где есть состояние/эффекты. Клиентские компоненты — маленькие листья.
-- Все горизонтальные ленты на телефоне — `rail` (нативный scroll-snap), следующая карточка видна полукадром, ≤8 элементов. Никаких пинов/GSAP на тач; hover-приёмы имеют tap-эквивалент.
+- Все горизонтальные ленты на телефоне — `rail` (нативный scroll-snap), следующая карточка видна полукадром, ≤8 элементов. Никаких пинов на тач; hover-приёмы имеют tap-эквивалент.
 - Одновременно играет ≤1 видео на тач (CinemaVideo это делает сам). Не более 8 `<CinemaVideo>` в одной секции.
 - Tap-цели ≥44px, CTA 56px. Названия кейсов ≤14 символов в одну строку (`whitespace-nowrap` + `clamp`).
 - Текст в DOM целый (split — только через обёртки `<Line>`). Все медиа с заданным aspect-ratio (CLS 0).

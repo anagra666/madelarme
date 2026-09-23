@@ -39,7 +39,8 @@ export default function AboutPage() {
                   alt={about.portrait.alt}
                   width={about.portrait.w}
                   height={about.portrait.h}
-                  priority
+                  loading="eager"
+                  fetchPriority="high"
                   sizes="(min-width: 768px) 40vw, 100vw"
                   className="h-full w-full object-cover"
                 />
@@ -92,11 +93,11 @@ export default function AboutPage() {
               {clients.map((c) => (
                 <li key={c.name} className="disp text-h3 whitespace-nowrap">
                   {c.name}
-                  {!c.confirmed && <span className="text-signal">*</span>}
+                  {!c.confirmed && <span className="text-meta">*</span>}
                 </li>
               ))}
             </ul>
-            {hasUnconfirmed && <p className="mono-sm mt-6 text-meta">* — упоминание на согласовании</p>}
+            {hasUnconfirmed && <p className="mono-sm mt-6 text-meta">* — демо, до согласования</p>}
           </Container>
         </Section>
       )}

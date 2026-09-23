@@ -5,8 +5,10 @@ import { PageHead, SectionTitle } from "@/components/pages/PageHead";
 import ContactForm from "@/components/pages/ContactForm";
 import CopyButton from "@/components/pages/CopyButton";
 import StatusLine from "@/components/pages/StatusLine";
+import PrefillSetter from "@/components/layout/PrefillSetter";
 import { Faq } from "@/components/pages/Faq";
 import { getFaq, getFormats, settings } from "@/lib/content";
+import { STATIC_SITE } from "@/lib/lead";
 import { igDmLink, prefill, telLink, tgLink, waLink } from "@/lib/links";
 
 export const metadata: Metadata = {
@@ -29,9 +31,10 @@ export default function ContactPage() {
 
   return (
     <>
+      <PrefillSetter kind="contact" />
       <Section>
         <PageHead title="Проверить дату" sub="напишите, где и когда — отвечу сегодня">
-          <StatusLine city={settings.brand.city} season={settings.season} className="mono mt-4 text-signal" />
+          <StatusLine city={settings.brand.city} season={settings.season} className="mono mt-4 text-milk" />
         </PageHead>
       </Section>
 
@@ -53,7 +56,7 @@ export default function ContactPage() {
             <div className="flex flex-wrap items-center gap-3">
               <dt className="text-meta">e-mail</dt>
               <dd className="flex items-center gap-3">
-                <a href={`mailto:${contacts.email}`} className="normal-case underline-offset-4 hover:text-signal hover:underline">
+                <a href={`mailto:${contacts.email}`} className="inline-flex min-h-11 items-center normal-case underline-offset-4 hover:text-signal hover:underline">
                   {contacts.email}
                 </a>
                 <CopyButton text={contacts.email} />
@@ -76,7 +79,9 @@ export default function ContactPage() {
           <div className="md:col-span-4">
             <SectionTitle num="01">Или форма</SectionTitle>
             <p className="mt-4 max-w-[36ch] text-[15px] leading-relaxed text-meta">
-              Пять полей, без email. Заявка приходит мне в Telegram — отвечаю в тот же день.
+              {STATIC_SITE
+                ? "Пять полей, без email. Заявка откроется в WhatsApp уже заполненной — останется нажать «Отправить». Отвечаю в тот же день."
+                : "Пять полей, без email. Заявка приходит мне в Telegram — отвечаю в тот же день."}
             </p>
           </div>
           <div className="md:col-span-7 md:col-start-6">
@@ -87,7 +92,7 @@ export default function ContactPage() {
 
       {faq.length > 0 && (
         <Section paper>
-          <Container className="py-14 pb-[calc(56px+var(--sticky-h))] md:py-20 md:pb-[calc(80px+var(--sticky-h))]">
+          <Container className="py-14 md:py-20">
             <SectionTitle num="02">Коротко</SectionTitle>
             <div className="mt-8">
               <Faq items={faq} />

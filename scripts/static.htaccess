@@ -17,6 +17,8 @@ ErrorDocument 404 /404.html
   # остатки Node-сборки и служебные файлы, если они лежат рядом, наружу не отдаём
   RedirectMatch 404 ^/(node_modules|\.next|\.cache)(/|$)
   RedirectMatch 404 ^/(server\.js|package\.json|\.env|README[^/]*\.md|.*\.service|nginx[^/]*\.conf)$
+  # архивы сборки (site-*.zip и т.п.), если их забыли удалить из web-root
+  RedirectMatch 404 (?i)\.(zip|tar|gz|tgz|7z|rar)$
 </IfModule>
 
 <IfModule mod_rewrite.c>

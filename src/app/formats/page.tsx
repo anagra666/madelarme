@@ -34,7 +34,7 @@ export default function FormatsPage() {
               </div>
               {addons.length > 0 && (
                 <p className="mono mt-4 text-meta">
-                  Допы:{" "}
+                  Дополнительно:{" "}
                   {addons.map((a, i) => (
                     <span key={a.slug}>
                       {i > 0 && " · "}
@@ -52,7 +52,7 @@ export default function FormatsPage() {
 
       <Section paper>
         <Container className="py-16 md:py-24">
-          <SectionTitle>Как это устроено</SectionTitle>
+          <SectionTitle num={String(formatGroups.length + 1).padStart(2, "0")}>Как это устроено</SectionTitle>
           <div className="mt-8 md:mt-12">
             <ProcessList steps={settings.about.process} />
           </div>

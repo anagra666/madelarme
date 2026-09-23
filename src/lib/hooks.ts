@@ -32,13 +32,30 @@ export function useAlmatyTime(): string {
   return t;
 }
 
-/** Блокировка скролла под оверлеями (меню, плеер, story) */
+type LenisLike = { stop(): void; start(): void };
+/* вложенные оверлеи (панель поверх меню) — один общий счётчик, снимаем блокировку с последним */
+let locks = 0;
+let prevOverflow = "";
+
+/**
+ * Блокировка скролла под оверлеями (меню, плеер, story, панель).
+ * overflow:hidden останавливает нативный скролл (тач), а Lenis (мышь) крутит window программно —
+ * его нужно остановить явно через lenis.stop(), класс на <html> он не читает.
+ */
 export function useScrollLock(locked: boolean) {
   useEffect(() => {
     if (!locked) return;
-    const prev = document.documentElement.style.overflow;
-    document.documentElement.style.overflow = "hidden";
-    document.documentElement.classList.add("lenis-stopped");
-    return () => { document.documentElement.style.overflow = prev; document.documentElement.classList.remove("lenis-stopped"); };
+    const html = document.documentElement;
+    const lenis = (window as unknown as { lenis?: LenisLike }).lenis;
+    if (locks++ === 0) {
+      prevOverflow = html.style.overflow;
+      html.style.overflow = "hidden";
+      lenis?.stop();
+    }
+    return () => {
+      if (--locks > 0) return;
+      html.style.overflow = prevOverflow;
+      (window as unknown as { lenis?: LenisLike }).lenis?.start();
+    };
   }, [locked]);
 }

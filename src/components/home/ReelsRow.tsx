@@ -7,7 +7,8 @@ import { ReelsTrack, ReelTile } from "./ReelsRow.client";
 /**
  * «Вертикально.» (план §07-04). Одна лента на оба сценария:
  * телефон — rail со scroll-snap (72vw, гаттер 24px, автоплей у видимой);
- * десктоп — ряд 14vw-плиток, приглушённый постер → цвет + луп по hover, ряд едет влево при скролле.
+ * десктоп — ряд 14vw-плиток, приглушённый постер → цвет + луп по hover, ряд едет влево при скролле
+ * (без мыши или при reduced-motion — тот же ряд, но прокручиваемый rail).
  * Клик/тап — story-режим (ReelsStoryHost смонтирован в layout.tsx).
  */
 export default function ReelsRow() {
@@ -26,7 +27,9 @@ export default function ReelsRow() {
       </Container>
 
       <ReelsTrack className="mt-10 lg:mt-14">
-        <ul className="rail lg:snap-none lg:gap-4 lg:overflow-visible lg:px-gutter">
+        {/* ряд без своей прокрутки — только когда его двигает ReelsTrack (≥1024 + мышь + без reduced-motion);
+            иначе остаётся rail, и хвост ленты доступен свайпом/трекпадом */}
+        <ul className="rail lg:gap-4 lg:px-gutter lg:pointer-fine:motion-safe:snap-none lg:pointer-fine:motion-safe:overflow-visible">
           {reels.map((r, i) => (
             <li key={r.slug} className="w-[72vw] sm:w-[40vw] lg:w-[14vw]">
               <ReelTile reel={r} index={i} />

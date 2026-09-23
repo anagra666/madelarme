@@ -2,7 +2,10 @@ import type { MediaLoop } from "@/content/types";
 import CinemaVideo from "@/components/media/CinemaVideo";
 import { Eyebrow } from "@/components/ui/Section";
 
-/** Reels из кейса — лента 9:16: rail на телефоне, ряд из 4 на десктопе. ≤8 видео. */
+/**
+ * Reels из кейса — лента 9:16: rail на телефоне, на десктопе плитки в ширину колонки из 4.
+ * Меньше четырёх роликов — плитки по центру, а не «одна плитка слева и три пустые колонки». ≤8 видео.
+ */
 export default function CaseReels({ reels, title }: { reels: MediaLoop[]; title: string }) {
   const list = reels.slice(0, 8);
   return (
@@ -11,9 +14,9 @@ export default function CaseReels({ reels, title }: { reels: MediaLoop[]; title:
         <Eyebrow>[ Reels из кейса ]</Eyebrow>
         <span className="mono text-meta">{list.length} × 9:16</span>
       </div>
-      <ul className="rail lg:grid lg:grid-cols-4 lg:gap-4 lg:overflow-visible lg:px-gutter lg:[scroll-snap-type:none]">
+      <ul className="rail lg:flex-wrap lg:justify-center lg:gap-4 lg:overflow-visible lg:px-gutter lg:[scroll-snap-type:none]">
         {list.map((r, i) => (
-          <li key={r.mp4V ?? r.mp4H ?? i} className="w-[62vw] max-w-[320px] lg:w-auto lg:max-w-none">
+          <li key={r.mp4V ?? r.mp4H ?? i} className="w-[62vw] max-w-[320px] lg:w-[calc((100%-3rem)/4)] lg:max-w-none">
             <CinemaVideo
               loop={r}
               orientation="v"

@@ -1,8 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import { Section, Container } from "@/components/ui/Section";
 import Countdown from "@/components/pages/Countdown";
 import { prefill, waLink } from "@/lib/links";
+
+/* Next сам ставит 404-странице noindex; без своего robots рядом остался бы «index, follow» из layout */
+export const metadata: Metadata = {
+  title: "Кадр не найден",
+  robots: { index: false, follow: process.env.NEXT_PUBLIC_NOINDEX !== "1" },
+};
 
 export default function NotFound() {
   return (
@@ -14,7 +21,8 @@ export default function NotFound() {
         </div>
 
         <div className="flex flex-col items-start gap-6 py-10 md:flex-row md:items-end md:justify-between">
-          <h1 className="disp text-h1 max-w-[8ch]">Кадр не найден</h1>
+          {/* leading выше дисплейного .86: иначе ножка «Д» в «КАДР» ложится на бреве «Й» в «НАЙДЕН» */}
+          <h1 className="disp text-h1 max-w-[8ch] leading-[1.06]">Кадр не найден</h1>
           <div className="flex items-end gap-4">
             <span className="mono text-meta">отсчёт</span>
             <Countdown from={8} to={3} className="disp text-h1 tabular-nums text-signal" />

@@ -3,7 +3,10 @@ import { cn } from "@/lib/utils";
 
 /**
  * Бегущая строка на CSS (transform на compositor). Контент дублируется честно для бесшовности.
- * Пауза по hover/focus; при prefers-reduced-motion — статичный ряд.
+ * Пауза по hover; при фокусе с клавиатуры (:focus-visible) анимация снимается (трек встаёт на место,
+ * и браузер докручивает контейнер до ссылки в фокусе). Именно focus-visible, а не focus-within:
+ * клик мышью тоже даёт фокус на mousedown, и прыжок трека до mouseup «съел» бы клик.
+ * При prefers-reduced-motion — статичный ряд.
  */
 export default function Marquee({
   children,
@@ -32,7 +35,7 @@ export default function Marquee({
           inert={i === 1 || undefined}
           className={cn(
             "flex shrink-0 items-center gap-(--gap) pr-(--gap) will-change-transform",
-            "animate-[marquee_var(--dur)_linear_infinite] group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused] motion-reduce:animate-none",
+            "animate-[marquee_var(--dur)_linear_infinite] group-hover:[animation-play-state:paused] group-has-[:focus-visible]:animate-none motion-reduce:animate-none",
             reverse && "[animation-direction:reverse]",
           )}
         >

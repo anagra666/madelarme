@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { X } from "lucide-react";
-import { getCases, getFormats, getPricing, settings } from "@/lib/content";
+import { settings } from "@/lib/settings";
 import { igDmLink, tgLink, waLink } from "@/lib/links";
 import { useScrollLock } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
@@ -17,20 +17,19 @@ import { useFocusTrap } from "@/components/layout/ContactPanel";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-/** 5 пунктов + счётчики. Считается один раз на клиенте из тех же JSON. */
-function items() {
-  const works = getCases().length;
-  const fmts = getFormats().filter((f) => !f.isAddon).length;
-  const collections = getPricing().collections.length;
+/** Счётчики для подписей пунктов — считаются на сервере (layout.tsx) и приходят через Header. */
+export type MenuCounts = { works: number; formats: number; collections: number };
+
+/** 5 пунктов + счётчики */
+function items(c: MenuCounts) {
   return [
-    { href: "/work", label: "Работы", sub: `работы (${works})` },
-    { href: "/formats", label: "Форматы", sub: `форматы (${fmts})` },
-    { href: "/pricing", label: "Цены", sub: `коллекции (${collections})` },
+    { href: "/work", label: "Работы", sub: `работы (${c.works})` },
+    { href: "/formats", label: "Форматы", sub: `форматы (${c.formats})` },
+    { href: "/pricing", label: "Цены", sub: `коллекции (${c.collections})` },
     { href: "/about", label: "Маша", sub: settings.brand.city.toLowerCase() },
     { href: "/contact", label: "Контакты", sub: "проверить дату" },
   ];
 }
-const NAV = items();
 
 export function LangRow({ className }: { className?: string }) {
   return (
@@ -46,11 +45,13 @@ export default function MenuOverlay({
   open,
   onClose,
   triggerRef,
+  counts,
 }: {
   open: boolean;
   onClose: () => void;
   /** кнопка «МЕНЮ» — сюда возвращается фокус */
   triggerRef?: RefObject<HTMLElement | null>;
+  counts: MenuCounts;
 }) {
   const pathname = usePathname();
   const reduce = useReducedMotion();
@@ -81,7 +82,7 @@ export default function MenuOverlay({
           <div aria-hidden="true" className="grain pointer-events-none inset-0" style={{ position: "absolute" }} />
           {/* верх: монограмма + закрыть (44px) — на месте кнопки МЕНЮ */}
           <div className="relative z-2 flex h-(--header-h) shrink-0 items-center justify-between px-gutter">
-            <Link href="/" onClick={onClose} className="disp text-[28px] leading-none" aria-label="На главную">
+            <Link href="/" prefetch={false} onClick={onClose} className="disp -ml-1 flex h-11 min-w-11 items-center px-1 text-[28px] leading-none" aria-label="На главную">
               {settings.brand.monogram}
             </Link>
             <button
@@ -103,7 +104,7 @@ export default function MenuOverlay({
             variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06, delayChildren: 0.12 } } }}
           >
             <ul className="flex flex-col">
-              {NAV.map((it, i) => {
+              {items(counts).map((it, i) => {
                 const active = pathname === it.href || pathname.startsWith(it.href + "/");
                 return (
                   <li key={it.href} className="border-b border-rule last:border-b-0">
@@ -150,8 +151,10 @@ export default function MenuOverlay({
               </a>
             </div>
             <div className="mono mt-5 flex flex-wrap items-center justify-between gap-x-6 gap-y-3 text-meta">
-              <p>
-                {settings.brand.city} · <AlmatyClock className="text-milk" /> · {settings.season}
+              <p className="dots">
+                <span>{settings.brand.city}</span>
+                <span><AlmatyClock className="text-milk" /></span>
+                <span>{settings.season}</span>
               </p>
               <LangRow />
             </div>

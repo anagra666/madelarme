@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
+import { usePathname } from "next/navigation";
 import { Maximize2, Pause, Play, Volume2, VolumeX, X } from "lucide-react";
 import type { FullVideo } from "@/content/types";
 import { useScrollLock } from "@/lib/hooks";
@@ -87,6 +88,7 @@ type Phase = "idle" | "closing" | "film" | "leaving";
 /* ── host ──────────────────────────────────────────────────────────────── */
 export default function Player() {
   const { isOpen, video, title } = usePlayer();
+  const pathname = usePathname();
   const reduce = useReducedMotion();
   const [phase, setPhase] = useState<Phase>("idle");
   const rootRef = useRef<HTMLDivElement>(null);
@@ -106,6 +108,12 @@ export default function Player() {
     emitOverlay(true);
     return () => emitOverlay(false);
   }, [isOpen]);
+
+  /* «Назад» / любой переход: хост живёт в layout, поэтому фильм закрываем сами — иначе он и scroll-lock
+     остаются поверх новой страницы. На маунте closePlayer ничего не делает (плеер закрыт). */
+  useEffect(() => {
+    closePlayer();
+  }, [pathname]);
 
   const active = phase !== "idle";
   useScrollLock(active);
@@ -291,11 +299,12 @@ function SelfVideo({ video }: { video: FullVideo }) {
         className="absolute inset-0 h-full w-full object-contain"
       />
 
-      {/* клик по кадру — play/pause */}
+      {/* клик по кадру — play/pause; для клавиатуры и скринридера есть кнопка в нижней строке, здесь второй таб-стоп не нужен */}
       <button
         type="button"
         onClick={toggle}
-        aria-label={playing ? "Пауза" : "Воспроизвести"}
+        tabIndex={-1}
+        aria-hidden="true"
         className="absolute inset-0 z-10 cursor-pointer"
       >
         {!playing && (

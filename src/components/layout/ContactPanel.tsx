@@ -1,16 +1,16 @@
 "use client";
 
-import { sendLead } from "@/lib/lead";
-
 import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore, type FormEvent, type ReactNode, type RefObject } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { X, Check, Copy } from "lucide-react";
-import { getFormats, settings } from "@/lib/content";
+import { settings } from "@/lib/settings";
 import { igDmLink, telLink, tgLink, waLink } from "@/lib/links";
+import { leadWaLink, sendLead, type LeadPayload } from "@/lib/lead";
 import { useMediaQuery, useScrollLock } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
+import Button from "@/components/ui/Button";
 import {
   emitOverlay, InstagramGlyph, TelegramGlyph, useStickyPrefill, WhatsAppGlyph,
 } from "@/components/layout/StickyCTA";
@@ -44,7 +44,8 @@ export function useContactPanel() {
 }
 
 /* ── focus trap (общий для меню и панели) ─────────────────────────────── */
-const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),textarea:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])';
+/* iframe — чтобы Tab доходил до встроенного YouTube в плеере */
+const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),textarea:not([disabled]),select:not([disabled]),iframe,[tabindex]:not([tabindex="-1"])';
 
 /**
  * Фокус на первый элемент при открытии, Tab по кругу, Esc → onClose, возврат фокуса на триггер.
@@ -87,22 +88,16 @@ export function useFocusTrap(
 
 /* ── панель ────────────────────────────────────────────────────────────── */
 const EASE = [0.16, 1, 0.3, 1] as const;
-type Status = "idle" | "sending" | "ok" | "fail";
+/** sent — принято сервером; wa — статика: текст заявки открыт в WhatsApp, осталось отправить там */
+type Status = "idle" | "sending" | "sent" | "wa" | "fail";
 
 /**
- * Чипы форматов: у одинаковых имён (два «Клип») добавляем первый термин —
- * «Клип · highlight film» / «Клип · music video». В /api/lead уходит именно label.
+ * Чип формата. Список собирается на сервере (layout.tsx): у одинаковых имён (два «Клип») добавлен
+ * первый термин — «Клип · highlight film» / «Клип · music video». В /api/lead уходит именно label.
  */
-const formats = (() => {
-  const base = getFormats().filter((f) => !f.isAddon);
-  const dup = new Set(base.map((f) => f.name).filter((n, i, a) => a.indexOf(n) !== i));
-  return base.map((f) => ({
-    slug: f.slug,
-    label: dup.has(f.name) ? `${f.name} · ${f.term.split("/")[0].trim()}` : f.name,
-  }));
-})();
+export type FormatChip = { slug: string; label: string };
 
-export default function ContactPanel() {
+export default function ContactPanel({ formats }: { formats: FormatChip[] }) {
   const { isOpen, close } = useContactPanel();
   const pathname = usePathname();
   const text = useStickyPrefill();
@@ -128,22 +123,37 @@ export default function ContactPanel() {
   const [status, setStatus] = useState<Status>("idle");
   const [format, setFormat] = useState<string>("");
   const [draft, setDraft] = useState({ name: "", contact: "", when: "", message: "" });
+  /* последняя заявка — для постоянной кнопки «Открыть WhatsApp» (попап мог быть заблокирован) */
+  const [sent, setSent] = useState<LeadPayload | null>(null);
+
+  /* панель живёт в шапке и не размонтируется: после закрытия снова показываем форму, а не «Получила!» */
+  const [prevOpen, setPrevOpen] = useState(isOpen);
+  if (prevOpen !== isOpen) {
+    setPrevOpen(isOpen);
+    if (!isOpen && (status === "sent" || status === "wa")) {
+      setStatus("idle");
+      if (status === "sent") { setDraft({ name: "", contact: "", when: "", message: "" }); setFormat(""); }
+    }
+  }
 
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (status === "sending") return;
-    setStatus("sending");
     /* контракт /api/lead: name, contact, format?, when?, message?, consent: true */
     const formatLabel = formats.find((f) => f.slug === format)?.label;
-    const payload = {
+    const payload: LeadPayload = {
       name: draft.name,
       contact: draft.contact,
       format: formatLabel,
       when: draft.when,
       message: [draft.message, `[со страницы ${pathname}]`].filter(Boolean).join("\n"),
-      consent: true as const,
+      consent: true,
     };
-    setStatus((await sendLead(payload, text)) ? "ok" : "fail");
+    /* sendLead — синхронно, до первого await: на статике он открывает WhatsApp по жесту пользователя */
+    const pending = sendLead(payload, text);
+    setSent(payload);
+    setStatus("sending");
+    setStatus(await pending);
   };
 
   const fallbackText = [
@@ -222,15 +232,32 @@ export default function ContactPanel() {
                 </div>
                 <div className="flex min-h-11 items-center gap-3">
                   <dt className="text-meta">тел</dt>
-                  <dd><a href={telLink()} className="hover:text-signal">{settings.contacts.phoneDisplay}</a></dd>
+                  <dd><a href={telLink()} className="inline-flex min-h-11 items-center hover:text-signal">{settings.contacts.phoneDisplay}</a></dd>
                 </div>
               </dl>
 
               {/* форма */}
-              {status === "ok" ? (
+              {status === "sent" ? (
                 <div className="border-t border-rule pt-6" role="status">
                   <p className="disp text-h3 text-signal">Получила!</p>
                   <p className="mt-3 text-milk">Напишу сегодня.</p>
+                </div>
+              ) : status === "wa" && sent ? (
+                <div className="flex flex-col gap-4 border-t border-rule pt-6" role="status">
+                  <p className="disp text-h3">Осталось нажать «Отправить» в WhatsApp</p>
+                  <p className="text-milk">
+                    Текст заявки уже в чате. Если WhatsApp не открылся — нажмите кнопку ниже.
+                  </p>
+                  <Button href={leadWaLink(sent, text)} variant="signal" size="lg">
+                    <WhatsAppGlyph /> Открыть WhatsApp
+                  </Button>
+                  <button
+                    type="button"
+                    onClick={() => setStatus("idle")}
+                    className="mono-sm flex h-11 items-center self-start text-meta transition-colors hover:text-signal"
+                  >
+                    [ изменить заявку ]
+                  </button>
                 </div>
               ) : (
                 <form onSubmit={submit} className="flex flex-col gap-5 border-t border-rule pt-6" aria-busy={status === "sending"}>
@@ -256,7 +283,7 @@ export default function ContactPanel() {
                             onClick={() => setFormat(on ? "" : f.slug)}
                             className={cn(
                               "mono-sm h-11 border px-3 transition-colors",
-                              on ? "border-signal bg-signal text-ink" : "border-rule text-milk hover:border-milk",
+                              on ? "border-signal bg-signal text-ink" : "border-meta/60 text-milk hover:border-milk",
                             )}
                           >
                             {f.label}
@@ -304,7 +331,7 @@ export default function ContactPanel() {
   );
 }
 
-const inputCls = "h-12 w-full border-0 border-b border-rule bg-transparent px-0 text-[17px] text-milk placeholder:text-meta/70 focus:border-signal focus:outline-none";
+const inputCls = "h-12 w-full border-0 border-b border-meta/60 bg-transparent px-0 text-[17px] text-milk placeholder:text-meta focus:border-signal focus:outline-none";
 
 function Field({ id, label, children }: { id: string; label: string; children: ReactNode }) {
   return (

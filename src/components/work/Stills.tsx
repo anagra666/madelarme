@@ -7,12 +7,13 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import type { Still } from "@/content/types";
 import { useScrollLock } from "@/lib/hooks";
 import { Eyebrow } from "@/components/ui/Section";
-import { pad2 } from "@/lib/utils";
+import { cn, pad2 } from "@/lib/utils";
 import { useFocusTrap } from "@/components/layout/ContactPanel";
 import { emitOverlay } from "@/components/layout/StickyCTA";
 
 /**
- * Кадры кейса: сетка 2/3 колонки, у каждого бокса aspect-ratio из w/h (CLS 0).
+ * Кадры кейса: masonry в 2/3 колонки (CSS columns), у каждого бокса aspect-ratio из w/h (CLS 0) —
+ * кадры разных пропорций встают друг под другом без дыр.
  * Тап — простой лайтбокс: Esc / клик по фону закрывает, ← → листают, Tab по кругу, фокус возвращается (useFocusTrap).
  */
 export default function Stills({ stills, title }: { stills: Still[]; title: string }) {
@@ -58,9 +59,10 @@ export default function Stills({ stills, title }: { stills: Still[]; title: stri
         <span className="mono text-meta">{stills.length} шт.</span>
       </div>
 
-      <ul className="grid grid-cols-2 gap-2 lg:grid-cols-3 lg:gap-4">
+      {/* колонок не больше, чем кадров: при двух кадрах на десктопе третья колонка стояла бы пустой */}
+      <ul className={cn("gap-2 lg:gap-4", stills.length === 1 ? "columns-1" : "columns-2", stills.length > 2 && "lg:columns-3")}>
         {stills.map((s, i) => (
-          <li key={s.src}>
+          <li key={s.src} className="mb-2 break-inside-avoid lg:mb-4">
             <button
               type="button"
               onClick={(e) => {

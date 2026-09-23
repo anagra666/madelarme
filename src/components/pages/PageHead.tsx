@@ -33,7 +33,7 @@ export function PageHead({
 export function SectionTitle({ num, children, className }: { num?: string; children: ReactNode; className?: string }) {
   return (
     <h2 className={cn("disp text-h3 flex items-baseline gap-4", className)}>
-      {num && <span className="mono text-signal">{num} ·</span>}
+      {num && <span className="mono text-meta">[ {num} ] ·</span>}
       <span>{children}</span>
     </h2>
   );

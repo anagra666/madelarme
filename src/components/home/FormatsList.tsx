@@ -33,10 +33,14 @@ export default function FormatsList() {
             const meta = [showPrices && f.fromPrice ? formatPrice(f.fromPrice) : null, f.duration]
               .filter(Boolean)
               .join(" · ");
+            /* «(0)» читается как «таких работ нет» — счётчик только когда есть что показать */
+            const counter = count > 0 ? `(${count})` : null;
+            const metaMobile = [counter, meta].filter(Boolean).join(" · ");
             return (
               <li key={f.slug}>
                 <Link
                   href={`/formats/${f.slug}`}
+                  prefetch={false}
                   data-format={f.slug}
                   className="group relative flex min-h-[88px] items-center justify-between gap-4 border-t border-rule py-4 lg:py-5"
                 >
@@ -44,24 +48,20 @@ export default function FormatsList() {
                     <span className="mono-sm hidden w-8 text-meta lg:block">{String(i + 1).padStart(2, "0")}</span>
                     <span className="disp text-row leading-[.86] transition-colors duration-300 group-hover:text-signal">
                       {f.name}
-                      <span className="mono ml-3 hidden align-top text-meta lg:inline">({count})</span>
+                      {counter && <span className="mono ml-3 hidden align-top text-meta lg:inline">{counter}</span>}
                     </span>
-                    <span className="mono text-meta lg:hidden">
-                      ({count}){meta ? ` · ${meta}` : ""}
-                    </span>
+                    {metaMobile && <span className="mono text-meta lg:hidden">{metaMobile}</span>}
                   </div>
 
                   {/* десктоп: цена · хронометраж */}
                   <span className="mono hidden shrink-0 text-meta lg:block">{meta}</span>
 
-                  {/* телефон: квадратный стилл 64px */}
-                  <span className="relative block h-16 w-16 shrink-0 overflow-hidden bg-ink-2 lg:hidden">
-                    {f.loop?.posterH ? (
+                  {/* телефон: квадратный стилл 64px (без кадра — без пустой плашки) */}
+                  {f.loop?.posterH && (
+                    <span className="relative block h-16 w-16 shrink-0 overflow-hidden bg-ink-2 lg:hidden">
                       <Image src={f.loop.posterH} alt="" fill sizes="64px" className="object-cover" />
-                    ) : (
-                      <span className="mono-sm absolute inset-0 grid place-items-center text-meta">—</span>
-                    )}
-                  </span>
+                    </span>
+                  )}
 
                   {/* подчёркивание в сигнальном цвете, scaleX 0 → 1 по hover */}
                   <span
@@ -78,7 +78,7 @@ export default function FormatsList() {
 
         <div className="mt-8 flex justify-end">
           <Link href="/formats" className="mono inline-flex min-h-11 items-center text-milk hover:text-signal">
-            полный список форматов и что в них входит →
+            полный список форматов и что в них входит&nbsp;→
           </Link>
         </div>
       </Container>
