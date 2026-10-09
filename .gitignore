@@ -46,3 +46,9 @@ next-env.d.ts
 
 # preview bundles
 /dist/
+
+# trailer render artifacts
+/trailer/assets/
+/trailer/frames/
+/trailer/stills/
+/trailer/*.mp4

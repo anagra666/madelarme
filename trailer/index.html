@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>MADELARME — трейлер нового сайта</title>
+<meta name="viewport" content="width=1080">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Extra+Condensed:wght@800&family=Oswald:wght@700&family=Inter+Tight:wght@400;500&family=Roboto+Mono:wght@400;500&display=block">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+:root{
+  --ink:#0e0d0c; --ink2:#171514; --milk:#ece7df; --signal:#ff4d2e; --paper:#f3eee6; --meta:#8f877d; --rule:#2b2724;
+  --disp:"Sofia Sans Extra Condensed","Oswald","Arial Narrow",sans-serif;
+  --body:"Inter Tight",Arial,sans-serif; --mono:"Roboto Mono",Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;background:var(--ink);overflow:hidden}
+body{color:var(--milk);font-family:var(--body);-webkit-font-smoothing:antialiased}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--ink)}
+.scene{position:absolute;inset:0;visibility:hidden;overflow:hidden}
+.disp{font-family:var(--disp);font-weight:800;text-transform:uppercase;line-height:.84;letter-spacing:-.005em;font-size-adjust:cap-height from-font;white-space:nowrap}
+.mono{font-family:var(--mono);font-size:26px;letter-spacing:.12em;text-transform:uppercase;font-variant-numeric:tabular-nums}
+.meta{color:var(--meta)}
+.sig{color:var(--signal)}
+.mask{display:block;overflow:hidden;padding-top:.18em;margin-top:-.18em}
+.mask>span{display:inline-block;will-change:transform}
+video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:var(--ink)}
+.scrimB{position:absolute;inset:auto 0 0 0;height:62%;background:linear-gradient(180deg,rgba(14,13,12,0),rgba(14,13,12,.86))}
+.scrimT{position:absolute;inset:0 0 auto 0;height:26%;background:linear-gradient(180deg,rgba(14,13,12,.75),rgba(14,13,12,0))}
+
+/* ── global overlays ── */
+#grain{position:absolute;inset:0;width:1080px;height:1920px;pointer-events:none;mix-blend-mode:overlay;opacity:.13;z-index:50;image-rendering:pixelated}
+#vignette{position:absolute;inset:0;z-index:49;pointer-events:none;background:radial-gradient(120% 90% at 50% 50%,transparent 60%,rgba(0,0,0,.42) 100%)}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;z-index:60;pointer-events:none}
+.bar{position:absolute;left:0;right:0;height:50%;background:var(--ink);z-index:55}
+#barT{top:0}
+#barB{bottom:0}
+#osd{position:absolute;top:58px;left:64px;right:64px;display:flex;justify-content:space-between;z-index:56;opacity:0}
+#osd .rec{display:flex;gap:16px;align-items:center}
+#osd .dot{width:18px;height:18px;border-radius:50%;background:var(--signal)}
+
+/* ── S1 leader ── */
+#s1{background:#121110}
+#s1 .ring{position:absolute;left:50%;top:50%;width:820px;height:820px;margin:-410px 0 0 -410px;border-radius:50%;border:4px solid rgba(236,231,223,.75)}
+#s1 .ring2{width:660px;height:660px;margin:-330px 0 0 -330px;border-width:2px;border-color:rgba(236,231,223,.45)}
+#s1 .wedge{position:absolute;left:50%;top:50%;width:820px;height:820px;margin:-410px 0 0 -410px;border-radius:50%;
+  background:conic-gradient(rgba(236,231,223,.16) var(--a,0deg),transparent 0)}
+#s1 .cross{position:absolute;background:rgba(236,231,223,.5)}
+#s1 .cx{left:0;right:0;top:50%;height:2px}
+#s1 .cy{top:0;bottom:0;left:50%;width:2px}
+#s1 .num{position:absolute;left:0;right:0;top:50%;height:0;text-align:center;font-size:640px;color:var(--milk)}
+#s1 .num span{position:absolute;left:0;right:0;top:-300px;height:600px;line-height:600px;opacity:0}
+#s1 .scratch{position:absolute;top:0;bottom:0;width:2px;background:rgba(236,231,223,.35)}
+#s1 .top{position:absolute;top:150px;left:64px;right:64px;display:flex;justify-content:space-between}
+#s1 .bot{position:absolute;bottom:150px;left:64px;right:64px;display:flex;justify-content:space-between}
+
+/* ── S2 manifest ── */
+#s2 .copy{position:absolute;left:64px;right:64px;bottom:230px}
+#s2 h1{font-size:240px}
+#s2 .sub{font-size:44px;line-height:1.3;max-width:20ch;margin-top:44px;color:rgba(236,231,223,.9)}
+#s2 .ident{position:absolute;left:64px;top:170px;display:flex;flex-wrap:wrap;gap:10px 18px;max-width:900px}
+#s2 .ident span{background:rgba(14,13,12,.45);padding:6px 12px}
+#s2 .dotp{display:inline-block;color:var(--signal)}
+
+/* ── S3 wordmark (video inside letters) ── */
+#s3 .wm{position:absolute;inset:0;background:var(--ink);mix-blend-mode:multiply;display:flex;flex-direction:column;justify-content:center;align-items:center}
+#s3 .wm .disp{color:#fff;font-size:520px;line-height:.82;text-align:center}
+#s3 .wm .l2{font-size:470px}
+#s3 .wmo{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:2;pointer-events:none}
+#s3 .wmo .disp{color:transparent;-webkit-text-stroke:2px rgba(236,231,223,.55);font-size:520px;line-height:.82;text-align:center}
+#s3 .labels{position:absolute;left:64px;right:64px;display:flex;justify-content:space-between;z-index:3}
+#s3 .lt{top:120px}
+#s3 .lb{bottom:120px}
+
+/* ── S4 phone ── */
+#s4{background:var(--ink)}
+#s4 .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(236,231,223,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(236,231,223,.045) 1px,transparent 1px);background-size:90px 90px}
+#s4 .head{position:absolute;left:64px;right:64px;top:132px}
+#s4 .head .disp{margin-top:22px}
+#s4 .phone{position:absolute;left:50%;top:560px;width:592px;height:1244px;margin-left:-296px;border-radius:84px;background:#050505;
+  box-shadow:0 0 0 3px #2b2724,0 0 0 9px #121110,0 60px 120px rgba(0,0,0,.55);padding:16px;transform-origin:50% 0%}
+#s4 .screen{position:relative;width:560px;height:1212px;border-radius:70px;overflow:hidden;background:var(--ink)}
+#s4 .page{position:absolute;left:0;top:0;width:560px}
+#s4 .page img{display:block;width:560px}
+#s4 .hdr{position:absolute;left:0;right:0;top:0;height:81px;z-index:3}
+#s4 .hdr .bg{position:absolute;inset:0;background:rgba(14,13,12,.9);opacity:0;display:flex;align-items:center;justify-content:space-between;padding:0 22px 0 24px}
+#s4 .hdr .bg .m{font-size:40px;color:var(--milk)}
+#s4 .hdr .bg .r{display:flex;align-items:center;gap:26px}
+#s4 .hdr .bg .mono{font-size:17px;color:var(--milk)}
+#s4 .hdr img{position:absolute;inset:0;width:560px;height:81px}
+#s4 .island{position:absolute;top:16px;left:50%;width:160px;height:46px;margin-left:-80px;border-radius:30px;background:#000;z-index:5}
+#s4 .sticky{position:absolute;left:0;right:0;bottom:0;z-index:4}
+#s4 .sticky img{display:block;width:560px}
+#s4 .tap{position:absolute;width:140px;height:140px;border-radius:50%;border:5px solid var(--milk);z-index:6;opacity:0;left:98px;bottom:-42px}
+#s4 .finger{position:absolute;width:96px;height:96px;border-radius:50%;background:rgba(236,231,223,.28);z-index:6;opacity:0}
+
+/* ── S5 works index ── */
+#s5 .bgv{position:absolute;inset:0;opacity:0}
+#s5 .shade{position:absolute;inset:0;background:rgba(14,13,12,.45)}
+#s5 .list{position:absolute;left:64px;right:64px;top:300px}
+#s5 .eyebrow{display:flex;justify-content:space-between;margin-bottom:34px}
+#s5 .row{border-top:2px solid rgba(236,231,223,.18);padding:26px 0 22px;display:grid;grid-template-columns:110px 1fr;align-items:end}
+#s5 .row .n{align-self:start;padding-top:8px}
+#s5 .row .t{font-size:150px;color:var(--milk)}
+#s5 .row .m{grid-column:2;margin-top:14px;font-size:22px}
+#s5 .row.on .t{color:var(--signal)}
+#s5 .row.on .n,#s5 .row.on .m{color:var(--milk)}
+#s5 .foot{position:absolute;left:64px;right:64px;bottom:150px}
+
+/* ── S6 title card (paper) ── */
+#s6{background:var(--paper);color:#141210}
+#s6 .crop{position:absolute;font-family:var(--mono);font-size:40px;color:#6b635a}
+#s6 .clip{position:absolute;left:64px;right:64px;top:150px;height:540px;overflow:hidden;background:#141210}
+#s6 .clip video{position:absolute}
+#s6 .h{position:absolute;left:64px;right:64px;top:740px}
+#s6 .h .disp{color:#141210}
+#s6 .ledger{position:absolute;left:64px;right:64px;top:1220px}
+#s6 .lr{display:flex;align-items:baseline;gap:18px;padding:30px 0;border-top:2px solid #d9d0c3}
+#s6 .lr .k{font-family:var(--mono);font-size:24px;letter-spacing:.12em;text-transform:uppercase;color:#6b635a;white-space:nowrap}
+#s6 .lr .dots{flex:1;border-bottom:3px dotted #b3a99b;transform:translateY(-8px) scaleX(0);transform-origin:0 50%}
+#s6 .lr .v{font-size:40px;font-weight:500;white-space:nowrap;clip-path:inset(0 100% 0 0)}
+
+/* ── S7 formats ── */
+#s7{background:var(--signal)}
+#s7 .band{position:absolute;left:0;white-space:nowrap;font-size:300px;color:var(--ink)}
+#s7 .b1{top:230px}
+#s7 .b2{top:640px;background:var(--ink);color:var(--signal);padding:40px 0 18px;width:max-content}
+#s7 .b3{top:1110px}
+#s7 .cap{position:absolute;left:64px;right:64px;bottom:120px;display:flex;justify-content:space-between;color:var(--ink)}
+#s7 .cap .disp{font-size:120px;color:var(--ink)}
+
+/* ── S8 final ── */
+#s8 .copy{position:absolute;left:64px;right:64px;top:520px}
+#s8 .copy .disp{font-size:330px}
+#s8 .meta2{position:absolute;left:64px;right:64px;bottom:270px;display:flex;flex-direction:column;gap:26px}
+#s8 .handle{font-size:120px}
+#s8 .stop{display:flex;align-items:center;gap:16px}
+#s8 .stop i{display:inline-block;width:18px;height:18px;background:var(--signal)}
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- S1: плёночный отсчёт -->
+  <section class="scene" id="s1">
+    <div class="scratch" style="left:180px"></div><div class="scratch" style="left:760px"></div><div class="scratch" style="left:930px"></div>
+    <div class="wedge"></div>
+    <div class="ring"></div><div class="ring ring2"></div>
+    <div class="cross cx"></div><div class="cross cy"></div>
+    <div class="num disp"><span>3</span><span>2</span><span>1</span></div>
+    <div class="top mono"><span>MADELARME</span><span class="meta">Трейлер</span></div>
+    <div class="bot mono"><span class="meta">Новый сайт</span><span class="meta">Алматы · 2026</span></div>
+  </section>
+
+  <!-- S2: манифест на шоуриле -->
+  <section class="scene" id="s2">
+    <video data-v src="assets/v/showreel-v.mp4" data-start="2.6" muted playsinline preload="auto"></video>
+    <div class="scrimT"></div><div class="scrimB"></div>
+    <div class="ident mono"><span>[ Мария Волкова ]</span><span>[ видеограф ]</span><span>[ Алматы, KZ ]</span></div>
+    <div class="copy">
+      <h1 class="disp"><span class="mask"><span>Снимаю</span></span><span class="mask"><span>Заглавными<b class="dotp">.</b></span></span></h1>
+      <p class="sub">Свадебное кино для тех, кто не любит свадебное видео.</p>
+    </div>
+  </section>
+
+  <!-- S3: вордмарк, видео внутри букв -->
+  <section class="scene" id="s3">
+    <video data-v src="assets/v/pervyj-sneg-v.mp4" data-start="6.4" muted playsinline preload="auto"></video>
+    <div class="wm"><div class="disp l1"><span class="mask"><span>Made</span></span></div><div class="disp l2"><span class="mask"><span>larme</span></span></div></div>
+    <div class="wmo" aria-hidden="true"><div class="disp l1"><span class="mask"><span>Made</span></span></div><div class="disp l2"><span class="mask"><span>larme</span></span></div></div>
+    <div class="labels lt mono"><span>[ @madelarme ]</span><span>[ 02 ]</span></div>
+    <div class="labels lb mono"><span>Свадьбы · Бренды · Клипы</span><span>Reels</span></div>
+  </section>
+
+  <!-- S4: сайт в телефоне -->
+  <section class="scene" id="s4">
+    <div class="grid"></div>
+    <div class="head">
+      <div class="mono meta">[ 03 ] · Новый сайт</div>
+      <div class="disp"><span class="mask"><span>Сначала телефон.</span></span></div>
+    </div>
+    <div class="phone">
+      <div class="screen">
+        <div class="page"><img src="assets/home-long.jpg" alt=""></div>
+        <div class="hdr"><div class="bg"><b class="m disp">M.</b><span class="r"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#ece7df" stroke-width="1.6"><path d="M3.5 20.5l1.3-4.1A8.5 8.5 0 1 1 8 19.6z"/><path d="M9 8.6c.3 1.9 1.9 3.9 3.9 4.9l1.2-1 2 .9c0 1-.9 1.8-1.9 1.8-3.6-.3-6.5-3.2-6.8-6.8 0-1 .8-1.9 1.8-1.9l.9 2z"/></svg><span class="mono">Меню</span></span></div><img src="assets/header-strip.png" alt=""></div>
+        <div class="sticky"><img src="assets/sticky-strip.png" alt=""></div>
+        <div class="island"></div>
+        <div class="finger"></div>
+        <div class="tap"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S5: индекс работ, склейки -->
+  <section class="scene" id="s5">
+    <video class="bgv" data-v src="assets/v/tau-toi-v.mp4" data-start="16.1" muted playsinline preload="auto"></video>
+    <video class="bgv" data-v src="assets/v/gorod-ne-spit-v.mp4" data-start="17.0" muted playsinline preload="auto"></video>
+    <video class="bgv" data-v src="assets/v/oyu-fest-v.mp4" data-start="17.9" muted playsinline preload="auto"></video>
+    <video class="bgv" data-v src="assets/v/pervyj-sneg-v.mp4" data-start="18.8" muted playsinline preload="auto"></video>
+    <video class="bgv" data-v src="assets/v/utro-zdes-v.mp4" data-start="19.7" muted playsinline preload="auto"></video>
+    <div class="shade"></div>
+    <div class="list">
+      <div class="eyebrow mono"><span class="meta">[ 04 ] · Работы</span><span class="meta">[ 11 ]</span></div>
+      <div class="row"><span class="n mono meta">01</span><span class="t disp">Тау-той</span><span class="m mono meta">Свадебный фильм · Медеу</span></div>
+      <div class="row"><span class="n mono meta">02</span><span class="t disp">Город не спит</span><span class="m mono meta">Музыкальный клип · ночной Алматы</span></div>
+      <div class="row"><span class="n mono meta">03</span><span class="t disp">OYU Fest ’26</span><span class="m mono meta">Aftermovie · Первомайские пруды</span></div>
+      <div class="row"><span class="n mono meta">04</span><span class="t disp">Первый снег</span><span class="m mono meta">Love story · Шымбулак</span></div>
+      <div class="row"><span class="n mono meta">05</span><span class="t disp">Утро здесь</span><span class="m mono meta">Промо · кофейня</span></div>
+    </div>
+    <div class="foot mono meta">Видео появляется само, когда смотришь на работу</div>
+  </section>
+
+  <!-- S6: титровая карточка -->
+  <section class="scene" id="s6">
+    <span class="crop" style="left:22px;top:22px">+</span><span class="crop" style="right:22px;bottom:22px">+</span>
+    <div class="clip"><video data-v src="assets/v/gorod-ne-spit-h.mp4" data-start="21.0" muted playsinline preload="auto"></video></div>
+    <div class="h">
+      <div class="mono" style="color:#6b635a">[ 05 ] · Кейс</div>
+      <div class="disp" style="margin-top:22px"><span class="mask"><span>Каждая работа</span></span><span class="mask"><span>как титры.</span></span></div>
+    </div>
+    <div class="ledger">
+      <div class="lr"><span class="k">Клиент</span><span class="dots"></span><span class="v">Neon Dreams</span></div>
+      <div class="lr"><span class="k">Формат</span><span class="dots"></span><span class="v">Музыкальный клип</span></div>
+      <div class="lr"><span class="k">Где · когда</span><span class="dots"></span><span class="v">Алматы · май 2025</span></div>
+      <div class="lr"><span class="k">Съемка</span><span class="dots"></span><span class="v">2 ночи · 7 локаций</span></div>
+      <div class="lr"><span class="k">Сдача</span><span class="dots"></span><span class="v">Клип 3:20 + вертикаль</span></div>
+    </div>
+  </section>
+
+  <!-- S7: форматы -->
+  <section class="scene" id="s7">
+    <div class="band b1 disp">Свадьба · Love story · Қыз ұзату · Свадьба · Love story · Қыз ұзату ·</div>
+    <div class="band b2 disp">&nbsp;Aftermovie · Бренд · Клип · Aftermovie · Бренд · Клип ·</div>
+    <div class="band b3 disp">Reels · Интервью · Fashion · Reels · Интервью · Fashion ·</div>
+    <div class="cap"><span class="disp"><span class="cnt">0</span> форматов</span><span class="mono" style="align-self:flex-end;color:var(--ink)">[ 06 ] · С ценами</span></div>
+  </section>
+
+  <!-- S8: финал -->
+  <section class="scene" id="s8">
+    <div class="copy">
+      <div class="mono meta">[ 07 ] · Сезон 2027 открыт</div>
+      <div class="disp" style="margin-top:30px"><span class="mask"><span>Давай</span></span><span class="mask"><span>снимать<b class="sig">.</b></span></span></div>
+    </div>
+    <div class="meta2">
+      <div class="disp handle">@madelarme</div>
+      <div class="mono meta">Новый сайт · Свадьбы · Бренды · Клипы</div>
+      <div class="stop mono"><i></i><span class="tcstop">Стоп 00:00:00:00</span></div>
+    </div>
+  </section>
+
+  <div id="osd" class="mono"><span class="rec"><i class="dot"></i><span>REC</span></span><span class="tc">00:00:00:00</span></div>
+  <div class="bar" id="barT"></div><div class="bar" id="barB"></div>
+  <div id="vignette"></div>
+  <canvas id="grain" width="540" height="960"></canvas>
+  <div id="flash"></div>
+</div>
+
+<script>
+(() => {
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const FPS = 30;
+const tl = gsap.timeline({ paused: true });
+
+/* подгонка дисплейных строк под ширину кадра (каждая строка — свой кегль) */
+function fitLines(sel, maxW, each = false) {
+  $$(sel).forEach((box) => {
+    const spans = $$(".mask > span", box);
+    if (each) {
+      spans.forEach((s) => { const host = s.closest(".disp") || box; const fs = parseFloat(getComputedStyle(host).fontSize); host.style.fontSize = (fs * maxW / s.getBoundingClientRect().width).toFixed(1) + "px"; });
+    } else {
+      const fs = parseFloat(getComputedStyle(box).fontSize);
+      const w = Math.max(...spans.map((s) => s.getBoundingClientRect().width));
+      box.style.fontSize = (fs * maxW / w).toFixed(1) + "px";
+    }
+  });
+}
+window.__fit = () => {
+  fitLines("#s2 h1", 940);
+  fitLines("#s3 .wm", 990, true); fitLines("#s3 .wmo", 990, true);
+  fitLines("#s4 .head .disp", 952);
+  fitLines("#s6 .h .disp", 952);
+  fitLines("#s8 .copy .disp", 952);
+};
+window.__tl = tl;
+
+/* детерминированный «шум» — без Math.random, чтобы кадр N всегда был одинаковым */
+const hash = (n) => { n = Math.imul(n ^ 0x9e3779b9, 0x85ebca6b); n ^= n >>> 13; n = Math.imul(n, 0xc2b2ae35); n ^= n >>> 16; return (n >>> 0) / 4294967295; };
+const tc = (t) => { const s = Math.floor(t), f = Math.floor((t - s) * 24); return `00:00:${String(s).padStart(2, "0")}:${String(f).padStart(2, "0")}`; };
+
+const E = { expo: "expo.out", inout: "power3.inOut", hard: "power4.out" };
+const show = (id, a, b) => { tl.set(id, { visibility: "visible" }, a); tl.set(id, { visibility: "hidden" }, b); };
+const flash = (t, o = .9) => { tl.set("#flash", { opacity: o }, t); tl.set("#flash", { opacity: 0 }, t + 2 / FPS); };
+const lines = (sel, t, st = .12, d = .9) => tl.fromTo(sel, { yPercent: 112, rotate: 2 }, { yPercent: 0, rotate: 0, duration: d, ease: E.expo, stagger: st }, t);
+
+/* занавес: полосы смыкаются (close) / расходятся (open) */
+const close = (t, d = .45) => tl.to("#barT", { yPercent: 0, duration: d, ease: E.inout }, t).to("#barB", { yPercent: 0, duration: d, ease: E.inout }, t);
+const open = (t, d = .6) => tl.fromTo("#barT", { yPercent: 0 }, { yPercent: -100, duration: d, ease: E.inout, immediateRender: false }, t).fromTo("#barB", { yPercent: 0 }, { yPercent: 100, duration: d, ease: E.inout, immediateRender: false }, t);
+tl.set("#barT", { yPercent: -100 }, 0); tl.set("#barB", { yPercent: 100 }, 0);
+
+/* ── S1 · отсчёт 0–2.6 ── */
+show("#s1", 0, 2.6);
+const nums = $$("#s1 .num span");
+nums.forEach((n, i) => {
+  const a = .1 + i * .8;
+  tl.fromTo(n, { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1, duration: .25, ease: E.expo }, a);
+  tl.set(n, { opacity: 0 }, a + .8);
+  tl.fromTo("#s1 .wedge", { "--a": "0deg" }, { "--a": "360deg", duration: .8, ease: "none", immediateRender: false }, a);
+});
+tl.fromTo("#s1 .ring", { scale: .96, opacity: .6 }, { scale: 1, opacity: 1, duration: 2.4, ease: "none" }, 0);
+tl.to({}, { duration: 2.6, onUpdate() {
+  const f = Math.round(this.time() * FPS);
+  $$("#s1 .scratch").forEach((s, i) => { s.style.left = (hash(f * 7 + i) * 1060) + "px"; s.style.opacity = hash(f * 13 + i) > .55 ? .55 : 0; });
+  $("#s1").style.filter = `brightness(${(0.9 + hash(f) * .18).toFixed(3)})`;
+} }, 0);
+flash(2.55, 1);
+
+/* ── S2 · манифест 2.6–6.4 ── */
+show("#s2", 2.6, 6.4);
+tl.set(["#barT", "#barB"], { yPercent: 0 }, 2.6);
+open(2.62, .7);
+tl.fromTo("#s2 video", { scale: 1.14 }, { scale: 1, duration: 3.8, ease: "power2.out" }, 2.6);
+tl.set("#osd", { opacity: 1 }, 2.9);
+lines("#s2 .mask > span", 3.0, .16, 1);
+tl.fromTo("#s2 .dotp", { scale: 0, transformOrigin: "50% 80%" }, { scale: 1, duration: .5, ease: "back.out(3)" }, 3.75);
+tl.fromTo("#s2 .ident span", { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: .5, ease: E.expo, stagger: .09 }, 3.3);
+tl.fromTo("#s2 .sub", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .8, ease: E.expo }, 4.25);
+tl.to("#s2 .copy", { y: -40, duration: 1.4, ease: "power1.in" }, 5.0);
+flash(6.37);
+
+/* ── S3 · вордмарк 6.4–9.6 ── */
+show("#s3", 6.4, 9.6);
+tl.set("#osd", { opacity: 0 }, 6.4);
+lines("#s3 .wm .mask > span", 6.45, .14, .9);
+lines("#s3 .wmo .mask > span", 6.45, .14, .9);
+tl.fromTo("#s3 .labels span", { opacity: 0 }, { opacity: 1, duration: .4, stagger: .06 }, 6.9);
+tl.fromTo("#s3 .wm, #s3 .wmo", { scale: 1 }, { scale: 1.05, duration: 1.6, ease: "none" }, 6.6);
+/* видео вырывается из букв на весь экран */
+tl.to("#s3 .wm, #s3 .wmo", { scale: 2.6, duration: 1.0, ease: "power3.in" }, 8.15);
+tl.to("#s3 .wm", { opacity: 0, duration: .75, ease: "power2.in" }, 8.35);
+tl.to("#s3 .wmo", { opacity: 0, duration: .35 }, 8.2);
+tl.to("#s3 .labels", { opacity: 0, duration: .3 }, 8.1);
+close(9.15, .42);
+
+/* ── S4 · сайт в телефоне 9.6–15.6 ── */
+show("#s4", 9.6, 15.6);
+open(9.6, .55);
+lines("#s4 .head .mask > span", 9.75, 0, .9);
+tl.fromTo("#s4 .head .mono", { opacity: 0 }, { opacity: 1, duration: .5 }, 9.7);
+tl.fromTo("#s4 .phone", { y: 520, rotateX: 18, scale: .92, transformPerspective: 2200 }, { y: 0, rotateX: 0, scale: 1, duration: 1.2, ease: E.expo }, 9.7);
+/* прокрутка: px сайта × (658/390) */
+const k = 560 / 390, page = "#s4 .page";
+const scrollTo = (y, t, d) => tl.to(page, { y: -y * k, duration: d, ease: "power3.inOut" }, t);
+const fingerSwipe = (t) => tl.fromTo("#s4 .finger", { opacity: 0, x: 330, y: 880 }, { opacity: 1, y: 540, duration: .35, ease: "power2.out" }, t).to("#s4 .finger", { opacity: 0, duration: .2 }, t + .35);
+fingerSwipe(10.95); scrollTo(845, 11.0, .9);
+tl.to("#s4 .hdr .bg", { opacity: 1, duration: .25 }, 11.12);
+tl.to("#s4 .hdr img", { opacity: 0, duration: .25 }, 11.12);
+fingerSwipe(12.0); scrollTo(1780, 12.05, .9);
+tl.fromTo("#s4 .sticky", { yPercent: 110 }, { yPercent: 0, duration: .45, ease: E.expo, immediateRender: true }, 12.7);
+fingerSwipe(13.0); scrollTo(3400, 13.05, .95);
+/* тап по «Обсудить съемку» */
+tl.fromTo("#s4 .tap", { opacity: .9, scale: .3 }, { opacity: 0, scale: 1.6, duration: .7, ease: "power2.out" }, 14.35);
+tl.fromTo("#s4 .phone", { scale: 1 }, { scale: .985, duration: .12, yoyo: true, repeat: 1, ease: "power1.inOut" }, 14.35);
+tl.to("#s4 .phone", { y: -120, scale: 1.04, duration: 1.0, ease: "power2.in" }, 14.6);
+flash(15.57);
+
+/* ── S5 · индекс работ 15.6–21.0 ── */
+show("#s5", 15.6, 21.0);
+const rows = $$("#s5 .row"), vids = $$("#s5 .bgv");
+tl.fromTo(rows, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: .6, ease: E.expo, stagger: .07 }, 15.6);
+tl.fromTo("#s5 .eyebrow, #s5 .foot", { opacity: 0 }, { opacity: 1, duration: .5 }, 15.7);
+rows.forEach((r, i) => {
+  const a = 16.1 + i * .9;
+  tl.set(r, { className: "row on" }, a);
+  tl.set(vids[i], { opacity: 1 }, a);
+  if (i > 0) { tl.set(rows[i - 1], { className: "row" }, a); tl.set(vids[i - 1], { opacity: 0 }, a); }
+  flash(a, .55);
+  tl.fromTo(r.querySelector(".t"), { x: 0 }, { x: 18, duration: .9, ease: "none" }, a);
+});
+tl.to("#s5 .list", { y: -30, duration: 5.4, ease: "none" }, 15.6);
+close(20.55, .42);
+
+/* ── S6 · титровая карточка 21.0–25.2 ── */
+show("#s6", 21.0, 25.2);
+open(21.0, .55);
+tl.fromTo("#s6 .clip", { clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)", duration: .8, ease: E.expo }, 21.1);
+tl.fromTo("#s6 .clip video", { scale: 1.15 }, { scale: 1, duration: 4, ease: "power2.out" }, 21.1);
+lines("#s6 .h .mask > span", 21.35, .13, .9);
+tl.fromTo("#s6 .h .mono", { opacity: 0 }, { opacity: 1, duration: .4 }, 21.3);
+$$("#s6 .lr").forEach((r, i) => {
+  const a = 22.0 + i * .28;
+  tl.fromTo(r, { opacity: 0 }, { opacity: 1, duration: .2 }, a);
+  tl.to(r.querySelector(".dots"), { scaleX: 1, duration: .5, ease: E.expo }, a + .05);
+  tl.to(r.querySelector(".v"), { clipPath: "inset(0 0% 0 0)", duration: .45, ease: "power2.out" }, a + .3);
+});
+flash(25.17, .6);
+
+/* ── S7 · форматы 25.2–28.4 ── */
+show("#s7", 25.2, 28.4);
+tl.fromTo("#s7 .b1", { x: 0 }, { x: -1500, duration: 3.2, ease: "none" }, 25.2);
+tl.fromTo("#s7 .b2", { x: -1700 }, { x: 0, duration: 3.2, ease: "none" }, 25.2);
+tl.fromTo("#s7 .b3", { x: -200 }, { x: -1700, duration: 3.2, ease: "none" }, 25.2);
+tl.fromTo("#s7 .band", { yPercent: 40, opacity: 0 }, { yPercent: 0, opacity: 1, duration: .5, ease: E.expo, stagger: .08 }, 25.2);
+const cnt = { v: 0 };
+tl.to(cnt, { v: 19, duration: 1.4, ease: "power2.out", onUpdate() { $("#s7 .cnt").textContent = Math.round(cnt.v); } }, 25.6);
+tl.fromTo("#s7 .cap", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .5, ease: E.expo }, 25.5);
+flash(28.37);
+
+/* ── S8 · финал 28.4–32.4 ── */
+show("#s8", 28.4, 32.4);
+tl.set("#osd", { opacity: 1 }, 28.4);
+lines("#s8 .copy .mask > span", 28.5, .16, 1);
+tl.fromTo("#s8 .copy .mono", { opacity: 0 }, { opacity: 1, duration: .5 }, 28.6);
+tl.fromTo("#s8 .meta2 > *", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .6, ease: E.expo, stagger: .12 }, 29.3);
+tl.set("#osd", { opacity: 0 }, 31.2);
+tl.fromTo("#s8 .stop i", { scale: 0 }, { scale: 1, duration: .3, ease: "back.out(3)" }, 31.2);
+close(31.6, .55);
+tl.to({}, { duration: .3 }, 32.1);
+
+window.__duration = 32.4;
+
+/* живые часы REC и стоп-кадр */
+tl.eventCallback("onUpdate", () => {
+  const t = tl.time();
+  $("#osd .tc").textContent = tc(t);
+  $("#osd .dot").style.opacity = Math.floor(t * 2) % 2 ? .25 : 1;
+  $("#s8 .tcstop").textContent = "Стоп " + tc(Math.min(t, 31.2));
+});
+
+/* зерно — детерминировано по номеру кадра */
+const g = $("#grain"), gc = g.getContext("2d"), img = gc.createImageData(540, 960);
+function grain(frame) {
+  let s = (frame * 2654435761) >>> 0;
+  const d = img.data;
+  for (let i = 0; i < d.length; i += 4) { s ^= s << 13; s ^= s >>> 17; s ^= s << 5; const v = (s >>> 24); d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255; }
+  gc.putImageData(img, 0, 0);
+}
+
+/* ── рендер-API: seek(t) ставит всё, включая кадры видео ── */
+const videos = $$("video[data-v]");
+const seekVideo = (v, t) => new Promise((res) => {
+  const local = Math.max(0, t - parseFloat(v.dataset.start));
+  const dur = v.duration || 8;
+  const target = (local % (dur - 0.05));
+  if (Math.abs(v.currentTime - target) < 0.004) return res();
+  const done = () => { v.removeEventListener("seeked", done); res(); };
+  v.addEventListener("seeked", done);
+  v.currentTime = target;
+  setTimeout(done, 1500);
+});
+const sceneOf = (v) => v.closest(".scene");
+window.__seek = async (t) => {
+  tl.seek(t, false);
+  grain(Math.round(t * FPS));
+  await Promise.all(videos.filter((v) => getComputedStyle(sceneOf(v)).visibility === "visible").map((v) => seekVideo(v, t)));
+  await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+  return true;
+};
+window.__ready = (async () => {
+  await document.fonts.ready;
+  await Promise.all(['800 100px "Sofia Sans Extra Condensed"', '700 100px Oswald', '400 20px "Inter Tight"', '500 20px "Inter Tight"', '400 20px "Roboto Mono"']
+    .map((f) => document.fonts.load(f, "АБВ Қ ҰҮ abc 123")));
+  window.__fit();
+  await Promise.all(videos.map((v) => v.readyState >= 1 ? 0 : new Promise((r) => { v.addEventListener("loadedmetadata", r, { once: true }); setTimeout(r, 4000); })));
+  await Promise.all($$("img").map((i) => i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = r; })));
+  tl.seek(0);
+  return true;
+})();
+
+/* обычный просмотр в браузере: ?play — играет в реальном времени */
+if (location.search.includes("play")) {
+  window.__ready.then(() => { videos.forEach((v) => { v.loop = true; v.play().catch(() => {}); }); let f = 0; gsap.ticker.add(() => grain(f++)); tl.play(0); });
+}
+})();
+</script>
+</body>
+</html>
