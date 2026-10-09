@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>MADELARME — монтажка (16:9)</title>
+<meta name="viewport" content="width=1920">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Extra+Condensed:wght@800&family=Oswald:wght@700&family=Inter+Tight:wght@400;500&family=Roboto+Mono:wght@400;500&display=block">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+:root{
+  --ink:#0e0d0c; --panel:#141312; --panel2:#1b1918; --line:#2b2724; --milk:#ece7df; --signal:#ff4d2e; --paper:#f3eee6; --meta:#8f877d;
+  --clipV:#3b4a55; --clipT:#ff4d2e; --clipA:#2f5d4a; --clipM:#2a4a5c;
+  --disp:"Sofia Sans Extra Condensed","Oswald","Arial Narrow",sans-serif;
+  --body:"Inter Tight",Arial,sans-serif; --mono:"Roboto Mono",Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;background:var(--ink);overflow:hidden}
+body{color:var(--milk);font-family:var(--body);-webkit-font-smoothing:antialiased}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--ink)}
+.abs{position:absolute}
+.disp{font-family:var(--disp);font-weight:800;text-transform:uppercase;line-height:.84;letter-spacing:-.005em;font-size-adjust:cap-height from-font;white-space:nowrap}
+.mono{font-family:var(--mono);font-size:15px;letter-spacing:.12em;text-transform:uppercase;font-variant-numeric:tabular-nums}
+.meta{color:var(--meta)} .sig{color:var(--signal)}
+.mask{display:block;overflow:hidden;padding-top:.18em;margin-top:-.18em}
+.mask>span{display:inline-block;will-change:transform}
+video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000}
+img{display:block}
+
+/* ── NLE ── */
+#nle{position:absolute;inset:0;visibility:hidden}
+.panel{position:absolute;background:var(--panel);border:1px solid var(--line)}
+.ptitle{position:absolute;left:16px;top:12px;display:flex;gap:14px}
+#topbar{left:0;top:0;width:1920px;height:48px;background:#0b0a09;border:0;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+#topbar .l{display:flex;align-items:center;gap:22px}
+#topbar .logo{font-size:26px;color:var(--milk)}
+#topbar .proj{color:var(--milk)}
+#topbar .proj .caret{display:inline-block;width:10px;height:18px;background:var(--signal);vertical-align:-3px;margin-left:2px}
+#tabs{display:flex;gap:38px}
+#tabs span{padding:14px 0;color:var(--meta);border-bottom:2px solid transparent}
+#tabs span.on{color:var(--milk);border-color:var(--signal)}
+#topbar .r{display:flex;gap:18px;align-items:center}
+#topbar .recdot{width:12px;height:12px;border-radius:50%;background:var(--signal);display:inline-block}
+#bin{left:20px;top:64px;width:520px;height:560px}
+#bin .grid{position:absolute;left:16px;top:52px;display:grid;grid-template-columns:repeat(3,152px);gap:16px 14px}
+#bin .th{width:152px}
+#bin .th .im{width:152px;height:86px;background-size:cover;background-position:center;border:1px solid var(--line)}
+#bin .th .lb{margin-top:6px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#viewer{left:556px;top:64px;width:1344px;height:560px}
+#ctrl{position:absolute;left:0;right:0;bottom:0;height:44px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 18px}
+#ctrl .tp{display:flex;gap:26px;align-items:center;color:var(--milk);font-size:18px}
+#ctrl .play{width:34px;height:34px;border:1px solid var(--meta);display:grid;place-items:center}
+#frame{position:absolute;left:766px;top:74px;width:924px;height:520px;overflow:hidden;background:#000;transform-origin:0 0;z-index:5}
+#frame .layer{position:absolute;inset:0}
+#frame .ttl{position:absolute;left:34px;bottom:34px}
+#frame .ttl .disp{font-size:120px}
+#frame .ttl .mono{font-size:13px;margin-bottom:12px}
+#frame .scrim{position:absolute;inset:auto 0 0 0;height:65%;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.78))}
+#frame .site img,#frame .site .scrim{opacity:0} /* фейдим детей: opacity на слое изолирует blend и чернит видео */
+#frame .site img{position:absolute;inset:0;width:100%;height:100%;mix-blend-mode:lighten}
+#frame .case{opacity:0}
+#frame .case .ttl .disp{font-size:96px}
+#frame .grade{opacity:0}
+#frame .grade .before{filter:saturate(.28) contrast(.72) brightness(1.12) sepia(.08)}
+#frame .grade .after{clip-path:inset(0 100% 0 0);filter:saturate(1.18) contrast(1.08)}
+#frame .split{position:absolute;top:0;bottom:0;width:2px;background:var(--milk);left:100%}
+#frame .ba{position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between}
+#frame .ba span{background:rgba(0,0,0,.5);padding:4px 8px;font-size:12px}
+#frame .lower{position:absolute;left:34px;bottom:30px;opacity:0}
+#frame .lower .disp{font-size:72px}
+#tl{left:20px;top:640px;width:1880px;height:420px}
+#tl .tools{position:absolute;right:16px;top:8px;display:flex;gap:10px}
+#tl .tool{width:34px;height:30px;border:1px solid var(--line);display:grid;place-items:center;color:var(--meta)}
+#tl .tool.on{border-color:var(--signal);color:var(--signal)}
+#ruler{position:absolute;left:180px;right:0;top:40px;height:26px;border-bottom:1px solid var(--line)}
+#ruler .tick{position:absolute;top:0;height:26px;border-left:1px solid var(--line);padding-left:6px;font-size:11px;color:var(--meta);line-height:26px}
+.track{position:absolute;left:0;right:0;height:62px;border-bottom:1px solid #1f1d1c}
+.track .hd{position:absolute;left:0;top:0;width:180px;height:62px;border-right:1px solid var(--line);display:flex;align-items:center;gap:12px;padding-left:16px;background:var(--panel2)}
+.track .hd b{font-family:var(--mono);font-weight:500;font-size:14px;color:var(--milk)}
+.clip{position:absolute;top:6px;height:50px;border-radius:3px;overflow:hidden;border:1px solid rgba(0,0,0,.35);transform-origin:0 50%}
+.clip .lb{position:absolute;left:8px;top:5px;font-size:11px;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#fff;white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,.6);z-index:2}
+.clip.v{background:var(--clipV)}
+.clip.v .strip{position:absolute;left:0;right:0;top:18px;bottom:0;background-repeat:repeat-x;background-size:auto 100%;opacity:.85}
+.clip.t{background:var(--clipT)}
+.clip.t .lb{color:#0e0d0c;text-shadow:none;font-weight:500}
+.clip.o{background:#5a4a6e}
+.clip.a{background:var(--clipA)}
+.clip.m{background:var(--clipM)}
+.clip .wave{position:absolute;left:0;right:0;top:20px;bottom:4px}
+.cut{position:absolute;top:2px;width:2px;height:58px;background:#fff;transform:scaleY(0);transform-origin:50% 50%;z-index:3}
+.seg{position:absolute;top:0;bottom:0;background:var(--clipV);border-left:1px solid rgba(0,0,0,.5);opacity:0;z-index:1;overflow:hidden}
+.seg i{position:absolute;left:0;right:0;top:18px;bottom:0;background-size:auto 100%;background-repeat:repeat-x;background-position:center}
+.seg b{position:absolute;left:6px;top:4px;font:500 10px var(--mono);letter-spacing:.08em;color:#fff}
+#playhead{position:absolute;top:40px;width:2px;height:372px;background:var(--signal);z-index:6}
+#playhead::before{content:"";position:absolute;left:-8px;top:-2px;width:18px;height:14px;background:var(--signal);clip-path:polygon(0 0,100% 0,100% 55%,50% 100%,0 55%)}
+#wheels{left:20px;top:640px;width:1880px;height:420px;opacity:0}
+.wheel{position:absolute;width:280px;height:280px;border-radius:50%;border:1px solid var(--line);
+  background:conic-gradient(from 90deg,#5a3a3a,#5a573a,#3a5a3e,#3a565a,#3a3e5a,#563a5a,#5a3a3a);}
+.wheel::after{content:"";position:absolute;inset:18px;border-radius:50%;background:radial-gradient(circle,#2a2725 0%,rgba(20,19,18,.75) 70%)}
+.wheel .xh{position:absolute;left:50%;top:50%;width:1px;height:240px;margin:-120px 0 0 0;background:rgba(236,231,223,.15);z-index:2}
+.wheel .yh{position:absolute;left:50%;top:50%;height:1px;width:240px;margin:0 0 0 -120px;background:rgba(236,231,223,.15);z-index:2}
+.wheel .dot{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:var(--milk);border:2px solid #0e0d0c;z-index:3}
+.wlb{position:absolute;width:280px;text-align:center}
+#modalWrap{position:absolute;inset:0;background:rgba(5,5,5,.6);opacity:0;z-index:20}
+#modal{position:absolute;left:530px;top:290px;width:860px;height:440px;background:var(--panel2);border:1px solid var(--line);z-index:21;opacity:0}
+#modal .hd{height:60px;font-size:17px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+#modal .rows{padding:28px 28px 0;display:flex;flex-direction:column;gap:18px}
+#modal .rw{display:flex;gap:16px;align-items:baseline}
+#modal .rw .k{width:190px;color:var(--meta);font-size:16px}
+#modal .rw .v{font-family:var(--body);font-size:30px;color:var(--milk);text-transform:none;letter-spacing:0}
+#modal .bar{position:absolute;left:28px;right:28px;bottom:104px;height:12px;background:#0b0a09;border:1px solid var(--line)}
+#modal .bar i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--signal)}
+#modal .st{position:absolute;left:28px;bottom:62px;right:28px;display:flex;justify-content:space-between;font-size:17px}
+#modal .btn{position:absolute;right:28px;bottom:14px;height:38px;padding:0 20px;background:var(--signal);color:#0e0d0c;display:grid;place-items:center;font-size:15px}
+#keycap{position:absolute;z-index:40;opacity:0;display:flex;align-items:center;gap:12px}
+#keycap .k{min-width:48px;height:48px;padding:0 12px;border:2px solid var(--milk);border-radius:8px;display:grid;place-items:center;font-family:var(--mono);font-size:20px;background:rgba(14,13,12,.92)}
+#keycap .lbl{background:rgba(14,13,12,.92);padding:6px 10px;font-size:16px}
+
+/* ── fullscreen scenes ── */
+.fs{position:absolute;inset:0;visibility:hidden;z-index:12;background:var(--ink)}
+#s5 .gridbg{position:absolute;inset:0;background-image:linear-gradient(rgba(236,231,223,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(236,231,223,.04) 1px,transparent 1px);background-size:80px 80px}
+#s5 .cap{position:absolute;left:150px;top:70px}
+#s5 .cap .disp{font-size:120px}
+#laptop{position:absolute;left:150px;top:262px;width:1056px;height:666px;border-radius:22px;background:#050505;box-shadow:0 0 0 2px #2b2724;padding:8px}
+#laptop .scr{position:relative;width:1040px;height:650px;overflow:hidden;border-radius:14px}
+#laptop .scr img{position:absolute;inset:0;width:1040px;height:650px;opacity:0}
+#laptop .base{position:absolute;left:-60px;right:-60px;bottom:-26px;height:22px;background:#1b1918;border-radius:0 0 18px 18px;box-shadow:0 0 0 1px #2b2724}
+#phone{position:absolute;left:1330px;top:262px;width:316px;height:666px;border-radius:44px;background:#050505;box-shadow:0 0 0 2px #2b2724;padding:8px}
+#phone .scr{position:relative;width:300px;height:650px;overflow:hidden;border-radius:36px;background:var(--ink)}
+#phone .pg{position:absolute;left:0;top:0;width:300px}
+#phone .pg img{width:300px}
+#phone .island{position:absolute;top:10px;left:50%;width:84px;height:24px;margin-left:-42px;border-radius:14px;background:#000;z-index:4}
+#phone .hdr{position:absolute;left:0;right:0;top:0;height:43px;z-index:3;background:rgba(14,13,12,.9);display:flex;align-items:center;justify-content:space-between;padding:0 12px}
+#phone .hdr b{font-family:var(--disp);font-weight:800;font-size:21px}
+#s5 .labels{position:absolute;left:150px;right:274px;top:952px;display:flex;justify-content:space-between}
+#s6{background:#000}
+#s6 .lb{position:absolute;left:0;right:0;height:138px;background:#000;z-index:3}
+#s6 .bg{filter:brightness(.42) saturate(.85) contrast(1.05)}
+#s6 .dim{position:absolute;inset:0;background:radial-gradient(80% 70% at 50% 50%,rgba(0,0,0,.35),rgba(0,0,0,.7))}
+#roll{position:absolute;left:0;right:0;top:186px;display:flex;flex-direction:column;align-items:center;gap:22px;z-index:2}
+#roll .t{font-size:130px;margin:14px 0 30px}
+#roll .cr{display:grid;grid-template-columns:600px 600px;gap:40px;align-items:baseline}
+#roll .cr .k{text-align:right;font-size:16px;color:var(--meta)}
+#roll .cr .v{font-size:34px}
+#s6 .say{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0}
+#s6 .say .disp{font-size:170px;text-align:center}
+#s9 .copy{position:absolute;left:150px;top:220px}
+#s9 .copy .disp{font-size:300px}
+#s9 .side{position:absolute;left:1210px;top:560px;display:flex;flex-direction:column;gap:22px}
+#s9 .side .mono{font-size:20px}
+#s9 .side .h{font-size:104px}
+#s9 .stop{display:flex;gap:14px;align-items:center}
+#s9 .stop i{display:inline-block;width:14px;height:14px;background:var(--signal)}
+#s1btn{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:1px solid var(--milk);padding:30px 52px;font-size:26px;opacity:0;z-index:30}
+
+/* ── global ── */
+#cursor{position:absolute;left:0;top:0;width:34px;height:34px;z-index:45;opacity:0}
+#cursor svg{position:absolute;left:0;top:0}
+#cursor .razor{opacity:0}
+#ring{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:2px solid var(--milk);opacity:0;z-index:44}
+.bar2{position:absolute;left:0;right:0;height:50%;background:#000;z-index:55}
+#barT{top:0} #barB{bottom:0}
+#grain{position:absolute;inset:0;width:1920px;height:1080px;pointer-events:none;mix-blend-mode:overlay;opacity:.11;z-index:50;image-rendering:pixelated}
+#vignette{position:absolute;inset:0;z-index:49;pointer-events:none;background:radial-gradient(120% 100% at 50% 50%,transparent 62%,rgba(0,0,0,.4) 100%)}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;z-index:60}
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <div id="s1btn" class="mono">+ Новый проект</div>
+
+  <!-- ── монтажная программа ── -->
+  <div id="nle">
+    <div id="topbar" class="panel">
+      <div class="l"><b class="disp logo">M.</b><span class="mono proj"><span class="name"></span><i class="caret"></i></span></div>
+      <div id="tabs" class="mono"><span class="t1 on">Монтаж</span><span class="t2">Цвет</span><span class="t3">Экспорт</span></div>
+      <div class="r mono"><i class="recdot"></i><span class="tc">00:00:00:00</span></div>
+    </div>
+    <div id="bin" class="panel">
+      <div class="ptitle mono"><span>Медиа</span><span class="meta">12 клипов</span></div>
+      <div class="grid"></div>
+    </div>
+    <div id="viewer" class="panel">
+      <div class="ptitle mono"><span>Программа</span><span class="meta">madelarme_site</span></div>
+      <div id="ctrl" class="mono"><span class="meta tcv">00:00:00:00</span>
+        <span class="tp"><span>⏮</span><span class="play">▶</span><span>⏭</span></span><span class="meta">1920 × 1080 · 24 fps</span></div>
+    </div>
+    <div id="tl" class="panel">
+      <div class="ptitle mono"><span>Таймлайн</span><span class="meta">Последовательность 01</span></div>
+      <div class="tools mono"><span class="tool sel on">↖</span><span class="tool rz">✂</span></div>
+      <div id="ruler"></div>
+      <div id="tracks"></div>
+      <div id="playhead"></div>
+    </div>
+    <div id="wheels" class="panel">
+      <div class="ptitle mono"><span>Цветокоррекция</span><span class="meta">LUT · madelarme_warm</span></div>
+    </div>
+
+    <!-- окно программы (выход видео) -->
+    <div id="frame">
+      <div class="layer sr">
+        <video data-v src="v/showreel-h.mp4" data-start="9" muted playsinline preload="auto"></video>
+        <div class="scrim"></div>
+        <div class="ttl"><div class="mono">[ Мария Волкова ] · [ видеограф ] · [ Алматы ]</div>
+          <div class="disp h"><span class="mask"><span>Снимаю</span></span><span class="mask"><span>Заглавными<b class="sig">.</b></span></span></div></div>
+      </div>
+      <div class="layer site"><div class="scrim" style="height:70%"></div><img src="hero-novideo.png" alt=""></div>
+      <div class="layer case" data-i="0"><video data-v src="v/tau-toi-h.mp4" data-start="15" muted playsinline preload="auto"></video><div class="scrim"></div><div class="ttl"><div class="mono">[ 01 / 11 ] · свадебный фильм · Медеу</div><div class="disp">Тау-той</div></div></div>
+      <div class="layer case" data-i="1"><video data-v src="v/gorod-ne-spit-h.mp4" data-start="16" muted playsinline preload="auto"></video><div class="scrim"></div><div class="ttl"><div class="mono">[ 02 / 11 ] · музыкальный клип · ночной Алматы</div><div class="disp">Город не спит</div></div></div>
+      <div class="layer case" data-i="2"><video data-v src="v/oyu-fest-h.mp4" data-start="17" muted playsinline preload="auto"></video><div class="scrim"></div><div class="ttl"><div class="mono">[ 03 / 11 ] · aftermovie · Первомайские пруды</div><div class="disp">OYU Fest ’26</div></div></div>
+      <div class="layer case" data-i="3"><video data-v src="v/pervyj-sneg-h.mp4" data-start="18" muted playsinline preload="auto"></video><div class="scrim"></div><div class="ttl"><div class="mono">[ 04 / 11 ] · love story · Шымбулак</div><div class="disp">Первый снег</div></div></div>
+      <div class="layer case" data-i="4"><video data-v src="v/utro-zdes-h.mp4" data-start="19" muted playsinline preload="auto"></video><div class="scrim"></div><div class="ttl"><div class="mono">[ 05 / 11 ] · промо · кофейня</div><div class="disp">Утро здесь</div></div></div>
+      <div class="layer case" data-i="5"><video data-v src="v/uzhin-na-vysote-h.mp4" data-start="20" muted playsinline preload="auto"></video><div class="scrim"></div><div class="ttl"><div class="mono">[ 06 / 11 ] · фуд · терраса</div><div class="disp">Ужин на высоте</div></div></div>
+      <div class="layer grade">
+        <video class="before" data-v src="v/pervyj-sneg-h.mp4" data-start="31" muted playsinline preload="auto"></video>
+        <video class="after" data-v src="v/pervyj-sneg-h.mp4" data-start="31" muted playsinline preload="auto"></video>
+        <div class="split"></div>
+        <div class="ba mono"><span>До · log</span><span>После · madelarme_warm</span></div>
+        <div class="scrim" style="height:45%"></div>
+        <div class="lower"><div class="disp"><span class="mask"><span>Монтирую</span></span><span class="mask"><span>и крашу сама.</span></span></div></div>
+      </div>
+    </div>
+
+    <div id="modalWrap"></div>
+    <div id="modal" class="mono">
+      <div class="hd"><span>Экспорт</span><span class="meta">madelarme_site_FINAL_v12</span></div>
+      <div class="rows">
+        <div class="rw"><span class="k">Формат</span><span class="v">Сайт</span></div>
+        <div class="rw"><span class="k">Экраны</span><span class="v">Телефон + ноутбук</span></div>
+        <div class="rw"><span class="k">Внутри</span><span class="v">11 работ · 19 форматов · цены · Маша</span></div>
+      </div>
+      <div class="bar"><i></i></div>
+      <div class="st"><span class="msg">Рендер…</span><span class="pc">0%</span></div>
+      <div class="btn">Экспорт</div>
+    </div>
+  </div>
+
+  <!-- ── S5: два экрана ── -->
+  <section class="fs" id="s5">
+    <div class="gridbg"></div>
+    <div class="cap"><div class="mono meta">[ 02 ] · Сайт</div><div class="disp" style="margin-top:18px"><span class="mask"><span>Один сайт. Два экрана.</span></span></div></div>
+    <div id="laptop"><div class="scr">
+      <img src="index-0.jpg" alt="" style="opacity:1"><img class="r" src="index-r1.jpg" alt=""><img class="r" src="index-r2.jpg" alt=""><img class="r" src="index-r3.jpg" alt=""><img class="r" src="index-r4.jpg" alt="">
+    </div><div class="base"></div></div>
+    <div id="phone"><div class="scr">
+      <div class="pg"><img src="../assets/home-long.jpg" alt=""></div>
+      <div class="hdr"><b>M.</b><span class="mono" style="font-size:9px">Меню</span></div>
+      <div class="island"></div>
+    </div></div>
+    <div class="labels mono meta"><span>[ ноутбук · 1440 ]</span><span>[ телефон · 390 ]</span></div>
+  </section>
+
+  <!-- ── S6: титры ── -->
+  <section class="fs" id="s6">
+    <video class="bg" data-v src="v/gorod-ne-spit-h.mp4" data-start="26" muted playsinline preload="auto"></video>
+    <div class="dim"></div>
+    <div id="roll">
+      <div class="mono meta">[ 03 ] · Кейс</div>
+      <div class="disp t">Город не спит</div>
+      <div class="cr"><span class="k mono">Клиент</span><span class="v">Neon Dreams</span></div>
+      <div class="cr"><span class="k mono">Формат</span><span class="v">Музыкальный клип</span></div>
+      <div class="cr"><span class="k mono">Где и когда</span><span class="v">Алматы · май 2025</span></div>
+      <div class="cr"><span class="k mono">Съемка</span><span class="v">2 ночи · 7 локаций</span></div>
+      <div class="cr"><span class="k mono">Режиссер, оператор</span><span class="v">Мария Волкова</span></div>
+      <div class="cr"><span class="k mono">Монтаж и цвет</span><span class="v">Мария Волкова</span></div>
+      <div class="cr"><span class="k mono">Сдача</span><span class="v">Клип 3:20 + вертикальный кат</span></div>
+    </div>
+    <div class="say"><div class="disp"><span class="mask"><span>Каждая работа</span></span><span class="mask"><span>как титры.</span></span></div></div>
+    <div class="lb" style="top:0"></div><div class="lb" style="bottom:0"></div>
+  </section>
+
+  <!-- ── S9: финал ── -->
+  <section class="fs" id="s9">
+    <div class="copy"><div class="mono meta">[ 04 ] · Сезон 2027 открыт</div>
+      <div class="disp" style="margin-top:26px"><span class="mask"><span>Давай</span></span><span class="mask"><span>снимать<b class="sig">.</b></span></span></div></div>
+    <div class="side">
+      <div class="disp h">@madelarme</div>
+      <div class="mono meta">WhatsApp · Telegram · Instagram</div>
+      <div class="mono meta">Свадьбы · Бренды · Клипы · Алматы</div>
+      <div class="stop mono"><i></i><span class="tcstop">Стоп 00:00:00:00</span></div>
+    </div>
+  </section>
+
+  <div id="keycap"><span class="k"></span><span class="mono lbl"></span></div>
+  <div id="ring"></div>
+  <div id="cursor">
+    <svg class="arrow" width="34" height="34" viewBox="0 0 24 24"><path d="M3 2l16 9-7 1.6L8.6 20z" fill="#ece7df" stroke="#0e0d0c" stroke-width="1.4" stroke-linejoin="round"/></svg>
+    <svg class="razor" width="34" height="34" viewBox="0 0 24 24"><g fill="none" stroke="#ece7df" stroke-width="1.8"><circle cx="6" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M8.5 7.5L20 18M8.5 16.5L20 6"/></g></svg>
+  </div>
+  <div class="bar2" id="barT"></div><div class="bar2" id="barB"></div>
+  <div id="vignette"></div>
+  <canvas id="grain" width="960" height="540"></canvas>
+  <div id="flash"></div>
+</div>
+
+<script>
+(() => {
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const FPS = 30, DUR = 46, SEQ0 = 9, SEQLEN = 37, TX = 200, TW = 1680; // TX: левый край дорожек (в координатах таймлайна + панели)
+const pxs = TW / SEQLEN;
+const xs = (t) => (t - SEQ0) * pxs;              // x внутри области дорожек
+const hash = (n) => { n = Math.imul(n ^ 0x9e3779b9, 0x85ebca6b); n ^= n >>> 13; n = Math.imul(n, 0xc2b2ae35); n ^= n >>> 16; return (n >>> 0) / 4294967295; };
+const tcode = (s) => { s = Math.max(0, s); const S = Math.floor(s), F = Math.floor((s - S) * 24); return `00:00:${String(S).padStart(2, "0")}:${String(F).padStart(2, "0")}`; };
+
+/* ── построение интерфейса ── */
+const posters = ["showreel","tau-toi","gorod-ne-spit","oyu-fest","pervyj-sneg","utro-zdes","uzhin-na-vysote","qara-osen-zima","my-zdes-stroim","techsummit","12-reels","n-n"];
+const labels = ["шоурил_2026","тау-той","город_не_спит","oyu_fest_26","первый_снег","утро_здесь","ужин_на_высоте","осень_зима_25","мы_здесь_строим","techsummit","12_reels","n&n"];
+$("#bin .grid").innerHTML = posters.map((p, i) => `<div class="th"><div class="im" style="background-image:url(p/${p}-h.webp)"></div><div class="lb mono meta">${labels[i]}.mp4</div></div>`).join("");
+for (let s = 0; s <= SEQLEN; s += 5) $("#ruler").insertAdjacentHTML("beforeend", `<span class="tick mono" style="left:${s * pxs}px">00:${String(s).padStart(2, "0")}</span>`);
+const TRACKS = [["V3", "Титры"], ["V2", "Видео"], ["V1", "Видео"], ["A1", "Звук"], ["A2", "Музыка"]];
+$("#tracks").innerHTML = TRACKS.map(([a, b], i) => `<div class="track" style="top:${70 + i * 66}px" data-tr="${a}"><div class="hd"><b>${a}</b><span class="mono meta" style="font-size:12px">${b}</span></div><div class="lane abs" style="left:180px;right:0;top:0;bottom:0"></div></div>`).join("");
+const lane = (tr) => $(`.track[data-tr="${tr}"] .lane`);
+const clip = (tr, cls, a, b, label, extra = "") => {
+  lane(tr).insertAdjacentHTML("beforeend", `<div class="clip ${cls}" style="left:${xs(a) + 1}px;width:${(b - a) * pxs - 2}px" data-a="${a}">${extra}<span class="lb">${label}</span></div>`);
+  return lane(tr).lastElementChild;
+};
+const strip = (p) => `<div class="strip" style="background-image:url(${p.includes(".") ? p : `p/${p}-h.webp`})"></div>`;
+const wave = (seed, w) => { let d = "M0 15"; for (let x = 0; x <= w; x += 3) { const a = 2 + hash(seed * 997 + x) * 12 * (0.55 + 0.45 * Math.sin(x / 37)); d += ` L${x} ${15 - a} L${x + 1.5} ${15 + a}`; } return `<svg class="wave" viewBox="0 0 ${w} 30" preserveAspectRatio="none"><path d="${d}" stroke="rgba(255,255,255,.55)" stroke-width="1" fill="none"/></svg>`; };
+const V1 = [[9, 15, "Шоурил", "showreel"], [15, 21, "Работы", "tau-toi"], [21, 28, "Два экрана", "index-0.jpg"], [28, 33, "Титры", "gorod-ne-spit"], [33, 38, "Цвет", "pervyj-sneg"], [38, 42, "Экспорт", "uzhin-na-vysote"], [42, 46, "Финал", "qara-osen-zima"]];
+const V3 = [[10, 14.5, "Снимаю заглавными."], [21.6, 27.5, "Один сайт. Два экрана."], [31, 33, "Каждая работа как титры."], [35.5, 38, "Монтирую и крашу сама."], [42.4, 46, "Давай снимать."]];
+const V2 = [[12.5, 15, "главная · сайт"], [21, 28, "ноутбук + телефон"]];
+const A1 = [[9, 9.6, "play"], [12.5, 13.4, "whoosh"], [15, 15.5, "hit"], [16, 16.3, "✂"], [17, 17.3, "✂"], [18, 18.3, "✂"], [19, 19.3, "✂"], [20, 20.3, "✂"], [21, 21.6, "hit"], [28, 28.6, "hit"], [33, 33.6, "hit"], [38.6, 41.2, "riser"], [41.2, 42, "ding"], [42, 43.2, "boom"]];
+const v1 = V1.map(([a, b, l, p]) => clip("V1", "v", a, b, l, strip(p)));
+const v3 = V3.map(([a, b, l]) => clip("V3", "t", a, b, l));
+const v2 = V2.map(([a, b, l]) => clip("V2", "o", a, b, l));
+const a1 = A1.map(([a, b, l], i) => clip("A1", "a", a, b, l, wave(i + 3, Math.max(20, (b - a) * pxs))));
+const a2 = clip("A2", "m", 9, 42, "beat_120bpm.wav", wave(77, 33 * pxs));
+/* резы бритвы по клипу «Работы» */
+const workClip = v1[1];
+const CUTS = [16, 17, 18, 19, 20], SEGP = ["tau-toi", "gorod-ne-spit", "oyu-fest", "pervyj-sneg", "utro-zdes", "uzhin-na-vysote"];
+CUTS.forEach((c) => workClip.insertAdjacentHTML("beforeend", `<i class="cut" style="left:${(c - 15) * pxs - 1}px"></i>`));
+SEGP.forEach((p, i) => workClip.insertAdjacentHTML("beforeend", `<span class="seg" style="left:${i * pxs}px;width:${pxs}px"><i style="background-image:url(p/${p}-h.webp)"></i><b>0${i + 1}</b></span>`));
+/* колёса цвета */
+[["Lift", 520], ["Gamma", 960], ["Gain", 1400]].forEach(([n, cx]) => {
+  $("#wheels").insertAdjacentHTML("beforeend", `<div class="wheel" data-w="${n}" style="left:${cx - 20 - 140}px;top:${70}px"><i class="xh"></i><i class="yh"></i><i class="dot"></i></div><div class="wlb mono meta" style="left:${cx - 20 - 140}px;top:${364}px">${n}</div>`);
+});
+
+/* подгонка дисплейных строк */
+function fitLines(sel, maxW) {
+  $$(sel).forEach((box) => {
+    const spans = $$(".mask > span", box); const fs = parseFloat(getComputedStyle(box).fontSize);
+    const w = Math.max(...spans.map((s) => s.getBoundingClientRect().width)); box.style.fontSize = (fs * maxW / w).toFixed(1) + "px";
+  });
+}
+
+/* ── таймлайн ── */
+const tl = gsap.timeline({ paused: true }); window.__tl = tl;
+const E = { expo: "expo.out", io: "power3.inOut" };
+const flash = (t, o = .85) => { tl.set("#flash", { opacity: o }, t); tl.set("#flash", { opacity: 0 }, t + 2 / FPS); };
+const lines = (sel, t, st = .12, d = .85) => tl.fromTo(sel, { yPercent: 112, rotate: 2 }, { yPercent: 0, rotate: 0, duration: d, ease: E.expo, stagger: st, immediateRender: false }, t);
+const vis = (sel, a, b) => { tl.set(sel, { visibility: "visible" }, a); if (b != null) tl.set(sel, { visibility: "hidden" }, b); };
+tl.set("#barT", { yPercent: -100 }, 0); tl.set("#barB", { yPercent: 100 }, 0);
+const close = (t, d = .45) => tl.to("#barT", { yPercent: 0, duration: d, ease: E.io }, t).to("#barB", { yPercent: 0, duration: d, ease: E.io }, t);
+const open = (t, d = .55) => tl.fromTo("#barT", { yPercent: 0 }, { yPercent: -100, duration: d, ease: E.io, immediateRender: false }, t).fromTo("#barB", { yPercent: 0 }, { yPercent: 100, duration: d, ease: E.io, immediateRender: false }, t);
+/* курсор: путь по ключам */
+const C = (t, x, y, d = .6, ease = E.io) => tl.to("#cursor", { x, y, duration: d, ease }, t);
+const click = (t, x, y) => { tl.fromTo("#cursor", { scale: 1 }, { scale: .82, duration: .07, yoyo: true, repeat: 1, immediateRender: false }, t); tl.fromTo("#ring", { x, y, scale: .4, opacity: .9 }, { scale: 1.6, opacity: 0, duration: .45, ease: "power2.out", immediateRender: false }, t); };
+const key = (t, k, lbl, x, y) => { tl.set("#keycap", { x, y }, t); tl.set("#keycap .k", { textContent: k }, t); tl.set("#keycap .lbl", { textContent: lbl }, t); tl.fromTo("#keycap", { opacity: 0, y: y + 14 }, { opacity: 1, y, duration: .2, immediateRender: false }, t); tl.to("#keycap", { opacity: 0, duration: .25 }, t + .9); };
+tl.set("#cursor", { x: 1500, y: 1000, opacity: 0 }, 0);
+
+/* S1 · новый проект 0–4 */
+tl.to("#s1btn", { opacity: 1, duration: .5 }, .3);
+tl.to("#cursor", { opacity: 1, duration: .2 }, .6);
+C(.6, 956, 537, 1.0);
+click(1.7, 960, 540);
+tl.to("#s1btn", { scale: .96, duration: .07, yoyo: true, repeat: 1 }, 1.7);
+tl.to("#s1btn", { opacity: 0, duration: .25 }, 1.9);
+vis("#nle", 1.9);
+const panels = ["#topbar", "#bin", "#viewer", "#tl"];
+tl.fromTo(panels, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: .7, ease: E.expo, stagger: .12, immediateRender: false }, 1.95);
+tl.fromTo("#frame", { opacity: 0 }, { opacity: 1, duration: .4 }, 2.4);
+tl.set("#frame", { opacity: 0 }, 0);
+const NAME = "madelarme_site_FINAL_v12";
+const typed = { n: 0 };
+tl.to(typed, { n: NAME.length, duration: 1.2, ease: "none", onUpdate() { $("#topbar .name").textContent = NAME.slice(0, Math.round(typed.n)); } }, 2.6);
+C(2.2, 820, 300, 1.4);
+
+/* S2 · импорт 4–9 */
+tl.fromTo("#bin .th", { opacity: 0, scale: .8 }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(2)", stagger: .09, immediateRender: false }, 4.0);
+tl.set("#bin .th", { opacity: 0 }, 0);
+C(4.0, 300, 280, .8);
+const drops = [...v1, ...v3, ...v2];
+tl.set(drops, { opacity: 0 }, 0); tl.set([...a1, a2], { opacity: 0, scaleX: 0 }, 0);
+v1.forEach((c, i) => tl.fromTo(c, { opacity: 0, y: -60 }, { opacity: 1, y: 0, duration: .3, ease: "power3.out", immediateRender: false }, 5.6 + i * .22));
+C(5.4, 700, 880, .9);
+v3.forEach((c, i) => tl.fromTo(c, { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: .25, ease: "power3.out", immediateRender: false }, 7.2 + i * .12));
+v2.forEach((c, i) => tl.fromTo(c, { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: .25, ease: "power3.out", immediateRender: false }, 7.75 + i * .12));
+tl.to([...a1, a2], { opacity: 1, scaleX: 1, duration: .5, ease: E.expo, stagger: .03 }, 8.0);
+C(8.2, 1175, 599, .6);
+click(9.0, 1179, 602);
+key(9.0, "␣", "пробел · play", 1240, 577);
+
+/* плейхед и таймкоды */
+const ph = { t: 0 };
+tl.fromTo(ph, { t: 0 }, { t: SEQLEN, duration: SEQLEN, ease: "none", immediateRender: false }, SEQ0);
+tl.eventCallback("onUpdate", () => {
+  const t = tl.time(), s = Math.max(0, Math.min(SEQLEN, t - SEQ0));
+  $("#playhead").style.left = (TX - 20 + s * pxs - 1) + "px";
+  $("#topbar .tc").textContent = tcode(s); $("#ctrl .tcv").textContent = tcode(s);
+  $("#topbar .recdot").style.opacity = Math.floor(t * 2) % 2 ? .3 : 1;
+  $("#topbar .caret").style.opacity = t < 3.9 && Math.floor(t * 3) % 2 ? 0 : (t < 3.9 ? 1 : 0);
+  $("#s9 .tcstop").textContent = "Стоп " + tcode(Math.min(t, 44.6) - SEQ0);
+});
+
+/* S3 · play 9–15 */
+lines("#frame .sr .h .mask > span", 10.0, .14, .9);
+tl.set("#frame .sr .h .mask > span", { yPercent: 112 }, 0);
+tl.fromTo("#frame .sr .ttl .mono", { opacity: 0 }, { opacity: 1, duration: .4, immediateRender: false }, 10.2);
+tl.set("#frame .sr .ttl .mono", { opacity: 0 }, 0);
+C(9.4, 1700, 640, 1.2);
+tl.to("#cursor", { opacity: 0, duration: .3 }, 11.8);
+/* окно программы вырывается на весь экран */
+tl.to(["#topbar", "#bin", "#viewer", "#tl"], { opacity: 0, duration: .5 }, 12.5);
+tl.to("#frame", { x: -766, y: -74, scale: 1920 / 924, duration: .85, ease: "power3.inOut" }, 12.5);
+tl.to("#frame .sr .ttl", { opacity: 0, duration: .3 }, 12.95);
+tl.to(["#frame .site img", "#frame .site .scrim"], { opacity: 1, duration: .35 }, 13.05);
+tl.fromTo("#frame .layer.sr video", { scale: 1 }, { scale: 1.06, duration: 2.6, ease: "none" }, 12.4);
+flash(15.0);
+tl.set(["#topbar", "#bin", "#viewer", "#tl"], { opacity: 1 }, 15.0);
+tl.set("#frame", { x: 0, y: 0, scale: 1 }, 15.0);
+tl.set(["#frame .sr", "#frame .site"], { opacity: 0 }, 15.0);
+
+/* S4 · бритва 15–21 */
+const cases = $$("#frame .case");
+tl.set(cases[0], { opacity: 1 }, 15.0);
+tl.set("#tl .tool.sel", { className: "tool sel" }, 15.25); tl.set("#tl .tool.rz", { className: "tool rz on" }, 15.25);
+key(15.25, "C", "бритва", 1640, 642);
+const laneX = (t) => TX + 1 + xs(t), RY = 874; // хотспот бритвы: (19, 17)
+tl.set("#cursor .arrow", { opacity: 0 }, 15.3); tl.set("#cursor .razor", { opacity: 1 }, 15.3);
+tl.set("#cursor", { x: laneX(15.3) - 19, y: RY - 17, opacity: 1 }, 15.3);
+tl.to("#cursor", { x: laneX(20.3) - 19, duration: 5.0, ease: "none" }, 15.3);
+CUTS.forEach((c, i) => {
+  click(c, laneX(c), RY);
+  tl.to(workClip.querySelectorAll(".cut")[i], { scaleY: 1, duration: .12 }, c);
+  tl.set(cases[i], { opacity: 0 }, c); tl.set(cases[i + 1], { opacity: 1 }, c);
+  flash(c, .5);
+  tl.to(workClip.querySelectorAll(".seg")[i + 1], { opacity: 1, duration: .2 }, c + .05);
+});
+tl.to(workClip.querySelectorAll(".seg")[0], { opacity: 1, duration: .2 }, 16.05);
+tl.to(workClip.querySelector(".lb"), { opacity: 0, duration: .2 }, 16.0);
+cases.forEach((c) => tl.fromTo(c.querySelector(".ttl"), { x: -20 }, { x: 0, duration: .5, ease: E.expo, immediateRender: false }, 15 + (+c.dataset.i)));
+tl.to("#cursor", { opacity: 0, duration: .2 }, 20.6);
+tl.set("#cursor .arrow", { opacity: 1 }, 21.0); tl.set("#cursor .razor", { opacity: 0 }, 21.0);
+tl.set("#tl .tool.sel", { className: "tool sel on" }, 21.0); tl.set("#tl .tool.rz", { className: "tool rz" }, 21.0);
+
+/* S5 · два экрана 21–28 */
+flash(21.0);
+vis("#s5", 21.0, 28.0);
+tl.set("#nle", { visibility: "hidden" }, 21.0);
+lines("#s5 .cap .mask > span", 21.6, 0, .9);
+tl.set("#s5 .cap .mask > span", { yPercent: 112 }, 0);
+tl.fromTo("#s5 .cap .mono", { opacity: 0 }, { opacity: 1, duration: .4, immediateRender: false }, 21.5);
+tl.fromTo("#laptop", { x: -500, rotateY: 14, transformPerspective: 2400, opacity: 0 }, { x: 0, rotateY: 0, opacity: 1, duration: 1.0, ease: E.expo, immediateRender: false }, 21.0);
+tl.fromTo("#phone", { x: 400, rotateY: -16, transformPerspective: 2400, opacity: 0 }, { x: 0, rotateY: 0, opacity: 1, duration: 1.0, ease: E.expo, immediateRender: false }, 21.15);
+tl.fromTo("#s5 .labels", { opacity: 0 }, { opacity: 1, duration: .5, immediateRender: false }, 22.0);
+const rimg = $$("#laptop .r");
+const ROWS = [[325, 165], [325, 235], [325, 306], [325, 376]].map(([x, y]) => [158 + x, 270 + y]);
+tl.set("#cursor", { x: 760, y: 800, opacity: 0 }, 21.0);
+tl.to("#cursor", { opacity: 1, duration: .3 }, 21.9);
+ROWS.forEach(([x, y], i) => {
+  const at = 22.4 + i * 1.0;
+  C(at - .35, x, y, .35);
+  tl.set(rimg[i], { opacity: 1 }, at); if (i > 0) tl.set(rimg[i - 1], { opacity: 0 }, at);
+});
+tl.to("#cursor", { opacity: 0, duration: .3 }, 27.0);
+const k = 300 / 390;
+const pscroll = (y, t, d) => tl.to("#phone .pg", { y: -y * k, duration: d, ease: "power3.inOut" }, t);
+pscroll(820, 22.6, .8); pscroll(1500, 24.0, .8); pscroll(2400, 25.4, .9);
+tl.fromTo(["#laptop", "#phone"], { y: 0 }, { y: -14, duration: 6, ease: "none", immediateRender: false }, 22.0);
+
+/* S6 · титры 28–33 */
+flash(28.0, .6);
+vis("#s6", 28.0, 33.0);
+tl.fromTo("#roll", { y: 70 }, { y: -50, duration: 2.9, ease: "none", immediateRender: false }, 28.0);
+tl.fromTo("#roll > *", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: .55, ease: E.expo, stagger: .1, immediateRender: false }, 28.1);
+tl.set("#roll > *", { opacity: 0 }, 0);
+tl.to("#roll", { opacity: 0, duration: .25 }, 30.7);
+tl.to("#s6 .bg", { opacity: .5, duration: .3 }, 30.75);
+tl.set("#s6 .say", { opacity: 1 }, 31.0);
+lines("#s6 .say .mask > span", 31.0, .14, .8);
+tl.set("#s6 .say .mask > span", { yPercent: 112 }, 0);
+flash(31.0, .35);
+
+/* S7 · цвет 33–38 */
+flash(33.0, .6);
+tl.set("#nle", { visibility: "visible" }, 33.0);
+tl.set("#tabs .t1", { className: "t1" }, 33.0); tl.set("#tabs .t2", { className: "t2 on" }, 33.0);
+tl.set(cases, { opacity: 0 }, 33.0);
+tl.set("#frame .grade", { opacity: 1 }, 33.0);
+tl.set("#tl", { opacity: 0 }, 33.0); tl.set("#wheels", { opacity: 1 }, 33.0);
+const gd = "#wheels .wheel[data-w=Gamma] .dot", gn = "#wheels .wheel[data-w=Gain] .dot";
+tl.set("#cursor", { x: 980, y: 1000, opacity: 0 }, 33.0);
+tl.to("#cursor", { opacity: 1, duration: .2 }, 33.2);
+C(33.2, 958, 846, .4);
+tl.to(gd, { x: 46, y: -40, duration: 1.0, ease: "power2.inOut" }, 33.6);
+C(33.6, 1004, 806, 1.0, "power2.inOut");
+C(34.7, 1398, 846, .3);
+tl.to(gn, { x: 30, y: -24, duration: .5, ease: "power2.inOut" }, 35.0);
+C(35.0, 1428, 822, .5, "power2.inOut");
+const grade = { p: 0 };
+tl.to(grade, { p: 1, duration: 1.9, ease: "power2.inOut", onUpdate() {
+  $("#frame .grade .after").style.clipPath = `inset(0 ${(100 - grade.p * 100).toFixed(2)}% 0 0)`;
+  $("#frame .grade .split").style.left = (grade.p * 100).toFixed(2) + "%";
+} }, 33.6);
+tl.to("#frame .grade .split", { opacity: 0, duration: .2 }, 35.5);
+tl.to("#cursor", { opacity: 0, duration: .3 }, 35.6);
+tl.set("#frame .grade .lower", { opacity: 1 }, 35.5);
+lines("#frame .grade .lower .mask > span", 35.55, .12, .8);
+tl.set("#frame .grade .lower .mask > span", { yPercent: 112 }, 0);
+
+/* S8 · экспорт 38–42 */
+flash(38.0, .5);
+tl.set("#tabs .t2", { className: "t2" }, 38.0); tl.set("#tabs .t3", { className: "t3 on" }, 38.0);
+tl.set("#wheels", { opacity: 0 }, 38.0); tl.set("#tl", { opacity: 1 }, 38.0);
+tl.to("#modalWrap", { opacity: 1, duration: .3 }, 38.05);
+tl.fromTo("#modal", { opacity: 0, y: 30, scale: .97 }, { opacity: 1, y: 0, scale: 1, duration: .45, ease: E.expo, immediateRender: false }, 38.1);
+tl.set("#cursor", { x: 1180, y: 760, opacity: 0 }, 38.0);
+tl.to("#cursor", { opacity: 1, duration: .2 }, 38.2);
+C(38.2, 1300, 694, .35);
+click(38.6, 1304, 697);
+tl.to("#cursor", { opacity: 0, duration: .3 }, 39.0);
+const ex = { p: 0 };
+tl.to(ex, { p: 100, duration: 2.6, ease: "power1.in", onUpdate() {
+  $("#modal .bar i").style.width = ex.p.toFixed(1) + "%"; $("#modal .pc").textContent = Math.round(ex.p) + "%";
+  $("#modal .msg").textContent = ex.p < 100 ? `Рендер… осталось ${Math.max(1, Math.ceil((100 - ex.p) / 38))} с` : "Готово. Сайт собран ✓";
+} }, 38.6);
+tl.set("#modal .msg", { color: "#ece7df" }, 41.2);
+
+/* S9 · финал 42–46 */
+flash(42.0, .9);
+tl.set("#nle", { visibility: "hidden" }, 42.0);
+vis("#s9", 42.0);
+lines("#s9 .copy .mask > span", 42.1, .16, 1);
+tl.set("#s9 .copy .mask > span", { yPercent: 112 }, 0);
+tl.fromTo("#s9 .copy .mono", { opacity: 0 }, { opacity: 1, duration: .5, immediateRender: false }, 42.2);
+tl.fromTo("#s9 .side > *", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: .6, ease: E.expo, stagger: .12, immediateRender: false }, 42.8);
+tl.set("#s9 .side > *", { opacity: 0 }, 0);
+tl.fromTo("#s9 .stop i", { scale: .5 }, { scale: 1, duration: .25, ease: "back.out(3)", immediateRender: false }, 44.6);
+close(45.3, .55);
+tl.to({}, { duration: .1 }, 45.9);
+
+window.__duration = DUR;
+
+/* зерно */
+const g = $("#grain"), gc = g.getContext("2d"), img = gc.createImageData(960, 540);
+function grain(frame) { let s = (frame * 2654435761) >>> 0; const d = img.data; for (let i = 0; i < d.length; i += 4) { s ^= s << 13; s ^= s >>> 17; s ^= s << 5; const v = s >>> 24; d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255; } gc.putImageData(img, 0, 0); }
+
+/* рендер-API */
+const videos = $$("video[data-v]");
+const seekVideo = (v, t) => new Promise((res) => {
+  const local = Math.max(0, t - parseFloat(v.dataset.start)), dur = v.duration || 8, target = local % (dur - .05);
+  if (Math.abs(v.currentTime - target) < .004) return res();
+  const done = () => { v.removeEventListener("seeked", done); res(); };
+  v.addEventListener("seeked", done); v.currentTime = target; setTimeout(done, 1500);
+});
+const shown = (v) => { for (let n = v; n && n !== document.body; n = n.parentElement) { const cs = getComputedStyle(n); if (cs.visibility === "hidden" || cs.opacity === "0") return false; } return true; };
+window.__seek = async (t) => {
+  tl.seek(t, false); grain(Math.round(t * FPS));
+  await Promise.all(videos.filter(shown).map((v) => seekVideo(v, t)));
+  await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+  return true;
+};
+window.__ready = (async () => {
+  await document.fonts.ready;
+  await Promise.all(['800 100px "Sofia Sans Extra Condensed"', '700 100px Oswald', '400 20px "Inter Tight"', '500 20px "Inter Tight"', '400 20px "Roboto Mono"', '500 20px "Roboto Mono"'].map((f) => document.fonts.load(f, "АБВ Қ abc 123")));
+  fitLines("#frame .sr .h", 620); fitLines("#s5 .cap .disp", 1100); fitLines("#s6 .say .disp", 1300); fitLines("#frame .grade .lower .disp", 470); fitLines("#s9 .copy .disp", 960);
+  await Promise.all(videos.map((v) => v.readyState >= 1 ? 0 : new Promise((r) => { v.addEventListener("loadedmetadata", r, { once: true }); setTimeout(r, 4000); })));
+  await Promise.all($$("img").map((i) => i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = r; })));
+  tl.seek(0); return true;
+})();
+if (location.search.includes("play")) window.__ready.then(() => { videos.forEach((v) => { v.loop = true; v.play().catch(() => {}); }); let f = 0; gsap.ticker.add(() => grain(f++)); tl.play(0); });
+})();
+</script>
+</body>
+</html>

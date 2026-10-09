@@ -52,3 +52,8 @@ next-env.d.ts
 /trailer/frames/
 /trailer/stills/
 /trailer/*.mp4
+/trailer/*.wav
+/trailer/frames-h/
+/trailer/stills-h/
+/trailer/h/*
+!/trailer/h/index.html
