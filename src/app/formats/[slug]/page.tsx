@@ -23,11 +23,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const f = getFormat(slug);
   if (!f) return {};
-  const title = `${f.seoName ?? f.name} — цены и примеры · Алматы`;
+  const cases = getCases({ format: f.slug });
+  /* «примеры» — только если на странице есть блок «Работы в этом формате» */
+  const title = `${f.seoName ?? f.name} — ${cases.length > 0 ? "цены и примеры" : "цены"} · Алматы`;
   const description = f.intro.length > 160 ? `${f.intro.slice(0, 157)}…` : f.intro;
   const url = `/formats/${f.slug}`;
-  /* превью ссылки: свой луп → первая работа формата → шоурил */
-  const image = f.loop?.posterH ?? getCases({ format: f.slug })[0]?.loop.posterH ?? settings.showreel?.loop.posterH;
+  /* превью ссылки: свой луп → первая работа формата → луп шоурила */
+  const image = f.loop?.posterH ?? cases[0]?.loop.posterH ?? settings.showreel?.loop.posterH;
   return {
     title,
     description,
@@ -74,7 +76,8 @@ export default async function FormatPage({ params }: Props) {
     description: f.intro,
     provider: { "@type": "Person", name: settings.brand.person, jobTitle: settings.brand.role },
     areaServed: { "@type": "City", name: settings.brand.city },
-    ...(showPrice && f.fromPrice
+    /* несогласованные (демо) цены поисковикам как предложение не отдаём */
+    ...(showPrice && f.fromPrice && !settings.toggles.pricesAreDemo
       ? { offers: { "@type": "Offer", priceCurrency: "KZT", price: f.fromPrice, priceSpecification: { "@type": "PriceSpecification", minPrice: f.fromPrice, priceCurrency: "KZT" } } }
       : {}),
   };
@@ -145,6 +148,7 @@ export default async function FormatPage({ params }: Props) {
               {!f.fromPrice && (
                 <p className="mono mt-3 text-meta">{included ? "в любой свадебной коллекции" : "смета за два дня после созвона"}</p>
               )}
+              {f.fromPrice && settings.toggles.pricesAreDemo && <p className="mono-sm mt-3 text-meta">цены — демо, до согласования</p>}
             </div>
             <Button variant="outline" size="lg" href={`/pricing#${f.group === "wedding" ? "wedding" : "brand"}`}>
               весь прайс →

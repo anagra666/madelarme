@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Проверка медиа: каждый путь «/media/...», упомянутый в src/content/*.json,
+ * Проверка медиа: каждый путь «/media/...», упомянутый в src/content/*.json, и каждый файл
+ * «/media/….webp / .mp4 / …», зашитый строкой в .ts / .tsx под src (og:image в src/app/layout.tsx),
  * должен существовать в public/media. Заодно считает размер public/media
  * и показывает файлы, на которые никто не ссылается.
  *
@@ -40,6 +41,13 @@ for (const f of (await readdir(CONTENT)).filter((n) => n.endsWith(".json"))) {
   const json = JSON.parse(await readFile(path.join(CONTENT, f), "utf8"));
   collect(json, refs, f.replace(".json", ""));
 }
+// пути, зашитые в код: сейчас og:image шоурила в layout.tsx — его переименование иначе ломает превью ссылок молча
+for (const f of (await walk(path.join(ROOT, "src"))).filter((p) => /\.(ts|tsx)$/.test(p))) {
+  const code = await readFile(f, "utf8");
+  for (const m of code.matchAll(/["'`](\/media\/[^"'`\s$]+\.(?:webp|mp4|jpe?g|png|avif|svg))["'`]/g)) {
+    refs.push({ p: m[1], where: path.relative(ROOT, f) });
+  }
+}
 
 const missing = [];
 const used = new Set();
@@ -65,7 +73,7 @@ for (const p of files) {
 const orphans = files.filter((p) => !used.has(p));
 const mb = (n) => `${(n / 1024 / 1024).toFixed(1)} МБ`;
 
-console.log(`ссылок на /media в контенте: ${refs.length} (уникальных: ${new Set(refs.map((r) => r.p)).size})`);
+console.log(`ссылок на /media в контенте и коде: ${refs.length} (уникальных: ${new Set(refs.map((r) => r.p)).size})`);
 console.log(`файлов в public/media: ${files.length}, всего ${mb(total)} — ${Object.entries(byDir).map(([d, n]) => `${d} ${mb(n)}`).join(" · ")}`);
 if (orphans.length) {
   console.log(`без ссылок (${orphans.length}): ${orphans.map((p) => path.relative(PUBLIC, p)).join(", ")}`);

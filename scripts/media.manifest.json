@@ -1,522 +1,670 @@
 {
-  "_readme": "Демо-медиа. Источники: Pexels (Pexels License), Mixkit (Mixkit Free License), Coverr (Coverr License), Unsplash (Unsplash License) — коммерческое использование без атрибуции. Клиенты демо-кейсов вымышлены; OYU Fest и N&N — реальные ролики Марии на YouTube, факты кейсов не подтверждены. Сборка: pnpm media. Kinds: loop (H+V+постеры), vloop (только 9:16), still (webp 1600 / 4:5; из видео — кадр на секунде at). Поля: crf/crfV, maxrate/maxrateV, cropXV — см. scripts/media.mjs.",
+  "_readme": "Медиа сайта: лупы, постеры и кадры из реальных фильмов Марии с YouTube-канала Madelarme. Источники: .cache/sources/{youtubeId}.mp4 — каждый фильм один раз скачивается по id (поле youtube у элемента) и дальше режется локально; src без http — путь от корня проекта. Сток (прямые ссылки Pexels / Mixkit / Coverr / Unsplash, коммерческое использование без атрибуции) — только у элементов, ещё помеченных полем stock («Pexels», «Unsplash»…). Сборка: pnpm media (--only, --force; пробы: --manifest, --out). Kinds: loop (H+V+постеры), vloop (только 9:16), montage (склейка segments из нескольких фильмов, H+V+постеры), still (webp; из видео — кадр на at; w+h — точный кроп). Время: секунды или «m:ss.f». Поля: start + end или duration, startV/endV, posterAt/posterAtV, fps, crf/crfV, maxrate/maxrateV, cropXV, cropY, precrop — см. scripts/media.mjs.",
   "items": [
     {
-      "name": "showreel",
+      "name": "reel",
+      "kind": "montage",
+      "fps": 24,
+      "segments": [
+        {
+          "src": ".cache/sources/vyl19vK1u4M.mp4",
+          "youtube": "vyl19vK1u4M",
+          "start": 46.68,
+          "end": 48.48,
+          "cropXV": 0.5
+        },
+        {
+          "src": ".cache/sources/TsCSXDzaojg.mp4",
+          "youtube": "TsCSXDzaojg",
+          "start": 58.38,
+          "end": 59.95,
+          "cropXV": 0.47
+        },
+        {
+          "src": ".cache/sources/C8LZGKQyitw.mp4",
+          "youtube": "C8LZGKQyitw",
+          "start": 88.47,
+          "end": 90.25,
+          "cropXV": 0.93
+        },
+        {
+          "src": ".cache/sources/uxySeZi935Q.mp4",
+          "youtube": "uxySeZi935Q",
+          "start": 57.9,
+          "end": 59.78,
+          "cropXV": 0.5,
+          "cropY": 0.3
+        },
+        {
+          "src": ".cache/sources/fyKho0UwMw4.mp4",
+          "youtube": "fyKho0UwMw4",
+          "start": 64.67,
+          "end": 66.2,
+          "cropXV": 0.64
+        },
+        {
+          "src": ".cache/sources/VVJ6A7J6kEE.mp4",
+          "youtube": "VVJ6A7J6kEE",
+          "start": 102.6,
+          "end": 104.1,
+          "cropXV": 0.68
+        },
+        {
+          "src": ".cache/sources/n1-XF8vDiQ0.mp4",
+          "youtube": "n1-XF8vDiQ0",
+          "start": 69.05,
+          "end": 70.33,
+          "cropXV": 0.43
+        }
+      ],
+      "posterAt": 0.45,
+      "posterAtV": 0.45,
+      "crf": 25,
+      "crfV": 27,
+      "maxrate": "2400k",
+      "maxrateV": "1400k",
+      "poster45": false
+    },
+    {
+      "name": "oyu",
       "kind": "loop",
-      "src": "https://videos.pexels.com/video-files/34219692/14503455_1280_720_60fps.mp4",
-      "srcV": "https://videos.pexels.com/video-files/28927581/12519411_720_1280_60fps.mp4",
-      "start": 3,
-      "duration": 10,
-      "startV": 2,
-      "crfV": 30,
-      "maxrateV": "950k"
-    },
-    {
-      "name": "tau-toi",
-      "kind": "loop",
-      "src": "https://videos.pexels.com/video-files/8776127/8776127-hd_1280_720_25fps.mp4",
-      "srcV": "https://videos.pexels.com/video-files/9122066/9122066-hd_720_1280_25fps.mp4",
-      "start": 3,
-      "duration": 8,
-      "startV": 2
-    },
-    {
-      "name": "gorod-ne-spit",
-      "kind": "loop",
-      "src": "https://videos.pexels.com/video-files/35116342/14877194_1280_720_25fps.mp4",
-      "srcV": "https://videos.pexels.com/video-files/7197863/7197863-hd_720_1280_25fps.mp4",
-      "start": 4,
-      "duration": 8,
-      "startV": 2,
-      "crf": 27,
-      "crfV": 28
-    },
-    {
-      "name": "oyu-fest",
-      "kind": "loop",
-      "src": "https://videos.pexels.com/video-files/34059094/14445517_1280_720_30fps.mp4",
-      "srcV": "https://videos.pexels.com/video-files/35323903/14966333_720_1280_30fps.mp4",
-      "start": 1,
-      "duration": 8,
-      "startV": 5,
-      "crf": 27,
-      "crfV": 28
-    },
-    {
-      "name": "pervyj-sneg",
-      "kind": "loop",
-      "src": "https://assets.mixkit.co/videos/39497/39497-720.mp4",
-      "start": 1,
-      "duration": 8,
-      "cropXV": 0.6
-    },
-    {
-      "name": "utro-zdes",
-      "kind": "loop",
-      "src": "https://videos.pexels.com/video-files/6769788/6769788-hd_1280_720_24fps.mp4",
-      "srcV": "https://videos.pexels.com/video-files/34232314/14507641_720_1280_30fps.mp4",
-      "start": 4,
-      "duration": 8,
-      "startV": 6
-    },
-    {
-      "name": "techsummit",
-      "kind": "loop",
-      "src": "https://videos.pexels.com/video-files/16848788/16848788-hd_1280_720_30fps.mp4",
-      "srcV": "https://videos.pexels.com/video-files/32822009/13990454_720_1280_24fps.mp4",
-      "start": 3,
-      "duration": 8,
-      "startV": 0
-    },
-    {
-      "name": "uzhin-na-vysote",
-      "kind": "loop",
-      "src": "https://videos.pexels.com/video-files/39453040/16803041_1280_720_50fps.mp4",
-      "srcV": "https://videos.pexels.com/video-files/3209012/3209012-hd_1280_720_25fps.mp4",
-      "start": 2,
-      "duration": 8,
-      "startV": 8
-    },
-    {
-      "name": "qara-osen-zima",
-      "kind": "loop",
-      "src": "https://videos.pexels.com/video-files/33191769/14145270_1280_720_24fps.mp4",
-      "srcV": "https://videos.pexels.com/video-files/34373833/14561896_720_1280_30fps.mp4",
-      "start": 0,
-      "duration": 6,
-      "startV": 3
-    },
-    {
-      "name": "my-zdes-stroim",
-      "kind": "loop",
-      "src": "https://videos.pexels.com/video-files/8716788/8716788-hd_1280_720_25fps.mp4",
-      "srcV": "https://videos.pexels.com/video-files/38437973/16322773_720_1280_30fps.mp4",
-      "start": 5,
-      "duration": 8,
-      "startV": 8
-    },
-    {
-      "name": "12-reels",
-      "kind": "loop",
-      "src": "https://videos.pexels.com/video-files/38492076/16347228_2048_1080_30fps.mp4",
-      "srcV": "https://assets.mixkit.co/videos/2373/2373-720.mp4",
-      "start": 2,
-      "duration": 8,
-      "startV": 2
-    },
-    {
-      "name": "n-n",
-      "kind": "loop",
-      "src": "https://videos.pexels.com/video-files/5763323/5763323-hd_1280_720_24fps.mp4",
-      "start": 0,
-      "duration": 6.5,
-      "cropXV": 0.5
-    },
-    {
-      "name": "f-wedding",
-      "kind": "loop",
-      "poster45": false,
-      "crfV": 30,
-      "src": "https://videos.pexels.com/video-files/34506426/14620218_1280_720_30fps.mp4",
-      "start": 1,
-      "duration": 8
-    },
-    {
-      "name": "f-highlight",
-      "kind": "loop",
-      "poster45": false,
-      "crfV": 28,
-      "src": "https://assets.mixkit.co/videos/40596/40596-720.mp4",
-      "start": 4,
-      "duration": 8,
-      "srcV": "https://videos.pexels.com/video-files/8776998/8776998-hd_720_1280_25fps.mp4",
-      "startV": 14
-    },
-    {
-      "name": "f-lovestory",
-      "kind": "loop",
-      "poster45": false,
-      "crfV": 30,
-      "src": "https://assets.mixkit.co/videos/4829/4829-720.mp4",
-      "start": 1,
-      "duration": 8
-    },
-    {
-      "name": "f-brand",
-      "kind": "loop",
-      "poster45": false,
-      "crfV": 30,
-      "src": "https://videos.pexels.com/video-files/3209012/3209012-hd_1280_720_25fps.mp4",
-      "start": 0,
-      "duration": 8
-    },
-    {
-      "name": "f-aftermovie",
-      "kind": "loop",
-      "poster45": false,
-      "crf": 27,
-      "crfV": 30,
-      "src": "https://assets.mixkit.co/videos/14087/14087-720.mp4",
-      "start": 0,
-      "duration": 8
-    },
-    {
-      "name": "f-content",
-      "kind": "loop",
-      "poster45": false,
-      "crfV": 30,
-      "src": "https://assets.mixkit.co/videos/2378/2378-720.mp4",
-      "start": 2,
-      "duration": 8
-    },
-    {
-      "name": "f-music",
-      "kind": "loop",
-      "poster45": false,
-      "crf": 27,
-      "crfV": 30,
-      "src": "https://videos.pexels.com/video-files/7315362/7315362-hd_1280_720_25fps.mp4",
-      "start": 2,
-      "duration": 8
-    },
-    {
-      "name": "tau-toi-r1",
-      "kind": "vloop",
-      "srcV": "https://videos.pexels.com/video-files/8776998/8776998-hd_720_1280_25fps.mp4",
-      "startV": 6,
-      "duration": 8
-    },
-    {
-      "name": "tau-toi-r2",
-      "kind": "vloop",
-      "srcV": "https://videos.pexels.com/video-files/26028171/11925669_720_1280_30fps.mp4",
-      "startV": 0,
-      "duration": 8
-    },
-    {
-      "name": "gorod-r1",
-      "kind": "vloop",
-      "srcV": "https://videos.pexels.com/video-files/8113096/8113096-hd_720_1280_30fps.mp4",
-      "startV": 2,
-      "duration": 8,
-      "crfV": 28
-    },
-    {
-      "name": "gorod-r2",
-      "kind": "vloop",
-      "srcV": "https://videos.pexels.com/video-files/8111962/8111962-hd_720_1280_30fps.mp4",
-      "startV": 2,
-      "duration": 8,
-      "crfV": 28
-    },
-    {
-      "name": "music-r1",
-      "kind": "vloop",
-      "srcV": "https://videos.pexels.com/video-files/8135212/8135212-hd_720_1280_50fps.mp4",
-      "startV": 2,
-      "duration": 8
-    },
-    {
-      "name": "oyu-r1",
-      "kind": "vloop",
-      "srcV": "https://cdn.coverr.co/videos/coverr-having-fun-at-a-concert-3590/720p.mp4",
-      "startV": 1,
-      "duration": 8,
-      "crfV": 28
-    },
-    {
-      "name": "sneg-r1",
-      "kind": "vloop",
-      "srcV": "https://videos.pexels.com/video-files/15191742/15191742-hd_1280_720_24fps.mp4",
-      "startV": 0,
-      "duration": 6
-    },
-    {
-      "name": "utro-r1",
-      "kind": "vloop",
-      "srcV": "https://videos.pexels.com/video-files/13736675/13736675-hd_720_1280_24fps.mp4",
-      "startV": 1,
-      "duration": 8
-    },
-    {
-      "name": "utro-r2",
-      "kind": "vloop",
-      "srcV": "https://videos.pexels.com/video-files/35035084/14840928_720_1280_30fps.mp4",
-      "startV": 0,
-      "duration": 6
-    },
-    {
-      "name": "utro-r3",
-      "kind": "vloop",
-      "srcV": "https://assets.mixkit.co/videos/41865/41865-720.mp4",
-      "startV": 3,
-      "duration": 8
-    },
-    {
-      "name": "techsummit-r1",
-      "kind": "vloop",
-      "srcV": "https://assets.mixkit.co/videos/1512/1512-720.mp4",
-      "startV": 5,
-      "duration": 8
-    },
-    {
-      "name": "uzhin-r1",
-      "kind": "vloop",
-      "srcV": "https://videos.pexels.com/video-files/3209012/3209012-hd_1280_720_25fps.mp4",
-      "startV": 16,
-      "duration": 8
-    },
-    {
-      "name": "qara-r1",
-      "kind": "vloop",
-      "srcV": "https://videos.pexels.com/video-files/34373833/14561896_720_1280_30fps.mp4",
-      "startV": 8,
-      "duration": 6
-    },
-    {
-      "name": "stroim-r1",
-      "kind": "vloop",
-      "srcV": "https://videos.pexels.com/video-files/28962683/12529288_720_1280_30fps.mp4",
-      "startV": 0,
-      "duration": 7.5
-    },
-    {
-      "name": "reels-r1",
-      "kind": "vloop",
-      "srcV": "https://videos.pexels.com/video-files/34555217/14647696_720_1280_50fps.mp4",
-      "startV": 0,
-      "duration": 5
-    },
-    {
-      "name": "portrait",
-      "kind": "still",
-      "src": "https://images.unsplash.com/photo-1617461073601-b8222743b613?w=2000&q=80&fm=jpg",
-      "w": 1600,
-      "also45": true
-    },
-    {
-      "name": "backstage-1",
-      "kind": "still",
-      "src": "https://images.unsplash.com/photo-1543242594-c8bae8b9e708?w=2000&q=80&fm=jpg",
-      "w": 1600,
-      "h": 1067
-    },
-    {
-      "name": "backstage-2",
-      "kind": "still",
-      "src": "https://images.unsplash.com/photo-1543242594-80fc0e1b2a35?w=2000&q=80&fm=jpg",
-      "w": 1600,
-      "h": 1067
-    },
-    {
-      "name": "backstage-3",
-      "kind": "still",
-      "src": "https://images.unsplash.com/photo-1534961165765-5c9795af911b?w=2000&q=80&fm=jpg",
-      "w": 1200,
-      "h": 1500
-    },
-    {
-      "name": "backstage-4",
-      "kind": "still",
-      "src": "https://images.pexels.com/photos/1408984/pexels-photo-1408984.jpeg?auto=compress&cs=tinysrgb&w=2000",
-      "w": 1600,
-      "h": 1067
-    },
-    {
-      "name": "tau-toi-1",
-      "kind": "still",
-      "src": "https://videos.pexels.com/video-files/8776127/8776127-hd_1280_720_25fps.mp4",
-      "at": 4.5,
-      "w": 1280,
-      "h": 720
-    },
-    {
-      "name": "tau-toi-2",
-      "kind": "still",
-      "src": "https://videos.pexels.com/video-files/8776127/8776127-hd_1280_720_25fps.mp4",
-      "at": 12,
-      "w": 1280,
-      "h": 720
-    },
-    {
-      "name": "tau-toi-3",
-      "kind": "still",
-      "src": "https://videos.pexels.com/video-files/8776998/8776998-hd_720_1280_25fps.mp4",
-      "at": 3,
-      "w": 720,
-      "h": 900
-    },
-    {
-      "name": "tau-toi-4",
-      "kind": "still",
-      "src": "https://videos.pexels.com/video-files/8776998/8776998-hd_720_1280_25fps.mp4",
-      "at": 9,
-      "w": 720,
-      "h": 900
-    },
-    {
-      "name": "tau-toi-5",
-      "kind": "still",
-      "src": "https://videos.pexels.com/video-files/8776998/8776998-hd_720_1280_25fps.mp4",
-      "at": 15,
-      "w": 720,
-      "h": 900
-    },
-    {
-      "name": "tau-toi-6",
-      "kind": "still",
-      "src": "https://videos.pexels.com/video-files/8776998/8776998-hd_720_1280_25fps.mp4",
-      "at": 22,
-      "w": 720,
-      "h": 900
-    },
-    {
-      "name": "sneg-1",
-      "kind": "still",
-      "src": "https://images.unsplash.com/photo-1716835018054-5b13e5ef53b0?w=2000&q=80&fm=jpg",
-      "w": 1600,
-      "h": 1000
-    },
-    {
-      "name": "sneg-2",
-      "kind": "still",
-      "src": "https://images.pexels.com/photos/15197000/pexels-photo-15197000.jpeg?auto=compress&cs=tinysrgb&w=2000",
-      "w": 1600,
-      "h": 1067
-    },
-    {
-      "name": "sneg-3",
-      "kind": "still",
-      "src": "https://videos.pexels.com/video-files/36510380/15481097_1280_720_30fps.mp4",
-      "w": 1280,
-      "h": 720
+      "youtube": "vyl19vK1u4M",
+      "src": ".cache/sources/vyl19vK1u4M.mp4",
+      "fps": 30,
+      "start": 26.38,
+      "end": 34.98,
+      "startV": 26.38,
+      "endV": 33.62,
+      "cropXV": 0.5,
+      "posterAt": 43.25,
+      "posterAtV": 34.2,
+      "posterCropXV": 0.6,
+      "crf": 25,
+      "crfV": 27,
+      "maxrate": "2400k",
+      "maxrateV": "1400k",
+      "poster45": false
     },
     {
       "name": "oyu-1",
       "kind": "still",
-      "src": "https://videos.pexels.com/video-files/34059053/14445443_1920_1080_30fps.mp4",
+      "youtube": "vyl19vK1u4M",
+      "src": ".cache/sources/vyl19vK1u4M.mp4",
+      "at": 46.5,
       "w": 1600,
       "h": 900
     },
     {
       "name": "oyu-2",
       "kind": "still",
-      "src": "https://assets.mixkit.co/videos/48509/48509-720.mp4",
-      "w": 1280,
-      "h": 720
-    },
-    {
-      "name": "gorod-1",
-      "kind": "still",
-      "src": "https://images.pexels.com/photos/16970675/pexels-photo-16970675.jpeg?auto=compress&cs=tinysrgb&w=2000",
-      "w": 1200,
-      "h": 1500
-    },
-    {
-      "name": "gorod-2",
-      "kind": "still",
-      "src": "https://videos.pexels.com/video-files/8134963/8134963-hd_1920_1080_25fps.mp4",
+      "youtube": "vyl19vK1u4M",
+      "src": ".cache/sources/vyl19vK1u4M.mp4",
+      "at": 34.2,
       "w": 1600,
       "h": 900
     },
     {
-      "name": "utro-1",
+      "name": "oyu-3",
       "kind": "still",
-      "src": "https://videos.pexels.com/video-files/6769788/6769788-hd_1920_1080_24fps.mp4",
+      "youtube": "vyl19vK1u4M",
+      "src": ".cache/sources/vyl19vK1u4M.mp4",
+      "at": 31.7,
       "w": 1600,
       "h": 900
     },
     {
-      "name": "utro-2",
+      "name": "oyu-4",
       "kind": "still",
-      "src": "https://videos.pexels.com/video-files/13736675/13736675-hd_720_1280_24fps.mp4",
-      "w": 720,
-      "h": 900
-    },
-    {
-      "name": "techsummit-1",
-      "kind": "still",
-      "src": "https://videos.pexels.com/video-files/34917492/14791122_1920_1080_60fps.mp4",
+      "youtube": "vyl19vK1u4M",
+      "src": ".cache/sources/vyl19vK1u4M.mp4",
+      "at": 20.4,
       "w": 1600,
       "h": 900
     },
     {
-      "name": "techsummit-2",
+      "name": "oyu-5",
       "kind": "still",
-      "src": "https://videos.pexels.com/video-files/20320583/20320583-hd_1920_1080_60fps.mp4",
+      "youtube": "vyl19vK1u4M",
+      "src": ".cache/sources/vyl19vK1u4M.mp4",
+      "at": 39.3,
       "w": 1600,
       "h": 900
     },
     {
-      "name": "uzhin-1",
+      "name": "oyu-6",
       "kind": "still",
-      "src": "https://videos.pexels.com/video-files/3209012/3209012-hd_1920_1080_25fps.mp4",
+      "youtube": "vyl19vK1u4M",
+      "src": ".cache/sources/vyl19vK1u4M.mp4",
+      "at": 29.4,
       "w": 1600,
       "h": 900
     },
     {
-      "name": "uzhin-2",
-      "kind": "still",
-      "src": "https://images.unsplash.com/photo-1716835018087-e618d839eb59?w=2000&q=80&fm=jpg",
-      "w": 1600,
-      "h": 1000
+      "name": "cultural-love-story",
+      "kind": "loop",
+      "youtube": "TsCSXDzaojg",
+      "src": ".cache/sources/TsCSXDzaojg.mp4",
+      "fps": 24,
+      "start": 55.26,
+      "end": 62.45,
+      "startV": 75,
+      "endV": 82.7,
+      "cropXV": 0.49,
+      "posterAt": 78.9,
+      "posterAtV": 51.5,
+      "posterCropXV": 0.31,
+      "crf": 25,
+      "crfV": 27,
+      "maxrate": "2400k",
+      "maxrateV": "1400k",
+      "poster45": false
     },
     {
-      "name": "qara-1",
+      "name": "cultural-love-story-1",
       "kind": "still",
-      "src": "https://images.unsplash.com/photo-1642266488300-1a57609d73aa?w=2000&q=80&fm=jpg",
-      "w": 1600,
-      "h": 1000
-    },
-    {
-      "name": "qara-2",
-      "kind": "still",
-      "src": "https://videos.pexels.com/video-files/33191769/14145276_1920_1080_24fps.mp4",
-      "w": 1600,
-      "h": 900
-    },
-    {
-      "name": "stroim-1",
-      "kind": "still",
-      "src": "https://images.unsplash.com/photo-1572940734104-684309ed7ac9?w=2000&q=80&fm=jpg",
-      "w": 1600,
-      "h": 1000
-    },
-    {
-      "name": "stroim-2",
-      "kind": "still",
-      "src": "https://videos.pexels.com/video-files/31916293/13595533_1920_1080_60fps.mp4",
+      "youtube": "TsCSXDzaojg",
+      "src": ".cache/sources/TsCSXDzaojg.mp4",
+      "at": 48,
       "w": 1600,
       "h": 900
     },
     {
-      "name": "reels-1",
+      "name": "cultural-love-story-2",
       "kind": "still",
-      "src": "https://images.pexels.com/photos/3917682/pexels-photo-3917682.jpeg?auto=compress&cs=tinysrgb&w=2000",
-      "w": 1200,
-      "h": 1500
+      "youtube": "TsCSXDzaojg",
+      "src": ".cache/sources/TsCSXDzaojg.mp4",
+      "at": 68.8,
+      "w": 1600,
+      "h": 900
     },
     {
-      "name": "reels-2",
+      "name": "cultural-love-story-3",
       "kind": "still",
-      "src": "https://images.pexels.com/photos/10024770/pexels-photo-10024770.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      "youtube": "TsCSXDzaojg",
+      "src": ".cache/sources/TsCSXDzaojg.mp4",
+      "at": 24.6,
       "w": 1600,
-      "h": 1067
+      "h": 900
     },
     {
-      "name": "n-n-1",
+      "name": "cultural-love-story-4",
       "kind": "still",
-      "src": "https://images.pexels.com/photos/37736458/pexels-photo-37736458.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      "youtube": "TsCSXDzaojg",
+      "src": ".cache/sources/TsCSXDzaojg.mp4",
+      "at": 90.2,
       "w": 1600,
-      "h": 1067
+      "h": 900
     },
     {
-      "name": "n-n-2",
+      "name": "cultural-love-story-5",
       "kind": "still",
-      "src": "https://images.pexels.com/photos/35024115/pexels-photo-35024115.jpeg?auto=compress&cs=tinysrgb&w=2000",
+      "youtube": "TsCSXDzaojg",
+      "src": ".cache/sources/TsCSXDzaojg.mp4",
+      "at": 96.5,
       "w": 1600,
-      "h": 1067
+      "h": 900
+    },
+    {
+      "name": "cultural-love-story-6",
+      "kind": "still",
+      "youtube": "TsCSXDzaojg",
+      "src": ".cache/sources/TsCSXDzaojg.mp4",
+      "at": 112.6,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-kick-off",
+      "kind": "loop",
+      "youtube": "C8LZGKQyitw",
+      "src": ".cache/sources/C8LZGKQyitw.mp4",
+      "fps": 24,
+      "start": 88.47,
+      "end": 97.15,
+      "startV": 25.22,
+      "endV": 31.37,
+      "cropXV": 0.5,
+      "posterAt": 89.5,
+      "posterAtV": 35.3,
+      "posterCropXV": 0.5,
+      "crf": 25,
+      "crfV": 27,
+      "maxrate": "2400k",
+      "maxrateV": "1400k",
+      "poster45": false
+    },
+    {
+      "name": "red-bull-kick-off-1",
+      "kind": "still",
+      "youtube": "C8LZGKQyitw",
+      "src": ".cache/sources/C8LZGKQyitw.mp4",
+      "at": 81.3,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-kick-off-2",
+      "kind": "still",
+      "youtube": "C8LZGKQyitw",
+      "src": ".cache/sources/C8LZGKQyitw.mp4",
+      "at": 92.45,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-kick-off-3",
+      "kind": "still",
+      "youtube": "C8LZGKQyitw",
+      "src": ".cache/sources/C8LZGKQyitw.mp4",
+      "at": 28.3,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-kick-off-4",
+      "kind": "still",
+      "youtube": "C8LZGKQyitw",
+      "src": ".cache/sources/C8LZGKQyitw.mp4",
+      "at": 34.95,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-kick-off-5",
+      "kind": "still",
+      "youtube": "C8LZGKQyitw",
+      "src": ".cache/sources/C8LZGKQyitw.mp4",
+      "at": 59.2,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-kick-off-6",
+      "kind": "still",
+      "youtube": "C8LZGKQyitw",
+      "src": ".cache/sources/C8LZGKQyitw.mp4",
+      "at": 106.3,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "n-n-wedding",
+      "kind": "loop",
+      "youtube": "uxySeZi935Q",
+      "src": ".cache/sources/uxySeZi935Q.mp4",
+      "fps": 24,
+      "start": 52.22,
+      "end": 59.78,
+      "startV": 3.43,
+      "endV": 10.07,
+      "cropXV": 0.5,
+      "posterAt": 9.5,
+      "posterAtV": 4.1,
+      "posterCropXV": 0.5,
+      "crf": 25,
+      "crfV": 27,
+      "maxrate": "2400k",
+      "maxrateV": "1400k",
+      "poster45": false,
+      "cropY": 0.25
+    },
+    {
+      "name": "n-n-wedding-1",
+      "kind": "still",
+      "youtube": "uxySeZi935Q",
+      "src": ".cache/sources/uxySeZi935Q.mp4",
+      "at": 58.7,
+      "w": 1440,
+      "h": 1080
+    },
+    {
+      "name": "n-n-wedding-2",
+      "kind": "still",
+      "youtube": "uxySeZi935Q",
+      "src": ".cache/sources/uxySeZi935Q.mp4",
+      "at": 45.15,
+      "w": 1440,
+      "h": 1080
+    },
+    {
+      "name": "n-n-wedding-3",
+      "kind": "still",
+      "youtube": "uxySeZi935Q",
+      "src": ".cache/sources/uxySeZi935Q.mp4",
+      "at": 0.45,
+      "w": 1440,
+      "h": 1080
+    },
+    {
+      "name": "n-n-wedding-4",
+      "kind": "still",
+      "youtube": "uxySeZi935Q",
+      "src": ".cache/sources/uxySeZi935Q.mp4",
+      "at": 51.75,
+      "w": 1440,
+      "h": 1080
+    },
+    {
+      "name": "n-n-wedding-5",
+      "kind": "still",
+      "youtube": "uxySeZi935Q",
+      "src": ".cache/sources/uxySeZi935Q.mp4",
+      "at": 38.55,
+      "w": 1440,
+      "h": 1080
+    },
+    {
+      "name": "n-n-wedding-6",
+      "kind": "still",
+      "youtube": "uxySeZi935Q",
+      "src": ".cache/sources/uxySeZi935Q.mp4",
+      "at": 5.4,
+      "w": 1440,
+      "h": 1080
+    },
+    {
+      "name": "red-bull-on-premise",
+      "kind": "loop",
+      "youtube": "n1-XF8vDiQ0",
+      "src": ".cache/sources/n1-XF8vDiQ0.mp4",
+      "fps": 24,
+      "start": 69.05,
+      "end": 77.1,
+      "startV": 61.54,
+      "endV": 68.95,
+      "cropXV": 0.58,
+      "posterAt": 47.33,
+      "posterAtV": 47.33,
+      "posterCropXV": 0.65,
+      "crf": 25,
+      "crfV": 27,
+      "maxrate": "2400k",
+      "maxrateV": "1400k",
+      "poster45": false
+    },
+    {
+      "name": "red-bull-on-premise-1",
+      "kind": "still",
+      "youtube": "n1-XF8vDiQ0",
+      "src": ".cache/sources/n1-XF8vDiQ0.mp4",
+      "at": 27.1,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-on-premise-2",
+      "kind": "still",
+      "youtube": "n1-XF8vDiQ0",
+      "src": ".cache/sources/n1-XF8vDiQ0.mp4",
+      "at": 35.45,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-on-premise-3",
+      "kind": "still",
+      "youtube": "n1-XF8vDiQ0",
+      "src": ".cache/sources/n1-XF8vDiQ0.mp4",
+      "at": 55.1,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-on-premise-4",
+      "kind": "still",
+      "youtube": "n1-XF8vDiQ0",
+      "src": ".cache/sources/n1-XF8vDiQ0.mp4",
+      "at": 3.2,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-on-premise-5",
+      "kind": "still",
+      "youtube": "n1-XF8vDiQ0",
+      "src": ".cache/sources/n1-XF8vDiQ0.mp4",
+      "at": 71.3,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-on-premise-6",
+      "kind": "still",
+      "youtube": "n1-XF8vDiQ0",
+      "src": ".cache/sources/n1-XF8vDiQ0.mp4",
+      "at": 60.75,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "modern-love-story",
+      "kind": "loop",
+      "youtube": "VVJ6A7J6kEE",
+      "src": ".cache/sources/VVJ6A7J6kEE.mp4",
+      "fps": 24,
+      "start": 90.76,
+      "end": 99.33,
+      "startV": 0.05,
+      "endV": 7.9,
+      "cropXV": 0.52,
+      "posterAt": 93.9,
+      "posterAtV": 79.3,
+      "posterCropXV": 0.77,
+      "crf": 25,
+      "crfV": 27,
+      "maxrate": "2400k",
+      "maxrateV": "1400k",
+      "poster45": false
+    },
+    {
+      "name": "modern-love-story-1",
+      "kind": "still",
+      "youtube": "VVJ6A7J6kEE",
+      "src": ".cache/sources/VVJ6A7J6kEE.mp4",
+      "at": 5.6,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "modern-love-story-2",
+      "kind": "still",
+      "youtube": "VVJ6A7J6kEE",
+      "src": ".cache/sources/VVJ6A7J6kEE.mp4",
+      "at": 70.6,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "modern-love-story-3",
+      "kind": "still",
+      "youtube": "VVJ6A7J6kEE",
+      "src": ".cache/sources/VVJ6A7J6kEE.mp4",
+      "at": 77.9,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "modern-love-story-4",
+      "kind": "still",
+      "youtube": "VVJ6A7J6kEE",
+      "src": ".cache/sources/VVJ6A7J6kEE.mp4",
+      "at": 113.9,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "modern-love-story-5",
+      "kind": "still",
+      "youtube": "VVJ6A7J6kEE",
+      "src": ".cache/sources/VVJ6A7J6kEE.mp4",
+      "at": 66,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "modern-love-story-6",
+      "kind": "still",
+      "youtube": "VVJ6A7J6kEE",
+      "src": ".cache/sources/VVJ6A7J6kEE.mp4",
+      "at": 95.3,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-annual-recap",
+      "kind": "loop",
+      "youtube": "fyKho0UwMw4",
+      "src": ".cache/sources/fyKho0UwMw4.mp4",
+      "fps": 24,
+      "start": 64.67,
+      "end": 72.98,
+      "startV": 64.67,
+      "endV": 71.92,
+      "cropXV": 0.63,
+      "posterAt": 41.7,
+      "posterAtV": 41.5,
+      "posterCropXV": 0.55,
+      "crf": 25,
+      "crfV": 27,
+      "maxrate": "2400k",
+      "maxrateV": "1400k",
+      "poster45": false
+    },
+    {
+      "name": "red-bull-annual-recap-1",
+      "kind": "still",
+      "youtube": "fyKho0UwMw4",
+      "src": ".cache/sources/fyKho0UwMw4.mp4",
+      "at": 106,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-annual-recap-2",
+      "kind": "still",
+      "youtube": "fyKho0UwMw4",
+      "src": ".cache/sources/fyKho0UwMw4.mp4",
+      "at": 79.6,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-annual-recap-3",
+      "kind": "still",
+      "youtube": "fyKho0UwMw4",
+      "src": ".cache/sources/fyKho0UwMw4.mp4",
+      "at": 39,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-annual-recap-4",
+      "kind": "still",
+      "youtube": "fyKho0UwMw4",
+      "src": ".cache/sources/fyKho0UwMw4.mp4",
+      "at": 86,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-annual-recap-5",
+      "kind": "still",
+      "youtube": "fyKho0UwMw4",
+      "src": ".cache/sources/fyKho0UwMw4.mp4",
+      "at": 47.84,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-annual-recap-6",
+      "kind": "still",
+      "youtube": "fyKho0UwMw4",
+      "src": ".cache/sources/fyKho0UwMw4.mp4",
+      "at": 93.1,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-basement",
+      "kind": "loop",
+      "youtube": "qfA_daHhqGU",
+      "src": ".cache/sources/qfA_daHhqGU.mp4",
+      "fps": 24,
+      "start": 106.05,
+      "end": 114.33,
+      "startV": 74.59,
+      "endV": 81.46,
+      "cropXV": 0.47,
+      "posterAt": 77,
+      "posterAtV": 26.9,
+      "posterCropXV": 0.42,
+      "crf": 25,
+      "crfV": 27,
+      "maxrate": "2400k",
+      "maxrateV": "1400k",
+      "poster45": false
+    },
+    {
+      "name": "red-bull-basement-1",
+      "kind": "still",
+      "youtube": "qfA_daHhqGU",
+      "src": ".cache/sources/qfA_daHhqGU.mp4",
+      "at": 31.1,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-basement-2",
+      "kind": "still",
+      "youtube": "qfA_daHhqGU",
+      "src": ".cache/sources/qfA_daHhqGU.mp4",
+      "at": 40.5,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-basement-3",
+      "kind": "still",
+      "youtube": "qfA_daHhqGU",
+      "src": ".cache/sources/qfA_daHhqGU.mp4",
+      "at": 45,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-basement-4",
+      "kind": "still",
+      "youtube": "qfA_daHhqGU",
+      "src": ".cache/sources/qfA_daHhqGU.mp4",
+      "at": 75,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-basement-5",
+      "kind": "still",
+      "youtube": "qfA_daHhqGU",
+      "src": ".cache/sources/qfA_daHhqGU.mp4",
+      "at": 108.3,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "red-bull-basement-6",
+      "kind": "still",
+      "youtube": "qfA_daHhqGU",
+      "src": ".cache/sources/qfA_daHhqGU.mp4",
+      "at": 19.3,
+      "w": 1600,
+      "h": 900
+    },
+    {
+      "name": "portrait",
+      "kind": "still",
+      "src": "https://images.unsplash.com/photo-1617461073601-b8222743b613?w=2000&q=80&fm=jpg",
+      "w": 1600,
+      "also45": true,
+      "stock": "Unsplash"
     }
   ]
 }

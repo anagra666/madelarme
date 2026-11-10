@@ -11,8 +11,11 @@ const TITLE = ["Я Маша.", "Снимаю одна,", "чтобы вы заб
 const SEP = "before:inline-block before:w-6 before:text-center before:content-['·']";
 
 /** 07 · Привет, я Маша — портрет, заголовок, два абзаца, статус-строка, счётчики */
-export default function AboutTeaser() {
-  const { about, counters, season, statusNow, brand } = settings;
+export default function AboutTeaser({ num = "07" }: { num?: string }) {
+  const { about, season, statusNow, brand } = settings;
+  /* пока «Обо мне» демо — не показываем непроверенные цифры и статус, фото подписываем как демо */
+  const demo = settings.toggles.aboutIsDemo;
+  const counters = demo ? [] : settings.counters;
   const portrait = about.portrait;
   /* paragraphs[0] («Привет, я Маша. Снимаю одна…») дословно повторяет заголовок — берём следующие два */
   const paragraphs = about.paragraphs.slice(1, 3);
@@ -20,7 +23,7 @@ export default function AboutTeaser() {
   return (
     <Section paper aria-labelledby="about-title" className="py-[clamp(64px,10vw,160px)]">
       <Container>
-        <Eyebrow className="mb-8 lg:mb-12">[ 07 ] · ПРИВЕТ, Я МАША</Eyebrow>
+        <Eyebrow className="mb-8 lg:mb-12">[ {num} ] · ПРИВЕТ, Я МАША</Eyebrow>
 
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-x-gutter">
           {/* портрет 4:5 */}
@@ -38,7 +41,7 @@ export default function AboutTeaser() {
             )}
             {/* подпись поверх фото — всегда светлая, независимо от paper-перевёртыша */}
             <span className="mono-sm absolute bottom-3 left-3 text-paper">
-              {brand.person} · {brand.role}
+              {demo ? "[ фото — демо ]" : `${brand.person} · ${brand.role}`}
             </span>
           </div>
 
@@ -68,7 +71,7 @@ export default function AboutTeaser() {
                   <AlmatyClock />
                 </span>
                 <span className={SEP}>{season}</span>
-                <span className={`${SEP} before:text-meta text-milk`}>сейчас: {statusNow}</span>
+                {!demo && statusNow && <span className={`${SEP} before:text-meta text-milk`}>сейчас: {statusNow}</span>}
               </div>
             </div>
 

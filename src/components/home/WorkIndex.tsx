@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Case } from "@/content/types";
 import { getCases, getFormat } from "@/lib/content";
-import { cn, pad2 } from "@/lib/utils";
+import { cn, isLongTitle, pad2 } from "@/lib/utils";
 import { Section, Container } from "@/components/ui/Section";
 import { realFilm } from "@/components/work/film";
 import WorkIndexDesktop, { type IndexRow } from "./WorkIndex.client";
@@ -68,7 +68,7 @@ export default function WorkIndex({
                     <span
                       className={cn(
                         "disp mt-2 block overflow-x-clip whitespace-nowrap",
-                        r.title.length > 14 ? "text-[8.5cqw]" : "text-[11cqw]",
+                        isLongTitle(r.title) ? "text-[8.5cqw]" : "text-[11cqw]",
                       )}
                     >
                       {r.title}

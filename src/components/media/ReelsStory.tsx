@@ -237,8 +237,8 @@ function ReelItem({ reel, badge = false, last = false, priority = false }: { ree
           <button
             type="button"
             disabled
-            title="демо без звука"
-            aria-label="Звук выключен — демо без звука"
+            title="Звук выключен"
+            aria-label="Звук выключен"
             className="mono grid h-11 shrink-0 place-items-center border border-milk/40 bg-ink/40 px-3 text-milk disabled:opacity-60"
           >
             ЗВУК: ВЫКЛ

@@ -39,7 +39,8 @@ export default function PricingPage() {
       <PrefillSetter kind="contact" />
       <Section>
         <PageHead title="Цены" sub="в результатах, а не в камерах и часах">
-          {settings.toggles.showPlaceholders && (
+          {/* свой флаг, а не showPlaceholders: демо-кейсы уже скрыты, а цены ещё не согласованы */}
+          {settings.toggles.pricesAreDemo && (
             <p className="mono-sm mt-6 text-meta">цены — демо, до согласования</p>
           )}
         </PageHead>

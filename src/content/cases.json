@@ -1,1389 +1,651 @@
 [
   {
-    "slug": "tau-toi",
-    "title": "Тау-той",
-    "logline": "Два дня, триста гостей и одна гроза над Алматы, которую я превратила в лучший кадр фильма.",
-    "client": "Айгерим & Данияр",
-    "clientGen": "Айгерим & Данияра",
-    "format": "wedding-film",
-    "extraFormats": [
-      "sde",
-      "teaser",
-      "drone",
-      "toi",
-      "morning",
-      "full-edit"
-    ],
-    "mood": [
-      "bold",
-      "documentary"
-    ],
-    "city": "Алматы",
-    "venues": [
-      "сборы на Достык",
-      "ЗАГС Медеуского района",
-      "Медеу",
-      "ресторан у Талгарской трассы"
-    ],
-    "date": "июль 2026",
-    "year": 2026,
-    "loop": {
-      "mp4H": "/media/loops/tau-toi-h.mp4",
-      "mp4V": "/media/loops/tau-toi-v.mp4",
-      "posterH": "/media/posters/tau-toi-h.webp",
-      "posterV": "/media/posters/tau-toi-v.webp",
-      "poster45": "/media/posters/tau-toi-45.webp",
-      "seconds": 8
-    },
-    "fullVideo": {
-      "provider": "self",
-      "id": "/media/loops/tau-toi-h.mp4",
-      "duration": "08:12",
-      "hasSound": false
-    },
-    "shooting": {
-      "days": 2,
-      "hours": 12,
-      "operators": "1 оператор + второй на церемонии",
-      "drone": true,
-      "gear": [
-        "Sony ZV-E1",
-        "стедикам",
-        "дрон"
-      ]
-    },
-    "post": {
-      "delivery": "SDE в день свадьбы · тизер 9 дней · фильм 6 недель",
-      "notes": "монтаж, цвет, звук — сама"
-    },
-    "task": "Свадебный фильм и SDE-тизер к вечеру, чтобы показать гостям на банкете. 300 гостей, два дня: қыз ұзату и той.",
-    "approach": "Свадьба как роуд-муви: от утра невесты на Достык до банкета в предгорьях, дрон-переходы через город к горам. Гроза в 17:40 пошла в фильм, а не в отменённые кадры — под неё легли клятвы.",
-    "result": {
-      "text": "SDE показан на банкете в 22:40.",
-      "metrics": [
-        {
-          "value": "180 000",
-          "label": "просмотров Reels за месяц"
-        },
-        {
-          "value": "4",
-          "label": "обращения от гостей"
-        }
-      ]
-    },
-    "deliverables": [
-      {
-        "name": "Тизер",
-        "duration": "1:00",
-        "aspect": "16:9 + 9:16"
-      },
-      {
-        "name": "SDE",
-        "duration": "1:30",
-        "note": "показан на банкете в 22:40"
-      },
-      {
-        "name": "Фильм",
-        "duration": "8:12",
-        "aspect": "16:9"
-      },
-      {
-        "name": "Reels",
-        "duration": "5 × 0:15–0:30",
-        "aspect": "9:16"
-      },
-      {
-        "name": "Полная церемония",
-        "duration": "42:00"
-      }
-    ],
-    "credits": [
-      {
-        "role": "Режиссёр, оператор, монтаж, цвет",
-        "name": "Мария Волкова"
-      },
-      {
-        "role": "Музыка",
-        "name": "лицензия Artlist"
-      }
-    ],
-    "reels": [
-      {
-        "mp4H": "/media/loops/tau-toi-r1-v.mp4",
-        "mp4V": "/media/loops/tau-toi-r1-v.mp4",
-        "posterH": "/media/posters/tau-toi-r1-v.webp",
-        "posterV": "/media/posters/tau-toi-r1-v.webp",
-        "seconds": 8
-      },
-      {
-        "mp4H": "/media/loops/tau-toi-r2-v.mp4",
-        "mp4V": "/media/loops/tau-toi-r2-v.mp4",
-        "posterH": "/media/posters/tau-toi-r2-v.webp",
-        "posterV": "/media/posters/tau-toi-r2-v.webp",
-        "seconds": 8
-      }
-    ],
-    "stills": [
-      {
-        "src": "/media/stills/tau-toi-1.webp",
-        "alt": "Жених надевает кольцо невесте у цветочной арки",
-        "w": 1280,
-        "h": 720,
-        "caption": "ЗАГС Медеуского района — кольца"
-      },
-      {
-        "src": "/media/stills/tau-toi-3.webp",
-        "alt": "Невеста идёт к арке между рядами гостей",
-        "w": 720,
-        "h": 900
-      },
-      {
-        "src": "/media/stills/tau-toi-4.webp",
-        "alt": "Гости встают и аплодируют невесте",
-        "w": 720,
-        "h": 900
-      },
-      {
-        "src": "/media/stills/tau-toi-2.webp",
-        "alt": "Жених целует руку невесты",
-        "w": 1280,
-        "h": 720
-      },
-      {
-        "src": "/media/stills/tau-toi-5.webp",
-        "alt": "Жених ждёт невесту у арки",
-        "w": 720,
-        "h": 900
-      },
-      {
-        "src": "/media/stills/tau-toi-6.webp",
-        "alt": "Жених и невеста берутся за руки у арки",
-        "w": 720,
-        "h": 900,
-        "caption": "за минуту до «да»"
-      }
-    ],
-    "testimonial": {
-      "quote": "Мы не хотели свадебное видео. Маша сняла кино — и первые три минуты мы плакали, потому что это были мы, а не „жених и невеста“.",
-      "author": "Айгерим & Данияр",
-      "role": "свадьба · 2026",
-      "caseSlug": "tau-toi",
-      "confirmed": false
-    },
-    "isPlaceholder": true,
-    "isPublished": true,
-    "featured": true,
-    "sortOrder": 1
-  },
-  {
-    "slug": "gorod-ne-spit",
-    "title": "Город не спит",
-    "logline": "Ночной Алматы как декорация: две ночи, четыре локации, ноль разрешений на перекрытие улиц.",
-    "client": "Neon Dreams",
-    "format": "music-video",
-    "mood": [
-      "bold"
-    ],
-    "city": "Алматы",
-    "venues": [
-      "Арбат",
-      "переход у гостиницы «Казахстан»",
-      "крыша на Тимирязева",
-      "Кок-Тобе"
-    ],
-    "date": "май 2025",
-    "year": 2025,
-    "loop": {
-      "mp4H": "/media/loops/gorod-ne-spit-h.mp4",
-      "mp4V": "/media/loops/gorod-ne-spit-v.mp4",
-      "posterH": "/media/posters/gorod-ne-spit-h.webp",
-      "posterV": "/media/posters/gorod-ne-spit-v.webp",
-      "poster45": "/media/posters/gorod-ne-spit-45.webp",
-      "seconds": 8
-    },
-    "fullVideo": {
-      "provider": "self",
-      "id": "/media/loops/gorod-ne-spit-h.mp4",
-      "duration": "03:20",
-      "hasSound": false
-    },
-    "shooting": {
-      "days": 2,
-      "hours": 14,
-      "operators": "2 оператора",
-      "drone": false,
-      "gear": [
-        "Sony ZV-E1",
-        "гимбал",
-        "LED-трубки"
-      ]
-    },
-    "post": {
-      "delivery": "клип 3 недели · вертикальный кат вместе с клипом"
-    },
-    "task": "Клип на сингл к релизу на стримингах и вертикальная версия для Reels и TikTok.",
-    "approach": "Неоновая палитра маджента / циан, анаморфные блики, длинные выдержки из окна машины по Аль-Фараби, хореография в подземном переходе. Две ночи, без перекрытий — снимала между машинами.",
-    "result": {
-      "metrics": [
-        {
-          "value": "400 000",
-          "label": "просмотров за 2 недели"
-        },
-        {
-          "value": "1",
-          "label": "ротация на музыкальном ТВ"
-        }
-      ]
-    },
-    "deliverables": [
-      {
-        "name": "Клип",
-        "duration": "3:20",
-        "aspect": "16:9"
-      },
-      {
-        "name": "Вертикальный кат",
-        "duration": "1:00",
-        "aspect": "9:16"
-      },
-      {
-        "name": "Тизер",
-        "duration": "0:15",
-        "aspect": "9:16"
-      }
-    ],
-    "credits": [
-      {
-        "role": "Режиссёр, оператор, монтаж, цвет",
-        "name": "Мария Волкова"
-      },
-      {
-        "role": "Артист",
-        "name": "Neon Dreams (вымышленная группа)"
-      }
-    ],
-    "reels": [
-      {
-        "mp4H": "/media/loops/gorod-r1-v.mp4",
-        "mp4V": "/media/loops/gorod-r1-v.mp4",
-        "posterH": "/media/posters/gorod-r1-v.webp",
-        "posterV": "/media/posters/gorod-r1-v.webp",
-        "seconds": 8
-      },
-      {
-        "mp4H": "/media/loops/gorod-r2-v.mp4",
-        "mp4V": "/media/loops/gorod-r2-v.mp4",
-        "posterH": "/media/posters/gorod-r2-v.webp",
-        "posterV": "/media/posters/gorod-r2-v.webp",
-        "seconds": 8
-      },
-      {
-        "mp4H": "/media/loops/music-r1-v.mp4",
-        "mp4V": "/media/loops/music-r1-v.mp4",
-        "posterH": "/media/posters/music-r1-v.webp",
-        "posterV": "/media/posters/music-r1-v.webp",
-        "seconds": 8
-      }
-    ],
-    "stills": [
-      {
-        "src": "/media/stills/gorod-1.webp",
-        "alt": "Алматы с высоты, Тянь-Шань",
-        "w": 1200,
-        "h": 1500,
-        "caption": "Кок-Тобе, 02:10"
-      },
-      {
-        "src": "/media/stills/gorod-2.webp",
-        "alt": "Вокалистка у микрофона в студии",
-        "w": 1600,
-        "h": 900,
-        "caption": "запись вокала для лайв-версии"
-      }
-    ],
-    "isPlaceholder": true,
-    "isPublished": true,
-    "featured": true,
-    "sortOrder": 2
-  },
-  {
     "slug": "oyu-fest",
-    "title": "OYU Fest ’26",
-    "logline": "Два дня фестиваля в шестидесяти пяти секундах — от рассвета до последнего бита.",
-    "client": "OYU Fest",
+    "title": "OYU",
+    "logline": "Самый летний проект 2026-го.",
+    "client": "Red Bull Kazakhstan",
     "format": "aftermovie",
+    "extraFormats": [
+      "activation"
+    ],
     "mood": [
       "bold",
       "documentary"
     ],
     "city": "Алматы",
-    "venues": [
-      "Первомайские пруды"
-    ],
-    "date": "июль 2026",
+    "date": "лето 2026",
     "year": 2026,
     "loop": {
-      "mp4H": "/media/loops/oyu-fest-h.mp4",
-      "mp4V": "/media/loops/oyu-fest-v.mp4",
-      "posterH": "/media/posters/oyu-fest-h.webp",
-      "posterV": "/media/posters/oyu-fest-v.webp",
-      "poster45": "/media/posters/oyu-fest-45.webp",
-      "seconds": 8
+      "mp4H": "/media/loops/oyu-h.mp4",
+      "mp4V": "/media/loops/oyu-v.mp4",
+      "posterH": "/media/posters/oyu-h.webp",
+      "posterV": "/media/posters/oyu-v.webp",
+      "seconds": 9
     },
     "fullVideo": {
       "provider": "youtube",
       "id": "vyl19vK1u4M",
       "duration": "01:05",
-      "hasSound": true
+      "hasSound": true,
+      "uploadDate": "2026-09-05"
     },
-    "shooting": {
-      "days": 2,
-      "operators": "1 оператор + гимбал",
-      "drone": false,
-      "gear": [
-        "Sony ZV-E1",
-        "гимбал"
-      ]
-    },
-    "post": {
-      "delivery": "aftermovie за 48 часов · вертикальные нарезки по дням"
-    },
-    "task": "Aftermovie фестиваля и вертикальные нарезки по дням.",
-    "approach": "Ритмический монтаж от рассвета до последнего бита; звук собран из живых шумов площадки, без стоковой музыки.",
-    "result": {
-      "text": "Полный aftermovie — на моём YouTube."
-    },
+    "task": "Репортаж с фестиваля OYU, собравшего 12 000 гостей, где Red Bull Kazakhstan презентовали свою Energy Zone.",
+    "approach": "Искусственная волна для флоурайдинга, бары и атмосфера самого жаркого лета.",
     "deliverables": [
       {
-        "name": "Aftermovie",
+        "name": "Репортаж",
         "duration": "1:05",
         "aspect": "16:9"
-      },
-      {
-        "name": "Дневные recap",
-        "duration": "2 × 0:30",
-        "aspect": "9:16"
-      },
-      {
-        "name": "Артист-клипы",
-        "duration": "10 × 0:15",
-        "aspect": "9:16"
-      }
-    ],
-    "credits": [
-      {
-        "role": "Оператор, монтаж, цвет",
-        "name": "Мария Волкова"
-      },
-      {
-        "role": "Организатор",
-        "name": "OYU Fest"
-      }
-    ],
-    "reels": [
-      {
-        "mp4H": "/media/loops/oyu-r1-v.mp4",
-        "mp4V": "/media/loops/oyu-r1-v.mp4",
-        "posterH": "/media/posters/oyu-r1-v.webp",
-        "posterV": "/media/posters/oyu-r1-v.webp",
-        "seconds": 8
       }
     ],
     "stills": [
       {
         "src": "/media/stills/oyu-1.webp",
-        "alt": "Толпа под фиолетовым светом сцены",
+        "alt": "Вид сверху на арку Red Bull Energy Zone с искусственной волной и гостей на зеленой лужайке.",
         "w": 1600,
-        "h": 900,
-        "caption": "день 2, хедлайнер"
+        "h": 900
       },
       {
         "src": "/media/stills/oyu-2.webp",
-        "alt": "Руки зрителей, слоумо",
-        "w": 1280,
-        "h": 720
-      }
-    ],
-    "isPlaceholder": true,
-    "factsUnconfirmed": true,
-    "isPublished": true,
-    "featured": true,
-    "sortOrder": 3
-  },
-  {
-    "slug": "pervyj-sneg",
-    "title": "Первый снег",
-    "logline": "Они познакомились на подъёмнике — и я сняла их там же, в первый снегопад на Шымбулаке.",
-    "client": "Камила & Ерлан",
-    "clientGen": "Камилы & Ерлана",
-    "format": "love-story",
-    "extraFormats": [
-      "teaser"
-    ],
-    "mood": [
-      "gentle",
-      "documentary"
-    ],
-    "city": "Алматы",
-    "venues": [
-      "Шымбулак, верхняя станция",
-      "канатка Медеу — Шымбулак",
-      "кофейня на Медеу"
-    ],
-    "date": "ноябрь 2025",
-    "year": 2025,
-    "loop": {
-      "mp4H": "/media/loops/pervyj-sneg-h.mp4",
-      "mp4V": "/media/loops/pervyj-sneg-v.mp4",
-      "posterH": "/media/posters/pervyj-sneg-h.webp",
-      "posterV": "/media/posters/pervyj-sneg-v.webp",
-      "poster45": "/media/posters/pervyj-sneg-45.webp",
-      "seconds": 8
-    },
-    "fullVideo": {
-      "provider": "self",
-      "id": "/media/loops/pervyj-sneg-h.mp4",
-      "duration": "03:04",
-      "hasSound": false
-    },
-    "shooting": {
-      "days": 1,
-      "hours": 4,
-      "operators": "1 оператор",
-      "drone": false,
-      "gear": [
-        "Sony ZV-E1",
-        "35 мм",
-        "петлички"
-      ]
-    },
-    "post": {
-      "delivery": "тизер 5 дней · фильм 2 недели",
-      "notes": "диалог пары записан на петлички и лёг под видео как voice-over"
-    },
-    "task": "Love story к годовщине — подарок друг другу и ролик, который откроет свадьбу. Плюс три вертикальных фрагмента для приглашений.",
-    "approach": "Минимум постановки, много дыхания: ручная камера, 24 кадра, только естественный свет. Поднялась с ними на канатке от Медеу до верхней станции Шымбулака и просто слушала — их разговор про первую встречу стал закадровым текстом. Снег пошёл в 14:20, как по сценарию, которого не было.",
-    "result": {
-      "text": "Ролик показали на свадьбе в апреле — свадебный фильм снимала тоже я.",
-      "metrics": [
-        {
-          "value": "1",
-          "label": "свадьба заказана после love story"
-        },
-        {
-          "value": "3",
-          "label": "Reels в приглашениях"
-        }
-      ]
-    },
-    "deliverables": [
-      {
-        "name": "Фильм",
-        "duration": "3:04",
-        "aspect": "16:9"
-      },
-      {
-        "name": "Тизер",
-        "duration": "0:45",
-        "aspect": "9:16"
-      },
-      {
-        "name": "Reels",
-        "duration": "3 × 0:12–0:20",
-        "aspect": "9:16"
-      },
-      {
-        "name": "Стоп-кадры",
-        "duration": "20 шт."
-      }
-    ],
-    "credits": [
-      {
-        "role": "Оператор, монтаж, цвет, звук",
-        "name": "Мария Волкова"
-      },
-      {
-        "role": "Пара",
-        "name": "Камила & Ерлан (вымышленные)"
-      },
-      {
-        "role": "Музыка",
-        "name": "лицензия Artlist"
-      }
-    ],
-    "reels": [
-      {
-        "mp4H": "/media/loops/sneg-r1-v.mp4",
-        "mp4V": "/media/loops/sneg-r1-v.mp4",
-        "posterH": "/media/posters/sneg-r1-v.webp",
-        "posterV": "/media/posters/sneg-r1-v.webp",
-        "seconds": 6
-      }
-    ],
-    "stills": [
-      {
-        "src": "/media/stills/sneg-1.webp",
-        "alt": "Заснеженный склон и домик",
+        "alt": "Парень без футболки катится на доске по искусственной волне под синим навесом Red Bull.",
         "w": 1600,
-        "h": 1000,
-        "caption": "Шымбулак, верхняя станция"
-      },
-      {
-        "src": "/media/stills/sneg-2.webp",
-        "alt": "Каток Медеу и заснеженные горы",
-        "w": 1600,
-        "h": 1067
-      },
-      {
-        "src": "/media/stills/sneg-3.webp",
-        "alt": "Заснеженный хребет с дрона",
-        "w": 1280,
-        "h": 720,
-        "caption": "верхняя станция, 14:20 — пошёл снег"
-      }
-    ],
-    "testimonial": {
-      "quote": "Мы думали, что будем стесняться камеры. Маша ехала с нами в кабинке и просто разговаривала — в фильме мы не позируем, мы живём.",
-      "author": "Камила & Ерлан",
-      "role": "love story · 2025",
-      "caseSlug": "pervyj-sneg",
-      "confirmed": false
-    },
-    "isPlaceholder": true,
-    "isPublished": true,
-    "featured": true,
-    "sortOrder": 4
-  },
-  {
-    "slug": "utro-zdes",
-    "title": "Утро здесь",
-    "logline": "Три кофейни, один бариста-герой и тридцать секунд, за которые хочется выйти из дома.",
-    "client": "Bulut Coffee",
-    "format": "promo",
-    "extraFormats": [
-      "content-day"
-    ],
-    "mood": [
-      "gentle"
-    ],
-    "city": "Алматы",
-    "venues": [
-      "кофейня на Панфилова",
-      "студия для продуктовых макро"
-    ],
-    "date": "март 2026",
-    "year": 2026,
-    "loop": {
-      "mp4H": "/media/loops/utro-zdes-h.mp4",
-      "mp4V": "/media/loops/utro-zdes-v.mp4",
-      "posterH": "/media/posters/utro-zdes-h.webp",
-      "posterV": "/media/posters/utro-zdes-v.webp",
-      "poster45": "/media/posters/utro-zdes-45.webp",
-      "seconds": 8
-    },
-    "fullVideo": {
-      "provider": "self",
-      "id": "/media/loops/utro-zdes-h.mp4",
-      "duration": "00:30",
-      "hasSound": false
-    },
-    "shooting": {
-      "days": 1,
-      "hours": 9,
-      "operators": "1 оператор + ассистент",
-      "drone": false,
-      "gear": [
-        "Sony ZV-E1",
-        "макро 90 мм",
-        "слайдер",
-        "продуктовый свет"
-      ]
-    },
-    "post": {
-      "delivery": "hero-ролик 10 дней · Reels вместе с роликом",
-      "notes": "две версии кадрирования: 16:9 для экранов в зале, 9:16 для таргета"
-    },
-    "task": "Имиджевый ролик для таргета в Instagram и TikTok и для экранов в трёх кофейнях. Цель — утренний поток гостей.",
-    "approach": "Один непрерывный маршрут чашки: помол, пролив, рука бариста, рука гостя. Макро на слайдере, чтобы пар и капли читались даже на телефоне с выключенным звуком. Снимала в кофейне на Панфилова до открытия, с 6:30 — настоящий утренний свет с Алатау в окне стал финальным кадром.",
-    "result": {
-      "text": "Ролик стоит на первом экране сайта и на экранах во всех трёх точках.",
-      "metrics": [
-        {
-          "value": "+40%",
-          "label": "новых гостей за первый месяц"
-        },
-        {
-          "value": "−27%",
-          "label": "стоимость лида в таргете"
-        }
-      ]
-    },
-    "deliverables": [
-      {
-        "name": "Hero-ролик",
-        "duration": "0:30",
-        "aspect": "16:9 + 9:16"
-      },
-      {
-        "name": "Продуктовые Reels",
-        "duration": "6 × 0:08–0:12",
-        "aspect": "9:16"
-      },
-      {
-        "name": "Стоп-кадры для меню",
-        "duration": "20 шт."
-      }
-    ],
-    "credits": [
-      {
-        "role": "Режиссёр, оператор, монтаж, цвет",
-        "name": "Мария Волкова"
-      },
-      {
-        "role": "Клиент",
-        "name": "Bulut Coffee (вымышленная сеть кофеен)"
-      }
-    ],
-    "reels": [
-      {
-        "mp4H": "/media/loops/utro-r1-v.mp4",
-        "mp4V": "/media/loops/utro-r1-v.mp4",
-        "posterH": "/media/posters/utro-r1-v.webp",
-        "posterV": "/media/posters/utro-r1-v.webp",
-        "seconds": 8
-      },
-      {
-        "mp4H": "/media/loops/utro-r2-v.mp4",
-        "mp4V": "/media/loops/utro-r2-v.mp4",
-        "posterH": "/media/posters/utro-r2-v.webp",
-        "posterV": "/media/posters/utro-r2-v.webp",
-        "seconds": 6
-      },
-      {
-        "mp4H": "/media/loops/utro-r3-v.mp4",
-        "mp4V": "/media/loops/utro-r3-v.mp4",
-        "posterH": "/media/posters/utro-r3-v.webp",
-        "posterV": "/media/posters/utro-r3-v.webp",
-        "seconds": 8
-      }
-    ],
-    "stills": [
-      {
-        "src": "/media/stills/utro-1.webp",
-        "alt": "Эспрессо-машина крупным планом",
-        "w": 1600,
-        "h": 900,
-        "caption": "06:40, первый пролив"
-      },
-      {
-        "src": "/media/stills/utro-2.webp",
-        "alt": "Бариста за стойкой",
-        "w": 720,
         "h": 900
-      }
-    ],
-    "testimonial": {
-      "quote": "Мы просили «красивый ролик про кофе». Получили тридцать секунд, после которых гости спрашивают, где та кофейня с окном на горы. Это наша кофейня.",
-      "author": "Дана Сейткали",
-      "role": "бренд-менеджер, Bulut Coffee",
-      "caseSlug": "utro-zdes",
-      "confirmed": false
-    },
-    "isPlaceholder": true,
-    "isPublished": true,
-    "featured": true,
-    "sortOrder": 5
-  },
-  {
-    "slug": "techsummit",
-    "title": "Саммит ’25",
-    "logline": "1 200 участников, 40 спикеров, шесть часов контента — и aftermovie, готовый к утру.",
-    "client": "Alatau Tech Summit",
-    "format": "aftermovie",
-    "extraFormats": [
-      "interview"
-    ],
-    "mood": [
-      "documentary"
-    ],
-    "city": "Алматы",
-    "venues": [
-      "конференц-зал отеля в центре",
-      "лобби с прожекторным светом"
-    ],
-    "date": "октябрь 2025",
-    "year": 2025,
-    "loop": {
-      "mp4H": "/media/loops/techsummit-h.mp4",
-      "mp4V": "/media/loops/techsummit-v.mp4",
-      "posterH": "/media/posters/techsummit-h.webp",
-      "posterV": "/media/posters/techsummit-v.webp",
-      "poster45": "/media/posters/techsummit-45.webp",
-      "seconds": 5
-    },
-    "fullVideo": {
-      "provider": "self",
-      "id": "/media/loops/techsummit-h.mp4",
-      "duration": "02:00",
-      "hasSound": false
-    },
-    "shooting": {
-      "days": 2,
-      "operators": "1 оператор + второй на интервью",
-      "drone": false,
-      "gear": [
-        "Sony ZV-E1",
-        "гимбал",
-        "петлички",
-        "свет для интервью"
-      ]
-    },
-    "post": {
-      "delivery": "aftermovie 14 часов · интервью 7 дней · цитаты дня 3 дня",
-      "notes": "черновой монтаж собирала прямо в лобби между секциями"
-    },
-    "task": "Aftermovie для спонсоров и продажи следующего года, интервью с восемью спикерами и вертикальные «цитаты дня» для соцсетей конференции.",
-    "approach": "Вместо говорящих голов — живые реакции зала: смех на первом ряду, ручки на полях, очередь к спикеру после доклада. Интервью писала в лобби на фоне прожекторов, а не у баннера. Монтаж шёл параллельно с программой, поэтому aftermovie ушёл спонсорам на утро после закрытия.",
-    "result": {
-      "text": "Aftermovie отправлен спонсорам через 14 часов после закрытия.",
-      "metrics": [
-        {
-          "value": "6 из 8",
-          "label": "спонсорских контрактов продлено"
-        },
-        {
-          "value": "14 ч",
-          "label": "от закрытия до сдачи"
-        }
-      ]
-    },
-    "deliverables": [
-      {
-        "name": "Aftermovie",
-        "duration": "2:00",
-        "aspect": "16:9"
       },
       {
-        "name": "Интервью",
-        "duration": "8 × 1:00–1:30",
-        "aspect": "16:9"
-      },
-      {
-        "name": "Цитаты дня",
-        "duration": "12 × 0:20",
-        "aspect": "9:16"
-      }
-    ],
-    "credits": [
-      {
-        "role": "Оператор, монтаж, цвет",
-        "name": "Мария Волкова"
-      },
-      {
-        "role": "Организатор",
-        "name": "Alatau Tech Summit (вымышленная конференция)"
-      }
-    ],
-    "reels": [
-      {
-        "mp4H": "/media/loops/techsummit-r1-v.mp4",
-        "mp4V": "/media/loops/techsummit-r1-v.mp4",
-        "posterH": "/media/posters/techsummit-r1-v.webp",
-        "posterV": "/media/posters/techsummit-r1-v.webp",
-        "seconds": 8
-      }
-    ],
-    "stills": [
-      {
-        "src": "/media/stills/techsummit-1.webp",
-        "alt": "Зал слушает доклад",
+        "src": "/media/stills/oyu-3.webp",
+        "alt": "Улыбающийся мужчина в майке стоит в брызгах воды у искусственной волны.",
         "w": 1600,
-        "h": 900,
-        "caption": "секция про ИИ, второй день"
+        "h": 900
       },
       {
-        "src": "/media/stills/techsummit-2.webp",
-        "alt": "Спикер на сцене",
+        "src": "/media/stills/oyu-4.webp",
+        "alt": "Крупный план: из бутылки наливают напиток в мерный стаканчик рядом со стаканом и банкой Red Bull.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/oyu-5.webp",
+        "alt": "Смеющаяся пара с напитками и банками в руках у бара вечером.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/oyu-6.webp",
+        "alt": "Улыбающийся парень в сомбреро и полосатом пончо под навесом среди гостей.",
         "w": 1600,
         "h": 900
       }
     ],
-    "isPlaceholder": true,
-    "isPublished": true,
-    "featured": false,
-    "sortOrder": 6
-  },
-  {
-    "slug": "uzhin-na-vysote",
-    "title": "Ужин на высоте",
-    "logline": "Современная казахская кухня, снятая как фуд-документалка: руки, огонь и терраса с видом на Алатау.",
-    "client": "Terrace Дала",
-    "format": "food",
-    "extraFormats": [
-      "backstage"
-    ],
-    "mood": [
-      "gentle",
-      "documentary"
-    ],
-    "city": "Алматы",
-    "venues": [
-      "кухня ресторана",
-      "терраса, Медеуский район"
-    ],
-    "date": "сентябрь 2025",
-    "year": 2025,
-    "loop": {
-      "mp4H": "/media/loops/uzhin-na-vysote-h.mp4",
-      "mp4V": "/media/loops/uzhin-na-vysote-v.mp4",
-      "posterH": "/media/posters/uzhin-na-vysote-h.webp",
-      "posterV": "/media/posters/uzhin-na-vysote-v.webp",
-      "poster45": "/media/posters/uzhin-na-vysote-45.webp",
-      "seconds": 8
-    },
-    "fullVideo": {
-      "provider": "self",
-      "id": "/media/loops/uzhin-na-vysote-h.mp4",
-      "duration": "00:45",
-      "hasSound": false
-    },
-    "shooting": {
-      "days": 1,
-      "hours": 8,
-      "operators": "1 оператор",
-      "drone": false,
-      "gear": [
-        "Sony ZV-E1",
-        "макро 90 мм",
-        "слоумо 50 fps"
-      ]
-    },
-    "post": {
-      "delivery": "ролик 10 дней · блюда 9:16 через 2 недели"
-    },
-    "task": "Ролик для запуска сезонного меню, восемь блюд для Instagram и приложений доставки, короткий backstage с кухни.",
-    "approach": "Шеф — герой, кухня — площадка. Снимала одна, без постановочного света: только огонь плиты и окно кухни. Плейтинг в 50 кадров, чтобы соус и пар шли медленно. Финал — терраса в золотой час, когда Алатау подсвечивается сзади и стол не нужно ничем украшать.",
-    "result": {
-      "text": "Ролик открыл новое меню в соцсетях и в приложениях доставки.",
-      "metrics": [
-        {
-          "value": "+35%",
-          "label": "броней на выходные за 2 недели"
-        },
-        {
-          "value": "8",
-          "label": "блюд в вертикальном формате"
-        }
-      ]
-    },
-    "deliverables": [
-      {
-        "name": "Ролик",
-        "duration": "0:45",
-        "aspect": "16:9 + 9:16"
-      },
-      {
-        "name": "Блюда",
-        "duration": "8 × 0:10",
-        "aspect": "9:16"
-      },
-      {
-        "name": "Backstage",
-        "duration": "0:40",
-        "aspect": "9:16"
-      },
-      {
-        "name": "Стоп-кадры для меню",
-        "duration": "15 шт."
-      }
-    ],
-    "credits": [
-      {
-        "role": "Оператор, монтаж, цвет",
-        "name": "Мария Волкова"
-      },
-      {
-        "role": "Клиент",
-        "name": "Terrace Дала (вымышленный ресторан)"
-      }
-    ],
-    "reels": [
-      {
-        "mp4H": "/media/loops/uzhin-r1-v.mp4",
-        "mp4V": "/media/loops/uzhin-r1-v.mp4",
-        "posterH": "/media/posters/uzhin-r1-v.webp",
-        "posterV": "/media/posters/uzhin-r1-v.webp",
-        "seconds": 8
-      }
-    ],
-    "stills": [
-      {
-        "src": "/media/stills/uzhin-1.webp",
-        "alt": "Плейтинг стейка с овощами",
-        "w": 1600,
-        "h": 900,
-        "caption": "сезонное меню, блюдо 3 из 8"
-      },
-      {
-        "src": "/media/stills/uzhin-2.webp",
-        "alt": "Город и горы с террасы",
-        "w": 1600,
-        "h": 1000,
-        "caption": "вид с террасы, 19:15"
-      }
-    ],
-    "isPlaceholder": true,
-    "isPublished": true,
-    "featured": false,
-    "sortOrder": 7
-  },
-  {
-    "slug": "qara-osen-zima",
-    "title": "Осень–зима ’25",
-    "logline": "Первая «взрослая» кампания локального бренда: стерильная студия против фактурного Алматы.",
-    "client": "Tuman Atelier",
-    "format": "fashion",
-    "extraFormats": [
-      "content-day"
-    ],
-    "mood": [
-      "bold"
-    ],
-    "city": "Алматы",
-    "venues": [
-      "студия",
-      "ТЮЗ",
-      "панельки Орбиты",
-      "Кок-Тобе"
-    ],
-    "date": "август 2025",
-    "year": 2025,
-    "loop": {
-      "mp4H": "/media/loops/qara-osen-zima-h.mp4",
-      "mp4V": "/media/loops/qara-osen-zima-v.mp4",
-      "posterH": "/media/posters/qara-osen-zima-h.webp",
-      "posterV": "/media/posters/qara-osen-zima-v.webp",
-      "poster45": "/media/posters/qara-osen-zima-45.webp",
-      "seconds": 6
-    },
-    "fullVideo": {
-      "provider": "self",
-      "id": "/media/loops/qara-osen-zima-h.mp4",
-      "duration": "01:00",
-      "hasSound": false
-    },
-    "shooting": {
-      "days": 2,
-      "operators": "1 оператор + стилист",
-      "drone": false,
-      "gear": [
-        "Sony ZV-E1",
-        "гимбал",
-        "студийный свет"
-      ]
-    },
-    "post": {
-      "delivery": "фильм 2 недели · Reels вместе с фильмом",
-      "notes": "холодная цветокоррекция под минимал-техно"
-    },
-    "task": "Fashion-фильм для сайта и запуска коллекции, десять продуктовых Reels и стоп-кадры для лукбука.",
-    "approach": "День первый — студия: белый фон, жёсткий свет, ничего лишнего. День второй — город: лестницы ТЮЗа, панельки на Орбите, парковка Кок-Тобе. Одни и те же вещи в двух мирах, монтаж встык. Кадры под холодный грейд и минимал-техно, который бренд лицензировал заранее.",
-    "result": {
-      "text": "Фильм стоит на первом экране сайта бренда.",
-      "metrics": [
-        {
-          "value": "3 нед.",
-          "label": "до sold-out капсулы"
-        },
-        {
-          "value": "10",
-          "label": "Reels по 6–8 с"
-        }
-      ]
-    },
-    "deliverables": [
-      {
-        "name": "Fashion-фильм",
-        "duration": "1:00",
-        "aspect": "16:9"
-      },
-      {
-        "name": "Reels",
-        "duration": "10 × 0:06–0:08",
-        "aspect": "9:16"
-      },
-      {
-        "name": "Стоп-кадры",
-        "duration": "15 шт."
-      }
-    ],
-    "credits": [
-      {
-        "role": "Режиссёр, оператор, монтаж, цвет",
-        "name": "Мария Волкова"
-      },
-      {
-        "role": "Бренд",
-        "name": "Tuman Atelier (вымышленный бренд)"
-      }
-    ],
-    "reels": [
-      {
-        "mp4H": "/media/loops/qara-r1-v.mp4",
-        "mp4V": "/media/loops/qara-r1-v.mp4",
-        "posterH": "/media/posters/qara-r1-v.webp",
-        "posterV": "/media/posters/qara-r1-v.webp",
-        "seconds": 6
-      }
-    ],
-    "stills": [
-      {
-        "src": "/media/stills/qara-1.webp",
-        "alt": "Камера на штативе на красно-фиолетовом фоне",
-        "w": 1600,
-        "h": 1000,
-        "caption": "студия, схема света №2"
-      },
-      {
-        "src": "/media/stills/qara-2.webp",
-        "alt": "Студийная fashion-съёмка",
-        "w": 1600,
-        "h": 900
-      }
-    ],
-    "isPlaceholder": true,
+    "isPlaceholder": false,
     "isPublished": true,
     "featured": true,
-    "sortOrder": 8
+    "sortOrder": 1,
+    "seo": {
+      "description": "Самый летний проект 2026-го года. Репортаж с фестиваля OYU, собравшего 12 000 гостей, где Red Bull Kazakhstan презентовали свою Energy Zone с искусственной волной для флоурайдинга, барами и атмосферой самого жаркого лета."
+    }
   },
   {
-    "slug": "my-zdes-stroim",
-    "title": "Здесь строим",
-    "logline": "IT-компании нужно нанять пятьдесят инженеров за квартал — и фильм, который делает это за неё.",
-    "client": "Arqa Soft",
-    "format": "brand-film",
-    "extraFormats": [
-      "interview"
-    ],
-    "mood": [
-      "documentary",
-      "gentle"
-    ],
-    "city": "Алматы",
-    "venues": [
-      "офис в Бостандыкском районе",
-      "Большое Алматинское озеро"
-    ],
-    "date": "июнь 2025",
-    "year": 2025,
-    "loop": {
-      "mp4H": "/media/loops/my-zdes-stroim-h.mp4",
-      "mp4V": "/media/loops/my-zdes-stroim-v.mp4",
-      "posterH": "/media/posters/my-zdes-stroim-h.webp",
-      "posterV": "/media/posters/my-zdes-stroim-v.webp",
-      "poster45": "/media/posters/my-zdes-stroim-45.webp",
-      "seconds": 8
-    },
-    "fullVideo": {
-      "provider": "self",
-      "id": "/media/loops/my-zdes-stroim-h.mp4",
-      "duration": "02:30",
-      "hasSound": false
-    },
-    "shooting": {
-      "days": 3,
-      "operators": "1 оператор + второй на выезде",
-      "drone": false,
-      "gear": [
-        "Sony ZV-E1",
-        "петлички",
-        "свет для интервью"
-      ]
-    },
-    "post": {
-      "delivery": "фильм 3 недели · интервью 10 дней"
-    },
-    "task": "HR-фильм для карьерной страницы и LinkedIn, шесть коротких интервью сотрудников и пять Reels для рекрутинговых кампаний.",
-    "approach": "Без корпоративных штампов: ни одного кадра с ноутбуком крупно. Один день из жизни трёх сотрудников — тимлида, джуна и дизайнера, — снятый документально, с петличками и без «повторите ещё раз». Финал — командный выезд на Большое Алматинское озеро, где все наконец забыли про камеру.",
-    "result": {
-      "text": "Фильм на карьерной странице и в шапке LinkedIn компании.",
-      "metrics": [
-        {
-          "value": "×2,4",
-          "label": "откликов на вакансии за месяц"
-        },
-        {
-          "value": "6",
-          "label": "интервью сотрудников"
-        }
-      ]
-    },
-    "deliverables": [
-      {
-        "name": "HR-фильм",
-        "duration": "2:30",
-        "aspect": "16:9"
-      },
-      {
-        "name": "Интервью",
-        "duration": "6 × 0:45",
-        "aspect": "16:9 + 9:16"
-      },
-      {
-        "name": "Reels",
-        "duration": "5 × 0:15",
-        "aspect": "9:16"
-      }
-    ],
-    "credits": [
-      {
-        "role": "Режиссёр, оператор, монтаж, цвет",
-        "name": "Мария Волкова"
-      },
-      {
-        "role": "Клиент",
-        "name": "Arqa Soft (вымышленная IT-компания)"
-      }
-    ],
-    "reels": [
-      {
-        "mp4H": "/media/loops/stroim-r1-v.mp4",
-        "mp4V": "/media/loops/stroim-r1-v.mp4",
-        "posterH": "/media/posters/stroim-r1-v.webp",
-        "posterV": "/media/posters/stroim-r1-v.webp",
-        "seconds": 7
-      }
-    ],
-    "stills": [
-      {
-        "src": "/media/stills/stroim-1.webp",
-        "alt": "Большое Алматинское озеро",
-        "w": 1600,
-        "h": 1000,
-        "caption": "командный выезд, финальная сцена"
-      },
-      {
-        "src": "/media/stills/stroim-2.webp",
-        "alt": "Свет и камера для интервью",
-        "w": 1600,
-        "h": 900,
-        "caption": "сетап для интервью в переговорке"
-      }
-    ],
-    "testimonial": {
-      "quote": "Мы боялись получить «корпоративное видео». Маша сняла людей, а не компанию — и именно это теперь смотрят кандидаты перед собеседованием.",
-      "author": "Айдар Нурланов",
-      "role": "HR-директор, Arqa Soft",
-      "caseSlug": "my-zdes-stroim",
-      "confirmed": false
-    },
-    "isPlaceholder": true,
-    "isPublished": true,
-    "featured": false,
-    "sortOrder": 9
-  },
-  {
-    "slug": "12-reels",
-    "title": "12 Reels",
-    "logline": "Йога-студия, один съёмочный день, контент на месяц вперёд.",
-    "client": "Tynys Yoga",
-    "format": "content-day",
-    "mood": [
-      "gentle"
-    ],
-    "city": "Алматы",
-    "venues": [
-      "зал студии, Бостандыкский район"
-    ],
-    "date": "февраль 2026",
-    "year": 2026,
-    "loop": {
-      "mp4H": "/media/loops/12-reels-h.mp4",
-      "mp4V": "/media/loops/12-reels-v.mp4",
-      "posterH": "/media/posters/12-reels-h.webp",
-      "posterV": "/media/posters/12-reels-v.webp",
-      "poster45": "/media/posters/12-reels-45.webp",
-      "seconds": 8
-    },
-    "fullVideo": {
-      "provider": "self",
-      "id": "/media/loops/12-reels-h.mp4",
-      "duration": "00:20",
-      "hasSound": false
-    },
-    "shooting": {
-      "days": 1,
-      "hours": 6,
-      "operators": "1 оператор",
-      "drone": false,
-      "gear": [
-        "Sony ZV-E1",
-        "гимбал",
-        "два источника света",
-        "петличка"
-      ]
-    },
-    "post": {
-      "delivery": "12 Reels за 6 дней",
-      "notes": "субтитры вшиты, обложки подобраны под сетку профиля"
-    },
-    "task": "Закрыть контент-план студии на месяц вертикальными видео: практика, интервью основательницы, абонементы и атмосфера зала.",
-    "approach": "Три световые схемы в одном зале и четыре сценария, расписанных по минутам: утро — практика на общем свете, день — интервью основательницы на петличку, вечер — продукт и атмосфера с одним тёплым источником. Каждый Reel с субтитрами, потому что их смотрят без звука в очереди за кофе.",
-    "result": {
-      "text": "Контент-план студии закрыт на месяц одним съёмочным днём.",
-      "metrics": [
-        {
-          "value": "+180%",
-          "label": "охватов аккаунта за месяц"
-        },
-        {
-          "value": "40",
-          "label": "новых пробных занятий"
-        }
-      ]
-    },
-    "deliverables": [
-      {
-        "name": "Reels",
-        "duration": "12 × 0:10–0:20",
-        "aspect": "9:16"
-      },
-      {
-        "name": "Обложки",
-        "duration": "12 шт.",
-        "aspect": "4:5"
-      },
-      {
-        "name": "Стоп-кадры",
-        "duration": "30 шт."
-      }
-    ],
-    "credits": [
-      {
-        "role": "Оператор, монтаж, субтитры",
-        "name": "Мария Волкова"
-      },
-      {
-        "role": "Клиент",
-        "name": "Tynys Yoga (вымышленная студия)"
-      }
-    ],
-    "reels": [
-      {
-        "mp4H": "/media/loops/reels-r1-v.mp4",
-        "mp4V": "/media/loops/reels-r1-v.mp4",
-        "posterH": "/media/posters/reels-r1-v.webp",
-        "posterV": "/media/posters/reels-r1-v.webp",
-        "seconds": 5
-      },
-      {
-        "mp4H": "/media/loops/12-reels-v.mp4",
-        "mp4V": "/media/loops/12-reels-v.mp4",
-        "posterH": "/media/posters/12-reels-v.webp",
-        "posterV": "/media/posters/12-reels-v.webp",
-        "seconds": 8
-      }
-    ],
-    "stills": [
-      {
-        "src": "/media/stills/reels-1.webp",
-        "alt": "Женщина за камерой",
-        "w": 1200,
-        "h": 1500,
-        "caption": "схема света №3, вечер"
-      },
-      {
-        "src": "/media/stills/reels-2.webp",
-        "alt": "Видеограф снимает на камеру",
-        "w": 1600,
-        "h": 1067
-      }
-    ],
-    "isPlaceholder": true,
-    "isPublished": true,
-    "featured": false,
-    "sortOrder": 10
-  },
-  {
-    "slug": "n-n",
-    "title": "N&N",
-    "logline": "Love story на двоих — и весь Чарын в качестве массовки.",
-    "client": "N&N",
+    "slug": "cultural-love-story",
+    "title": "Cultural Love Story",
+    "logline": "Встреча двух культур и двух миров.",
+    "client": "Никита & Нурай",
+    "clientGen": "Никиты и Нурай",
     "format": "love-story",
     "mood": [
       "gentle"
     ],
-    "city": "Алматы",
-    "venues": [
-      "Чарынский каньон"
-    ],
-    "date": "2025",
-    "year": 2025,
     "loop": {
-      "mp4H": "/media/loops/n-n-h.mp4",
-      "mp4V": "/media/loops/n-n-v.mp4",
-      "posterH": "/media/posters/n-n-h.webp",
-      "posterV": "/media/posters/n-n-v.webp",
-      "poster45": "/media/posters/n-n-45.webp",
-      "seconds": 6
+      "mp4H": "/media/loops/cultural-love-story-h.mp4",
+      "mp4V": "/media/loops/cultural-love-story-v.mp4",
+      "posterH": "/media/posters/cultural-love-story-h.webp",
+      "posterV": "/media/posters/cultural-love-story-v.webp",
+      "seconds": 7
     },
     "fullVideo": {
       "provider": "youtube",
       "id": "TsCSXDzaojg",
       "duration": "02:06",
-      "hasSound": true
+      "hasSound": true,
+      "uploadDate": "2026-09-05"
     },
-    "shooting": {
-      "days": 1,
-      "operators": "1 оператор",
-      "drone": false,
-      "gear": [
-        "Sony ZV-E1"
-      ]
-    },
-    "post": {
-      "delivery": "фильм 2 недели"
-    },
-    "task": "Love story для пары перед свадьбой — фильм, который открывает праздник и живёт сам по себе.",
-    "approach": "Один день, одна камера и дорога до каньона. Без сценария: пара гуляет, я иду рядом.",
-    "result": {
-      "text": "Полный фильм — на моём YouTube."
-    },
+    "task": "История любви Никиты и Нурай в исторической эстетике. Концепция вдохновлена их разными культурными корнями.",
+    "approach": "Костюмы, локации и атмосфера разных эпох передают встречу двух культур и двух миров, объединенных одной историей любви.",
     "deliverables": [
       {
-        "name": "Фильм",
+        "name": "Love story",
         "duration": "2:06",
         "aspect": "16:9"
       }
     ],
-    "credits": [
+    "stills": [
       {
-        "role": "Оператор, монтаж, цвет",
-        "name": "Мария Волкова"
+        "src": "/media/stills/cultural-love-story-1.webp",
+        "alt": "Двое всадников на темной и серой лошадях едут по грунтовой дороге к заснеженным горам.",
+        "w": 1600,
+        "h": 900
       },
       {
-        "role": "Пара",
-        "name": "N&N"
+        "src": "/media/stills/cultural-love-story-2.webp",
+        "alt": "Девушка в меховой шапке улыбается молодому человеку в белой рубашке у красно-белых столбов качелей.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/cultural-love-story-3.webp",
+        "alt": "Рука с серебряным кольцом и браслетом с цепочками рядом с гривой серой лошади.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/cultural-love-story-4.webp",
+        "alt": "Молодой человек пишет письмо за столом при свете одной свечи.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/cultural-love-story-5.webp",
+        "alt": "Девушка в расшитом халате держит письмо на фоне красного ковра с орнаментом.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/cultural-love-story-6.webp",
+        "alt": "Девушка с телефоном и молодой человек в черной футболке стоят на платформе метро у поезда.",
+        "w": 1600,
+        "h": 900
+      }
+    ],
+    "isPlaceholder": false,
+    "isPublished": true,
+    "featured": true,
+    "sortOrder": 2,
+    "seo": {
+      "description": "История любви Никиты и Нурай в исторической эстетике, концепция была вдохновлена их разными культурными корнями. Костюмы, локации и атмосфера разных эпох передают встречу двух культур и двух миров."
+    }
+  },
+  {
+    "slug": "red-bull-kick-off",
+    "title": "Red Bull Kick-Off",
+    "logline": "Тимбилдинг к первому в Казахстане Red Bull Car Park Drift.",
+    "client": "Red Bull Kazakhstan",
+    "format": "activation",
+    "extraFormats": [
+      "aftermovie"
+    ],
+    "mood": [
+      "bold",
+      "documentary"
+    ],
+    "city": "Алматы",
+    "venues": [
+      "ASP Arena"
+    ],
+    "year": 2026,
+    "loop": {
+      "mp4H": "/media/loops/red-bull-kick-off-h.mp4",
+      "mp4V": "/media/loops/red-bull-kick-off-v.mp4",
+      "posterH": "/media/posters/red-bull-kick-off-h.webp",
+      "posterV": "/media/posters/red-bull-kick-off-v.webp",
+      "seconds": 9
+    },
+    "fullVideo": {
+      "provider": "youtube",
+      "id": "C8LZGKQyitw",
+      "duration": "01:53",
+      "hasSound": true,
+      "uploadDate": "2026-11-08"
+    },
+    "task": "Репортаж с Red Bull Kick-Off — тематического тимбилдинга для команды студентов Red Bull Kazakhstan. Событие было приурочено к первому в Казахстане Red Bull Car Park Drift.",
+    "approach": "Активности, командный дух и вечеринки: атмосфера автоспорта и фирменный вайб бренда.",
+    "deliverables": [
+      {
+        "name": "Репортаж",
+        "duration": "1:53",
+        "aspect": "16:9"
       }
     ],
     "stills": [
       {
-        "src": "/media/stills/n-n-1.webp",
-        "alt": "Чарынский каньон",
+        "src": "/media/stills/red-bull-kick-off-1.webp",
+        "alt": "Гоночные машины одна за другой проезжают под надувной аркой Red Bull на фоне трибун со зрителями.",
         "w": 1600,
-        "h": 1067
+        "h": 900
       },
       {
-        "src": "/media/stills/n-n-2.webp",
-        "alt": "Чарынский каньон, вид сверху",
+        "src": "/media/stills/red-bull-kick-off-2.webp",
+        "alt": "Дрифт-машина в клубах дыма от шин проходит поворот перед трибуной.",
         "w": 1600,
-        "h": 1067
+        "h": 900
+      },
+      {
+        "src": "/media/stills/red-bull-kick-off-3.webp",
+        "alt": "Толпа молодых людей во дворе радостно кричит и машет руками.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/red-bull-kick-off-4.webp",
+        "alt": "Девушка в белой футболке смеется и показывает в камеру жест «коза» среди веселящихся друзей.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/red-bull-kick-off-5.webp",
+        "alt": "Рука с браслетом участника рядом с капотом машины с логотипом Red Bull Car Park Drift.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/red-bull-kick-off-6.webp",
+        "alt": "Большая группа молодых людей ночью под прожекторами радостно машет руками в камеру.",
+        "w": 1600,
+        "h": 900
       }
     ],
-    "isPlaceholder": true,
-    "factsUnconfirmed": true,
+    "isPlaceholder": false,
+    "isPublished": true,
+    "featured": true,
+    "sortOrder": 3,
+    "seo": {
+      "description": "Репортаж с Red Bull Kick-Off — тематического тимбилдинга для команды студентов Red Bull Kazakhstan на ASP Arena в Алматы, приуроченного к первому в Казахстане Red Bull Car Park Drift."
+    }
+  },
+  {
+    "slug": "n-n-wedding",
+    "title": "Wedding",
+    "logline": "Одна большая история о любви.",
+    "client": "Никита & Нурай",
+    "clientGen": "Никиты и Нурай",
+    "format": "teaser",
+    "extraFormats": [
+      "wedding-film"
+    ],
+    "mood": [
+      "gentle"
+    ],
+    "loop": {
+      "mp4H": "/media/loops/n-n-wedding-h.mp4",
+      "mp4V": "/media/loops/n-n-wedding-v.mp4",
+      "posterH": "/media/posters/n-n-wedding-h.webp",
+      "posterV": "/media/posters/n-n-wedding-v.webp",
+      "seconds": 8
+    },
+    "fullVideo": {
+      "provider": "youtube",
+      "id": "uxySeZi935Q",
+      "duration": "01:07",
+      "hasSound": true,
+      "uploadDate": "2026-09-06"
+    },
+    "task": "Тизер к свадебному фильму Никиты и Нурай.",
+    "approach": "Короткая кинематографичная зарисовка: самые трогательные, искренние и атмосферные моменты особенного дня. Эмоции, детали и маленькие мгновения.",
+    "deliverables": [
+      {
+        "name": "Тизер",
+        "duration": "1:07",
+        "aspect": "4:3"
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/stills/n-n-wedding-1.webp",
+        "alt": "Жених и невеста идут по газону между гостями, которые осыпают их белыми лепестками.",
+        "w": 1440,
+        "h": 1080
+      },
+      {
+        "src": "/media/stills/n-n-wedding-2.webp",
+        "alt": "Невеста стоит за спиной жениха в белом костюме и закрывает ему глаза ладонью.",
+        "w": 1440,
+        "h": 1080
+      },
+      {
+        "src": "/media/stills/n-n-wedding-3.webp",
+        "alt": "Невеста в фате выглядывает из-за букета с кремовыми розами и голубой гортензией.",
+        "w": 1440,
+        "h": 1080
+      },
+      {
+        "src": "/media/stills/n-n-wedding-4.webp",
+        "alt": "Невеста держит обручальное кольцо над раскрытой синей коробочкой в руках жениха.",
+        "w": 1440,
+        "h": 1080
+      },
+      {
+        "src": "/media/stills/n-n-wedding-5.webp",
+        "alt": "Невеста танцует среди гостей в зале, освещенном теплым светом и свечами.",
+        "w": 1440,
+        "h": 1080
+      },
+      {
+        "src": "/media/stills/n-n-wedding-6.webp",
+        "alt": "Рука с кистью раскрашивает акварельный эскиз жениха и невесты на планшете.",
+        "w": 1440,
+        "h": 1080
+      }
+    ],
+    "isPlaceholder": false,
+    "isPublished": true,
+    "featured": true,
+    "sortOrder": 4,
+    "seo": {
+      "description": "Тизер к свадебному фильму Никиты и Нурай. Короткая кинематографичная зарисовка, собравшая самые трогательные, искренние и атмосферные моменты особенного дня."
+    }
+  },
+  {
+    "slug": "red-bull-on-premise",
+    "title": "Red Bull On Premise",
+    "logline": "Полгода ночной жизни города.",
+    "client": "Red Bull Kazakhstan",
+    "format": "brand-film",
+    "mood": [
+      "bold",
+      "documentary"
+    ],
+    "loop": {
+      "mp4H": "/media/loops/red-bull-on-premise-h.mp4",
+      "mp4V": "/media/loops/red-bull-on-premise-v.mp4",
+      "posterH": "/media/posters/red-bull-on-premise-h.webp",
+      "posterV": "/media/posters/red-bull-on-premise-v.webp",
+      "seconds": 8
+    },
+    "fullVideo": {
+      "provider": "youtube",
+      "id": "n1-XF8vDiQ0",
+      "duration": "01:25",
+      "hasSound": true,
+      "uploadDate": "2026-09-06"
+    },
+    "task": "Полугодовой отчет для Red Bull Kazakhstan, посвященный направлению On-Premise и миру HoReCa.",
+    "approach": "Бары, клубы, вечеринки, яркие события и люди, которые создают ночную жизнь города. Энергичный монтаж и живые эмоции.",
+    "deliverables": [
+      {
+        "name": "Полугодовой отчет",
+        "duration": "1:25",
+        "aspect": "16:9"
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/stills/red-bull-on-premise-1.webp",
+        "alt": "Большая толпа зрителей перед концертной сценой под открытым небом на закате.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/red-bull-on-premise-2.webp",
+        "alt": "Парень в солнцезащитных очках смеется у барной стойки, перед ним стакан с напитком и банка Red Bull.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/red-bull-on-premise-3.webp",
+        "alt": "Девушка в широких солнцезащитных очках показывает язык в неоновом зелено-фиолетовом свете.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/red-bull-on-premise-4.webp",
+        "alt": "Из банок наливают напиток в два синих стакана с логотипом Red Bull.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/red-bull-on-premise-5.webp",
+        "alt": "Диджей за пультом среди танцующих людей с поднятыми руками, на переднем плане банка Red Bull.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/red-bull-on-premise-6.webp",
+        "alt": "Мужчина с поднятыми руками подпрыгивает на площадке на фоне дрифтующего автомобиля в раскраске Red Bull и трибун со зрителями.",
+        "w": 1600,
+        "h": 900
+      }
+    ],
+    "isPlaceholder": false,
+    "isPublished": true,
+    "featured": true,
+    "sortOrder": 5,
+    "seo": {
+      "description": "Динамичный полугодовой отчет для Red Bull Kazakhstan, посвященный направлению On-Premise и миру HoReCa: бары, клубы, вечеринки и люди, которые создают ночную жизнь города."
+    }
+  },
+  {
+    "slug": "modern-love-story",
+    "title": "Modern Love Story",
+    "logline": "Вторая глава истории Никиты и Нурай.",
+    "client": "Никита & Нурай",
+    "clientGen": "Никиты и Нурай",
+    "format": "love-story",
+    "mood": [
+      "gentle"
+    ],
+    "loop": {
+      "mp4H": "/media/loops/modern-love-story-h.mp4",
+      "mp4V": "/media/loops/modern-love-story-v.mp4",
+      "posterH": "/media/posters/modern-love-story-h.webp",
+      "posterV": "/media/posters/modern-love-story-v.webp",
+      "seconds": 9
+    },
+    "fullVideo": {
+      "provider": "youtube",
+      "id": "VVJ6A7J6kEE",
+      "duration": "02:17",
+      "hasSound": true,
+      "uploadDate": "2026-09-05"
+    },
+    "task": "Вторая глава истории любви Никиты и Нурай, на этот раз в более современном сеттинге. Обе истории были приурочены к их предстоящей свадьбе.",
+    "approach": "Вместо исторических образов — знакомые городские пространства, искренние эмоции и естественные моменты между двумя людьми.",
+    "deliverables": [
+      {
+        "name": "Love story",
+        "duration": "2:17",
+        "aspect": "16:9"
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/stills/modern-love-story-1.webp",
+        "alt": "Девушка вставляет парню в ухо наушник от своих проводных наушников на платформе метро у поезда.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/modern-love-story-2.webp",
+        "alt": "Пара танцует, держась за руки, у паркового фонтана со скульптурами среди елей.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/modern-love-story-3.webp",
+        "alt": "Парень целует смеющуюся девушку в щеку на берегу пруда.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/modern-love-story-4.webp",
+        "alt": "Пара плывет на весельной лодке по пруду на фоне высоких фонтанов.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/modern-love-story-5.webp",
+        "alt": "Крупный план глаза девушки, смотрящей вдаль.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/modern-love-story-6.webp",
+        "alt": "Весло поднимает брызги в зеленой воде у бетонного берега.",
+        "w": 1600,
+        "h": 900
+      }
+    ],
+    "isPlaceholder": false,
     "isPublished": true,
     "featured": false,
-    "sortOrder": 11
+    "sortOrder": 6,
+    "seo": {
+      "description": "Вторая глава истории любви Никиты и Нурай в современном сеттинге: знакомые городские пространства, искренние эмоции и естественные моменты между двумя людьми."
+    }
+  },
+  {
+    "slug": "red-bull-annual-recap",
+    "title": "Red Bull Annual Recap",
+    "logline": "Самые яркие моменты года.",
+    "client": "Red Bull Kazakhstan",
+    "format": "brand-film",
+    "mood": [
+      "bold",
+      "documentary"
+    ],
+    "year": 2025,
+    "loop": {
+      "mp4H": "/media/loops/red-bull-annual-recap-h.mp4",
+      "mp4V": "/media/loops/red-bull-annual-recap-v.mp4",
+      "posterH": "/media/posters/red-bull-annual-recap-h.webp",
+      "posterV": "/media/posters/red-bull-annual-recap-v.webp",
+      "seconds": 8
+    },
+    "fullVideo": {
+      "provider": "youtube",
+      "id": "fyKho0UwMw4",
+      "duration": "02:04",
+      "hasSound": true,
+      "uploadDate": "2026-11-08"
+    },
+    "task": "Тизер к годовому отчетному фильму для Red Bull Kazakhstan: показать самые яркие моменты прошедшего года.",
+    "approach": "Закулисье мероприятий, моменты подготовки, вечеринки и люди, которые отражают атмосферу бренда.",
+    "deliverables": [
+      {
+        "name": "Тизер годового фильма",
+        "duration": "2:04",
+        "aspect": "16:9"
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/stills/red-bull-annual-recap-1.webp",
+        "alt": "Люди в зимней одежде с рюкзаками Red Bull идут по снегу на фоне заснеженных гор.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/red-bull-annual-recap-2.webp",
+        "alt": "Двое в шлемах на самодельных санях стартуют по снегу, их толкает парень в зеленом, вокруг толпятся зрители.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/red-bull-annual-recap-3.webp",
+        "alt": "Девушка в очках танцует у барной стойки в темном клубе с синей подсветкой.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/red-bull-annual-recap-4.webp",
+        "alt": "Девушка с розовыми косичками пьет из стакана Red Bull под тентом с гирляндами.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/red-bull-annual-recap-5.webp",
+        "alt": "Женщина в белой футболке собирает печатные буклеты за столом среди стопок бумаги.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/red-bull-annual-recap-6.webp",
+        "alt": "Бармен наливает Red Bull из банки в бокал с красным напитком на фоне полок с бутылками.",
+        "w": 1600,
+        "h": 900
+      }
+    ],
+    "isPlaceholder": false,
+    "isPublished": true,
+    "featured": true,
+    "sortOrder": 7,
+    "seo": {
+      "description": "Тизер к годовому отчетному фильму для Red Bull Kazakhstan: закулисье мероприятий, моменты подготовки, вечеринки и люди, которые отражают атмосферу бренда."
+    }
+  },
+  {
+    "slug": "red-bull-basement",
+    "title": "Red Bull Basement",
+    "logline": "Истории, которые начинаются с одного смелого шага.",
+    "client": "Red Bull Basement",
+    "format": "aftermovie",
+    "mood": [
+      "documentary"
+    ],
+    "loop": {
+      "mp4H": "/media/loops/red-bull-basement-h.mp4",
+      "mp4V": "/media/loops/red-bull-basement-v.mp4",
+      "posterH": "/media/posters/red-bull-basement-h.webp",
+      "posterV": "/media/posters/red-bull-basement-v.webp",
+      "seconds": 8
+    },
+    "fullVideo": {
+      "provider": "youtube",
+      "id": "qfA_daHhqGU",
+      "duration": "01:59",
+      "hasSound": true,
+      "uploadDate": "2026-09-21"
+    },
+    "task": "Репортаж с Red Bull Basement — проекта, который помогает молодым инноваторам воплощать свои идеи в жизнь.",
+    "approach": "Презентации проектов, креативные решения, волнение участников и атмосфера большого события. История о людях, идеях и возможностях.",
+    "deliverables": [
+      {
+        "name": "Репортаж",
+        "duration": "1:59",
+        "aspect": "16:9"
+      }
+    ],
+    "stills": [
+      {
+        "src": "/media/stills/red-bull-basement-1.webp",
+        "alt": "Зрители сидят рядами в зале с фиолетовым светом и смотрят на сцену.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/red-bull-basement-2.webp",
+        "alt": "Девушка в зеленом свитере выступает у экрана с презентацией, рядом на столе стоят банка и бутылка воды.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/red-bull-basement-3.webp",
+        "alt": "Участники стоят в ряд у стены, двое держат большие сумки в виде банок Red Bull, девушка на переднем плане смотрит на них.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/red-bull-basement-4.webp",
+        "alt": "Девушка в очках с бейджем улыбается, сидя среди слушателей.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/red-bull-basement-5.webp",
+        "alt": "Парень с бейджем радостно машет руками, а девушки рядом снимают его на телефоны.",
+        "w": 1600,
+        "h": 900
+      },
+      {
+        "src": "/media/stills/red-bull-basement-6.webp",
+        "alt": "Рука с темно-красным маникюром держит банку Red Bull на подлокотнике кресла.",
+        "w": 1600,
+        "h": 900
+      }
+    ],
+    "isPlaceholder": false,
+    "isPublished": true,
+    "featured": false,
+    "sortOrder": 8,
+    "seo": {
+      "description": "Репортаж с Red Bull Basement — проекта, который помогает молодым инноваторам воплощать свои идеи в жизнь: презентации проектов, креативные решения и атмосфера большого события."
+    }
   }
 ]

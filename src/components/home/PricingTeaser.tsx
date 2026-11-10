@@ -19,7 +19,7 @@ function summary(lines: { k: string; v: string }[]): string {
 }
 
 /** 09 · Сколько стоит — свадебные коллекции строками-титрами, ссылка на весь прайс */
-export default function PricingTeaser() {
+export default function PricingTeaser({ num = "09" }: { num?: string }) {
   const { collections, terms } = getPricing();
   const wedding = collections.filter((c) => c.tab === "wedding");
   if (wedding.length === 0) return null;
@@ -29,10 +29,14 @@ export default function PricingTeaser() {
     <Section aria-labelledby="pricing-title" className="bg-ink py-[clamp(64px,10vw,160px)]">
       <Container>
         <div className="mb-8 flex items-end justify-between gap-4 lg:mb-12">
-          <Eyebrow>[ 09 ] · СКОЛЬКО СТОИТ</Eyebrow>
-          <span className="mono hidden text-meta lg:block">свадьбы · {wedding.length} коллекции</span>
+          <Eyebrow>[ {num} ] · СКОЛЬКО СТОИТ</Eyebrow>
+          <span className="mono hidden text-meta lg:block">
+            свадьбы · {wedding.length} коллекции{showPrices && settings.toggles.pricesAreDemo && " · цены — демо, до согласования"}
+          </span>
         </div>
         <h2 id="pricing-title" className="sr-only">Сколько стоит</h2>
+        {/* на телефоне правая подпись скрыта — пометка о демо-ценах отдельной строкой */}
+        {showPrices && settings.toggles.pricesAreDemo && <p className="mono-sm -mt-4 mb-6 text-meta lg:hidden">цены — демо, до согласования</p>}
 
         <ul className="border-b border-rule">
           {wedding.map((c) => (

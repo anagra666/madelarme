@@ -38,8 +38,11 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
       url: `/work/${c.slug}`,
       images: [{ url: c.loop.posterH, width: 1280, height: 720, alt: c.title }],
     },
-    /* демо-кейсы не индексируем и не кладём в sitemap */
-    robots: c.isPlaceholder ? { index: false, follow: true } : undefined,
+    /*
+     * демо-кейсы не индексируем и не кладём в sitemap. Ключ robots только когда он нужен: даже robots: undefined
+     * в метаданных страницы затирает robots из layout, и тестовая сборка (NEXT_PUBLIC_NOINDEX=1) теряла noindex
+     */
+    ...(c.isPlaceholder && process.env.NEXT_PUBLIC_NOINDEX !== "1" && { robots: { index: false, follow: true } }),
     alternates: { canonical: `/work/${c.slug}` },
   };
 }

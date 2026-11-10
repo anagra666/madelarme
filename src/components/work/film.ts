@@ -14,6 +14,12 @@ export function realFilm(v?: FullVideo): FullVideo | undefined {
   return v && !isDemoLoop(v) ? v : undefined;
 }
 
+/** Адрес встраиваемого плеера для JSON-LD (embedUrl): YouTube — тот же nocookie-домен, что в Player */
+export function embedUrl(v?: FullVideo): string | undefined {
+  const f = realFilm(v);
+  return f?.provider === "youtube" ? `https://www.youtube-nocookie.com/embed/${f.id}` : undefined;
+}
+
 /** «N&N — N&N» → «N&N»: клиент в заголовке, только если он отличается от названия */
 export function caseTitle(c: { title: string; client: string }): string {
   return c.title === c.client ? c.title : `${c.title} — ${c.client}`;

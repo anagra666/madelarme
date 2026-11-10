@@ -6,11 +6,13 @@ Next.js 16 (App Router) · Tailwind v4 · Motion · Lenis. Концепт «Ти
 
 ```bash
 pnpm install
-pnpm media      # скачать и перекодировать демо-лупы/постеры (ffmpeg-static), ~5 мин, ~60 МБ в public/media
+pnpm media      # нарезать лупы, постеры и кадры из фильмов в .cache/sources (ffmpeg-static), ~5 мин, ~32 МБ в public/media
 pnpm dev        # http://localhost:3000
 ```
 
-`pnpm build && pnpm start` — продакшн. `pnpm typecheck`, `pnpm lint`, `node scripts/check-media.mjs` — проверки.
+`pnpm build && pnpm start` — продакшн. `pnpm typecheck`, `pnpm lint`, `pnpm media:check` (все ссылки на /media существуют), `pnpm content:check` (контент сходится с контрактом types.ts) — проверки.
+
+Исходники для `pnpm media` — сами фильмы с YouTube-канала Madelarme, по одному файлу на ролик: `.cache/sources/{youtubeId}.mp4` (папка в .gitignore). Id — в поле `youtube` у элементов `scripts/media.manifest.json`; скачать заново, например, `yt-dlp -f "137/bv*[height<=1080][vcodec^=avc1]" -o ".cache/sources/%(id)s.%(ext)s" <id>`.
 
 ## Где что
 
@@ -18,12 +20,14 @@ pnpm dev        # http://localhost:3000
 - `src/lib/content.ts` — выборки; `src/lib/links.ts` — WhatsApp/Telegram deep-links с предзаполнением; `src/lib/settings.ts`.
 - `src/components/media/CinemaVideo.tsx` — единственный видео-примитив (постер SSR, один луп на телефоне, fallback при блокировке автоплея).
 - `src/components/home/*` — секции главной; `src/components/work/*` — работы и кейс; `src/components/pages/*` — остальные страницы; `src/components/layout/*` — шапка, меню, sticky-CTA, футер, панель контактов.
-- `scripts/media.mjs` + `scripts/media.manifest.json` — медиа-пайплайн (Pexels/Mixkit/Coverr → 720p H.264 ≤4 МБ + WebP).
+- `scripts/media.mjs` + `scripts/media.manifest.json` — медиа-пайплайн (фильмы из .cache/sources → лупы 720p H.264 ≤4 МБ + WebP-постеры и кадры; `montage` — шоурил-луп из нескольких фильмов).
 - `docs/BUILD-BRIEF.md` — правила разработки; `docs/research/` — ресёрч.
 
-## Демо-контент
+## Работы и демо-контент
 
-Все кейсы помечены `isPlaceholder: true` (клиенты вымышлены, видео — стоки), скрываются тумблером `toggles.showPlaceholders` в `settings.json`. Реальные ролики Марии (OYU Fest, N&N) открываются в плеере с YouTube.
+8 кейсов — реальные работы Марии (таблица клиента: название, описание, ссылка на YouTube). В кейсе только то, что дал клиент: описание разложено на логлайн, «Задачу» и «В кадре», город, площадка и год — только где названы в описании или в названии ролика. Чего нет (съёмка, сроки сдачи, титры), не выдумываем: поля необязательные и на сайте не выводятся. Полный фильм играет с YouTube в плеере сайта (провайдер `youtube`), лупы, постеры и кадры нарезаны из самих фильмов.
+
+Демо осталось вне работ: тексты и портрет на «Обо мне», счётчики, цены (плашка «цены — демо» — тумблер `toggles.pricesAreDemo`), тексты форматов. `toggles.showPlaceholders` выключен: демо-кейсы и демо-reels удалены, отзывов пока нет.
 
 ## Заявки
 

@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit",
     "package:preview": "bash scripts/package-preview.sh",
     "media:check": "node scripts/check-media.mjs",
+    "content:check": "node scripts/check-content.mjs",
     "package:static": "bash scripts/package-static.sh"
   },
   "dependencies": {

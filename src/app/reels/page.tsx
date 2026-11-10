@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: "Reels — вертикальное кино",
   description: "Reels 9:16 со свадеб, фестивалей и брендов — как в Instagram, но кино.",
   alternates: { canonical: "/reels" },
+  /* пустая лента («reels появятся здесь») открывается только прямым заходом: ссылок и sitemap на неё нет — и в индекс не берём */
+  /* в тестовой сборке (NEXT_PUBLIC_NOINDEX=1) не перебиваем более строгий robots из layout */
+  ...(getReels().length === 0 && process.env.NEXT_PUBLIC_NOINDEX !== "1" && { robots: { index: false, follow: true } }),
 };
 
 /**

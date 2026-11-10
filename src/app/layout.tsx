@@ -8,7 +8,7 @@ import Footer from "@/components/layout/Footer";
 import StickyCTA from "@/components/layout/StickyCTA";
 import Player from "@/components/media/Player";
 import { ReelsStoryHost } from "@/components/media/ReelsStory";
-import { getCases, getFormats, getPricing, getReels } from "@/lib/content";
+import { getCases, getFormats, getPricing, getReels, settings } from "@/lib/content";
 
 /* Имена переменных next/font НЕ совпадают с токенами @theme (--font-disp/body/mono) — иначе значение
    next/font перекрывает стек из globals.css и запасные шрифты (в т.ч. Oswald для казахских букв) теряются.
@@ -65,14 +65,16 @@ const dispVars = {
   "--font-oswald-face": oswaldFace,
 } as CSSProperties;
 
-const OG_IMAGE = { url: "/media/posters/showreel-h.webp", width: 1280, height: 720, alt: "MADELARME — шоурил" };
+/* превью ссылки по умолчанию — постер шоурила из settings (тот же файл, что проверяет media:check), 1280×720 */
+const reelPoster = settings.showreel?.loop.posterH;
+const OG_IMAGE = reelPoster && { url: reelPoster, width: 1280, height: 720, alt: "MADELARME — шоурил" };
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://madelarme.kz"),
   title: { default: "MADELARME — видеограф в Алматы", template: "%s — MADELARME" },
-  description:
-    "Мария Волкова, видеограф. Свадебное кино для тех, кто не любит свадебное видео. Бренды, фестивали, клипы — Алматы и куда позовёте.",
-  openGraph: { type: "website", locale: "ru_KZ", siteName: "MADELARME", images: [OG_IMAGE] },
+  /* из settings, а не копией heroSub — правка подписи в hero сразу меняет и описание сайта */
+  description: `${settings.brand.person}, ${settings.brand.role}. ${settings.heroSub}`,
+  openGraph: { type: "website", locale: "ru_KZ", siteName: "MADELARME", images: OG_IMAGE ? [OG_IMAGE] : undefined },
   /* без twitter.images: X берёт og:image, а страницы кейсов/форматов подставляют свой постер */
   twitter: { card: "summary_large_image" },
   robots:
@@ -105,11 +107,12 @@ function layoutData() {
       label: dup.has(f.name) ? `${f.name} · ${f.term.split("/")[0].trim()}` : f.name,
     })),
     footerFormats: formats.map((f) => ({ slug: f.slug, name: f.name })),
+    reels: getReels(),
   };
 }
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
-  const { counts, chips, footerFormats } = layoutData();
+  const { counts, chips, footerFormats, reels } = layoutData();
   return (
     <html
       lang="ru"
@@ -126,11 +129,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SmoothScroll />
         <Header counts={counts} formats={chips} />
         <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">{children}</main>
-        <Footer formats={footerFormats} />
+        {/* пустая лента reels — без ссылки на /reels в футере (страница остаётся для прямых заходов) */}
+        <Footer formats={footerFormats} hasReels={reels.length > 0} />
         <StickyCTA />
         {/* оверлеи — по одному хосту на приложение */}
         <Player />
-        <ReelsStoryHost reels={getReels()} />
+        <ReelsStoryHost reels={reels} />
       </body>
     </html>
   );

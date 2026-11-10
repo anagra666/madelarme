@@ -1,5 +1,5 @@
 import { getCases, getFormat } from "@/lib/content";
-import { pad2 } from "@/lib/utils";
+import { cn, isLongTitle, pad2 } from "@/lib/utils";
 import CinemaVideo from "@/components/media/CinemaVideo";
 import { Reveal, Line } from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
@@ -23,10 +23,13 @@ function Block({ label, children }: { label: string; children: string }) {
   );
 }
 
-function Card({ c, i, total }: { c: Case; i: number; total: number }) {
+function Card({ c, i, total, num }: { c: Case; i: number; total: number; num: string }) {
   const paper = i % 2 === 1;
   const format = getFormat(c.format)?.name ?? c.format;
-  const got = c.deliverables.map((d) => `${d.name} ${d.duration}`).join(" · ");
+  const got = c.deliverables.map((d) => [d.name, d.duration].filter(Boolean).join(" ")).join(" · ");
+  /* пустые город/год не оставляют «Red Bull Kazakhstan ·  · 2025» */
+  const meta = [c.client, c.city, c.year].filter(Boolean).join(" · ");
+  const long = isLongTitle(c.title);
 
   return (
     <Section
@@ -57,25 +60,31 @@ function Card({ c, i, total }: { c: Case; i: number; total: number }) {
         <div className="flex flex-col justify-between gap-8 px-gutter py-8 lg:col-span-5 lg:py-10">
           <div className="flex items-center justify-between gap-4">
             <Eyebrow className="whitespace-nowrap">
-              [ 05 ] · <span className="hidden sm:inline">ИСТОРИЯ </span>{pad2(i + 1)} / {pad2(total)}
+              [ {num} ] · <span className="hidden sm:inline">ИСТОРИЯ </span>{pad2(i + 1)} / {pad2(total)}
             </Eyebrow>
             <span className="mono-sm max-w-[55%] truncate border border-rule px-2 py-1 text-meta">{format}</span>
           </div>
 
           <div className="flex flex-col gap-6">
-            <Reveal as="h3" className="disp text-h2 whitespace-nowrap lg:text-[clamp(56px,6.6vw,112px)]">
+            {/* длинное название («Red Bull Annual Recap» ≈ 7.7em) на десктопе мельче: 4.4vw × 7.7 ≈ 0.34vw — встаёт
+                в строку колонки 5/12 без полей (≈ 0.35vw); не влезло (узкий телефон) — две строки с balance, а не вылет */}
+            <Reveal
+              as="h3"
+              className={cn(
+                "disp text-h2",
+                long ? "[text-wrap:balance] lg:text-[clamp(44px,4.4vw,76px)]" : "whitespace-nowrap lg:text-[clamp(56px,6.6vw,112px)]",
+              )}
+            >
               <Line>
                 <span id={`stacked-${c.slug}`}>{c.title}</span>
               </Line>
             </Reveal>
-            <div className="mono text-meta">
-              {c.client} · {c.city} · {c.year}
-            </div>
+            <div className="mono text-meta">{meta}</div>
 
             <div className="grid gap-5">
-              <Block label="ЗАДАЧА">{c.task}</Block>
-              <Block label="ЧТО СНЯЛА">{truncate(c.approach)}</Block>
-              <Block label="ЧТО ПОЛУЧИЛИ">{got}</Block>
+              {c.task && <Block label="ЗАДАЧА">{c.task}</Block>}
+              {c.approach && <Block label="В КАДРЕ">{truncate(c.approach)}</Block>}
+              {got && <Block label="ЧТО ПОЛУЧИЛИ">{got}</Block>}
             </div>
           </div>
 
@@ -96,13 +105,13 @@ function Card({ c, i, total }: { c: Case; i: number; total: number }) {
 }
 
 /** 05 · Три истории подробно — стопка из трёх избранных кейсов (sticky на десктопе) */
-export default function StackedCases() {
+export default function StackedCases({ num = "05" }: { num?: string }) {
   const cases = getCases({ featured: true }).slice(0, 3);
   if (cases.length === 0) return null;
   return (
     <div className="relative">
       {cases.map((c, i) => (
-        <Card key={c.slug} c={c} i={i} total={cases.length} />
+        <Card key={c.slug} c={c} i={i} total={cases.length} num={num} />
       ))}
     </div>
   );

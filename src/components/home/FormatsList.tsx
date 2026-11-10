@@ -1,27 +1,40 @@
 import Image from "next/image";
 import Link from "next/link";
 import { countByFormat, formatPrice, getFormat, settings } from "@/lib/content";
+import { pad2 } from "@/lib/utils";
 import { Section, Eyebrow, Container } from "@/components/ui/Section";
 import FormatsPreview, { type PreviewItem } from "./FormatsPreview.client";
 
-const ORDER = ["wedding-film", "love-story", "toi", "aftermovie", "brand-film", "music-video", "content-day", "interview"];
+/* сначала форматы, в которых есть работы (у них и лупы из этих работ), затем остальные услуги */
+const ORDER = ["wedding-film", "love-story", "aftermovie", "activation", "brand-film", "toi", "music-video", "content-day"];
+
+/** Опубликованные форматы в порядке главной — и для секции, и для нумерации секций в page.tsx */
+export function homeFormats() {
+  return ORDER.map((slug) => getFormat(slug)).filter((f) => f !== undefined);
+}
 
 /** 06 · Что снимаю — гигантские строки форматов на бумаге, кадр за курсором на десктопе */
-export default function FormatsList() {
-  const formats = ORDER.map((slug) => getFormat(slug)).filter((f) => f !== undefined);
+export default function FormatsList({ num = "06" }: { num?: string }) {
+  const formats = homeFormats();
   if (formats.length === 0) return null;
 
   const showPrices = settings.toggles.showPrices;
-  const previews: PreviewItem[] = formats
-    .filter((f) => f.loop?.posterH)
-    .map((f) => ({ slug: f.slug, src: f.loop!.posterH, alt: f.name }));
+  /* без лупа — титр с термином формата («music video»), а не пустой кадр */
+  const previews: PreviewItem[] = formats.map((f) => ({
+    slug: f.slug,
+    src: f.loop?.posterH,
+    alt: f.name,
+    label: f.term.split("/")[0].trim(),
+  }));
 
   return (
     <Section paper aria-labelledby="formats-title" className="py-[clamp(64px,10vw,160px)]">
       <Container>
         <div className="mb-8 flex items-end justify-between gap-4 lg:mb-12">
-          <Eyebrow>[ 06 ] · ЧТО СНИМАЮ</Eyebrow>
-          <span className="mono hidden text-meta lg:block">{formats.length} форматов</span>
+          <Eyebrow>[ {num} ] · ЧТО СНИМАЮ</Eyebrow>
+          <span className="mono hidden text-meta lg:block">
+            {formats.length} форматов{showPrices && settings.toggles.pricesAreDemo && " · цены — демо"}
+          </span>
         </div>
         <h2 id="formats-title" className="sr-only">Что снимаю</h2>
 
@@ -45,7 +58,7 @@ export default function FormatsList() {
                   className="group relative flex min-h-[88px] items-center justify-between gap-4 border-t border-rule py-4 lg:py-5"
                 >
                   <div className="flex min-w-0 flex-col gap-2 lg:flex-row lg:items-baseline lg:gap-5">
-                    <span className="mono-sm hidden w-8 text-meta lg:block">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="mono-sm hidden w-8 text-meta lg:block">{pad2(i + 1)}</span>
                     <span className="disp text-row leading-[.86] transition-colors duration-300 group-hover:text-signal">
                       {f.name}
                       {counter && <span className="mono ml-3 hidden align-top text-meta lg:inline">{counter}</span>}
@@ -56,10 +69,17 @@ export default function FormatsList() {
                   {/* десктоп: цена · хронометраж */}
                   <span className="mono hidden shrink-0 text-meta lg:block">{meta}</span>
 
-                  {/* телефон: квадратный стилл 64px (без кадра — без пустой плашки) */}
-                  {f.loop?.posterH && (
+                  {/* телефон: квадратный стилл 64px; без лупа — номер строки дисплеем в рамке (как хлопушка), не пустая плашка */}
+                  {f.loop?.posterH ? (
                     <span className="relative block h-16 w-16 shrink-0 overflow-hidden bg-ink-2 lg:hidden">
                       <Image src={f.loop.posterH} alt="" fill sizes="64px" className="object-cover" />
+                    </span>
+                  ) : (
+                    <span
+                      aria-hidden="true"
+                      className="disp grid h-16 w-16 shrink-0 place-items-center border border-rule text-[32px] leading-none text-meta lg:hidden"
+                    >
+                      {pad2(i + 1)}
                     </span>
                   )}
 

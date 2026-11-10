@@ -27,11 +27,10 @@
       }
     ],
     "loop": {
-      "mp4H": "/media/loops/f-wedding-h.mp4",
-      "mp4V": "/media/loops/f-wedding-v.mp4",
-      "posterH": "/media/posters/f-wedding-h.webp",
-      "posterV": "/media/posters/f-wedding-v.webp",
-      "seconds": 8
+      "mp4H": "/media/loops/n-n-wedding-h.mp4",
+      "mp4V": "/media/loops/n-n-wedding-v.mp4",
+      "posterH": "/media/posters/n-n-wedding-h.webp",
+      "posterV": "/media/posters/n-n-wedding-v.webp"
     },
     "isPublished": true,
     "sortOrder": 10
@@ -50,13 +49,6 @@
       "Тизер 45–60 с",
       "3 Reels 9:16"
     ],
-    "loop": {
-      "mp4H": "/media/loops/f-highlight-h.mp4",
-      "mp4V": "/media/loops/f-highlight-v.mp4",
-      "posterH": "/media/posters/f-highlight-h.webp",
-      "posterV": "/media/posters/f-highlight-v.webp",
-      "seconds": 8
-    },
     "isPublished": true,
     "sortOrder": 20
   },
@@ -122,11 +114,10 @@
       "20 стоп-кадров"
     ],
     "loop": {
-      "mp4H": "/media/loops/f-lovestory-h.mp4",
-      "mp4V": "/media/loops/f-lovestory-v.mp4",
-      "posterH": "/media/posters/f-lovestory-h.webp",
-      "posterV": "/media/posters/f-lovestory-v.webp",
-      "seconds": 8
+      "mp4H": "/media/loops/cultural-love-story-h.mp4",
+      "mp4V": "/media/loops/cultural-love-story-v.mp4",
+      "posterH": "/media/posters/cultural-love-story-h.webp",
+      "posterV": "/media/posters/cultural-love-story-v.webp"
     },
     "isPublished": true,
     "sortOrder": 60
@@ -163,13 +154,6 @@
       "Полная версия",
       "8 Reels"
     ],
-    "loop": {
-      "mp4H": "/media/loops/tau-toi-h.mp4",
-      "mp4V": "/media/loops/tau-toi-v.mp4",
-      "posterH": "/media/posters/tau-toi-h.webp",
-      "posterV": "/media/posters/tau-toi-v.webp",
-      "seconds": 8
-    },
     "isPublished": true,
     "sortOrder": 80
   },
@@ -188,11 +172,10 @@
       "Стоп-кадры для сайта"
     ],
     "loop": {
-      "mp4H": "/media/loops/f-brand-h.mp4",
-      "mp4V": "/media/loops/f-brand-v.mp4",
-      "posterH": "/media/posters/f-brand-h.webp",
-      "posterV": "/media/posters/f-brand-v.webp",
-      "seconds": 8
+      "mp4H": "/media/loops/red-bull-annual-recap-h.mp4",
+      "mp4V": "/media/loops/red-bull-annual-recap-v.mp4",
+      "posterH": "/media/posters/red-bull-annual-recap-h.webp",
+      "posterV": "/media/posters/red-bull-annual-recap-v.webp"
     },
     "isPublished": true,
     "sortOrder": 110
@@ -229,11 +212,10 @@
       "Спикер-интервью по запросу"
     ],
     "loop": {
-      "mp4H": "/media/loops/f-aftermovie-h.mp4",
-      "mp4V": "/media/loops/f-aftermovie-v.mp4",
-      "posterH": "/media/posters/f-aftermovie-h.webp",
-      "posterV": "/media/posters/f-aftermovie-v.webp",
-      "seconds": 8
+      "mp4H": "/media/loops/oyu-h.mp4",
+      "mp4V": "/media/loops/oyu-v.mp4",
+      "posterH": "/media/posters/oyu-h.webp",
+      "posterV": "/media/posters/oyu-v.webp"
     },
     "isPublished": true,
     "sortOrder": 130
@@ -251,7 +233,13 @@
       "Вертикальные нарезки"
     ],
     "isPublished": true,
-    "sortOrder": 140
+    "sortOrder": 140,
+    "loop": {
+      "mp4H": "/media/loops/red-bull-kick-off-h.mp4",
+      "mp4V": "/media/loops/red-bull-kick-off-v.mp4",
+      "posterH": "/media/posters/red-bull-kick-off-h.webp",
+      "posterV": "/media/posters/red-bull-kick-off-v.webp"
+    }
   },
   {
     "slug": "interview",
@@ -267,13 +255,6 @@
       "Субтитры",
       "Вертикальные нарезки"
     ],
-    "loop": {
-      "mp4H": "/media/loops/my-zdes-stroim-h.mp4",
-      "mp4V": "/media/loops/my-zdes-stroim-v.mp4",
-      "posterH": "/media/posters/my-zdes-stroim-h.webp",
-      "posterV": "/media/posters/my-zdes-stroim-v.webp",
-      "seconds": 8
-    },
     "isPublished": true,
     "sortOrder": 150
   },
@@ -307,13 +288,6 @@
       "Субтитры",
       "30 стоп-кадров"
     ],
-    "loop": {
-      "mp4H": "/media/loops/f-content-h.mp4",
-      "mp4V": "/media/loops/f-content-v.mp4",
-      "posterH": "/media/posters/f-content-h.webp",
-      "posterV": "/media/posters/f-content-v.webp",
-      "seconds": 8
-    },
     "isPublished": true,
     "sortOrder": 210
   },
@@ -331,13 +305,6 @@
       "Вертикальный кат 60 с",
       "Тизер 15 с"
     ],
-    "loop": {
-      "mp4H": "/media/loops/f-music-h.mp4",
-      "mp4V": "/media/loops/f-music-v.mp4",
-      "posterH": "/media/posters/f-music-h.webp",
-      "posterV": "/media/posters/f-music-v.webp",
-      "seconds": 8
-    },
     "isPublished": true,
     "sortOrder": 220
   },

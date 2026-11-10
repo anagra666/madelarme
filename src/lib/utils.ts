@@ -4,10 +4,21 @@ export function cn(...inputs: ClassValue[]) {
   return clsx(inputs);
 }
 
-/** «08:12» → секунды */
+/** Длительность → секунды: «65» (голые секунды), «08:12» (ММ:СС), «1:02:03» (Ч:ММ:СС). Пусто или мусор → 0 */
 export function parseDuration(s: string): number {
-  const p = s.split(":").map(Number);
-  return p.length === 3 ? p[0] * 3600 + p[1] * 60 + p[2] : p[0] * 60 + (p[1] ?? 0);
+  const p = s.trim().split(":").map(Number);
+  if (p.length > 3 || p.some((n) => !Number.isFinite(n) || n < 0)) return 0;
+  return Math.round(p.reduce((acc, n) => acc * 60 + n, 0));
+}
+
+/** Названия кейсов длиннее 14 символов («Red Bull Annual Recap») дисплеем в одну строку не влезают */
+export function isLongTitle(title: string): boolean {
+  return title.length > 14;
+}
+
+/** Перенос названия кейса: короткое — в одну строку, длинное — не больше двух строк с balance (ширину колонки считает вызывающий) */
+export function titleWrap(title: string): string {
+  return isLongTitle(title) ? "[text-wrap:balance]" : "whitespace-nowrap";
 }
 
 /** 01, 02 … */

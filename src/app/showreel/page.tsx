@@ -3,40 +3,45 @@ import Link from "next/link";
 import { Section, Container } from "@/components/ui/Section";
 import Button from "@/components/ui/Button";
 import { PageHead } from "@/components/pages/PageHead";
-import ShowreelBlock from "@/components/pages/ShowreelBlock";
+import ShowreelBlock, { WatchFilmButton } from "@/components/pages/ShowreelBlock";
+import { realFilm } from "@/components/work/film";
 import { getCases, settings } from "@/lib/content";
 import { prefill, waLink } from "@/lib/links";
-import { parseDuration } from "@/lib/utils";
+import { pad2 } from "@/lib/utils";
 
+const { brand } = settings;
+const featured = getCases({ featured: true });
+
+/* описание — только из фактов: кто, где и какие работы на странице (без хронометража несуществующего рила) */
 export const metadata: Metadata = {
-  title: "Шоурил 2026",
-  description: "Минута кино: свадьбы, той, фестивали и бренды — Алматы и куда позовёте.",
+  title: "Шоурил",
+  description: [
+    `${brand.person}, ${brand.role} · ${brand.city}.`,
+    featured.length > 0 && `Избранные работы: ${featured.map((c) => c.title).join(", ")}.`,
+  ]
+    .filter(Boolean)
+    .join(" "),
   alternates: { canonical: "/showreel" },
 };
 
-/** «00:00», «00:14» — таймкоды: равные доли хронометража рила между избранными кейсами. */
-function timecode(sec: number): string {
-  const m = Math.floor(sec / 60);
-  const s = Math.floor(sec % 60);
-  return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-}
-
+/**
+ * Шоурил: луп-монтаж без звука + избранные работы. У строки с настоящим фильмом — «▶ смотреть MM:SS»
+ * (фильм кейса в Player), сама строка ведёт на кейс. Полный фильм-шоурил появится, когда будет в settings.showreel.film.
+ */
 export default function ShowreelPage() {
   const reel = settings.showreel;
-  const featured = getCases({ featured: true });
-  const total = reel ? parseDuration(reel.duration) : 0;
-  const step = featured.length ? total / featured.length : 0;
+  const film = realFilm(reel?.film);
 
   return (
     <>
       <Section>
-        <PageHead title="Шоурил 2026" sub={`${settings.brand.person} · ${settings.brand.city} · ${reel?.duration ?? "—"}`} />
+        <PageHead title="Шоурил" sub={[brand.person, brand.city, film?.duration].filter(Boolean).join(" · ")} />
       </Section>
 
       <Section>
         <Container className="pb-12 md:pb-20">
           {reel ? (
-            <ShowreelBlock video={reel} loop={reel.loop} title="Шоурил 2026" />
+            <ShowreelBlock loop={reel.loop} film={film} title="Шоурил" />
           ) : (
             <p className="mono border-y border-rule py-10 text-center text-meta">шоурил появится здесь</p>
           )}
@@ -46,20 +51,24 @@ export default function ShowreelPage() {
       {featured.length > 0 && (
         <Section>
           <Container className="py-12 md:py-20">
-            <p className="mono text-meta">[ что в риле ]</p>
+            <p className="mono text-meta">[ избранные работы ]</p>
             <ol className="mt-6 border-t border-rule">
-              {featured.map((c, i) => (
-                <li key={c.slug} className="border-b border-rule">
-                  <Link href={`/work/${c.slug}`} className="group flex min-h-14 items-center gap-4 py-3 md:gap-8">
-                    <span className="mono w-14 shrink-0 text-meta tabular-nums">{timecode(step * i)}</span>
-                    <span className="disp text-h3 min-w-0 flex-1 overflow-x-clip text-ellipsis whitespace-nowrap transition-colors duration-300 group-hover:text-signal">
-                      {c.title}
-                    </span>
-                    <span className="mono hidden text-meta md:block">{c.client}</span>
-                    <span className="mono text-meta transition-transform duration-300 ease-out-expo group-hover:translate-x-1 group-hover:text-signal">→</span>
-                  </Link>
-                </li>
-              ))}
+              {featured.map((c, i) => {
+                const caseFilm = realFilm(c.fullVideo);
+                return (
+                  <li key={c.slug} className="flex min-h-14 items-center gap-4 border-b border-rule py-3 md:gap-8">
+                    <Link href={`/work/${c.slug}`} className="group flex min-w-0 flex-1 items-center gap-4 md:gap-8">
+                      <span className="mono w-8 shrink-0 text-meta tabular-nums">{pad2(i + 1)}</span>
+                      <span className="disp text-h3 min-w-0 flex-1 overflow-x-clip text-ellipsis whitespace-nowrap transition-colors duration-300 group-hover:text-signal">
+                        {c.title}
+                      </span>
+                      {c.client !== c.title && <span className="mono hidden shrink-0 text-meta md:block">{c.client}</span>}
+                      <span aria-hidden="true" className="mono text-meta transition-transform duration-300 ease-out-expo group-hover:translate-x-1 group-hover:text-signal">→</span>
+                    </Link>
+                    {caseFilm && <WatchFilmButton video={caseFilm} title={c.title} />}
+                  </li>
+                );
+              })}
             </ol>
           </Container>
         </Section>

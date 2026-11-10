@@ -7,6 +7,8 @@ import ActiveChipIntoView from "@/components/work/ActiveChipIntoView";
  * Ссылки, а не кнопки: работают без JS, шарятся, индексируются. scroll={false} — страница не прыгает.
  * Телефон: rail-чипы 40px (tap-цель 44px). Десктоп: две строки моно-ссылок «ВСЕ (24) · СВАДЬБА (12) · …».
  * Вид «список/сетка» переключает сам WorkIndex (клиент), в URL его нет.
+ * Настроение с count 0 (при текущих формате и городе) не показываем — фильтр не ведёт в пустой список;
+ * выбранное остаётся, чтобы его можно было снять. Счётчик у настроений не выводится.
  */
 
 export interface FilterChip {
@@ -72,6 +74,7 @@ const row = (sep: string) =>
   );
 
 export default function WorkFilters({ formats, moods, total, selected }: WorkFiltersProps) {
+  const moodList = moods.filter((m) => m.count !== 0 || selected.mood === m.key);
   return (
     <nav aria-label="Фильтры работ" className="flex flex-col gap-2 lg:gap-3">
       <ActiveChipIntoView deps={filterHref(selected, {})} />
@@ -89,22 +92,24 @@ export default function WorkFilters({ formats, moods, total, selected }: WorkFil
       </div>
 
       {/* настроение · город */}
-      <div className={row("lg:[&>a:not(:last-child)]:after:content-['/']")}>
-        {moods.map((m) => (
-          <Chip
-            key={m.key}
-            active={selected.mood === m.key}
-            to={filterHref(selected, { mood: selected.mood === m.key ? undefined : m.key })}
-          >
-            {m.label}
-          </Chip>
-        ))}
-        {selected.city && (
-          <Chip active to={filterHref(selected, { city: undefined })}>
-            {selected.city} ×
-          </Chip>
-        )}
-      </div>
+      {(moodList.length > 0 || selected.city) && (
+        <div className={row("lg:[&>a:not(:last-child)]:after:content-['/']")}>
+          {moodList.map((m) => (
+            <Chip
+              key={m.key}
+              active={selected.mood === m.key}
+              to={filterHref(selected, { mood: selected.mood === m.key ? undefined : m.key })}
+            >
+              {m.label}
+            </Chip>
+          ))}
+          {selected.city && (
+            <Chip active to={filterHref(selected, { city: undefined })}>
+              {selected.city} ×
+            </Chip>
+          )}
+        </div>
+      )}
     </nav>
   );
 }

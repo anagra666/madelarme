@@ -1,11 +1,12 @@
 import Link from "next/link";
 import type { Case } from "@/content/types";
 import CaseCardMedia from "@/components/pages/CaseCardMedia";
-import { pad2 } from "@/lib/utils";
+import { cn, pad2, titleWrap } from "@/lib/utils";
 
 /**
  * Карточки кейсов: на телефоне — rail со scroll-snap (следующая видна полукадром),
  * на десктопе — сетка 3 колонки. Не более 6 лупов в секции.
+ * Длинное название в колонке 1/3 (text-h3) переносится на две строки с balance; пустые город/год из подписи выпадают.
  */
 export function CaseCards({ cases, emptyText = "работы этого формата появятся здесь" }: { cases: Case[]; emptyText?: string }) {
   if (!cases.length) {
@@ -20,12 +21,12 @@ export function CaseCards({ cases, emptyText = "работы этого форм
           <Link href={`/work/${c.slug}`} className="group block">
             <CaseCardMedia loop={c.loop} alt={c.title} className="relative aspect-video w-full" />
             <div className="mt-3 flex items-baseline justify-between gap-3 border-t border-rule pt-3">
-              <span className="disp text-h3 whitespace-nowrap transition-colors duration-300 group-hover:text-signal">{c.title}</span>
+              <span className={cn("disp text-h3 min-w-0 transition-colors duration-300 group-hover:text-signal", titleWrap(c.title))}>
+                {c.title}
+              </span>
               <span className="mono shrink-0 text-meta">{pad2(i + 1)}</span>
             </div>
-            <div className="mono-sm mt-1 truncate text-meta">
-              {c.client} · {c.city} · {c.year}
-            </div>
+            <div className="mono-sm mt-1 truncate text-meta">{[c.client, c.city, c.year].filter(Boolean).join(" · ")}</div>
           </Link>
         </li>
       ))}

@@ -36,6 +36,8 @@ export interface FullVideo {
   duration: string;
   /** есть ли звук — для тумблера в плеере */
   hasSound?: boolean;
+  /** дата публикации у провайдера «2026-09-05» — для uploadDate в JSON-LD */
+  uploadDate?: string;
 }
 
 export interface Deliverable {
@@ -77,7 +79,7 @@ export interface Testimonial {
 
 export interface Case {
   slug: string;
-  /** Название как у фильма, капсом, ≤14 символов (мобильная строка индекса) */
+  /** Название как у фильма, капсом. Желательно ≤14 символов; длинные реальные названия («Red Bull Annual Recap») переносятся в две строки */
   title: string;
   /** Одна дерзкая фраза */
   logline: string;
@@ -90,24 +92,29 @@ export interface Case {
   /** дополнительные форматы (например, SDE + Reels внутри свадьбы) */
   extraFormats?: string[];
   mood: Mood[];
-  city: string;
+  /**
+   * Город, площадки, дата и год необязательны: у реальных работ пишем только то, что подтвердил клиент.
+   * Пустое поле прячется во всех строках «клиент · город · год», а не заполняется догадкой.
+   */
+  city?: string;
   venues?: string[];
-  /** «июль 2026» */
-  date: string;
-  year: number;
+  /** «июль 2026» — с названием месяца, иначе uploadDate в JSON-LD берётся из fullVideo.uploadDate */
+  date?: string;
+  year?: number;
   loop: MediaLoop;
   fullVideo?: FullVideo;
-  shooting: {
+  /** Съёмка и пост необязательны: без подтверждённых фактов ячейки «Съёмка» и «Сдача» не выводятся */
+  shooting?: {
     days?: number;
     hours?: number;
     /** «1 оператор + второй на церемонии» */
-    operators: string;
+    operators?: string;
     drone?: boolean;
     gear?: string[];
   };
-  post: {
+  post?: {
     /** «тизер 9 дней · фильм 6 недель» */
-    delivery: string;
+    delivery?: string;
     notes?: string;
   };
   task: string;
@@ -118,7 +125,8 @@ export interface Case {
     metrics?: { value: string; label: string }[];
   };
   deliverables: Deliverable[];
-  credits: Credit[];
+  /** Титры: только подтверждённые роли. Пусто — блок титров без строк (остаются теги) */
+  credits?: Credit[];
   reels?: MediaLoop[];
   stills?: Still[];
   testimonial?: Testimonial;
@@ -237,7 +245,11 @@ export interface Settings {
   };
   /** предзаполнение WhatsApp по типу страницы; {title} подставляется */
   prefill: { home: string; case: string; format: string; pricing: string; contact: string };
-  showreel?: FullVideo & { loop: MediaLoop };
+  /**
+   * Шоурил: loop — фон hero и страницы /showreel (монтаж из реальных работ).
+   * film — полный шоурил у провайдера; пока его нет, кнопки «Шоурил MM:SS» не выводятся.
+   */
+  showreel?: { loop: MediaLoop; film?: FullVideo };
   counters?: { value: string; label: string }[];
   toggles: {
     showPrices: boolean;
@@ -245,6 +257,10 @@ export interface Settings {
     showTestimonials: boolean;
     showClients: boolean;
     showPlaceholders: boolean;
+    /** плашка «цены — демо, до согласования» на /pricing, главной и страницах форматов — отдельно от showPlaceholders */
+    pricesAreDemo?: boolean;
+    /** «Обо мне» ещё демо: счётчики и «сейчас: …» скрыты, фото подписано «демо» и не уходит в JSON-LD Person */
+    aboutIsDemo?: boolean;
   };
   about: {
     portrait?: Still;

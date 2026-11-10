@@ -5,7 +5,8 @@ import WorkCatalogView from "@/components/work/WorkCatalogView";
 
 export const metadata: Metadata = {
   title: "Работы",
-  description: "Все работы Марии Волковой: свадебные фильмы, клипы, aftermovie, бренд-видео. Фильтр по формату и настроению.",
+  description:
+    "Все работы: love story, свадебный тизер, репортажи и отчётные фильмы для брендов, aftermovie фестиваля. Фильтр по формату и настроению.",
   alternates: { canonical: "/work" },
 };
 

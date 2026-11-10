@@ -5,15 +5,18 @@ import { igLink, telLink, tgLink, waLink } from "@/lib/links";
 import { AlmatyClock } from "@/components/layout/StickyCTA";
 import { LangRow } from "@/components/layout/MenuOverlay";
 
-const NAV = [
-  { href: "/work", label: "Работы" },
-  { href: "/formats", label: "Форматы" },
-  { href: "/pricing", label: "Цены" },
-  { href: "/about", label: "Маша" },
-  { href: "/contact", label: "Контакты" },
-  { href: "/reels", label: "Reels" },
-  { href: "/showreel", label: "Шоурил" },
-];
+/** Reels и Шоурил — только когда им есть что показать: пустая лента / нет шоурила → ссылки нет */
+function nav(hasReels: boolean) {
+  return [
+    { href: "/work", label: "Работы" },
+    { href: "/formats", label: "Форматы" },
+    { href: "/pricing", label: "Цены" },
+    { href: "/about", label: "Маша" },
+    { href: "/contact", label: "Контакты" },
+    hasReels && { href: "/reels", label: "Reels" },
+    settings.showreel && { href: "/showreel", label: "Шоурил" },
+  ].filter((n) => !!n);
+}
 
 const link = "mono inline-flex min-h-11 items-center py-1 text-milk transition-colors hover:text-signal";
 
@@ -29,9 +32,9 @@ function Col({ title, children }: { title: string; children: ReactNode }) {
 /**
  * Футер: 4 моно-колонки (2×2 на телефоне), контурный вордмарк во всю ширину,
  * нижняя строка с © и языками. На телефоне — отступ снизу под sticky-полосу.
- * Список форматов приходит из layout.tsx.
+ * Список форматов и наличие reels приходят из layout.tsx.
  */
-export default function Footer({ formats }: { formats: { slug: string; name: string }[] }) {
+export default function Footer({ formats, hasReels }: { formats: { slug: string; name: string }[]; hasReels: boolean }) {
   const c = settings.contacts;
   const year = new Date().getFullYear();
 
@@ -41,7 +44,7 @@ export default function Footer({ formats }: { formats: { slug: string; name: str
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4 lg:gap-x-8">
           <Col title="навигация">
             <ul className="flex flex-col">
-              {NAV.map((n) => (
+              {nav(hasReels).map((n) => (
                 <li key={n.href}><Link href={n.href} className={link}>{n.label}</Link></li>
               ))}
             </ul>

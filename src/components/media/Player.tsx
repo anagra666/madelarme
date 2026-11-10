@@ -192,23 +192,38 @@ function Film({
   closeRef: React.RefObject<HTMLButtonElement | null>;
 }) {
   const src = embedSrc(video);
+  /* запасной выход: если ролик не встраивается (запрет встраивания, возраст), YouTube покажет ошибку в iframe — смотреть там */
+  const watchUrl = video.provider === "youtube" ? `https://www.youtube.com/watch?v=${encodeURIComponent(video.id)}` : null;
   return (
     <div className="absolute inset-0 flex flex-col">
-      {/* верхняя строка: название + закрыть */}
-      <div className="relative z-30 flex h-14 shrink-0 items-center justify-between pl-gutter pr-2">
-        <div className="mono truncate text-milk">
+      {/* верхняя строка: название + «открыть на YouTube» + закрыть */}
+      <div className="relative z-30 flex h-14 shrink-0 items-center justify-between gap-2 pl-gutter pr-2">
+        <div className="mono min-w-0 truncate text-milk">
           <span className="text-signal">●</span> {title || "Фильм"}
           <span className="text-meta"> · {video.duration}</span>
         </div>
-        <button
-          ref={closeRef}
-          type="button"
-          onClick={closePlayer}
-          aria-label="Закрыть плеер"
-          className="grid h-11 w-11 place-items-center text-milk transition-colors hover:text-signal"
-        >
-          <X size={20} strokeWidth={1.5} />
-        </button>
+        <div className="flex shrink-0 items-center">
+          {watchUrl && (
+            <a
+              href={watchUrl}
+              target="_blank"
+              rel="noopener"
+              className="mono inline-flex h-11 items-center gap-1 px-3 text-meta transition-colors hover:text-signal"
+            >
+              {/* на телефоне видно «YouTube ↗», «открыть на» остаётся в имени ссылки */}
+              <span className="sr-only sm:not-sr-only">открыть на </span>YouTube <span aria-hidden="true">↗</span>
+            </a>
+          )}
+          <button
+            ref={closeRef}
+            type="button"
+            onClick={closePlayer}
+            aria-label="Закрыть плеер"
+            className="grid h-11 w-11 place-items-center text-milk transition-colors hover:text-signal"
+          >
+            <X size={20} strokeWidth={1.5} />
+          </button>
+        </div>
       </div>
 
       <div className="relative min-h-0 flex-1">

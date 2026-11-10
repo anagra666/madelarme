@@ -7,14 +7,18 @@ import { cn } from "@/lib/utils";
 
 export interface PreviewItem {
   slug: string;
-  src: string;
+  /** постер лупа формата; нет лупа — вместо кадра титр с label */
+  src?: string;
   alt: string;
+  /** текст титра-заглушки: термин формата («music video») */
+  label: string;
 }
 
 /**
  * Кадр 320×180, плывущий за курсором внутри списка форматов (только pointer: fine).
  * Слушает pointer-события на родительском элементе; строки помечены data-format="slug".
  * Двигается только transform — без перерисовок React на каждое движение.
+ * У формата без лупа (нет работ) — не пустая плашка, а титр: термин дисплеем на чернилах.
  */
 export default function FormatsPreview({ items }: { items: PreviewItem[] }) {
   const fine = useFinePointer();
@@ -84,16 +88,29 @@ export default function FormatsPreview({ items }: { items: PreviewItem[] }) {
           active ? "scale-100 opacity-100" : "scale-90 opacity-0",
         )}
       >
-        {items.map((it) => (
-          <Image
-            key={it.slug}
-            src={it.src}
-            alt={it.alt}
-            fill
-            sizes="320px"
-            className={cn("object-cover transition-opacity duration-200", active === it.slug ? "opacity-100" : "opacity-0")}
-          />
-        ))}
+        {items.map((it) => {
+          const shown = active === it.slug ? "opacity-100" : "opacity-0";
+          return it.src ? (
+            <Image
+              key={it.slug}
+              src={it.src}
+              alt={it.alt}
+              fill
+              sizes="320px"
+              className={cn("object-cover transition-opacity duration-200", shown)}
+            />
+          ) : (
+            <span
+              key={it.slug}
+              className={cn(
+                "disp absolute inset-0 grid place-items-center px-6 pb-6 text-center text-[44px] leading-[.86] text-paper [text-wrap:balance] transition-opacity duration-200",
+                shown,
+              )}
+            >
+              {it.label}
+            </span>
+          );
+        })}
         <span className="mono-sm absolute bottom-2 left-2 text-paper">
           {items.find((i) => i.slug === active)?.alt ?? ""}
         </span>

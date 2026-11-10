@@ -14,7 +14,10 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  const { about, counters, brand } = settings;
+  const { about, brand } = settings;
+  /* пока «Обо мне» демо — без непроверенных цифр и статуса, фото подписано как демо */
+  const demo = settings.toggles.aboutIsDemo;
+  const counters = demo ? [] : settings.counters;
   const clients = settings.toggles.showClients ? getClients() : [];
   const hasUnconfirmed = clients.some((c) => !c.confirmed);
 
@@ -45,7 +48,9 @@ export default function AboutPage() {
                   className="h-full w-full object-cover"
                 />
               </div>
-              <figcaption className="mono-sm mt-2 text-meta">{brand.person} · {settings.contacts.instagram}</figcaption>
+              <figcaption className="mono-sm mt-2 text-meta">
+                {demo ? "фото и тексты — демо, до согласования" : `${brand.person} · ${settings.contacts.instagram}`}
+              </figcaption>
             </figure>
           )}
         </Container>
@@ -133,7 +138,7 @@ export default function AboutPage() {
       <Section>
         <Container className="flex flex-col items-start gap-6 py-16 pb-[calc(64px+var(--sticky-h))] md:py-24 md:pb-[calc(96px+var(--sticky-h))]">
           <p className="disp text-h2">Снимем?</p>
-          <p className="mono text-meta">{settings.season} · {settings.statusNow}</p>
+          <p className="mono text-meta">{[settings.season, !demo && settings.statusNow].filter(Boolean).join(" · ")}</p>
           <Button variant="signal" size="xl" href="/contact">
             Проверить дату
           </Button>

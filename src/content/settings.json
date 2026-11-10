@@ -28,16 +28,12 @@
     "contact": "Здравствуйте, Мария! Хочу проверить дату"
   },
   "showreel": {
-    "provider": "self",
-    "id": "/media/loops/showreel-h.mp4",
-    "duration": "01:12",
-    "hasSound": false,
     "loop": {
-      "mp4H": "/media/loops/showreel-h.mp4",
-      "mp4V": "/media/loops/showreel-v.mp4",
-      "posterH": "/media/posters/showreel-h.webp",
-      "posterV": "/media/posters/showreel-v.webp",
-      "seconds": 10
+      "mp4H": "/media/loops/reel-h.mp4",
+      "mp4V": "/media/loops/reel-v.mp4",
+      "posterH": "/media/posters/reel-h.webp",
+      "posterV": "/media/posters/reel-v.webp",
+      "seconds": 11
     }
   },
   "counters": [
@@ -51,14 +47,16 @@
     "showExactPrices": false,
     "showTestimonials": true,
     "showClients": true,
-    "showPlaceholders": true
+    "showPlaceholders": false,
+    "pricesAreDemo": true,
+    "aboutIsDemo": true
   },
   "about": {
     "portrait": {
       "src": "/media/stills/portrait-45.webp",
-      "alt": "Мария Волкова с камерой",
-      "w": 1080,
-      "h": 1350
+      "alt": "Демо-фото до портрета Марии: девушка с камерой",
+      "w": 864,
+      "h": 1080
     },
     "paragraphs": [
       "Привет, я Маша. Снимаю одна — чтобы вы забыли, что вас снимают. Одна камера, одна пара глаз и весь ваш день без постановки и «встаньте вот сюда».",
@@ -77,6 +75,6 @@
   },
   "legal": {
     "entity": "ИП Волкова М.",
-    "privacyUpdated": "2026-09-16"
+    "privacyUpdated": "2026-11-10"
   }
 }

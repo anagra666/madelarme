@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Case, Format } from "@/content/types";
-import { pad2 } from "@/lib/utils";
+import { isLongTitle, pad2 } from "@/lib/utils";
 import CinemaVideo from "@/components/media/CinemaVideo";
 import PlayFilmButton from "@/components/work/PlayFilmButton";
 import { realFilm } from "@/components/work/film";
@@ -8,6 +8,7 @@ import { realFilm } from "@/components/work/film";
 /**
  * Экран-тизер кейса (100svh): беззвучный луп, моно-строка [ 01 / 24 ] · [ формат ] · [ город · год ],
  * название дисплеем, логлайн, кнопка «▶ Смотреть фильм». H1 и CTA — с сервера, без opacity:0.
+ * Нет ни города, ни года — чипа [ город · год ] нет; есть одно из двух — в чипе только оно.
  * Низ: запас 84px + safe-area (телефон) / 80px (десктоп), чтобы CTA не накрывала кнопку паузы CinemaVideo (bottom-4 right-4, 44px).
  */
 const chip = "inline-flex items-center bg-ink/50 px-1.5 text-milk backdrop-blur-[2px]";
@@ -23,7 +24,8 @@ export default function CaseTeaser({
   total: number;
   format?: Format;
 }) {
-  const longTitle = c.title.length > 14;
+  const longTitle = isLongTitle(c.title);
+  const place = [c.city, c.year].filter(Boolean).join(" · ");
   /* демо-луп вместо фильма кнопку не получает: «08:12» на 8-секундном лупе выглядит как сломанный плеер */
   const film = realFilm(c.fullVideo);
   /* реальное видео с фактами на согласовании ≠ вымышленный клиент */
@@ -44,7 +46,7 @@ export default function CaseTeaser({
           <div className="mono flex flex-wrap gap-x-2 gap-y-1">
             <span className={chip}>[ {pad2(index)} / {pad2(total)} ]</span>
             {format && <span className={chip}>[ {format.name} ]</span>}
-            <span className={chip}>[ {c.city} · {c.year} ]</span>
+            {place && <span className={chip}>[ {place} ]</span>}
           </div>
           {badge && (
             <span className="mono-sm self-start border border-milk/40 bg-ink/50 px-2 py-1 text-milk/80 backdrop-blur-[2px] lg:hidden">

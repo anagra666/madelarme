@@ -10,15 +10,20 @@ import { ReelsTrack, ReelTile } from "./ReelsRow.client";
  * десктоп — ряд 14vw-плиток, приглушённый постер → цвет + луп по hover, ряд едет влево при скролле
  * (без мыши или при reduced-motion — тот же ряд, но прокручиваемый rail).
  * Клик/тап — story-режим (ReelsStoryHost смонтирован в layout.tsx).
+ * Пустой reels.json — секции нет, а главная (page.tsx) не тратит на неё номер.
  */
-export default function ReelsRow() {
-  const reels = getReels().slice(0, 8);
+export function homeReels() {
+  return getReels().slice(0, 8);
+}
+
+export default function ReelsRow({ num = "04" }: { num?: string }) {
+  const reels = homeReels();
   if (reels.length === 0) return null;
 
   return (
     <Section id="reels" aria-labelledby="reels-title" className="py-[clamp(64px,10vw,160px)]">
       <Container>
-        <Eyebrow>[ 04 ] · REELS · 9:16 · 15–60 СЕК</Eyebrow>
+        <Eyebrow>[ {num} ] · REELS · 9:16</Eyebrow>
         <Reveal as="h2" className="disp text-h2 mt-4">
           <Line>
             <span id="reels-title">Вертикально.</span>

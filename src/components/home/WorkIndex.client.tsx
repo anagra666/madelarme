@@ -5,7 +5,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import type { MediaLoop } from "@/content/types";
 import CinemaVideo from "@/components/media/CinemaVideo";
-import { cn } from "@/lib/utils";
+import { cn, titleWrap } from "@/lib/utils";
 
 /** Плоская строка индекса — считается на сервере, чтобы не тащить JSON контента в клиент. */
 export interface IndexRow {
@@ -14,9 +14,9 @@ export interface IndexRow {
   title: string;
   client: string;
   formatName: string;
-  year: number;
+  year?: number;
   duration?: string;
-  city: string;
+  city?: string;
   loop: MediaLoop;
 }
 
@@ -75,10 +75,13 @@ export default function WorkIndexDesktop({
                   onMouseEnter={() => hover(r.slug)}
                   onFocus={() => hover(r.slug)}
                   onBlur={() => setHovered(null)}
-                  className="group grid grid-cols-[72px_minmax(0,1fr)_auto_48px] items-center gap-6 py-4 transition-colors duration-300 hover:text-signal focus-visible:text-signal"
+                  className="group grid grid-cols-[72px_minmax(0,1fr)_fit-content(40%)_48px] items-center gap-6 py-4 transition-colors duration-300 hover:text-signal focus-visible:text-signal"
                 >
                   <span className="mono text-meta transition-colors group-hover:text-signal group-focus-visible:text-signal">{r.num}</span>
-                  <span className="disp text-row whitespace-nowrap">{r.title}</span>
+                  {/* мета не шире 40% (дальше переносится): иначе «RED BULL KAZAKHSTAN · БРЕНД-ИВЕНТ… · 2026 · 01:53»
+                      съедает колонку названия. Длинное название (≤ 7.7em) — до двух строк с balance: на 1024 колонке ≥ 380px
+                      хватает на «ANNUAL RECAP» (4.7em × 53px), с 1280 оно встаёт в строку */}
+                  <span className={cn("disp text-row", titleWrap(r.title))}>{r.title}</span>
                   <span className="mono text-right text-meta transition-colors group-hover:text-signal group-focus-visible:text-signal">
                     {metaLine(r)}
                   </span>
@@ -131,10 +134,14 @@ function GridTile({ row: r }: { row: IndexRow }) {
         onBlur={() => setOn(false)}
         className="block after:absolute after:inset-0 after:z-10 after:content-['']"
       >
-        <span className="mono mt-3 block text-meta">
-          {r.client} · {r.formatName} · {r.city}
-        </span>
-        <span className="disp text-h3 mt-1 block whitespace-nowrap transition-colors duration-300 group-hover:text-signal group-focus-within:text-signal">
+        <span className="mono mt-3 block text-meta">{[r.client, r.formatName, r.city].filter(Boolean).join(" · ")}</span>
+        {/* колонка сетки 309–439px (1024–1440), text-h3 43–60px: длинное название — две строки с balance */}
+        <span
+          className={cn(
+            "disp text-h3 mt-1 block transition-colors duration-300 group-hover:text-signal group-focus-within:text-signal",
+            titleWrap(r.title),
+          )}
+        >
           {r.title}
         </span>
       </Link>

@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getCases, getFormats } from "@/lib/content";
+import { getCases, getFormats, getReels, settings } from "@/lib/content";
 
 /** sitemap.xml статичен в любом режиме (нужно для output: export) */
 export const dynamic = "force-static";
@@ -11,7 +11,10 @@ const SLASH = process.env.STATIC_EXPORT === "1";
 
 const url = (path: string) => `${SITE}${path === "/" ? "/" : SLASH ? `${path}/` : path}`;
 
-/** Тестовый домен (NEXT_PUBLIC_NOINDEX=1) — пустой sitemap. Прод: все публичные страницы и реальные (не демо) кейсы. */
+/**
+ * Тестовый домен (NEXT_PUBLIC_NOINDEX=1) — пустой sitemap. Прод: все публичные страницы и реальные (не демо) кейсы.
+ * /showreel и /reels — только когда им есть что показать (как и ссылки в футере).
+ */
 export default function sitemap(): MetadataRoute.Sitemap {
   if (NOINDEX) return [];
   const pages: { path: string; priority: number }[] = [
@@ -21,8 +24,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/pricing", priority: 0.8 },
     { path: "/contact", priority: 0.8 },
     { path: "/about", priority: 0.7 },
-    { path: "/showreel", priority: 0.6 },
-    { path: "/reels", priority: 0.6 },
+    ...(settings.showreel ? [{ path: "/showreel", priority: 0.6 }] : []),
+    ...(getReels().length > 0 ? [{ path: "/reels", priority: 0.6 }] : []),
     { path: "/privacy", priority: 0.2 },
     ...getFormats().map((f) => ({ path: `/formats/${f.slug}`, priority: 0.7 })),
     ...getCases()

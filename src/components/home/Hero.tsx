@@ -1,6 +1,7 @@
 import Link from "next/link";
 import CinemaVideo from "@/components/media/CinemaVideo";
 import Button from "@/components/ui/Button";
+import { realFilm } from "@/components/work/film";
 import { settings } from "@/lib/content";
 import { prefill, waLink } from "@/lib/links";
 import HeroOSD, { HeroClock } from "./HeroOSD";
@@ -21,7 +22,9 @@ function splitDot(s: string): [string, boolean] {
 export default function Hero() {
   const { brand, manifest, heroSub, showreel } = settings;
   const wa = waLink(prefill("home"));
-  const reelLabel = showreel ? `▶ Шоурил ${showreel.duration}` : "▶ Шоурил";
+  /* хронометраж — только у настоящего фильма-шоурила; пока его нет, кнопка просто ведёт на /showreel */
+  const film = realFilm(showreel?.film);
+  const reelLabel = film ? `▶ Шоурил ${film.duration}` : "▶ Шоурил";
 
   return (
     /* isolation-auto!: grain делает секцию stacking context (isolate), и fixed-вордмарк (z-45) не мог подняться
@@ -73,17 +76,21 @@ export default function Hero() {
             <Button variant="signal" size="lg" href={wa} className="w-full sm:w-auto">
               Написать в WhatsApp
             </Button>
-            <div className="hidden lg:block">
-              <Button variant="outline" size="lg" href="/showreel">
-                {reelLabel}
-              </Button>
-            </div>
-            <Link
-              href="/showreel"
-              className="mono inline-flex h-11 items-center justify-center gap-2 self-center text-milk/85 hover:text-signal sm:self-start lg:hidden"
-            >
-              шоурил <span aria-hidden="true">▶</span>
-            </Link>
+            {showreel && (
+              <>
+                <div className="hidden lg:block">
+                  <Button variant="outline" size="lg" href="/showreel">
+                    {reelLabel}
+                  </Button>
+                </div>
+                <Link
+                  href="/showreel"
+                  className="mono inline-flex h-11 items-center justify-center gap-2 self-center text-milk/85 hover:text-signal sm:self-start lg:hidden"
+                >
+                  шоурил <span aria-hidden="true">▶</span>
+                </Link>
+              </>
+            )}
           </div>
         </HeroFade>
       </div>

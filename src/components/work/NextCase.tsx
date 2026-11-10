@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Case } from "@/content/types";
 import { waLink, prefill } from "@/lib/links";
-import { cn } from "@/lib/utils";
+import { cn, titleWrap } from "@/lib/utils";
 import Button from "@/components/ui/Button";
 
 /**
@@ -10,6 +10,8 @@ import Button from "@/components/ui/Button";
  * hover — постер за строкой, только картинка),
  * «← {prev}» мельче, затем мини-CTA «Хочу как у {clientGen}» в WhatsApp (clientGen — клиент в родительном падеже;
  * без него — «Хочу как в «{title}»», как в тексте предзаполнения: «как у «Тау-той»» и имя в именительном после «у» неграмотны).
+ * Длинное название в CTA («Хочу как в «Red Bull Annual Recap»») на 360px не влезает в строку кнопки —
+ * подпись переносится на две строки внутри той же h-14 (две строки моно ≈ 36px).
  */
 export default function NextCase({ c, next, prev }: { c: Case; next?: Case; prev?: Case }) {
   return (
@@ -31,7 +33,7 @@ export default function NextCase({ c, next, prev }: { c: Case; next?: Case; prev
             <span
               className={cn(
                 "disp text-h2 mt-3 block transition-colors duration-300 group-hover:text-signal",
-                next.title.length > 14 ? "[text-wrap:balance]" : "whitespace-nowrap",
+                titleWrap(next.title),
               )}
             >
               → {next.title}
@@ -52,7 +54,10 @@ export default function NextCase({ c, next, prev }: { c: Case; next?: Case; prev
           <span />
         )}
         <Button variant="signal" size="lg" href={waLink(prefill("case", c.title))} className="w-full lg:w-auto">
-          {c.clientGen ? `Хочу как у ${c.clientGen}` : `Хочу как в «${c.title}»`}
+          <span className="whitespace-normal text-center [text-wrap:balance]">
+            {/* название в кавычках не рвём (inline-block): «Хочу как в / «Red Bull Annual Recap»», а не «…«Red / Bull…» */}
+            {c.clientGen ? `Хочу как у ${c.clientGen}` : <>Хочу как в <span className="inline-block">«{c.title}»</span></>}
+          </span>
         </Button>
       </div>
     </section>

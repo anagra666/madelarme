@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { countByFormat, getCases, getFormat, getFormats, moods } from "@/lib/content";
+import { getCases, getFormat, getFormats, moods } from "@/lib/content";
 import { prefill, waLink } from "@/lib/links";
 import { Container, Section } from "@/components/ui/Section";
 import Button from "@/components/ui/Button";
@@ -22,10 +22,19 @@ export default function WorkCatalogView({ format: formatParam, mood: moodParam, 
   let cases = getCases({ format, mood });
   if (city) cases = cases.filter((c) => c.city === city);
 
+  /* счётчики форматов — при текущих настроении и городе: чип с нулём не показываем (кроме выбранного), он вёл бы в «Пока пусто» */
+  const inCity = (list: ReturnType<typeof getCases>) => list.filter((c) => !city || c.city === city);
   const formatChips = getFormats()
     .filter((f) => !f.isAddon)
-    .map((f) => ({ key: f.slug, label: shortLabel(f.name), count: countByFormat(f.slug) }))
-    .filter((f) => f.count > 0);
+    .map((f) => ({ key: f.slug, label: shortLabel(f.name), count: inCity(getCases({ format: f.slug, mood })).length }))
+    .filter((f) => f.count > 0 || f.key === format);
+  const totalHere = inCity(getCases({ mood })).length;
+  /* сколько работ даст настроение при текущих формате и городе: WorkFilters прячет нулевые, чтобы чип не вёл в «Пока пусто» */
+  const moodChips = moods.map((m) => ({
+    key: m.key,
+    label: m.label,
+    count: inCity(getCases({ format, mood: m.key })).length,
+  }));
   const selected: FilterSelection = { format, mood, city };
 
   /* подпись списка — что именно в нём: «Aftermovie · Дерзкие», без фильтров — «Все работы» */
@@ -44,7 +53,7 @@ export default function WorkCatalogView({ format: formatParam, mood: moodParam, 
                 [ {cases.length} / {all.length} ]
               </span>
             </div>
-            <WorkFilters formats={formatChips} moods={moods.map((m) => ({ key: m.key, label: m.label }))} total={all.length} selected={selected} />
+            <WorkFilters formats={formatChips} moods={moodChips} total={totalHere} selected={selected} />
           </header>
         </Container>
       </Section>
