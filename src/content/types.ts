@@ -155,7 +155,13 @@ export interface Format {
   duration: string;
   /** «сдача 4–8 недель» */
   turnaround?: string;
-  /** цена «от», ₸; отсутствует = «индивидуально» */
+  /**
+   * Как считается цена (ответы Маши, 2026-11): time — по времени съёмки, тарифы «час / полдня / день»
+   * из pricing.json (tab "time"); unit — за единицу контента, «от N ₸ за ролик» (tab "unit");
+   * custom — индивидуально (длинный хронометраж, анимация). Нет поля — time.
+   */
+  priceModel?: "time" | "unit" | "custom";
+  /** своя цена «от», ₸ — только если у формата она отличается от общего тарифа; иначе берётся из pricing.json */
   fromPrice?: number;
   /** абзац от Маши: кому это нужно */
   intro: string;
@@ -175,11 +181,14 @@ export interface Format {
 
 export interface PriceCollection {
   slug: string;
-  /** «УТРО», «ВЕСЬ ДЕНЬ», «ТОЙ» */
+  /** «ЧАС», «ПОЛДНЯ», «ВЕСЬ ДЕНЬ», «ДЛЯ СОЦСЕТЕЙ» */
   name: string;
-  tab: "wedding" | "brand";
+  /** time — тарифы по времени съёмки (час / полдня / день), unit — за единицу контента (ролик для соцсетей) */
+  tab: "time" | "unit";
   /** ₸ */
   fromPrice: number;
+  /** единица цены: «за ролик», «в час»; нет — цена за тариф целиком */
+  unit?: string;
   /** бейдж «чаще всего» */
   badge?: string;
   /** строки ledger: [«Съёмка», «до 4 ч · 1 оператор»] */
@@ -261,6 +270,8 @@ export interface Settings {
     pricesAreDemo?: boolean;
     /** «Обо мне» ещё демо: счётчики и «сейчас: …» скрыты, фото подписано «демо» и не уходит в JSON-LD Person */
     aboutIsDemo?: boolean;
+    /** показывать занятость (settings.availability): проверка даты в форме и ближайшие свободные даты */
+    showAvailability?: boolean;
   };
   about: {
     portrait?: Still;
@@ -270,4 +281,9 @@ export interface Settings {
     process: { step: string; text: string }[];
   };
   legal: { entity?: string; privacyUpdated?: string };
+  /**
+   * Занятость — ведёт Маша (позже в админке). busy — занятые дни «YYYY-MM-DD» (часовой пояс Алматы);
+   * updated — когда список обновлялся: старше 30 дней — блоки занятости не показываем, чтобы не врать.
+   */
+  availability?: { updated: string; busy: string[] };
 }

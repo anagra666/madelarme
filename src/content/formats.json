@@ -5,26 +5,19 @@
     "name": "Свадебный фильм",
     "term": "wedding film / feature film",
     "duration": "8–12 мин",
-    "turnaround": "сдача 4–8 недель",
-    "fromPrice": 450000,
-    "intro": "Главный продукт. Не отчёт о свадьбе, а фильм с завязкой, кульминацией и вашими голосами — клятвы, тосты, шёпот на прогулке. Смотрится через десять лет так же, как через неделю.",
+    "turnaround": "сдача 2 недели",
+    "priceModel": "time",
+    "intro": "Фильм с завязкой, кульминацией и вашими голосами — клятвы, тосты, шёпот на прогулке. Смотрится через десять лет так же, как через неделю.",
     "deliverables": [
-      "Тизер 60–90 с в 16:9 и 9:16",
       "Фильм 8–12 мин",
-      "5 Reels 9:16",
-      "Полная версия и исходники — отдельной опцией"
+      "Тизер и вертикальные версии — по желанию",
+      "Исходники — по желанию, +10%"
     ],
     "process": [
-      "Сборы и утро — с 9:00",
+      "Сборы и утро",
       "Церемония и прогулка",
-      "Банкет — первый танец, речи, до последнего тоста",
-      "Тизер через 7–14 дней, фильм через 4–8 недель"
-    ],
-    "faq": [
-      {
-        "q": "Можно выбрать музыку?",
-        "a": "Да, из лицензированных библиотек. Треки из соцсетей на сайт и YouTube не подходят."
-      }
+      "Банкет — первый танец, речи, тосты",
+      "Монтаж — 2 недели"
     ],
     "loop": {
       "mp4H": "/media/loops/n-n-wedding-h.mp4",
@@ -36,33 +29,40 @@
     "sortOrder": 10
   },
   {
+    "slug": "love-story",
+    "group": "wedding",
+    "name": "Love story",
+    "term": "love story / pre-wedding film",
+    "duration": "2–5 мин",
+    "turnaround": "сдача 2 недели",
+    "priceModel": "time",
+    "intro": "Прогулка в горах или по городу — фильм, который открывает свадьбу или живёт сам по себе.",
+    "deliverables": [
+      "Фильм 2–5 мин",
+      "Вертикальная версия для соцсетей — по желанию"
+    ],
+    "loop": {
+      "mp4H": "/media/loops/cultural-love-story-h.mp4",
+      "mp4V": "/media/loops/cultural-love-story-v.mp4",
+      "posterH": "/media/posters/cultural-love-story-h.webp",
+      "posterV": "/media/posters/cultural-love-story-v.webp"
+    },
+    "isPublished": true,
+    "sortOrder": 20
+  },
+  {
     "slug": "highlight",
     "group": "wedding",
     "name": "Свадебный клип",
     "term": "highlight film",
     "duration": "3–5 мин",
-    "turnaround": "сдача 3–4 недели",
-    "fromPrice": 250000,
+    "turnaround": "сдача 2 недели",
+    "priceModel": "time",
     "intro": "Короткая версия дня под один трек. Для тех, кому важнее ритм и эмоция, чем хронология.",
     "deliverables": [
       "Клип 3–5 мин",
-      "Тизер 45–60 с",
-      "3 Reels 9:16"
+      "Вертикальная версия для соцсетей — по желанию"
     ],
-    "isPublished": true,
-    "sortOrder": 20
-  },
-  {
-    "slug": "teaser",
-    "group": "wedding",
-    "name": "Тизер",
-    "term": "teaser / social teaser",
-    "duration": "45–90 с",
-    "intro": "Входит во все свадебные коллекции: первое, что вы увидите через 7–14 дней после свадьбы, — сразу в 16:9 и 9:16.",
-    "deliverables": [
-      "Тизер в 16:9 и 9:16"
-    ],
-    "isAddon": true,
     "isPublished": true,
     "sortOrder": 30
   },
@@ -73,54 +73,14 @@
     "term": "same-day edit",
     "duration": "1–3 мин",
     "turnaround": "показ на банкете",
-    "fromPrice": 200000,
-    "intro": "Монтирую прямо на площадке днём, а вечером ролик показывают гостям. Самый громкий момент банкета после первого танца.",
+    "priceModel": "custom",
+    "intro": "Монтирую прямо на площадке днём, а вечером ролик показывают гостям. Монтаж в тот же день — отдельная работа, поэтому считаю его под конкретную свадьбу.",
     "deliverables": [
-      "Ролик 1–3 мин к 22:00",
+      "Ролик 1–3 мин к вечеру",
       "Показ на экране площадки"
     ],
     "isPublished": true,
     "sortOrder": 40
-  },
-  {
-    "slug": "full-edit",
-    "group": "wedding",
-    "name": "Полная версия",
-    "term": "documentary edit / full-length",
-    "duration": "40 мин – 3 ч",
-    "fromPrice": 60000,
-    "intro": "Церемония, речи, танцы без монтажных сокращений — для родителей и для архива.",
-    "deliverables": [
-      "Полная церемония",
-      "Полные речи и танцы",
-      "Многокамерный монтаж при втором операторе"
-    ],
-    "isAddon": true,
-    "isPublished": true,
-    "sortOrder": 50
-  },
-  {
-    "slug": "love-story",
-    "group": "wedding",
-    "name": "Love story",
-    "term": "love story / pre-wedding film",
-    "duration": "2–5 мин",
-    "turnaround": "сдача 2–3 недели",
-    "fromPrice": 180000,
-    "intro": "Один съёмочный день в горах или в городе — фильм, который открывает свадьбу или живёт сам по себе.",
-    "deliverables": [
-      "Фильм 2–5 мин",
-      "3 Reels 9:16",
-      "20 стоп-кадров"
-    ],
-    "loop": {
-      "mp4H": "/media/loops/cultural-love-story-h.mp4",
-      "mp4V": "/media/loops/cultural-love-story-v.mp4",
-      "posterH": "/media/posters/cultural-love-story-h.webp",
-      "posterV": "/media/posters/cultural-love-story-v.webp"
-    },
-    "isPublished": true,
-    "sortOrder": 60
   },
   {
     "slug": "morning",
@@ -128,15 +88,15 @@
     "name": "Утро невесты и сборы",
     "term": "getting ready film",
     "duration": "2–3 мин",
-    "fromPrice": 250000,
-    "intro": "До 4 часов съёмки: сборы, письма, первые слёзы мамы. Коллекция «Утро» — если нужен только этот кусок дня.",
+    "turnaround": "сдача 2 недели",
+    "priceModel": "time",
+    "intro": "Сборы, письма, первые слёзы мамы — если нужен только этот кусок дня.",
     "deliverables": [
       "Ролик 2–3 мин",
-      "Тизер 45 с",
-      "3 Reels"
+      "Вертикальная версия для соцсетей — по желанию"
     ],
     "isPublished": true,
-    "sortOrder": 70
+    "sortOrder": 50
   },
   {
     "slug": "toi",
@@ -145,57 +105,85 @@
     "seoName": "Той и қыз ұзату",
     "term": "family celebrations",
     "duration": "как свадьба",
-    "fromPrice": 700000,
-    "intro": "Большой той на 200–500 гостей и семейные обряды снимаю как фильм, а не как трансляцию: с двумя операторами там, где это нужно, и с SDE для показа на банкете.",
+    "turnaround": "сдача 2 недели",
+    "priceModel": "time",
+    "intro": "Той и семейные обряды снимаю как фильм, а не как трансляцию: с голосами, деталями и людьми, ради которых все собрались.",
     "deliverables": [
-      "Тизер",
-      "Фильм 10–15 мин",
-      "SDE",
-      "Полная версия",
-      "8 Reels"
+      "Фильм с тоя",
+      "Тизер и вертикальные версии — по желанию",
+      "SDE и полная версия — по желанию"
+    ],
+    "isPublished": true,
+    "sortOrder": 60
+  },
+  {
+    "slug": "birthday",
+    "group": "wedding",
+    "name": "День рождения",
+    "term": "birthday film",
+    "duration": "по задаче",
+    "turnaround": "сдача 2 недели",
+    "priceModel": "time",
+    "intro": "Юбилей родителей, детский праздник, свой день рождения. Снимаю как репортаж: гости, тосты, подарки, смех — живое и без постановки.",
+    "deliverables": [
+      "Фильм с праздника",
+      "Вертикальная версия для соцсетей — по желанию",
+      "Исходники — по желанию, +10%"
+    ],
+    "isPublished": true,
+    "sortOrder": 70
+  },
+  {
+    "slug": "funeral",
+    "group": "wedding",
+    "name": "Прощание",
+    "term": "funeral film",
+    "duration": "—",
+    "turnaround": "сдача 2 недели",
+    "priceModel": "time",
+    "intro": "Прощание — тоже часть семейной истории. Снимаю его как репортаж: одна, тихо, без постановки. Чтобы у семьи остался фильм о человеке и о тех, кто пришёл с ним проститься.",
+    "deliverables": [
+      "Фильм о дне прощания",
+      "Исходники — если нужны семье"
+    ],
+    "process": [
+      "Разговор: что важно семье",
+      "Съёмка — тихо, без постановки",
+      "Фильм — через 2 недели"
     ],
     "isPublished": true,
     "sortOrder": 80
   },
   {
-    "slug": "brand-film",
-    "group": "brand",
-    "name": "Бренд-фильм",
-    "term": "brand film / имиджевый ролик",
-    "duration": "1–3 мин",
-    "turnaround": "сдача 2–3 недели",
-    "fromPrice": 450000,
-    "intro": "История бренда через людей и руки, а не через слайды. Hero-версия для сайта и короткие версии для соцсетей.",
+    "slug": "teaser",
+    "group": "wedding",
+    "name": "Тизер",
+    "term": "teaser / social teaser",
+    "duration": "45–90 с",
+    "priceModel": "custom",
+    "intro": "Короткая версия фильма — то, чем делятся в соцсетях. Сразу в 16:9 и 9:16.",
     "deliverables": [
-      "Hero-ролик 1–3 мин",
-      "Версии 9:16 и 1:1",
-      "Стоп-кадры для сайта"
+      "Тизер в 16:9 и 9:16"
     ],
-    "loop": {
-      "mp4H": "/media/loops/red-bull-annual-recap-h.mp4",
-      "mp4V": "/media/loops/red-bull-annual-recap-v.mp4",
-      "posterH": "/media/posters/red-bull-annual-recap-h.webp",
-      "posterV": "/media/posters/red-bull-annual-recap-v.webp"
-    },
+    "isAddon": true,
     "isPublished": true,
-    "sortOrder": 110
+    "sortOrder": 90
   },
   {
-    "slug": "promo",
-    "group": "brand",
-    "name": "Промо и рекламный ролик",
-    "term": "promo / commercial",
-    "duration": "15–60 с",
-    "turnaround": "сдача 1–2 недели",
-    "fromPrice": 300000,
-    "intro": "Один продукт, одна мысль, до минуты. Под таргет, экраны в заведении и сайт.",
+    "slug": "full-edit",
+    "group": "wedding",
+    "name": "Полная версия",
+    "term": "documentary edit / full-length",
+    "duration": "40 мин – 3 ч",
+    "priceModel": "custom",
+    "intro": "Церемония, речи, танцы без монтажных сокращений — для родителей и для архива. Длинный хронометраж считаю отдельно.",
     "deliverables": [
-      "Ролик 15–60 с",
-      "Версии 16:9 / 9:16 / 1:1",
-      "2 раунда правок"
+      "Полная церемония",
+      "Полные речи и танцы"
     ],
+    "isAddon": true,
     "isPublished": true,
-    "sortOrder": 120
+    "sortOrder": 95
   },
   {
     "slug": "aftermovie",
@@ -203,13 +191,13 @@
     "name": "Aftermovie",
     "term": "event recap / aftermovie",
     "duration": "1–2 мин",
-    "turnaround": "сдача 48 часов",
-    "fromPrice": 300000,
-    "intro": "Фестиваль, концерт, конференция — ролик, после которого начинают продаваться билеты на следующий год. Сдаю за 48 часов, пока не остыло.",
+    "turnaround": "сдача 2 недели",
+    "priceModel": "time",
+    "intro": "Фестиваль, концерт, конференция — ролик, после которого хочется попасть на следующий. Нужно, пока не остыло, — сдам срочно, за 3 дня (+10%).",
     "deliverables": [
-      "Aftermovie 60–120 с",
-      "3 вертикальные нарезки",
-      "Спикер-интервью по запросу"
+      "Aftermovie 1–2 мин",
+      "Вертикальные версии для соцсетей — по желанию",
+      "Интервью спикеров — по запросу"
     ],
     "loop": {
       "mp4H": "/media/loops/oyu-h.mp4",
@@ -218,7 +206,7 @@
       "posterV": "/media/posters/oyu-v.webp"
     },
     "isPublished": true,
-    "sortOrder": 130
+    "sortOrder": 110
   },
   {
     "slug": "activation",
@@ -226,20 +214,76 @@
     "name": "Бренд-ивент и активация",
     "term": "brand activation film",
     "duration": "1–2 мин",
-    "fromPrice": 300000,
+    "turnaround": "сдача 2 недели",
+    "priceModel": "time",
     "intro": "Промо-акции, запуски, спортивные ивенты — быстро, в движении, с людьми в кадре.",
     "deliverables": [
       "Ролик 1–2 мин",
-      "Вертикальные нарезки"
+      "Вертикальные версии для соцсетей — по желанию"
     ],
-    "isPublished": true,
-    "sortOrder": 140,
     "loop": {
       "mp4H": "/media/loops/red-bull-kick-off-h.mp4",
       "mp4V": "/media/loops/red-bull-kick-off-v.mp4",
       "posterH": "/media/posters/red-bull-kick-off-h.webp",
       "posterV": "/media/posters/red-bull-kick-off-v.webp"
-    }
+    },
+    "isPublished": true,
+    "sortOrder": 120
+  },
+  {
+    "slug": "corporate",
+    "group": "brand",
+    "name": "Корпоратив",
+    "term": "corporate event",
+    "duration": "по задаче",
+    "turnaround": "сдача 2 недели",
+    "priceModel": "time",
+    "intro": "Новогодний вечер, юбилей компании, тимбилдинг. Снимаю как репортаж: речи, награждения, танцы — и команду, которая редко оказывается в одном кадре.",
+    "deliverables": [
+      "Ролик с вечера",
+      "Вертикальные версии для соцсетей — по желанию",
+      "Исходники — по желанию, +10%"
+    ],
+    "isPublished": true,
+    "sortOrder": 130
+  },
+  {
+    "slug": "brand-film",
+    "group": "brand",
+    "name": "Бренд-фильм",
+    "term": "brand film / имиджевый ролик",
+    "duration": "1–3 мин",
+    "turnaround": "сдача 2 недели",
+    "priceModel": "time",
+    "intro": "История бренда через людей и руки, а не через слайды. Hero-версия для сайта и короткие версии для соцсетей.",
+    "deliverables": [
+      "Hero-ролик 1–3 мин",
+      "Версии 9:16 и 1:1 — по желанию"
+    ],
+    "loop": {
+      "mp4H": "/media/loops/red-bull-annual-recap-h.mp4",
+      "mp4V": "/media/loops/red-bull-annual-recap-v.mp4",
+      "posterH": "/media/posters/red-bull-annual-recap-h.webp",
+      "posterV": "/media/posters/red-bull-annual-recap-v.webp"
+    },
+    "isPublished": true,
+    "sortOrder": 140
+  },
+  {
+    "slug": "promo",
+    "group": "brand",
+    "name": "Промо и рекламный ролик",
+    "term": "promo / commercial",
+    "duration": "15–60 с",
+    "turnaround": "сдача 2 недели",
+    "priceModel": "time",
+    "intro": "Один продукт, одна мысль, до минуты. Под таргет, экраны в заведении и сайт.",
+    "deliverables": [
+      "Ролик 15–60 с",
+      "Формат под площадку: 16:9, 9:16 или 1:1"
+    ],
+    "isPublished": true,
+    "sortOrder": 150
   },
   {
     "slug": "interview",
@@ -247,16 +291,15 @@
     "name": "Интервью и экспертные видео",
     "term": "interview / talking head",
     "duration": "1–3 мин",
-    "turnaround": "сдача 7–10 дней",
-    "fromPrice": 150000,
-    "intro": "Две камеры, петлички, свет — и монтаж, который не даёт заскучать. Подкасты, экспертные Reels, HR-интервью.",
+    "turnaround": "сдача 2 недели",
+    "priceModel": "time",
+    "intro": "Экспертные ролики, интервью с командой, HR-видео — и монтаж, который не даёт заскучать.",
     "deliverables": [
-      "1–3 ролика",
-      "Субтитры",
-      "Вертикальные нарезки"
+      "Ролик 1–3 мин",
+      "Вертикальная нарезка для соцсетей — по желанию"
     ],
     "isPublished": true,
-    "sortOrder": 150
+    "sortOrder": 160
   },
   {
     "slug": "food",
@@ -264,32 +307,47 @@
     "name": "Фуд и HoReCa",
     "term": "food & hospitality video",
     "duration": "30–90 с",
-    "fromPrice": 250000,
+    "turnaround": "сдача 2 недели",
+    "priceModel": "time",
     "intro": "Рестораны, кофейни, отели: огонь, пар, руки шефа, терраса с видом. Для меню, delivery и соцсетей.",
     "deliverables": [
       "Ролик 30–90 с",
-      "Блюда по 10 с в 9:16",
-      "Стоп-кадры для меню"
+      "Короткие ролики блюд в 9:16 — по желанию"
     ],
     "isPublished": true,
-    "sortOrder": 160
+    "sortOrder": 170
+  },
+  {
+    "slug": "backstage",
+    "group": "content",
+    "name": "Backstage",
+    "term": "backstage / BTS",
+    "duration": "по задаче",
+    "turnaround": "сдача 2 недели",
+    "priceModel": "time",
+    "intro": "Как это снималось: фотосессии, показы, концерты, съёмки клипов и рекламы. Снимаю репортаж о том, что обычно остаётся за кадром.",
+    "deliverables": [
+      "Ролик о съёмке",
+      "Вертикальные версии — по желанию"
+    ],
+    "isPublished": true,
+    "sortOrder": 210
   },
   {
     "slug": "content-day",
     "group": "content",
-    "name": "Контент-день",
-    "term": "content day / vertical content",
-    "duration": "8–12 Reels за 5 или 10 ч",
-    "turnaround": "сдача 5–7 дней",
-    "fromPrice": 180000,
-    "intro": "Один съёмочный день — месяц контента. Три световые схемы, четыре сценария, быстрый монтаж с субтитрами.",
+    "name": "Контент для соцсетей",
+    "term": "social content / vertical video",
+    "duration": "15–60 с",
+    "turnaround": "сдача 2 недели",
+    "priceModel": "unit",
+    "intro": "Вертикальные ролики для бренда, заведения или блога. Считаю не часы, а ролики: сколько нужно — столько и снимаем.",
     "deliverables": [
-      "8–12 Reels 9:16 по 10–20 с",
-      "Субтитры",
-      "30 стоп-кадров"
+      "Вертикальные ролики 9:16",
+      "Количество — под ваш контент-план"
     ],
     "isPublished": true,
-    "sortOrder": 210
+    "sortOrder": 220
   },
   {
     "slug": "music-video",
@@ -297,57 +355,41 @@
     "name": "Музыкальный клип",
     "term": "music video",
     "duration": "3–4 мин",
-    "turnaround": "сдача 3–4 недели",
-    "fromPrice": 500000,
-    "intro": "Ночной Алматы как декорация, одна-две ночи съёмок, вертикальный кат для соцсетей в комплекте.",
+    "priceModel": "custom",
+    "intro": "Ночной Алматы как декорация. Клип считаю под идею: сколько локаций и ночей съёмок, нужна ли графика или анимация.",
     "deliverables": [
       "Клип 3–4 мин",
-      "Вертикальный кат 60 с",
-      "Тизер 15 с"
-    ],
-    "isPublished": true,
-    "sortOrder": 220
-  },
-  {
-    "slug": "fashion",
-    "group": "content",
-    "name": "Fashion film · лукбук",
-    "term": "fashion film",
-    "duration": "1–2 мин",
-    "fromPrice": 350000,
-    "intro": "Студия против фактурного города. Для запуска коллекции и первого экрана сайта бренда.",
-    "deliverables": [
-      "Фильм 60–120 с",
-      "10 Reels по 6–8 с",
-      "15 стоп-кадров"
+      "Вертикальный кат для соцсетей — по желанию"
     ],
     "isPublished": true,
     "sortOrder": 230
   },
   {
-    "slug": "backstage",
+    "slug": "fashion",
     "group": "content",
-    "name": "Backstage",
-    "term": "BTS",
-    "duration": "30–90 с",
-    "intro": "Аддон к любому формату: как это снималось.",
+    "name": "Fashion film · лукбук",
+    "term": "fashion film",
+    "duration": "1–2 мин",
+    "turnaround": "сдача 2 недели",
+    "priceModel": "time",
+    "intro": "Студия против фактурного города. Для запуска коллекции и первого экрана сайта бренда.",
     "deliverables": [
-      "Ролик 30–90 с в 9:16"
+      "Фильм 1–2 мин",
+      "Короткие вертикальные версии — по желанию"
     ],
-    "isAddon": true,
     "isPublished": true,
     "sortOrder": 240
   },
   {
     "slug": "drone",
     "group": "content",
-    "name": "Аэросъёмка",
-    "term": "drone / aerial",
-    "duration": "аэрокадры в фильме",
-    "fromPrice": 60000,
-    "intro": "Аддон: дрон-переходы через город к горам. Разрешения на съёмку в городе — на мне.",
+    "name": "Дрон и FPV",
+    "term": "drone / FPV",
+    "duration": "кадры в фильме",
+    "priceModel": "custom",
+    "intro": "Летаю сама: обычный дрон — для общих планов города и гор, FPV — для быстрых пролётов сквозь пространство. Добавляю к съёмке там, где это уместно.",
     "deliverables": [
-      "Аэрокадры в фильме и тизере"
+      "Аэрокадры и FPV-пролёты в фильме и тизере"
     ],
     "isAddon": true,
     "isPublished": true,

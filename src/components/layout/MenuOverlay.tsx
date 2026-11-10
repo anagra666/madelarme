@@ -25,7 +25,7 @@ function items(c: MenuCounts) {
   return [
     { href: "/work", label: "Работы", sub: `работы (${c.works})` },
     { href: "/formats", label: "Форматы", sub: `форматы (${c.formats})` },
-    { href: "/pricing", label: "Цены", sub: `коллекции (${c.collections})` },
+    { href: "/pricing", label: "Цены", sub: `тарифы (${c.collections})` },
     { href: "/about", label: "Маша", sub: settings.brand.city.toLowerCase() },
     { href: "/contact", label: "Контакты", sub: "проверить дату" },
   ];
@@ -35,7 +35,7 @@ export function LangRow({ className }: { className?: string }) {
   return (
     <div className={cn("mono flex items-center gap-4", className)} aria-label="Язык">
       <span aria-current="true" className="text-milk">RU</span>
-      <span aria-disabled="true" title="скоро" className="text-meta/60 cursor-not-allowed">KZ</span>
+      {/* казахской версии не будет (ответ Маши, 2026-11); EN — позже */}
       <span aria-disabled="true" title="скоро" className="text-meta/60 cursor-not-allowed">EN</span>
     </div>
   );

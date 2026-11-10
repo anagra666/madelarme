@@ -73,7 +73,6 @@ export default function Footer({ formats, hasReels }: { formats: { slug: string;
             <p className="mono dots text-meta leading-6">
               <span>{settings.brand.city}</span>
               <span><AlmatyClock className="text-milk" /></span>
-              <span>снимаю по Казахстану и куда позовёте</span>
             </p>
             <p className="mono mt-2 text-meta">{settings.season}</p>
           </Col>

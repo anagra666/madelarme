@@ -1,12 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
-import { countByFormat, formatPrice, getFormat, settings } from "@/lib/content";
+import { countByFormat, formatPriceText, getFormat, settings } from "@/lib/content";
 import { pad2 } from "@/lib/utils";
 import { Section, Eyebrow, Container } from "@/components/ui/Section";
 import FormatsPreview, { type PreviewItem } from "./FormatsPreview.client";
 
-/* сначала форматы, в которых есть работы (у них и лупы из этих работ), затем остальные услуги */
-const ORDER = ["wedding-film", "love-story", "aftermovie", "activation", "brand-film", "toi", "music-video", "content-day"];
+/*
+ * Упор Маши — репортаж (ответы 2026-11): сначала форматы, в которых уже есть работы (у них и лупы из этих работ),
+ * затем репортажные без работ — корпоратив, день рождения, бэкстейдж; прощание последним, отдельной тихой строкой.
+ * Остальные услуги (той, бренд-фильм, клип, контент) — на /formats.
+ */
+const ORDER = ["wedding-film", "love-story", "aftermovie", "activation", "corporate", "birthday", "backstage", "funeral"];
+
+/* форматы, где плывущий кадр за курсором неуместен: строка остаётся обычной ссылкой, без превью */
+const QUIET = new Set(["funeral"]);
+
+/** «8–12 мин» одним куском: неразрывные пробелы и word joiner вокруг тире (после «–» браузер переносит строку) */
+const unbroken = (s: string) => s.replace(/ /g, "\u00a0").replace(/–/g, "\u2060–\u2060");
 
 /** Опубликованные форматы в порядке главной — и для секции, и для нумерации секций в page.tsx */
 export function homeFormats() {
@@ -20,7 +30,7 @@ export default function FormatsList({ num = "06" }: { num?: string }) {
 
   const showPrices = settings.toggles.showPrices;
   /* без лупа — титр с термином формата («music video»), а не пустой кадр */
-  const previews: PreviewItem[] = formats.map((f) => ({
+  const previews: PreviewItem[] = formats.filter((f) => !QUIET.has(f.slug)).map((f) => ({
     slug: f.slug,
     src: f.loop?.posterH,
     alt: f.name,
@@ -43,7 +53,8 @@ export default function FormatsList({ num = "06" }: { num?: string }) {
         <ul className="border-b border-rule">
           {formats.map((f, i) => {
             const count = countByFormat(f.slug);
-            const meta = [showPrices && f.fromPrice ? formatPrice(f.fromPrice) : null, f.duration]
+            /* «—» в duration — хронометраж не называем (прощание); «8–12 мин» на телефоне переносится целиком */
+            const meta = [showPrices ? formatPriceText(f) : null, f.duration !== "—" ? unbroken(f.duration) : null]
               .filter(Boolean)
               .join(" · ");
             /* «(0)» читается как «таких работ нет» — счётчик только когда есть что показать */

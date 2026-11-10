@@ -9,11 +9,16 @@ import { CaseCards } from "@/components/pages/CaseCards";
 import { Faq } from "@/components/pages/Faq";
 import { ProcessList } from "@/components/pages/ProcessList";
 import PrefillSetter from "@/components/layout/PrefillSetter";
-import { formatPrice, getCases, getFaq, getFormat, getFormats, settings } from "@/lib/content";
+import {
+  collectionPrice, formatPriceFrom, formatPriceText, getCases, getFaq, getFormat, getFormats, getPricing, settings,
+} from "@/lib/content";
 import { prefill, waLink } from "@/lib/links";
 import { pad2 } from "@/lib/utils";
 
 type Props = { params: Promise<{ slug: string }> };
+
+/* прощание: без общих свадебных вопросов («летние субботы», «SDE на банкете») и без «продающей» кнопки */
+const QUIET = new Set(["funeral"]);
 
 export function generateStaticParams() {
   return getFormats().map((f) => ({ slug: f.slug }));
@@ -56,15 +61,27 @@ export default async function FormatPage({ params }: Props) {
   const cases = getCases({ format: f.slug }).slice(0, 6);
   const meta = [f.term, f.duration, f.turnaround].filter((x) => x && x !== "—").join(" · ");
   const showPrice = settings.toggles.showPrices;
-  /* аддон без своей цены, который сам о себе пишет «Входит во все … коллекции» (тизер) — не «индивидуально» */
-  const included = Boolean(f.isAddon && !f.fromPrice && /^входит/i.test(f.intro));
-  const priceText = f.fromPrice ? formatPrice(f.fromPrice) : included ? "входит в коллекции" : "индивидуально";
+  const quiet = QUIET.has(f.slug);
+  /* семье — нейтральное «Хочу обсудить съёмку», а не «Хочу обсудить формат «Прощание»» */
+  const text = quiet ? prefill("home") : prefill("format", f.name);
+  const model = f.priceModel ?? "time";
+  /* число «от» для Offer: custom («индивидуально») — undefined, Offer не отдаём */
+  const price = formatPriceFrom(f);
+  /* под ценой — как она считается (ответы Маши, 2026-11): у «по времени» — остальные тарифы (час уже в строке цены),
+     «за ролик» или индивидуально */
+  const tariffs = getPricing().collections.filter((c) => c.tab === "time" && c.fromPrice !== price);
+  const priceNote =
+    model === "custom"
+      ? "считаю под проект — обсудим"
+      : model === "unit"
+        ? "считаю по роликам, а не по часам"
+        : tariffs.map((c) => `${c.name} ${collectionPrice(c)}`).join(" · ");
 
   /* номера разделов по факту рендера: «Как проходит» и «Работы» бывают не у всех форматов */
   let n = 0;
   const num = () => pad2(++n);
 
-  const globalFaq = getFaq(f.group === "wedding" ? "wedding" : "brand");
+  const globalFaq = quiet ? [] : getFaq(f.group === "wedding" ? "wedding" : "brand");
   const own = f.faq ?? [];
   const faq = [...own, ...globalFaq.filter((g) => !own.some((o) => o.q === g.q))].slice(0, 6);
 
@@ -76,15 +93,15 @@ export default async function FormatPage({ params }: Props) {
     description: f.intro,
     provider: { "@type": "Person", name: settings.brand.person, jobTitle: settings.brand.role },
     areaServed: { "@type": "City", name: settings.brand.city },
-    /* несогласованные (демо) цены поисковикам как предложение не отдаём */
-    ...(showPrice && f.fromPrice && !settings.toggles.pricesAreDemo
-      ? { offers: { "@type": "Offer", priceCurrency: "KZT", price: f.fromPrice, priceSpecification: { "@type": "PriceSpecification", minPrice: f.fromPrice, priceCurrency: "KZT" } } }
+    /* несогласованные (демо) цены и «индивидуально» поисковикам как предложение не отдаём */
+    ...(showPrice && price !== undefined && !settings.toggles.pricesAreDemo
+      ? { offers: { "@type": "Offer", priceCurrency: "KZT", price, priceSpecification: { "@type": "PriceSpecification", minPrice: price, priceCurrency: "KZT" } } }
       : {}),
   };
 
   return (
     <>
-      <PrefillSetter kind="format" title={f.name} />
+      {quiet ? <PrefillSetter kind="home" /> : <PrefillSetter kind="format" title={f.name} />}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
 
       {f.loop ? (
@@ -144,13 +161,12 @@ export default async function FormatPage({ params }: Props) {
           <Container className="flex flex-col gap-6 border-b border-rule py-14 md:flex-row md:items-end md:justify-between md:py-20">
             <div>
               <p className="mono text-meta">[ цена ]</p>
-              <p className="disp text-h2 mt-3 tabular-nums">{priceText}</p>
-              {!f.fromPrice && (
-                <p className="mono mt-3 text-meta">{included ? "в любой свадебной коллекции" : "смета за два дня после созвона"}</p>
-              )}
-              {f.fromPrice && settings.toggles.pricesAreDemo && <p className="mono-sm mt-3 text-meta">цены — демо, до согласования</p>}
+              <p className="disp text-h2 mt-3 tabular-nums">{formatPriceText(f)}</p>
+              {priceNote && <p className="mono mt-3 max-w-[52ch] text-meta">{priceNote}</p>}
+              {price !== undefined && settings.toggles.pricesAreDemo && <p className="mono-sm mt-3 text-meta">цены — демо, до согласования</p>}
             </div>
-            <Button variant="outline" size="lg" href={`/pricing#${f.group === "wedding" ? "wedding" : "brand"}`}>
+            {/* вкладка прайса по модели цены: «по времени» или «для соцсетей» */}
+            <Button variant="outline" size="lg" href={`/pricing#${model === "unit" ? "unit" : "time"}`}>
               весь прайс →
             </Button>
           </Container>
@@ -182,8 +198,14 @@ export default async function FormatPage({ params }: Props) {
       <Section>
         <Container className="flex flex-col items-start gap-6 py-16 pb-[calc(64px+var(--sticky-h))] md:py-24 md:pb-[calc(96px+var(--sticky-h))]">
           <p className="mono text-meta">[ следующий шаг ]</p>
-          <Button variant="signal" size="xl" href={waLink(prefill("format", f.name))} className="max-w-full">
-            Хочу обсудить формат<span className="sr-only"> {f.name}</span>
+          <Button variant="signal" size="xl" href={waLink(text)} className="max-w-full">
+            {quiet ? (
+              "Написать в WhatsApp"
+            ) : (
+              <>
+                Хочу обсудить формат<span className="sr-only"> {f.name}</span>
+              </>
+            )}
           </Button>
         </Container>
       </Section>

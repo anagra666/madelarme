@@ -4,7 +4,7 @@ import Button from "@/components/ui/Button";
 import { PageHead, SectionTitle } from "@/components/pages/PageHead";
 import ContactForm from "@/components/pages/ContactForm";
 import CopyButton from "@/components/pages/CopyButton";
-import StatusLine from "@/components/pages/StatusLine";
+import StatusLine, { FreeSaturdays } from "@/components/pages/StatusLine";
 import PrefillSetter from "@/components/layout/PrefillSetter";
 import { Faq } from "@/components/pages/Faq";
 import { getFaq, getFormats, settings } from "@/lib/content";
@@ -71,6 +71,9 @@ export default function ContactPage() {
               </dd>
             </div>
           </dl>
+
+          {/* занятость: только при settings.toggles.showAvailability и свежем списке, иначе ничего */}
+          <FreeSaturdays className="mt-8" />
         </Container>
       </Section>
 

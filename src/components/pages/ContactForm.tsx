@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type FormEvent } from "react";
+import { useId, useState, type FormEvent } from "react";
 import Button from "@/components/ui/Button";
+import { AVAILABILITY_ON, DateStatus } from "@/components/pages/StatusLine";
 import { leadWaLink, sendLead, type LeadPayload } from "@/lib/lead";
 import { cn } from "@/lib/utils";
 
@@ -24,6 +25,9 @@ export default function ContactForm({ formats, waHref }: { formats: FormatChip[]
   const [format, setFormat] = useState<string>("");
   const [consent, setConsent] = useState(false);
   const [lead, setLead] = useState<LeadPayload | null>(null);
+  /* поле «Когда» остаётся неуправляемым (FormData), значение — только для статуса занятости */
+  const [when, setWhen] = useState("");
+  const whenStatusId = useId();
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -103,10 +107,19 @@ export default function ContactForm({ formats, waHref }: { formats: FormatChip[]
         </div>
       </fieldset>
 
-      <label className="flex flex-col gap-2">
-        <span className="mono text-meta">Когда</span>
-        <input name="when" className={field} placeholder="12 июля 2027 или «ещё думаем»" />
-      </label>
+      <div>
+        <label className="flex flex-col gap-2">
+          <span className="mono text-meta">Когда</span>
+          <input
+            name="when"
+            className={field}
+            placeholder="12 июля 2027 или «ещё думаем»"
+            onChange={(e) => setWhen(e.target.value)}
+            aria-describedby={AVAILABILITY_ON ? whenStatusId : undefined}
+          />
+        </label>
+        {AVAILABILITY_ON && <DateStatus id={whenStatusId} value={when} className="mt-3" />}
+      </div>
       <label className="flex flex-col gap-2">
         <span className="mono text-meta">Пару слов</span>
         <textarea name="message" rows={4} className={cn(field, "h-auto min-h-28 py-4")} placeholder="Где, сколько гостей, что для вас важно" />

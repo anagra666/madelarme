@@ -41,7 +41,7 @@ export default function AboutTeaser({ num = "07" }: { num?: string }) {
             )}
             {/* подпись поверх фото — всегда светлая, независимо от paper-перевёртыша */}
             <span className="mono-sm absolute bottom-3 left-3 text-paper">
-              {demo ? "[ фото — демо ]" : `${brand.person} · ${brand.role}`}
+              {demo ? "[ фото — демо, до согласования ]" : `${brand.person} · ${brand.role}`}
             </span>
           </div>
 

@@ -49,7 +49,7 @@ export default function AboutPage() {
                 />
               </div>
               <figcaption className="mono-sm mt-2 text-meta">
-                {demo ? "фото и тексты — демо, до согласования" : `${brand.person} · ${settings.contacts.instagram}`}
+                {demo ? "фото — демо, до согласования" : `${brand.person} · ${settings.contacts.instagram}`}
               </figcaption>
             </figure>
           )}
@@ -122,16 +122,19 @@ export default function AboutPage() {
             <SectionTitle num="03">На чём снимаю</SectionTitle>
             <p className="mono mt-6 max-w-[40ch] leading-relaxed">{about.gear}</p>
           </div>
-          <div>
-            <SectionTitle num="04">Где снимала</SectionTitle>
-            <ul className="mt-6 flex flex-wrap gap-2">
-              {about.locations.map((l) => (
-                <li key={l} className="mono border border-rule px-3 py-2">
-                  {l}
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* локации — только подтверждённые Машей; пусто — блока нет */}
+          {about.locations.length > 0 && (
+            <div>
+              <SectionTitle num="04">Где снимала</SectionTitle>
+              <ul className="mt-6 flex flex-wrap gap-2">
+                {about.locations.map((l) => (
+                  <li key={l} className="mono border border-rule px-3 py-2">
+                    {l}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </Container>
       </Section>
 

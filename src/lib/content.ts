@@ -79,6 +79,53 @@ export function getPricing() {
   };
 }
 
+/**
+ * Цена тарифа с учётом тумблеров: «по запросу» / «от 60 000 ₸» / «60 000 ₸» (showExactPrices).
+ * За ролик (tab unit) — всегда «от»: Маша называет её «от 40к», точная зависит от ролика.
+ * Единица (c.unit: «в час», «за ролик») выводится рядом отдельно и только при showPrices.
+ */
+export function collectionPrice(c: PriceCollection): string {
+  if (!settings.toggles.showPrices) return "по запросу";
+  return formatPrice(c.fromPrice, c.tab === "unit" || !settings.toggles.showExactPrices ? "от " : "");
+}
+
+/** Самый дешёвый тариф модели: time → «Час», unit → «Для соцсетей» */
+function cheapest(tab: PriceCollection["tab"]): PriceCollection | undefined {
+  return pricing.collections.filter((c) => c.tab === tab).sort((a, b) => a.fromPrice - b.fromPrice)[0];
+}
+
+/** Модель цены формата; undefined — аддон без своей цены и без явной модели (опция, а не тариф) */
+function priceModelOf(f: Format): Format["priceModel"] {
+  if (f.isAddon && !f.fromPrice && !f.priceModel) return undefined;
+  return f.priceModel ?? "time";
+}
+
+/**
+ * Цена формата «от», ₸ — для строки цены и Offer в JSON-LD. Своя f.fromPrice перекрывает общий тариф,
+ * иначе — самый дешёвый тариф модели. custom («индивидуально») и аддон без цены — undefined.
+ */
+export function formatPriceFrom(f: Format): number | undefined {
+  const model = priceModelOf(f);
+  if (!model || model === "custom") return undefined;
+  return f.fromPrice ?? cheapest(model)?.fromPrice;
+}
+
+/**
+ * Цена формата одной строкой для списков и страниц форматов: time → «от 60 000 ₸ в час»,
+ * unit → «от 40 000 ₸ за ролик», custom → «индивидуально». Аддон без цены — как раньше:
+ * «входит в тариф», если интро начинается с «Входит…», иначе «индивидуально».
+ * Тумблер showPrices проверяет вызывающий.
+ */
+export function formatPriceText(f: Format): string {
+  const model = priceModelOf(f);
+  if (!model) return /^входит/i.test(f.intro) ? "входит в тариф" : "индивидуально";
+  const n = formatPriceFrom(f);
+  if (n == null || model === "custom") return "индивидуально"; // custom — ещё и сужение типа для cheapest()
+  /* своя цена у формата «по времени» — сумма за проект, а не ставка в час: единицу тарифа не приписываем */
+  const unit = f.fromPrice && model === "time" ? undefined : cheapest(model)?.unit;
+  return unit ? `${formatPrice(n)}\u00a0${unit.replace(/ /g, "\u00a0")}` : formatPrice(n);
+}
+
 export function getFaq(scope: FaqItem["scope"][number]): FaqItem[] {
   return allFaq.filter((f) => f.scope.includes(scope));
 }

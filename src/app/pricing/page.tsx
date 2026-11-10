@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Section, Container } from "@/components/ui/Section";
 import Button from "@/components/ui/Button";
 import { PageHead, SectionTitle } from "@/components/pages/PageHead";
-import PricingTabs from "@/components/pages/PricingTabs";
 import { PriceCard } from "@/components/pages/PriceCard";
 import { Faq } from "@/components/pages/Faq";
 import PrefillSetter from "@/components/layout/PrefillSetter";
@@ -10,36 +9,22 @@ import { getFaq, getPricing, settings } from "@/lib/content";
 import { prefill, waLink } from "@/lib/links";
 
 export const metadata: Metadata = {
-  title: "Цены — свадебный видеограф, бренды и контент · Алматы",
-  description: "Открытые цены в результатах: коллекции Утро / Весь день / Той, форматы для брендов и контента, допы и условия. Бронь даты — договор и предоплата 30%.",
+  title: "Цены на видеосъёмку — час, полдня, весь день · Алматы",
+  description: "Сколько стоит съёмка: час, полдня или весь день, ролики для соцсетей — поштучно. Доплаты, сроки сдачи монтажа и способы оплаты.",
   alternates: { canonical: "/pricing" },
 };
 
 export default function PricingPage() {
   const { collections, extras, terms } = getPricing();
-  const wedding = collections.filter((c) => c.tab === "wedding");
-  const brand = collections.filter((c) => c.tab === "brand");
   const faq = getFaq("pricing");
-
-  /* sr-only h2 — чтобы между H1 «Цены» и h3 карточек не было пропуска уровня */
-  const grid = (label: string, list: typeof collections) => (
-    <>
-      <h2 className="sr-only">{label}</h2>
-      <div className="grid min-w-0 grid-cols-1 gap-4 lg:grid-cols-3">
-        {list.map((c) => (
-          <PriceCard key={c.slug} c={c} />
-        ))}
-      </div>
-    </>
-  );
 
   return (
     <>
-      {/* prefill("pricing") требует название коллекции ({title}); для страницы в целом — «Хочу проверить дату» */}
+      {/* prefill("pricing") требует название тарифа ({title}); для страницы в целом — «Хочу проверить дату» */}
       <PrefillSetter kind="contact" />
       <Section>
-        <PageHead title="Цены" sub="в результатах, а не в камерах и часах">
-          {/* свой флаг, а не showPlaceholders: демо-кейсы уже скрыты, а цены ещё не согласованы */}
+        <PageHead title="Цены" sub="по времени съёмки, ролики для соцсетей — поштучно">
+          {/* свой флаг, а не showPlaceholders: демо-кейсы уже скрыты, а цены могут быть ещё не согласованы */}
           {settings.toggles.pricesAreDemo && (
             <p className="mono-sm mt-6 text-meta">цены — демо, до согласования</p>
           )}
@@ -48,32 +33,15 @@ export default function PricingPage() {
 
       <Section>
         <Container className="pb-16 md:pb-24">
-          <PricingTabs
-            tabs={[
-              {
-                key: "wedding",
-                label: "Свадьбы",
-                content: (
-                  <>
-                    {grid("Свадьбы", wedding)}
-                    <p className="mt-8 max-w-[52ch] text-[15px] leading-relaxed text-meta">
-                      Второй оператор — только там, где он реально нужен: на церемонии и большом тое. И я скажу где.
-                    </p>
-                  </>
-                ),
-              },
-              {
-                key: "brand",
-                label: "Бренды и контент",
-                content: (
-                  <>
-                    {grid("Бренды и контент", brand)}
-                    <p className="mono mt-8 text-meta">Крупные проекты — индивидуально, смета за 2 дня.</p>
-                  </>
-                ),
-              },
-            ]}
-          />
+          {/* sr-only h2 — чтобы между H1 «Цены» и h3 карточек не было пропуска уровня */}
+          <h2 className="sr-only">Тарифы</h2>
+          {/* час / полдня / весь день и ролики для соцсетей — одной строкой карточек; якоря #time и #unit
+              (ссылки со страниц форматов) — на первой карточке своей модели */}
+          <div className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {collections.map((c, i) => (
+              <PriceCard key={c.slug} c={c} id={collections.findIndex((x) => x.tab === c.tab) === i ? c.tab : undefined} />
+            ))}
+          </div>
         </Container>
       </Section>
 
@@ -91,6 +59,7 @@ export default function PricingPage() {
               </div>
             ))}
           </dl>
+          <p className="mono mt-6 text-meta">проценты — к стоимости проекта</p>
         </Container>
       </Section>
 
@@ -119,7 +88,7 @@ export default function PricingPage() {
       <Section>
         <Container className="flex flex-col items-start gap-6 py-16 pb-[calc(64px+var(--sticky-h))] md:py-24 md:pb-[calc(96px+var(--sticky-h))]">
           <p className="disp text-h2">Дата свободна?</p>
-          <p className="mono text-meta">напишите дату и город — отвечу сегодня</p>
+          <p className="mono text-meta">напишите дату и город — отвечаю быстро</p>
           <Button variant="signal" size="xl" href={waLink(prefill("contact"))}>
             Проверить дату · WhatsApp
           </Button>

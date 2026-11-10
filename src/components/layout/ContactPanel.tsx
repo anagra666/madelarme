@@ -14,6 +14,7 @@ import Button from "@/components/ui/Button";
 import {
   emitOverlay, InstagramGlyph, TelegramGlyph, useStickyPrefill, WhatsAppGlyph,
 } from "@/components/layout/StickyCTA";
+import { AVAILABILITY_ON, DateStatus } from "@/components/pages/StatusLine";
 
 /* ── store: открыть панель из любого клиентского листа ────────────────── */
 let panelOpen = false;
@@ -294,7 +295,17 @@ export default function ContactPanel({ formats }: { formats: FormatChip[] }) {
                   </fieldset>
 
                   <Field id={`${uid}-when`} label="когда">
-                    <input id={`${uid}-when`} name="when" placeholder="июль 2027" value={draft.when} onChange={(e) => setDraft({ ...draft, when: e.target.value })} className={inputCls} />
+                    {/* с занятостью подсказываем точную дату: по «июль 2027» проверить нечего */}
+                    <input
+                      id={`${uid}-when`}
+                      name="when"
+                      placeholder={AVAILABILITY_ON ? "12 июля 2027" : "июль 2027"}
+                      value={draft.when}
+                      onChange={(e) => setDraft({ ...draft, when: e.target.value })}
+                      aria-describedby={AVAILABILITY_ON ? `${uid}-when-status` : undefined}
+                      className={inputCls}
+                    />
+                    {AVAILABILITY_ON && <DateStatus id={`${uid}-when-status`} value={draft.when} className="pt-2" />}
                   </Field>
                   <Field id={`${uid}-msg`} label="пару слов">
                     <textarea id={`${uid}-msg`} name="message" rows={3} value={draft.message} onChange={(e) => setDraft({ ...draft, message: e.target.value })} className={cn(inputCls, "h-auto min-h-24 resize-y py-3")} />

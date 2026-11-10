@@ -56,7 +56,7 @@ function sectionNums() {
     formats: homeFormats().length > 0,
     about: true,
     clients: clientsQuoteData() !== null,
-    pricing: getPricing().collections.some((c) => c.tab === "wedding"),
+    pricing: getPricing().collections.length > 0,
   };
   let n = 2;
   const nums = {} as Record<keyof typeof shown, string>;

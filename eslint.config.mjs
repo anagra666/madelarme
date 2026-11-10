@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // рабочие копии параллельных сессий и их сборки
+    ".claude/**",
+    "dist/**",
   ]),
 ]);
 

@@ -9,8 +9,8 @@ import { formatGroups, getFormats, settings } from "@/lib/content";
 import { prefill, waLink } from "@/lib/links";
 
 export const metadata: Metadata = {
-  title: "Форматы съёмки — свадьбы, бренды, контент · Алматы",
-  description: "Что я снимаю и что вы получите на руки: свадебный фильм, клип, SDE, love story, той, бренд-фильм, aftermovie, Reels-день. Цены «от» и сроки сдачи.",
+  title: "Форматы съёмки — свадьбы, ивенты, бренды, контент · Алматы",
+  description: "Снимаю всё, упор — на репортаж: свадьбы, love story, ивенты, корпоративы, дни рождения, бэкстейджи. Что получаете на руки, цены и сдача монтажа за 2 недели.",
   alternates: { canonical: "/formats" },
 };
 

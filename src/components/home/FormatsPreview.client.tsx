@@ -19,6 +19,7 @@ export interface PreviewItem {
  * Слушает pointer-события на родительском элементе; строки помечены data-format="slug".
  * Двигается только transform — без перерисовок React на каждое движение.
  * У формата без лупа (нет работ) — не пустая плашка, а титр: термин дисплеем на чернилах.
+ * Строка, которой нет в items (тихие форматы, см. FormatsList), кадр не показывает вовсе.
  */
 export default function FormatsPreview({ items }: { items: PreviewItem[] }) {
   const fine = useFinePointer();
@@ -75,6 +76,7 @@ export default function FormatsPreview({ items }: { items: PreviewItem[] }) {
   }, [fine]);
 
   if (!fine) return null;
+  const current = items.find((i) => i.slug === active);
 
   return (
     <div
@@ -85,7 +87,7 @@ export default function FormatsPreview({ items }: { items: PreviewItem[] }) {
       <div
         className={cn(
           "relative h-full w-full overflow-hidden bg-ink transition-[opacity,transform] duration-300 ease-out-expo",
-          active ? "scale-100 opacity-100" : "scale-90 opacity-0",
+          current ? "scale-100 opacity-100" : "scale-90 opacity-0",
         )}
       >
         {items.map((it) => {
@@ -112,7 +114,7 @@ export default function FormatsPreview({ items }: { items: PreviewItem[] }) {
           );
         })}
         <span className="mono-sm absolute bottom-2 left-2 text-paper">
-          {items.find((i) => i.slug === active)?.alt ?? ""}
+          {current?.alt ?? ""}
         </span>
       </div>
     </div>
