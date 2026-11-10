@@ -1,7 +1,8 @@
+import { fileURLToPath } from "node:url";
 import { writeFileSync, mkdirSync } from "node:fs";
 import { launch, sleep } from "./cdp.mjs";
 const BASE = "http://127.0.0.1:3996";
-const OUT = new URL("./h/cap/", import.meta.url).pathname; mkdirSync(OUT, { recursive: true });
+const OUT = fileURLToPath(new URL("./h/cap/", import.meta.url)); mkdirSync(OUT, { recursive: true });
 
 // 1) hero 1920×1080 без видео/постера/зерна — для наложения поверх нашего видео (lighten)
 {

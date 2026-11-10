@@ -1,9 +1,10 @@
+import { fileURLToPath } from "node:url";
 // Снимает экраны сайта для трейлера: длинная мобильная главная (без fixed-слоёв), полоса шапки, sticky-полоса, кейс.
 import { writeFileSync, mkdirSync } from "node:fs";
 import { launch, sleep } from "./cdp.mjs";
 
 const BASE = "http://127.0.0.1:3996";
-const OUT = new URL("./assets/cap/", import.meta.url).pathname;
+const OUT = fileURLToPath(new URL("./assets/cap/", import.meta.url));
 mkdirSync(OUT, { recursive: true });
 const W = 390, H = 844;
 
@@ -20,6 +21,9 @@ async function stitchPage(page, url, name, maxY = 99999) {
     return true;`);
   const docH = await page.evalJs("return document.documentElement.scrollHeight");
   const end = Math.min(docH, maxY);
+  // прогон вниз до конца: Reveal (once) раскрывает строки, иначе у нижнего края кадра заголовки еще под маской и на шве режутся
+  await page.evalJs(`for (let y = 0; y < ${end}; y += ${H / 2}) { window.scrollTo(0, y); await new Promise(r => setTimeout(r, 250)); }
+    window.scrollTo(0, 0); await new Promise(r => setTimeout(r, 1200)); return 1`);
   const ys = [];
   for (let y = 0; y < end - H; y += H) ys.push(y);
   ys.push(Math.max(0, end - H));
@@ -37,7 +41,7 @@ async function stitchPage(page, url, name, maxY = 99999) {
 const page = await launch({ width: W, height: H, dpr: 2, mobile: true });
 try {
   await stitchPage(page, `${BASE}/`, "home", 7400);
-  await stitchPage(page, `${BASE}/work/gorod-ne-spit/`, "case", 3400);
+  await stitchPage(page, `${BASE}/work/oyu-fest/`, "case", 3400);
   // sticky-полоса: прокрутка вниз, потом немного вверх — полоса появляется
   await page.goto(`${BASE}/`, 4500);
   await page.evalJs(`window.scrollTo(0, 2200); await new Promise(r=>setTimeout(r,900)); window.scrollTo(0, 2000); await new Promise(r=>setTimeout(r,1400)); return 1`);

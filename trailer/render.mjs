@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 // node render.mjs --stills 1.4,4.5,7.5,8.8,11.5,14.5,17.3,23.5,26.5,30   (контрольные кадры)
 // node render.mjs --all                                                    (все кадры → frames/ → mp4)
 import { writeFileSync, mkdirSync, rmSync, readdirSync } from "node:fs";
@@ -7,7 +8,7 @@ import { launch } from "./cdp.mjs";
 
 const require = createRequire("/Users/dmitrychurikov/Documents/ПРОЕКТЫ/MADELARME/package.json");
 const ffmpeg = require("ffmpeg-static");
-const DIR = new URL("./", import.meta.url).pathname;
+const DIR = fileURLToPath(new URL("./", import.meta.url));
 const URL_ = "http://127.0.0.1:3995/index.html";
 const FPS = 30;
 const args = process.argv.slice(2);

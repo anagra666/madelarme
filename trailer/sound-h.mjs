@@ -1,10 +1,11 @@
+import { fileURLToPath } from "node:url";
 // Саунд-дизайн для «Монтажки» (16:9, 46 с): синтез с нуля, без сэмплов.
 // node sound-h.mjs [out.wav]  → 48 кГц, стерео, 16 бит.
 // Все реплики привязаны к таймлайну h/index.html (секунды), бит 120 BPM от 9.0.
 import { writeFileSync } from "node:fs";
 
 const SR = 48000, DUR = 46, N = SR * DUR;
-const OUT = process.argv[2] ?? new URL("./audio-h.wav", import.meta.url).pathname;
+const OUT = process.argv[2] ?? fileURLToPath(new URL("./audio-h.wav", import.meta.url));
 const TAU = Math.PI * 2;
 
 // шины: ударные, музыка (под дакингом от бочки), эффекты, посыл в ревер

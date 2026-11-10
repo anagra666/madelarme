@@ -46,9 +46,9 @@ img{display:block}
 #bin .th .im{width:152px;height:86px;background-size:cover;background-position:center;border:1px solid var(--line)}
 #bin .th .lb{margin-top:6px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #viewer{left:556px;top:64px;width:1344px;height:560px}
-#ctrl{position:absolute;left:0;right:0;bottom:0;height:44px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 18px}
+#ctrl{position:absolute;left:0;right:0;bottom:0;height:30px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 18px}
 #ctrl .tp{display:flex;gap:26px;align-items:center;color:var(--milk);font-size:18px}
-#ctrl .play{width:34px;height:34px;border:1px solid var(--meta);display:grid;place-items:center}
+#ctrl .play{width:26px;height:26px;border:1px solid var(--meta);display:grid;place-items:center}
 #frame{position:absolute;left:766px;top:74px;width:924px;height:520px;overflow:hidden;background:#000;transform-origin:0 0;z-index:5}
 #frame .layer{position:absolute;inset:0}
 #frame .ttl{position:absolute;left:34px;bottom:34px}
@@ -61,7 +61,7 @@ img{display:block}
 #frame .case .ttl .disp{font-size:96px}
 #frame .grade{opacity:0}
 #frame .grade .before{filter:saturate(.28) contrast(.72) brightness(1.12) sepia(.08)}
-#frame .grade .after{clip-path:inset(0 100% 0 0);filter:saturate(1.18) contrast(1.08)}
+#frame .grade .after{clip-path:inset(0 0 0 100%);filter:sepia(.22) saturate(1.35) contrast(1.1) brightness(1.02)}
 #frame .split{position:absolute;top:0;bottom:0;width:2px;background:var(--milk);left:100%}
 #frame .ba{position:absolute;top:16px;left:16px;right:16px;display:flex;justify-content:space-between}
 #frame .ba span{background:rgba(0,0,0,.5);padding:4px 8px;font-size:12px}
@@ -129,8 +129,7 @@ img{display:block}
 #phone .pg{position:absolute;left:0;top:0;width:300px}
 #phone .pg img{width:300px}
 #phone .island{position:absolute;top:10px;left:50%;width:84px;height:24px;margin-left:-42px;border-radius:14px;background:#000;z-index:4}
-#phone .hdr{position:absolute;left:0;right:0;top:0;height:43px;z-index:3;background:rgba(14,13,12,.9);display:flex;align-items:center;justify-content:space-between;padding:0 12px}
-#phone .hdr b{font-family:var(--disp);font-weight:800;font-size:21px}
+#phone .hdr{position:absolute;left:0;top:0;width:300px;z-index:3} /* настоящая шапка сайта, 780×112 → 300×43 */
 #s5 .labels{position:absolute;left:150px;right:274px;top:952px;display:flex;justify-content:space-between}
 #s6{background:#000}
 #s6 .lb{position:absolute;left:0;right:0;height:138px;background:#000;z-index:3}
@@ -181,7 +180,7 @@ img{display:block}
       <div class="grid"></div>
     </div>
     <div id="viewer" class="panel">
-      <div class="ptitle mono"><span>Программа</span><span class="meta">madelarme_site</span></div>
+      <div class="ptitle mono"><span>Программа</span></div><span class="mono meta" style="position:absolute;right:16px;top:12px">madelarme_site</span>
       <div id="ctrl" class="mono"><span class="meta tcv">00:00:00:00</span>
         <span class="tp"><span>⏮</span><span class="play">▶</span><span>⏭</span></span><span class="meta">1920 × 1080 · 24 fps</span></div>
     </div>
@@ -193,31 +192,32 @@ img{display:block}
       <div id="playhead"></div>
     </div>
     <div id="wheels" class="panel">
-      <div class="ptitle mono"><span>Цветокоррекция</span><span class="meta">LUT · madelarme_warm</span></div>
+      <div class="ptitle mono"><span>Цветокоррекция</span><span class="meta">n&amp;n_wedding.mp4</span></div>
     </div>
 
     <!-- окно программы (выход видео) -->
     <div id="frame">
       <div class="layer sr">
-        <video data-v src="v/showreel-h.mp4" data-start="9" muted playsinline preload="auto"></video>
+        <video data-v data-src="v/reel-h.mp4" data-start="9" muted playsinline preload="auto"></video>
         <div class="scrim"></div>
         <div class="ttl"><div class="mono">[ Мария Волкова ] · [ видеограф ] · [ Алматы ]</div>
           <div class="disp h"><span class="mask"><span>Снимаю</span></span><span class="mask"><span>Заглавными<b class="sig">.</b></span></span></div></div>
       </div>
       <div class="layer site"><div class="scrim" style="height:70%"></div><img src="hero-novideo.png" alt=""></div>
-      <div class="layer case" data-i="0"><video data-v src="v/tau-toi-h.mp4" data-start="15" muted playsinline preload="auto"></video><div class="scrim"></div><div class="ttl"><div class="mono">[ 01 / 11 ] · свадебный фильм · Медеу</div><div class="disp">Тау-той</div></div></div>
-      <div class="layer case" data-i="1"><video data-v src="v/gorod-ne-spit-h.mp4" data-start="16" muted playsinline preload="auto"></video><div class="scrim"></div><div class="ttl"><div class="mono">[ 02 / 11 ] · музыкальный клип · ночной Алматы</div><div class="disp">Город не спит</div></div></div>
-      <div class="layer case" data-i="2"><video data-v src="v/oyu-fest-h.mp4" data-start="17" muted playsinline preload="auto"></video><div class="scrim"></div><div class="ttl"><div class="mono">[ 03 / 11 ] · aftermovie · Первомайские пруды</div><div class="disp">OYU Fest ’26</div></div></div>
-      <div class="layer case" data-i="3"><video data-v src="v/pervyj-sneg-h.mp4" data-start="18" muted playsinline preload="auto"></video><div class="scrim"></div><div class="ttl"><div class="mono">[ 04 / 11 ] · love story · Шымбулак</div><div class="disp">Первый снег</div></div></div>
-      <div class="layer case" data-i="4"><video data-v src="v/utro-zdes-h.mp4" data-start="19" muted playsinline preload="auto"></video><div class="scrim"></div><div class="ttl"><div class="mono">[ 05 / 11 ] · промо · кофейня</div><div class="disp">Утро здесь</div></div></div>
-      <div class="layer case" data-i="5"><video data-v src="v/uzhin-na-vysote-h.mp4" data-start="20" muted playsinline preload="auto"></video><div class="scrim"></div><div class="ttl"><div class="mono">[ 06 / 11 ] · фуд · терраса</div><div class="disp">Ужин на высоте</div></div></div>
+      <!-- data-start = момент появления минус смещение внутри лупа: каждому кейсу целая секунда одного плана (склейки лупов найдены ffmpeg scene) -->
+      <div class="layer case" data-i="0"><video data-v data-src="v/oyu-h.mp4" data-start="11.8" muted playsinline preload="auto"></video><div class="scrim"></div><div class="ttl"><div class="mono">[ 01 / 08 ] · aftermovie · Алматы · лето 2026</div><div class="disp">OYU</div></div></div>
+      <div class="layer case" data-i="1"><video data-v data-src="v/cultural-love-story-h.mp4" data-start="15.65" muted playsinline preload="auto"></video><div class="scrim"></div><div class="ttl"><div class="mono">[ 02 / 08 ] · love story · Никита &amp; Нурай</div><div class="disp">Cultural Love Story</div></div></div>
+      <div class="layer case" data-i="2"><video data-v data-src="v/red-bull-kick-off-h.mp4" data-start="13.1" muted playsinline preload="auto"></video><div class="scrim"></div><div class="ttl"><div class="mono">[ 03 / 08 ] · бренд-ивент · ASP Arena</div><div class="disp">Red Bull Kick-Off</div></div></div>
+      <div class="layer case" data-i="3"><video data-v data-src="v/n-n-wedding-h.mp4" data-start="14.45" muted playsinline preload="auto"></video><div class="scrim"></div><div class="ttl"><div class="mono">[ 04 / 08 ] · тизер · Никита &amp; Нурай</div><div class="disp">Wedding</div></div></div>
+      <div class="layer case" data-i="4"><video data-v data-src="v/red-bull-on-premise-h.mp4" data-start="14.5" muted playsinline preload="auto"></video><div class="scrim"></div><div class="ttl"><div class="mono">[ 05 / 08 ] · бренд-фильм · Red Bull Kazakhstan</div><div class="disp">Red Bull On Premise</div></div></div>
+      <div class="layer case" data-i="5"><video data-v data-src="v/red-bull-annual-recap-h.mp4" data-start="18.35" muted playsinline preload="auto"></video><div class="scrim"></div><div class="ttl"><div class="mono">[ 06 / 08 ] · тизер годового фильма · 2025</div><div class="disp">Red Bull Annual Recap</div></div></div>
       <div class="layer grade">
-        <video class="before" data-v src="v/pervyj-sneg-h.mp4" data-start="31" muted playsinline preload="auto"></video>
-        <video class="after" data-v src="v/pervyj-sneg-h.mp4" data-start="31" muted playsinline preload="auto"></video>
+        <video class="before" data-v data-src="v/n-n-wedding-h.mp4" data-start="33" muted playsinline preload="auto"></video>
+        <video class="after" data-v data-src="v/n-n-wedding-h.mp4" data-start="33" muted playsinline preload="auto"></video>
         <div class="split"></div>
-        <div class="ba mono"><span>До · log</span><span>После · madelarme_warm</span></div>
+        <div class="ba mono"><span>До</span><span>После</span></div>
         <div class="scrim" style="height:45%"></div>
-        <div class="lower"><div class="disp"><span class="mask"><span>Монтирую</span></span><span class="mask"><span>и крашу сама.</span></span></div></div>
+        <div class="lower"><div class="disp"><span class="mask"><span>Снимаю одна.</span></span><span class="mask"><span>Монтирую сама.</span></span></div></div>
       </div>
     </div>
 
@@ -227,7 +227,7 @@ img{display:block}
       <div class="rows">
         <div class="rw"><span class="k">Формат</span><span class="v">Сайт</span></div>
         <div class="rw"><span class="k">Экраны</span><span class="v">Телефон + ноутбук</span></div>
-        <div class="rw"><span class="k">Внутри</span><span class="v">11 работ · 19 форматов · цены · Маша</span></div>
+        <div class="rw"><span class="k">Внутри</span><span class="v">8 работ · 19 форматов · цены · Маша</span></div>
       </div>
       <div class="bar"><i></i></div>
       <div class="st"><span class="msg">Рендер…</span><span class="pc">0%</span></div>
@@ -244,7 +244,7 @@ img{display:block}
     </div><div class="base"></div></div>
     <div id="phone"><div class="scr">
       <div class="pg"><img src="../assets/home-long.jpg" alt=""></div>
-      <div class="hdr"><b>M.</b><span class="mono" style="font-size:9px">Меню</span></div>
+      <img class="hdr" src="../assets/header-strip.png" alt="">
       <div class="island"></div>
     </div></div>
     <div class="labels mono meta"><span>[ ноутбук · 1440 ]</span><span>[ телефон · 390 ]</span></div>
@@ -252,18 +252,18 @@ img{display:block}
 
   <!-- ── S6: титры ── -->
   <section class="fs" id="s6">
-    <video class="bg" data-v src="v/gorod-ne-spit-h.mp4" data-start="26" muted playsinline preload="auto"></video>
+    <video class="bg" data-v data-src="v/red-bull-kick-off-h.mp4" data-start="25.65" muted playsinline preload="auto"></video>
     <div class="dim"></div>
+    <!-- только факты из карточки кейса (src/content/cases.json), без придуманных ролей -->
     <div id="roll">
       <div class="mono meta">[ 03 ] · Кейс</div>
-      <div class="disp t">Город не спит</div>
-      <div class="cr"><span class="k mono">Клиент</span><span class="v">Neon Dreams</span></div>
-      <div class="cr"><span class="k mono">Формат</span><span class="v">Музыкальный клип</span></div>
-      <div class="cr"><span class="k mono">Где и когда</span><span class="v">Алматы · май 2025</span></div>
-      <div class="cr"><span class="k mono">Съемка</span><span class="v">2 ночи · 7 локаций</span></div>
-      <div class="cr"><span class="k mono">Режиссер, оператор</span><span class="v">Мария Волкова</span></div>
-      <div class="cr"><span class="k mono">Монтаж и цвет</span><span class="v">Мария Волкова</span></div>
-      <div class="cr"><span class="k mono">Сдача</span><span class="v">Клип 3:20 + вертикальный кат</span></div>
+      <div class="disp t">Red Bull Kick-Off</div>
+      <div class="cr"><span class="k mono">Клиент</span><span class="v">Red Bull Kazakhstan</span></div>
+      <div class="cr"><span class="k mono">Формат</span><span class="v">Бренд-ивент и активация</span></div>
+      <div class="cr"><span class="k mono">Где</span><span class="v">ASP Arena, Алматы</span></div>
+      <div class="cr"><span class="k mono">Когда</span><span class="v">2026</span></div>
+      <div class="cr"><span class="k mono">Повод</span><span class="v">Первый в Казахстане<br>Red Bull Car Park Drift</span></div>
+      <div class="cr"><span class="k mono">Фильм</span><span class="v">Репортаж 1:53</span></div>
     </div>
     <div class="say"><div class="disp"><span class="mask"><span>Каждая работа</span></span><span class="mask"><span>как титры.</span></span></div></div>
     <div class="lb" style="top:0"></div><div class="lb" style="bottom:0"></div>
@@ -276,7 +276,7 @@ img{display:block}
     <div class="side">
       <div class="disp h">@madelarme</div>
       <div class="mono meta">WhatsApp · Telegram · Instagram</div>
-      <div class="mono meta">Свадьбы · Бренды · Клипы · Алматы</div>
+      <div class="mono meta">Свадьбы · Ивенты · Бренды · Алматы</div>
       <div class="stop mono"><i></i><span class="tcstop">Стоп 00:00:00:00</span></div>
     </div>
   </section>
@@ -304,9 +304,12 @@ const hash = (n) => { n = Math.imul(n ^ 0x9e3779b9, 0x85ebca6b); n ^= n >>> 13; 
 const tcode = (s) => { s = Math.max(0, s); const S = Math.floor(s), F = Math.floor((s - S) * 24); return `00:00:${String(S).padStart(2, "0")}:${String(F).padStart(2, "0")}`; };
 
 /* ── построение интерфейса ── */
-const posters = ["showreel","tau-toi","gorod-ne-spit","oyu-fest","pervyj-sneg","utro-zdes","uzhin-na-vysote","qara-osen-zima","my-zdes-stroim","techsummit","12-reels","n-n"];
-const labels = ["шоурил_2026","тау-той","город_не_спит","oyu_fest_26","первый_снег","утро_здесь","ужин_на_высоте","осень_зима_25","мы_здесь_строим","techsummit","12_reels","n&n"];
-$("#bin .grid").innerHTML = posters.map((p, i) => `<div class="th"><div class="im" style="background-image:url(p/${p}-h.webp)"></div><div class="lb mono meta">${labels[i]}.mp4</div></div>`).join("");
+/* бин: 9 постеров реальных работ (p/) + 3 кадра из них же (s/) */
+const BIN = [["p/reel-h", "reel"], ["p/oyu-h", "oyu_2026"], ["p/cultural-love-story-h", "cultural_ls"],
+  ["p/red-bull-kick-off-h", "kick-off"], ["p/n-n-wedding-h", "n&n_wedding"], ["p/red-bull-on-premise-h", "on_premise"],
+  ["p/modern-love-story-h", "modern_ls"], ["p/red-bull-annual-recap-h", "recap_2025"], ["p/red-bull-basement-h", "basement"],
+  ["s/oyu-1", "oyu_zone"], ["s/red-bull-kick-off-2", "drift_asp"], ["s/cultural-love-story-1", "cultural_02"]];
+$("#bin .grid").innerHTML = BIN.map(([p, l]) => `<div class="th"><div class="im" style="background-image:url(${p}.webp)"></div><div class="lb mono meta">${l}.mp4</div></div>`).join("");
 for (let s = 0; s <= SEQLEN; s += 5) $("#ruler").insertAdjacentHTML("beforeend", `<span class="tick mono" style="left:${s * pxs}px">00:${String(s).padStart(2, "0")}</span>`);
 const TRACKS = [["V3", "Титры"], ["V2", "Видео"], ["V1", "Видео"], ["A1", "Звук"], ["A2", "Музыка"]];
 $("#tracks").innerHTML = TRACKS.map(([a, b], i) => `<div class="track" style="top:${70 + i * 66}px" data-tr="${a}"><div class="hd"><b>${a}</b><span class="mono meta" style="font-size:12px">${b}</span></div><div class="lane abs" style="left:180px;right:0;top:0;bottom:0"></div></div>`).join("");
@@ -317,8 +320,8 @@ const clip = (tr, cls, a, b, label, extra = "") => {
 };
 const strip = (p) => `<div class="strip" style="background-image:url(${p.includes(".") ? p : `p/${p}-h.webp`})"></div>`;
 const wave = (seed, w) => { let d = "M0 15"; for (let x = 0; x <= w; x += 3) { const a = 2 + hash(seed * 997 + x) * 12 * (0.55 + 0.45 * Math.sin(x / 37)); d += ` L${x} ${15 - a} L${x + 1.5} ${15 + a}`; } return `<svg class="wave" viewBox="0 0 ${w} 30" preserveAspectRatio="none"><path d="${d}" stroke="rgba(255,255,255,.55)" stroke-width="1" fill="none"/></svg>`; };
-const V1 = [[9, 15, "Шоурил", "showreel"], [15, 21, "Работы", "tau-toi"], [21, 28, "Два экрана", "index-0.jpg"], [28, 33, "Титры", "gorod-ne-spit"], [33, 38, "Цвет", "pervyj-sneg"], [38, 42, "Экспорт", "uzhin-na-vysote"], [42, 46, "Финал", "qara-osen-zima"]];
-const V3 = [[10, 14.5, "Снимаю заглавными."], [21.6, 27.5, "Один сайт. Два экрана."], [31, 33, "Каждая работа как титры."], [35.5, 38, "Монтирую и крашу сама."], [42.4, 46, "Давай снимать."]];
+const V1 = [[9, 15, "Шоурил", "reel"], [15, 21, "Работы", "oyu"], [21, 28, "Два экрана", "index-0.jpg"], [28, 33, "Титры", "red-bull-kick-off"], [33, 38, "Цвет", "n-n-wedding"], [38, 42, "Экспорт", "red-bull-basement"], [42, 46, "Финал", "modern-love-story"]];
+const V3 = [[10, 14.5, "Снимаю заглавными."], [21.6, 27.5, "Один сайт. Два экрана."], [31, 33, "Каждая работа как титры."], [35.5, 38, "Монтирую сама."], [42.4, 46, "Давай снимать."]];
 const V2 = [[12.5, 15, "главная · сайт"], [21, 28, "ноутбук + телефон"]];
 const A1 = [[9, 9.6, "play"], [12.5, 13.4, "whoosh"], [15, 15.5, "hit"], [16, 16.3, "✂"], [17, 17.3, "✂"], [18, 18.3, "✂"], [19, 19.3, "✂"], [20, 20.3, "✂"], [21, 21.6, "hit"], [28, 28.6, "hit"], [33, 33.6, "hit"], [38.6, 41.2, "riser"], [41.2, 42, "ding"], [42, 43.2, "boom"]];
 const v1 = V1.map(([a, b, l, p]) => clip("V1", "v", a, b, l, strip(p)));
@@ -328,7 +331,7 @@ const a1 = A1.map(([a, b, l], i) => clip("A1", "a", a, b, l, wave(i + 3, Math.ma
 const a2 = clip("A2", "m", 9, 42, "beat_120bpm.wav", wave(77, 33 * pxs));
 /* резы бритвы по клипу «Работы» */
 const workClip = v1[1];
-const CUTS = [16, 17, 18, 19, 20], SEGP = ["tau-toi", "gorod-ne-spit", "oyu-fest", "pervyj-sneg", "utro-zdes", "uzhin-na-vysote"];
+const CUTS = [16, 17, 18, 19, 20], SEGP = ["oyu", "cultural-love-story", "red-bull-kick-off", "n-n-wedding", "red-bull-on-premise", "red-bull-annual-recap"];
 CUTS.forEach((c) => workClip.insertAdjacentHTML("beforeend", `<i class="cut" style="left:${(c - 15) * pxs - 1}px"></i>`));
 SEGP.forEach((p, i) => workClip.insertAdjacentHTML("beforeend", `<span class="seg" style="left:${i * pxs}px;width:${pxs}px"><i style="background-image:url(p/${p}-h.webp)"></i><b>0${i + 1}</b></span>`));
 /* колёса цвета */
@@ -387,8 +390,8 @@ C(5.4, 700, 880, .9);
 v3.forEach((c, i) => tl.fromTo(c, { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: .25, ease: "power3.out", immediateRender: false }, 7.2 + i * .12));
 v2.forEach((c, i) => tl.fromTo(c, { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: .25, ease: "power3.out", immediateRender: false }, 7.75 + i * .12));
 tl.to([...a1, a2], { opacity: 1, scaleX: 1, duration: .5, ease: E.expo, stagger: .03 }, 8.0);
-C(8.2, 1175, 599, .6);
-click(9.0, 1179, 602);
+C(8.2, 1175, 606, .6); /* кнопка ▶ в полосе управления 30 px: центр (1179, 609) */
+click(9.0, 1179, 609);
 key(9.0, "␣", "пробел · play", 1240, 577);
 
 /* плейхед и таймкоды */
@@ -413,7 +416,7 @@ tl.to("#cursor", { opacity: 0, duration: .3 }, 11.8);
 /* окно программы вырывается на весь экран */
 tl.to(["#topbar", "#bin", "#viewer", "#tl"], { opacity: 0, duration: .5 }, 12.5);
 tl.to("#frame", { x: -766, y: -74, scale: 1920 / 924, duration: .85, ease: "power3.inOut" }, 12.5);
-tl.to("#frame .sr .ttl", { opacity: 0, duration: .3 }, 12.95);
+tl.to("#frame .sr .ttl", { opacity: 0, duration: .25 }, 12.75); /* гаснет до наложения главной (13.05), иначе два заголовка друг на друге */
 tl.to(["#frame .site img", "#frame .site .scrim"], { opacity: 1, duration: .35 }, 13.05);
 tl.fromTo("#frame .layer.sr video", { scale: 1 }, { scale: 1.06, duration: 2.6, ease: "none" }, 12.4);
 flash(15.0);
@@ -455,7 +458,10 @@ tl.fromTo("#laptop", { x: -500, rotateY: 14, transformPerspective: 2400, opacity
 tl.fromTo("#phone", { x: 400, rotateY: -16, transformPerspective: 2400, opacity: 0 }, { x: 0, rotateY: 0, opacity: 1, duration: 1.0, ease: E.expo, immediateRender: false }, 21.15);
 tl.fromTo("#s5 .labels", { opacity: 0 }, { opacity: 1, duration: .5, immediateRender: false }, 22.0);
 const rimg = $$("#laptop .r");
-const ROWS = [[325, 165], [325, 235], [325, 306], [325, 376]].map(([x, y]) => [158 + x, 270 + y]);
+/* точки ховера из capture-desk.mjs (h/cap/index-rows.json, кадр 1440×900): OYU, Cultural Love Story, Red Bull Kick-Off, Wedding;
+   экран ноутбука 1040×650 стоит на сцене в (158, 270) */
+const LS = 1040 / 1440;
+const ROWS = [[450, 229], [450, 326], [450, 424], [450, 521]].map(([x, y]) => [158 + x * LS, 270 + y * LS]);
 tl.set("#cursor", { x: 760, y: 800, opacity: 0 }, 21.0);
 tl.to("#cursor", { opacity: 1, duration: .3 }, 21.9);
 ROWS.forEach(([x, y], i) => {
@@ -466,7 +472,8 @@ ROWS.forEach(([x, y], i) => {
 tl.to("#cursor", { opacity: 0, duration: .3 }, 27.0);
 const k = 300 / 390;
 const pscroll = (y, t, d) => tl.to("#phone .pg", { y: -y * k, duration: d, ease: "power3.inOut" }, t);
-pscroll(820, 22.6, .8); pscroll(1500, 24.0, .8); pscroll(2400, 25.4, .9);
+/* цели в CSS-пикселях страницы 390: список работ → карточка OYU → «Что снимаю» с ценами (демо-портрет ниже 5400 не попадает в кадр) */
+pscroll(930, 22.6, .8); pscroll(1790, 24.0, .8); pscroll(4300, 25.4, .9);
 tl.fromTo(["#laptop", "#phone"], { y: 0 }, { y: -14, duration: 6, ease: "none", immediateRender: false }, 22.0);
 
 /* S6 · титры 28–33 */
@@ -500,10 +507,12 @@ tl.to(gn, { x: 30, y: -24, duration: .5, ease: "power2.inOut" }, 35.0);
 C(35.0, 1428, 822, .5, "power2.inOut");
 const grade = { p: 0 };
 tl.to(grade, { p: 1, duration: 1.9, ease: "power2.inOut", onUpdate() {
-  $("#frame .grade .after").style.clipPath = `inset(0 ${(100 - grade.p * 100).toFixed(2)}% 0 0)`;
-  $("#frame .grade .split").style.left = (grade.p * 100).toFixed(2) + "%";
+  /* шторка идет справа налево: слева «До», справа «После», как подписи */
+  const x = (100 - grade.p * 100).toFixed(2);
+  $("#frame .grade .after").style.clipPath = `inset(0 0 0 ${x}%)`;
+  $("#frame .grade .split").style.left = x + "%";
 } }, 33.6);
-tl.to("#frame .grade .split", { opacity: 0, duration: .2 }, 35.5);
+tl.to(["#frame .grade .split", "#frame .grade .ba span:first-child"], { opacity: 0, duration: .2 }, 35.5);
 tl.to("#cursor", { opacity: 0, duration: .3 }, 35.6);
 tl.set("#frame .grade .lower", { opacity: 1 }, 35.5);
 lines("#frame .grade .lower .mask > span", 35.55, .12, .8);
@@ -548,24 +557,47 @@ function grain(frame) { let s = (frame * 2654435761) >>> 0; const d = img.data; 
 
 /* рендер-API */
 const videos = $$("video[data-v]");
-const seekVideo = (v, t) => new Promise((res) => {
-  const local = Math.max(0, t - parseFloat(v.dataset.start)), dur = v.duration || 8, target = local % (dur - .05);
-  if (Math.abs(v.currentTime - target) < .004) return res();
-  const done = () => { v.removeEventListener("seeked", done); res(); };
-  v.addEventListener("seeked", done); v.currentTime = target; setTimeout(done, 1500);
+/* Кейсы стартуют со смещения внутри лупа. Видео, которое только что стало видимым, Chrome показывает
+   со старым кадром (декодированным, пока слой был скрыт), даже после seeked. Поэтому: сначала кадр
+   отрисовки, чтобы слой стал видимым, потом перемотка с ожиданием seeked и показа кадра
+   (requestVideoFrameCallback), а «свежие» видео дополнительно дергаем второй перемоткой. */
+const seekTo = (v, target) => new Promise((res) => {
+  let left = 2; const one = () => { if (--left === 0) { clearTimeout(to); res(); } };
+  const to = setTimeout(() => { left = 1; one(); }, 1500);
+  v.addEventListener("seeked", one, { once: true });
+  if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(one); else left = 1;
+  v.currentTime = target;
 });
+const seekVideo = async (v, t, fresh) => {
+  const local = Math.max(0, t - parseFloat(v.dataset.start)), dur = v.duration || 8, target = local % (dur - .05);
+  if (Math.abs(v.currentTime - target) >= .004) await seekTo(v, target);
+  if (fresh) await seekTo(v, target + .001);
+};
 const shown = (v) => { for (let n = v; n && n !== document.body; n = n.parentElement) { const cs = getComputedStyle(n); if (cs.visibility === "hidden" || cs.opacity === "0") return false; } return true; };
+const raf = () => new Promise((r) => requestAnimationFrame(r));
+let wasShown = new Set();
 window.__seek = async (t) => {
   tl.seek(t, false); grain(Math.round(t * FPS));
-  await Promise.all(videos.filter(shown).map((v) => seekVideo(v, t)));
-  await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+  await raf();
+  const vis = new Set(videos.filter(shown));
+  await Promise.all(videos.map((v) => seekVideo(v, t, vis.has(v) && !wasShown.has(v))));
+  wasShown = vis;
+  await raf(); await raf();
   return true;
 };
 window.__ready = (async () => {
   await document.fonts.ready;
   await Promise.all(['800 100px "Sofia Sans Extra Condensed"', '700 100px Oswald', '400 20px "Inter Tight"', '500 20px "Inter Tight"', '400 20px "Roboto Mono"', '500 20px "Roboto Mono"'].map((f) => document.fonts.load(f, "АБВ Қ abc 123")));
+  $$("#frame .case .ttl .disp").forEach((d) => { const r = document.createRange(); r.selectNodeContents(d); const w = r.getBoundingClientRect().width; if (w > 840) d.style.fontSize = (96 * 840 / w).toFixed(1) + "px"; });
   fitLines("#frame .sr .h", 620); fitLines("#s5 .cap .disp", 1100); fitLines("#s6 .say .disp", 1300); fitLines("#frame .grade .lower .disp", 470); fitLines("#s9 .copy .disp", 960);
-  await Promise.all(videos.map((v) => v.readyState >= 1 ? 0 : new Promise((r) => { v.addEventListener("loadedmetadata", r, { once: true }); setTimeout(r, 4000); })));
+  /* лупы грузим целиком в blob: python http.server не отдает Range, у такого видео seekable пуст
+     и перемотка молча остается на первых секундах; blob перематывается всегда. Один blob на файл. */
+  const blobs = new Map();
+  const blobOf = (src) => { if (!blobs.has(src)) blobs.set(src, fetch(src).then((r) => r.blob()).then((b) => URL.createObjectURL(b)).catch(() => src)); return blobs.get(src); };
+  await Promise.all(videos.map(async (v) => {
+    v.src = await blobOf(v.dataset.src);
+    if (v.readyState < 1) await new Promise((r) => { v.addEventListener("loadedmetadata", r, { once: true }); setTimeout(r, 4000); });
+  }));
   await Promise.all($$("img").map((i) => i.complete ? 0 : new Promise((r) => { i.onload = i.onerror = r; })));
   tl.seek(0); return true;
 })();
