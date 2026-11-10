@@ -117,6 +117,8 @@ export function formatPriceFrom(f: Format): number | undefined {
  * Тумблер showPrices проверяет вызывающий.
  */
 export function formatPriceText(f: Format): string {
+  /* аддон со своей суммой — доплата к тарифу («Дрон и FPV»: +100 000 ₸), а не тариф «от» */
+  if (f.isAddon && f.fromPrice) return `+${formatPrice(f.fromPrice, "")}\u00a0к\u00a0тарифу`;
   const model = priceModelOf(f);
   if (!model) return /^входит/i.test(f.intro) ? "входит в тариф" : "индивидуально";
   const n = formatPriceFrom(f);

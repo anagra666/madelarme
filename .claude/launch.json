@@ -1,6 +1,25 @@
 {
   "version": "0.0.1",
   "configurations": [
-    { "name": "madelarme-dev", "runtimeExecutable": "pnpm", "runtimeArgs": ["dev", "--port", "3033"], "port": 3033 }
+    {
+      "name": "madelarme-dev",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "dev",
+        "--port",
+        "3033"
+      ],
+      "port": 3033
+    },
+    {
+      "name": "madelarme-dev-alt",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "dev",
+        "--port",
+        "3034"
+      ],
+      "port": 3034
+    }
   ]
 }

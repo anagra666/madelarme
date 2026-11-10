@@ -386,13 +386,13 @@
     "name": "Дрон и FPV",
     "term": "drone / FPV",
     "duration": "кадры в фильме",
-    "priceModel": "custom",
     "intro": "Летаю сама: обычный дрон — для общих планов города и гор, FPV — для быстрых пролётов сквозь пространство. Добавляю к съёмке там, где это уместно.",
     "deliverables": [
       "Аэрокадры и FPV-пролёты в фильме и тизере"
     ],
     "isAddon": true,
     "isPublished": true,
-    "sortOrder": 250
+    "sortOrder": 250,
+    "fromPrice": 100000
   }
 ]
