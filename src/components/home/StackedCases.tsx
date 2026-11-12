@@ -1,5 +1,6 @@
 import { getCases, getFormat } from "@/lib/content";
 import { cn, isLongTitle, pad2 } from "@/lib/utils";
+import { nb } from "@/lib/typo";
 import CinemaVideo from "@/components/media/CinemaVideo";
 import { Reveal, Line } from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
@@ -18,7 +19,7 @@ function Block({ label, children }: { label: string; children: string }) {
   return (
     <div className="border-t border-rule pt-3">
       <div className="mono-sm text-meta">[ {label} ]</div>
-      <p className="mt-2 max-w-[44ch] text-[15px] leading-snug lg:text-[16px]">{children}</p>
+      <p className="mt-2 max-w-[44ch] text-[15px] leading-snug lg:text-[16px]">{nb(children)}</p>
     </div>
   );
 }
@@ -40,6 +41,8 @@ function Card({ c, i, total, num }: { c: Case; i: number; total: number; num: st
         /* липнем к top-0 (шапка при скролле вниз спрятана) и только на экранах, где карточка
            целиком влезает по высоте: на ноутбуках 1366×657 / 1280×720 карточки просто листаются */
         "isolate lg:[@media(min-height:780px)]:sticky lg:[@media(min-height:780px)]:top-0",
+        /* клавиатурный фокус внутри карточки: не липнем, иначе следующая карточка закрывает «Читать кейс» (WCAG 2.4.11) */
+        "lg:has-[:focus-visible]:relative",
         paper ? "" : "bg-ink",
       ].join(" ")}
     >
@@ -49,6 +52,7 @@ function Card({ c, i, total, num }: { c: Case; i: number; total: number; num: st
           <CinemaVideo
             loop={c.loop}
             mode="visible"
+            pauseButton
             orientation="h"
             alt={`${c.title} — ${c.client}`}
             sizes="(min-width: 1024px) 58vw, 100vw"
@@ -62,7 +66,7 @@ function Card({ c, i, total, num }: { c: Case; i: number; total: number; num: st
             <Eyebrow className="whitespace-nowrap">
               [ {num} ] · <span className="hidden sm:inline">ИСТОРИЯ </span>{pad2(i + 1)} / {pad2(total)}
             </Eyebrow>
-            <span className="mono-sm max-w-[55%] truncate border border-rule px-2 py-1 text-meta">{format}</span>
+            <span className="mono-sm max-w-[55%] border border-rule px-2 py-1 text-right leading-[1.35] text-meta [text-wrap:balance]">{format}</span>
           </div>
 
           <div className="flex flex-col gap-6">

@@ -78,11 +78,11 @@ export default function HeroWordmark() {
      Обёртка на весь вьюпорт (не top-[11vh]): иначе overflow-hidden срезает текст, когда он улетает вверх в слот шапки.
      z-45: над шапкой (z-40, bg-ink/80 + blur закрывал «посадку»), но под меню (z-50) и панелью контактов (z-60). */
   return (
-    <div ref={wrap} className="pointer-events-none fixed inset-0 z-45 flex items-start justify-center overflow-hidden px-gutter pt-[11vh]" aria-hidden="true">
+    <div ref={wrap} className="pointer-events-none fixed inset-0 z-45 flex items-start justify-center overflow-hidden px-gutter pt-[max(11vh,calc(var(--header-h)+40px))]" aria-hidden="true">
       <motion.div
         ref={text}
         style={{ transform, opacity, display, transformOrigin: "0 0" }}
-        className="disp whitespace-nowrap text-[17vw] text-milk mix-blend-difference will-change-transform"
+        className="disp whitespace-nowrap text-[length:min(17vw,28svh)] text-milk mix-blend-difference will-change-transform"
       >
         {settings.brand.wordmark}
       </motion.div>
@@ -98,9 +98,9 @@ export default function HeroWordmark() {
 export function HeroFade({ children, className }: { children: ReactNode; className?: string }) {
   const on = useSignature();
   const p = useHeroProgress();
-  const opacity = useTransform(p, [0, 0.45], [1, 0]);
-  const pointerEvents = useTransform(p, (v) => (v > 0.45 ? "none" : "auto"));
-  const visibility = useTransform(p, (v) => (v > 0.45 ? "hidden" : "visible"));
+  const opacity = useTransform(p, [0, 0.15], [1, 0]);
+  const pointerEvents = useTransform(p, (v) => (v > 0.15 ? "none" : "auto"));
+  const visibility = useTransform(p, (v) => (v > 0.15 ? "hidden" : "visible"));
   return (
     <motion.div style={on ? { opacity, pointerEvents, visibility } : undefined} className={className}>
       {children}

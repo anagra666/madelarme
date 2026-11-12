@@ -7,7 +7,7 @@ import CopyButton from "@/components/pages/CopyButton";
 import StatusLine, { FreeSaturdays } from "@/components/pages/StatusLine";
 import PrefillSetter from "@/components/layout/PrefillSetter";
 import { Faq } from "@/components/pages/Faq";
-import { getFaq, getFormats, settings } from "@/lib/content";
+import { getFaq, getFormatChips, settings } from "@/lib/content";
 import { STATIC_SITE } from "@/lib/lead";
 import { igDmLink, prefill, telLink, tgLink, waLink } from "@/lib/links";
 
@@ -23,11 +23,7 @@ export default function ContactPage() {
   const tg = tgLink(prefill("contact"));
   const faq = getFaq("contact").slice(0, 3);
 
-  const main = getFormats().filter((f) => !f.isAddon);
-  const formats = main.map((f) => {
-    const dup = main.some((o) => o.slug !== f.slug && o.name === f.name);
-    return { slug: f.slug, label: dup ? `${f.name} · ${f.term.split(" / ")[0]}` : f.name };
-  });
+  const formats = getFormatChips();
 
   return (
     <>
@@ -79,7 +75,7 @@ export default function ContactPage() {
 
       <Section className="border-t border-rule">
         <Container className="grid grid-cols-1 gap-10 py-14 md:grid-cols-12 md:py-20">
-          <div className="md:col-span-4">
+          <div className="md:col-span-4 lg:sticky lg:top-[calc(var(--header-h)+24px)] lg:self-start">
             <SectionTitle num="01">Или форма</SectionTitle>
             <p className="mt-4 max-w-[36ch] text-[15px] leading-relaxed text-meta">
               {STATIC_SITE

@@ -7,6 +7,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { X, Check, Copy } from "lucide-react";
 import { settings } from "@/lib/settings";
 import { igDmLink, telLink, tgLink, waLink } from "@/lib/links";
+import type { FormatChip } from "@/lib/content";
 import { leadWaLink, sendLead, type LeadPayload } from "@/lib/lead";
 import { useMediaQuery, useScrollLock } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
@@ -45,8 +46,8 @@ export function useContactPanel() {
 }
 
 /* ── focus trap (общий для меню и панели) ─────────────────────────────── */
-/* iframe — чтобы Tab доходил до встроенного YouTube в плеере */
-const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),textarea:not([disabled]),select:not([disabled]),iframe,[tabindex]:not([tabindex="-1"])';
+/* iframe — чтобы Tab доходил до встроенного YouTube в плеере; input[tabindex=-1] — honeypot-поле форм */
+const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]):not([tabindex="-1"]),textarea:not([disabled]),select:not([disabled]),iframe,[tabindex]:not([tabindex="-1"])';
 
 /**
  * Фокус на первый элемент при открытии, Tab по кругу, Esc → onClose, возврат фокуса на триггер.
@@ -66,7 +67,10 @@ export function useFocusTrap(
     const root = ref.current;
     if (!root) return;
     const prev = getReturn.current?.() ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null);
-    const items = () => Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE)).filter((el) => el.offsetParent !== null || el === document.activeElement);
+    /* data-focus-guard — сторож после iframe плеера: он только возвращает фокус в диалог, в круг Tab не входит */
+    const items = () => Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE)).filter(
+      (el) => !el.hasAttribute("data-focus-guard") && (el.offsetParent !== null || el === document.activeElement),
+    );
     const first = items().find((el) => el.dataset.autofocus !== undefined) ?? items()[0];
     const t = window.setTimeout(() => first?.focus({ preventScroll: true }), 30);
     const onKey = (e: KeyboardEvent) => {
@@ -75,6 +79,17 @@ export function useFocusTrap(
       const list = items();
       if (!list.length) return;
       const a = list[0], z = list[list.length - 1];
+      /* фокус потерян (body, снятая кнопка) или на tabIndex=-1 блоке результата: ведём к ближайшему элементу диалога */
+      const cur = document.activeElement as HTMLElement | null;
+      if (!cur || !list.includes(cur)) {
+        e.preventDefault();
+        const inRoot = !!cur && root.contains(cur);
+        const next = e.shiftKey
+          ? [...list].reverse().find((el) => inRoot && cur!.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_PRECEDING) ?? z
+          : list.find((el) => inRoot && cur!.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING) ?? a;
+        next.focus();
+        return;
+      }
       if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
       else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
     };
@@ -92,11 +107,8 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 /** sent — принято сервером; wa — статика: текст заявки открыт в WhatsApp, осталось отправить там */
 type Status = "idle" | "sending" | "sent" | "wa" | "fail";
 
-/**
- * Чип формата. Список собирается на сервере (layout.tsx): у одинаковых имён (два «Клип») добавлен
- * первый термин — «Клип · highlight film» / «Клип · music video». В /api/lead уходит именно label.
- */
-export type FormatChip = { slug: string; label: string };
+/** Чип формата собирает getFormatChips() на сервере (layout.tsx); в /api/lead уходит именно label. */
+export type { FormatChip };
 
 export default function ContactPanel({ formats }: { formats: FormatChip[] }) {
   const { isOpen, close } = useContactPanel();
@@ -124,6 +136,18 @@ export default function ContactPanel({ formats }: { formats: FormatChip[] }) {
   const [status, setStatus] = useState<Status>("idle");
   const [format, setFormat] = useState<string>("");
   const [draft, setDraft] = useState({ name: "", contact: "", when: "", message: "" });
+  const [consent, setConsent] = useState(false);
+  const statusRef = useRef<HTMLDivElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const focusName = useRef(false);
+  /* honeypot-тайминг: отсчёт с первого открытия панели (черновик живёт между открытиями) */
+  const startedAt = useRef(0);
+  useEffect(() => { if (isOpen && !startedAt.current) startedAt.current = Date.now(); }, [isOpen]);
+  /* после «Получила!» / «Почти готово» фокус на блок результата, после «изменить заявку» - на имя */
+  useEffect(() => {
+    if (status === "sent" || status === "wa") statusRef.current?.focus({ preventScroll: true });
+    else if (status === "idle" && focusName.current) { focusName.current = false; nameRef.current?.focus({ preventScroll: true }); }
+  }, [status]);
   /* последняя заявка — для постоянной кнопки «Открыть WhatsApp» (попап мог быть заблокирован) */
   const [sent, setSent] = useState<LeadPayload | null>(null);
 
@@ -133,13 +157,19 @@ export default function ContactPanel({ formats }: { formats: FormatChip[] }) {
     setPrevOpen(isOpen);
     if (!isOpen && (status === "sent" || status === "wa")) {
       setStatus("idle");
-      if (status === "sent") { setDraft({ name: "", contact: "", when: "", message: "" }); setFormat(""); }
+      if (status === "sent") {
+        setDraft({ name: "", contact: "", when: "", message: "" });
+        setFormat("");
+        setConsent(false);
+      }
     }
   }
 
   const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (status === "sending") return;
+    if (status === "sending" || !consent) return;
+    /* honeypot читаем до sendLead: window.open на статике должен остаться в жесте пользователя */
+    const website = String(new FormData(e.currentTarget).get("hp_note") ?? "").trim() || undefined;
     /* контракт /api/lead: name, contact, format?, when?, message?, consent: true */
     const formatLabel = formats.find((f) => f.slug === format)?.label;
     const payload: LeadPayload = {
@@ -147,14 +177,20 @@ export default function ContactPanel({ formats }: { formats: FormatChip[] }) {
       contact: draft.contact,
       format: formatLabel,
       when: draft.when,
-      message: [draft.message, `[со страницы ${pathname}]`].filter(Boolean).join("\n"),
+      /* метка страницы первой и с обрезанным путём: длинный 404-URL не вытеснит текст и не выбьет из лимита сервера */
+      message: [`[со страницы ${pathname.slice(0, 80)}]`, draft.message].filter(Boolean).join("\n"),
       consent: true,
+      website,
+      elapsed: Date.now() - startedAt.current,
     };
     /* sendLead — синхронно, до первого await: на статике он открывает WhatsApp по жесту пользователя */
     const pending = sendLead(payload, text);
     setSent(payload);
     setStatus("sending");
-    setStatus(await pending);
+    const result = await pending;
+    /* заявка ушла - следующая считается заново с открытия панели */
+    if (result === "sent") startedAt.current = 0;
+    setStatus(result);
   };
 
   const fallbackText = [
@@ -225,11 +261,13 @@ export default function ContactPanel({ formats }: { formats: FormatChip[] }) {
               <dl className="mono grid gap-3 border-t border-rule pt-5">
                 <div className="flex min-h-11 items-center gap-3">
                   <dt className="text-meta">email</dt>
-                  <dd className="normal-case tracking-normal">{settings.contacts.email}</dd>
-                  <button type="button" onClick={copyEmail} className="ml-auto flex h-11 items-center gap-1.5 px-2 text-signal hover:text-milk" aria-live="polite">
-                    {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
-                    {copied ? "скопировано" : "скопировать"}
-                  </button>
+                  <dd className="flex min-w-0 flex-1 items-center gap-3">
+                    <span className="min-w-0 normal-case tracking-normal [overflow-wrap:anywhere]">{settings.contacts.email}</span>
+                    <button type="button" onClick={copyEmail} className="ml-auto flex h-11 shrink-0 items-center gap-1.5 px-2 text-signal hover:text-milk" aria-live="polite">
+                      {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
+                      {copied ? "скопировано" : "скопировать"}
+                    </button>
+                  </dd>
                 </div>
                 <div className="flex min-h-11 items-center gap-3">
                   <dt className="text-meta">тел</dt>
@@ -239,12 +277,12 @@ export default function ContactPanel({ formats }: { formats: FormatChip[] }) {
 
               {/* форма */}
               {status === "sent" ? (
-                <div className="border-t border-rule pt-6" role="status">
+                <div ref={statusRef} tabIndex={-1} className="border-t border-rule pt-6 outline-none" role="status">
                   <p className="disp text-h3 text-signal">Получила!</p>
                   <p className="mt-3 text-milk">Напишу сегодня.</p>
                 </div>
               ) : status === "wa" && sent ? (
-                <div className="flex flex-col gap-4 border-t border-rule pt-6" role="status">
+                <div ref={statusRef} tabIndex={-1} className="flex flex-col gap-4 border-t border-rule pt-6 outline-none" role="status">
                   <p className="disp text-h3">Осталось нажать «Отправить» в WhatsApp</p>
                   <p className="text-milk">
                     Текст заявки уже в чате. Если WhatsApp не открылся — нажмите кнопку ниже.
@@ -254,21 +292,26 @@ export default function ContactPanel({ formats }: { formats: FormatChip[] }) {
                   </Button>
                   <button
                     type="button"
-                    onClick={() => setStatus("idle")}
+                    onClick={() => { focusName.current = true; setStatus("idle"); }}
                     className="mono-sm flex h-11 items-center self-start text-meta transition-colors hover:text-signal"
                   >
                     [ изменить заявку ]
                   </button>
                 </div>
               ) : (
-                <form onSubmit={submit} className="flex flex-col gap-5 border-t border-rule pt-6" aria-busy={status === "sending"}>
+                <form onSubmit={submit} className="relative flex flex-col gap-5 border-t border-rule pt-6" aria-busy={status === "sending"}>
                   <p className="mono text-meta">или коротко здесь</p>
 
+                  {/* honeypot: люди не видят и не табают, боты заполняют */}
+                  <div aria-hidden="true" className="pointer-events-none absolute -left-[9999px] top-0 h-px w-px overflow-hidden opacity-0">
+                    <label>Не заполняйте<input type="text" name="hp_note" tabIndex={-1} autoComplete="off" defaultValue="" /></label>
+                  </div>
+
                   <Field id={`${uid}-name`} label="имя">
-                    <input id={`${uid}-name`} name="name" autoComplete="name" required value={draft.name} onChange={(e) => setDraft({ ...draft, name: e.target.value })} className={inputCls} />
+                    <input ref={nameRef} id={`${uid}-name`} name="name" autoComplete="name" required maxLength={80} value={draft.name} onChange={(e) => setDraft({ ...draft, name: e.target.value })} className={inputCls} />
                   </Field>
                   <Field id={`${uid}-contact`} label="телефон / ник">
-                    <input id={`${uid}-contact`} name="contact" autoComplete="tel" inputMode="tel" required placeholder="+7 ··· или @ник" value={draft.contact} onChange={(e) => setDraft({ ...draft, contact: e.target.value })} className={inputCls} />
+                    <input id={`${uid}-contact`} name="contact" autoComplete="tel" inputMode="text" required maxLength={120} placeholder="+7 ··· или @ник" value={draft.contact} onChange={(e) => setDraft({ ...draft, contact: e.target.value })} className={inputCls} />
                   </Field>
 
                   <fieldset className="flex flex-col gap-2">
@@ -284,7 +327,7 @@ export default function ContactPanel({ formats }: { formats: FormatChip[] }) {
                             onClick={() => setFormat(on ? "" : f.slug)}
                             className={cn(
                               "mono-sm h-11 border px-3 transition-colors",
-                              on ? "border-signal bg-signal text-ink" : "border-meta/60 text-milk hover:border-milk",
+                              on ? "border-signal bg-signal text-ink" : "border-meta/80 text-milk hover:border-milk",
                             )}
                           >
                             {f.label}
@@ -299,6 +342,7 @@ export default function ContactPanel({ formats }: { formats: FormatChip[] }) {
                     <input
                       id={`${uid}-when`}
                       name="when"
+                      maxLength={80}
                       placeholder={AVAILABILITY_ON ? "12 июля 2027" : "июль 2027"}
                       value={draft.when}
                       onChange={(e) => setDraft({ ...draft, when: e.target.value })}
@@ -308,13 +352,25 @@ export default function ContactPanel({ formats }: { formats: FormatChip[] }) {
                     {AVAILABILITY_ON && <DateStatus id={`${uid}-when-status`} value={draft.when} className="pt-2" />}
                   </Field>
                   <Field id={`${uid}-msg`} label="пару слов">
-                    <textarea id={`${uid}-msg`} name="message" rows={3} value={draft.message} onChange={(e) => setDraft({ ...draft, message: e.target.value })} className={cn(inputCls, "h-auto min-h-24 resize-y py-3")} />
+                    <textarea id={`${uid}-msg`} name="message" rows={3} maxLength={2000} value={draft.message} onChange={(e) => setDraft({ ...draft, message: e.target.value })} className={cn(inputCls, "h-auto min-h-24 resize-y py-3")} />
                   </Field>
 
-                  <p className="mono-sm text-meta">
-                    Нажимая «Отправить», соглашаетесь с{" "}
-                    <Link href="/privacy" className="underline underline-offset-4 hover:text-signal">политикой</Link>
-                  </p>
+                  <label className="flex min-h-11 cursor-pointer items-start gap-3 py-2">
+                    <input
+                      type="checkbox"
+                      name="consent"
+                      required
+                      checked={consent}
+                      onChange={(e) => setConsent(e.target.checked)}
+                      className="mt-1 h-5 w-5 shrink-0 appearance-none border border-meta checked:border-signal checked:bg-signal"
+                    />
+                    <span className="text-[14px] leading-snug text-meta">
+                      Согласна(ен) на обработку персональных данных
+                    </span>
+                  </label>
+                  <Link href="/privacy" target="_blank" rel="noopener" className="mono-sm -mt-3 inline-flex min-h-11 items-center self-start text-meta underline underline-offset-4 hover:text-milk">
+                    как я их храню
+                  </Link>
 
                   {status === "fail" && (
                     <div role="alert" className="flex flex-col gap-3 border border-signal p-4">
@@ -327,8 +383,8 @@ export default function ContactPanel({ formats }: { formats: FormatChip[] }) {
 
                   <button
                     type="submit"
-                    disabled={status === "sending"}
-                    className="mono flex h-14 items-center justify-center border border-milk font-medium text-milk transition-colors hover:bg-milk hover:text-ink disabled:opacity-60"
+                    aria-disabled={status === "sending" || undefined}
+                    className="mono flex h-14 items-center justify-center border border-milk font-medium text-milk transition-colors hover:bg-milk hover:text-ink aria-disabled:cursor-wait aria-disabled:opacity-60"
                   >
                     {status === "sending" ? "Отправляю…" : "Отправить"}
                   </button>
@@ -342,7 +398,7 @@ export default function ContactPanel({ formats }: { formats: FormatChip[] }) {
   );
 }
 
-const inputCls = "h-12 w-full border-0 border-b border-meta/60 bg-transparent px-0 text-[17px] text-milk placeholder:text-meta focus:border-signal focus:outline-none";
+const inputCls = "h-12 w-full border-0 border-b border-meta/80 bg-transparent px-0 text-[17px] text-milk placeholder:text-meta focus:border-signal";
 
 function Field({ id, label, children }: { id: string; label: string; children: ReactNode }) {
   return (

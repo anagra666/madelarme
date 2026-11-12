@@ -2,8 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { settings } from "@/lib/settings";
 import { igLink, telLink, tgLink, waLink } from "@/lib/links";
-import { AlmatyClock } from "@/components/layout/StickyCTA";
-import { LangRow } from "@/components/layout/MenuOverlay";
+import { AlmatyClock, StickySpacer } from "@/components/layout/StickyCTA";
 
 /** Reels и Шоурил — только когда им есть что показать: пустая лента / нет шоурила → ссылки нет */
 function nav(hasReels: boolean) {
@@ -18,7 +17,8 @@ function nav(hasReels: boolean) {
   ].filter((n) => !!n);
 }
 
-const link = "mono inline-flex min-h-11 items-center py-1 text-milk transition-colors hover:text-signal";
+const link = "mono inline-flex min-h-11 min-w-11 items-center py-1 text-milk transition-colors hover:text-signal";
+const linkMeta = link.replace("text-milk", "text-meta");
 
 function Col({ title, children }: { title: string; children: ReactNode }) {
   return (
@@ -31,15 +31,15 @@ function Col({ title, children }: { title: string; children: ReactNode }) {
 
 /**
  * Футер: 4 моно-колонки (2×2 на телефоне), контурный вордмарк во всю ширину,
- * нижняя строка с © и языками. На телефоне — отступ снизу под sticky-полосу.
- * Список форматов и наличие reels приходят из layout.tsx.
+ * нижняя строка с ©. На телефоне зазор под sticky-полосу (StickySpacer) есть только там, где полоса бывает.
+ * Три группы форматов (с числом работ) и наличие reels приходят из layout.tsx.
  */
-export default function Footer({ formats, hasReels }: { formats: { slug: string; name: string }[]; hasReels: boolean }) {
+export default function Footer({ groups, hasReels }: { groups: { key: string; title: string }[]; hasReels: boolean }) {
   const c = settings.contacts;
   const year = new Date().getFullYear();
 
   return (
-    <footer className="grain relative overflow-hidden border-t border-rule bg-ink text-milk pb-[calc(var(--sticky-h)+env(safe-area-inset-bottom))] lg:pb-0">
+    <footer className="grain relative overflow-hidden border-t border-rule bg-ink text-milk pb-[env(safe-area-inset-bottom)] lg:pb-0">
       <div className="relative z-2 max-w-full px-gutter pt-12 lg:pt-16">
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4 lg:gap-x-8">
           <Col title="навигация">
@@ -52,9 +52,10 @@ export default function Footer({ formats, hasReels }: { formats: { slug: string;
 
           <Col title="форматы">
             <ul className="flex flex-col">
-              {formats.map((f) => (
-                <li key={f.slug}><Link href={`/formats/${f.slug}`} prefetch={false} className={link}>{f.name}</Link></li>
+              {groups.map((g) => (
+                <li key={g.key}><Link href={`/formats#${g.key}`} prefetch={false} className={link}>{g.title}</Link></li>
               ))}
+              <li><Link href="/formats" prefetch={false} className={linkMeta}>все форматы →</Link></li>
             </ul>
           </Col>
 
@@ -89,7 +90,7 @@ export default function Footer({ formats, hasReels }: { formats: { slug: string;
         >
           <span
             aria-hidden="true"
-            className="disp block whitespace-nowrap leading-[0.8] text-transparent text-[25.4cqw] [-webkit-text-stroke:1px_var(--color-milk)] transition-colors duration-500 group-hover:text-signal group-hover:[-webkit-text-stroke-color:var(--color-signal)] group-focus-visible:text-signal"
+            className="disp block whitespace-nowrap leading-[0.8] text-ink text-[25.4cqw] [-webkit-text-stroke:2px_var(--color-milk)] [paint-order:stroke_fill] transition-colors duration-500 group-hover:text-signal group-hover:[-webkit-text-stroke-color:var(--color-signal)] group-focus-visible:text-signal"
           >
             {settings.brand.wordmark}
           </span>
@@ -100,12 +101,12 @@ export default function Footer({ formats, hasReels }: { formats: { slug: string;
             <span>© {year} {settings.brand.person}</span>
             {settings.legal.entity && <span>{settings.legal.entity}</span>}
             <span className="inline-flex items-center">
-              <Link href="/privacy" className="inline-flex min-h-11 items-center text-milk transition-colors hover:text-signal lg:min-h-0">политика конфиденциальности</Link>
+              <Link href="/privacy" className="inline-flex min-h-11 items-center text-milk transition-colors hover:text-signal lg:pointer-fine:min-h-0">политика конфиденциальности</Link>
             </span>
           </p>
-          <LangRow />
         </div>
       </div>
+      <StickySpacer />
     </footer>
   );
 }

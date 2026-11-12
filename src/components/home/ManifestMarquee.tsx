@@ -17,14 +17,14 @@ const MARKS: { label: string; slug: string }[] = [
 
 export default function ManifestMarquee() {
   return (
-    <section id="manifest" aria-label="Что снимаю" className="flex min-h-[10vh] items-center overflow-hidden bg-signal text-ink lg:min-h-[14vh]">
+    <section id="manifest" aria-label="Бегущая строка форматов" className="flex min-h-[10vh] items-center overflow-hidden bg-signal text-ink lg:min-h-[14vh]">
       {/* слов стало больше и они длиннее — оборот дольше, чтобы скорость строки осталась прежней */}
       <Marquee duration={72} gap="0" className="w-full py-[0.5vh]">
         {MARKS.map(({ label, slug }) => (
           <span key={slug} className="flex items-center">
             <Link
               href={`/formats/${slug}`}
-              className="disp whitespace-nowrap px-[0.12em] text-[14vw] leading-none transition-colors duration-300 ease-out-expo hover:text-milk focus-visible:outline-ink lg:text-[9vw]"
+              className="disp whitespace-nowrap px-[0.12em] text-[14vw] leading-none transition-colors duration-300 ease-out-expo hover:text-milk focus-visible:outline-ink focus-visible:-outline-offset-4 lg:text-[9vw]"
             >
               {label}
             </Link>

@@ -15,6 +15,8 @@ export interface FilterChip {
   key: string;
   label: string;
   count?: number;
+  /** язык подписи, если не русский (казахское название формата) — для lang на метке */
+  lang?: string;
 }
 
 export type FilterSelection = { format?: string; mood?: string; city?: string };
@@ -41,7 +43,7 @@ export function filterHref(sel: FilterSelection, patch: Partial<FilterSelection>
   return q ? `/work?${q}` : "/work";
 }
 
-function Chip({ active, to, children }: { active: boolean; to: string; children: React.ReactNode }) {
+function Chip({ active, to, lang, children }: { active: boolean; to: string; lang?: string; children: React.ReactNode }) {
   return (
     <Link
       href={to}
@@ -58,7 +60,7 @@ function Chip({ active, to, children }: { active: boolean; to: string; children:
             : "border-rule text-meta group-hover:text-milk lg:border-transparent lg:group-hover:border-rule",
         )}
       >
-        {children}
+        {lang ? <span lang={lang}>{children}</span> : children}
       </span>
     </Link>
   );
@@ -84,7 +86,7 @@ export default function WorkFilters({ formats, moods, total, selected }: WorkFil
           Все ({total})
         </Chip>
         {formats.map((f) => (
-          <Chip key={f.key} active={selected.format === f.key} to={filterHref(selected, { format: f.key })}>
+          <Chip key={f.key} active={selected.format === f.key} to={filterHref(selected, { format: f.key })} lang={f.lang}>
             {f.label}
             {typeof f.count === "number" && ` (${f.count})`}
           </Chip>

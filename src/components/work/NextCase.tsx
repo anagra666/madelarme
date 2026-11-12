@@ -7,7 +7,7 @@ import Button from "@/components/ui/Button";
 
 /**
  * «СЛЕДУЮЩАЯ → {title}» гигантской строкой (≤14 символов — в одну строку, длиннее — перенос с balance;
- * hover — постер за строкой, только картинка),
+ * hover — постер за строкой (40%), красится только стрелка),
  * «← {prev}» мельче, затем мини-CTA «Хочу как у {clientGen}» в WhatsApp (clientGen — клиент в родительном падеже;
  * без него — «Хочу как в «{title}»», как в тексте предзаполнения: «как у «Тау-той»» и имя в именительном после «у» неграмотны).
  * Длинное название в CTA («Хочу как в «Red Bull Annual Recap»») на 360px не влезает в строку кнопки —
@@ -26,17 +26,13 @@ export default function NextCase({ c, next, prev }: { c: Case; next?: Case; prev
             alt=""
             fill
             sizes="100vw"
-            className="pointer-events-none object-cover opacity-0 transition-opacity duration-700 ease-out-expo group-hover:opacity-50 group-focus-visible:opacity-50 motion-reduce:transition-none"
+            className="pointer-events-none object-cover opacity-0 transition-opacity duration-700 ease-out-expo group-hover:opacity-40 group-focus-visible:opacity-40 motion-reduce:transition-none"
           />
           <span className="relative z-10 block">
             <span className="mono block text-meta">[ Следующая ]</span>
-            <span
-              className={cn(
-                "disp text-h2 mt-3 block transition-colors duration-300 group-hover:text-signal",
-                titleWrap(next.title),
-              )}
-            >
-              → {next.title}
+            {/* hover красит только стрелку: заголовок остаётся milk, иначе signal сливается с постером (≈1.3:1) */}
+            <span className={cn("disp text-h2 mt-3 block", titleWrap(next.title))}>
+              <span className="transition-colors duration-300 group-hover:text-signal group-focus-visible:text-signal">→</span> {next.title}
             </span>
           </span>
         </Link>
@@ -46,9 +42,9 @@ export default function NextCase({ c, next, prev }: { c: Case; next?: Case; prev
         {prev ? (
           <Link
             href={`/work/${prev.slug}`}
-            className="mono inline-flex h-11 items-center gap-2 text-meta transition-colors hover:text-signal"
+            className="group mono inline-flex h-11 items-center gap-2 text-meta transition-colors hover:text-signal"
           >
-            ← <span className="disp text-[22px] normal-case text-milk">{prev.title}</span>
+            ← <span className="disp text-[26px] text-milk transition-colors duration-300 group-hover:text-signal">{prev.title}</span>
           </Link>
         ) : (
           <span />

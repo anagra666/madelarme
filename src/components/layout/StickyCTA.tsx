@@ -142,6 +142,14 @@ export function AlmatyClock({ className }: { className?: string }) {
    Sticky-полоса CTA (только телефон, <1024px)
    ════════════════════════════════════════════════════════════════════════ */
 const HIDDEN_ON = ["/contact", "/reels"];
+export const isStickyHidden = (pathname: string) => HIDDEN_ON.some((p) => pathname === p || pathname.startsWith(p + "/"));
+
+/** Зазор под полосу в конце футера: есть только там, где сама полоса может появиться */
+export function StickySpacer() {
+  const pathname = usePathname();
+  if (isStickyHidden(pathname)) return null;
+  return <div aria-hidden="true" className="h-(--sticky-h) lg:hidden [@media(max-height:500px)]:hidden" />;
+}
 /** id финальной секции (FinalCTA) — там те же кнопки, полоса дублировала бы их */
 const FINAL_CTA_ID = "cta";
 
@@ -175,7 +183,7 @@ export default function StickyCTA() {
     return () => window.removeEventListener("resize", on);
   }, []);
 
-  if (HIDDEN_ON.some((p) => pathname === p || pathname.startsWith(p + "/"))) return null;
+  if (isStickyHidden(pathname)) return null;
 
   const visible = !overlay && !ctaInView && vh > 0 && y > vh * 0.6 && dir === "up";
 
@@ -188,7 +196,7 @@ export default function StickyCTA() {
       animate={{ y: visible ? 0 : "110%" }}
       transition={reduce ? { duration: 0 } : { duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
       className={cn(
-        "fixed inset-x-0 bottom-0 z-40 lg:hidden",
+        "fixed inset-x-0 bottom-0 z-40 lg:hidden [@media(max-height:500px)]:hidden",
         "border-t border-rule bg-ink pb-[env(safe-area-inset-bottom)]",
         !visible && "pointer-events-none",
       )}

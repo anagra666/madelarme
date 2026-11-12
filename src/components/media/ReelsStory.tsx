@@ -49,7 +49,7 @@ export function ReelsStoryHost({ reels }: { reels: Reel[] }) {
 /* ── общее для оверлея и страницы: шаг ленты и клавиатура ──────────────── */
 /* высоту задаёт вызывающий: оверлей — h-svh, страница — svh минус шапка (под ней распорка) */
 const SCROLLER_CLASS =
-  "snap-y snap-mandatory overflow-y-auto overscroll-contain outline-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
+  "snap-y snap-mandatory overflow-y-auto overscroll-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden";
 
 type Scroller = RefObject<HTMLDivElement | null>;
 

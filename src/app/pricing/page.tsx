@@ -35,11 +35,11 @@ export default function PricingPage() {
         <Container className="pb-16 md:pb-24">
           {/* sr-only h2 — чтобы между H1 «Цены» и h3 карточек не было пропуска уровня */}
           <h2 className="sr-only">Тарифы</h2>
-          {/* час / полдня / весь день и ролики для соцсетей — одной строкой карточек; якоря #time и #unit
-              (ссылки со страниц форматов) — на первой карточке своей модели */}
+          {/* час / полдня / весь день и ролики для соцсетей — одной строкой карточек; якоря — слаги тарифов
+              (#hour, #half-day, #full-day, #social): на них ведут тизер главной и страницы форматов */}
           <div className="grid min-w-0 grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {collections.map((c, i) => (
-              <PriceCard key={c.slug} c={c} id={collections.findIndex((x) => x.tab === c.tab) === i ? c.tab : undefined} />
+            {collections.map((c) => (
+              <PriceCard key={c.slug} c={c} id={c.slug} />
             ))}
           </div>
         </Container>
@@ -89,7 +89,7 @@ export default function PricingPage() {
         <Container className="flex flex-col items-start gap-6 py-16 pb-[calc(64px+var(--sticky-h))] md:py-24 md:pb-[calc(96px+var(--sticky-h))]">
           <p className="disp text-h2">Дата свободна?</p>
           <p className="mono text-meta">напишите дату и город — отвечаю быстро</p>
-          <Button variant="signal" size="xl" href={waLink(prefill("contact"))}>
+          <Button variant="signal" size="xl" href={waLink(prefill("contact"))} className="w-full sm:w-auto">
             Проверить дату · WhatsApp
           </Button>
         </Container>

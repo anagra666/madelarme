@@ -22,6 +22,7 @@ export default function CaseReels({ reels, title }: { reels: MediaLoop[]; title:
               loop={r}
               orientation="v"
               mode="visible"
+              pauseButton
               className="aspect-[9/16] w-full"
               sizes="(min-width: 1024px) 25vw, 62vw"
             />

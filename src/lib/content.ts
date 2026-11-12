@@ -65,11 +65,27 @@ export const formatGroups: { key: FormatGroup; title: string; num: string }[] = 
   { key: "content", title: "Контент и музыка", num: "03" },
 ];
 
-export const moods: { key: Case["mood"][number]; label: string }[] = [
-  { key: "bold", label: "Дерзкие" },
-  { key: "gentle", label: "Нежные" },
-  { key: "documentary", label: "Документальные" },
-];
+/* moods вынесены в moods.ts (без JSON-импортов), чтобы клиентские компоненты не тянули контент в бандл */
+export { moods } from "@/lib/moods";
+
+export type FormatChip = { slug: string; label: string; primary?: boolean };
+
+/** Форматы, которые в форме и панели «Написать» показываются первыми (остальные прячутся за «ещё») */
+const PRIMARY_CHIPS = ["wedding-film", "love-story", "aftermovie", "activation", "corporate", "birthday", "backstage", "content-day"];
+
+/**
+ * Форматы для чипов формы и панели (без доп. опций). Если имена совпадут, к имени добавляется первый термин.
+ * Этот label уходит в /api/lead и проверяется там по allowlist.
+ */
+export function getFormatChips(): FormatChip[] {
+  const main = getFormats().filter((f) => !f.isAddon);
+  const dup = new Set(main.map((f) => f.name).filter((n, i, a) => a.indexOf(n) !== i));
+  return main.map((f) => ({
+    slug: f.slug,
+    label: dup.has(f.name) ? `${f.name} · ${f.term.split("/")[0].trim()}` : f.name,
+    primary: PRIMARY_CHIPS.includes(f.slug) || undefined,
+  }));
+}
 
 export function getPricing() {
   return {

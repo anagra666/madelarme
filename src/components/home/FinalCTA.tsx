@@ -23,10 +23,10 @@ export default function FinalCTA() {
         className="pointer-events-none absolute inset-0 flex items-end pb-[calc(var(--sticky-h)+env(safe-area-inset-bottom)+8px)] lg:items-center lg:pb-0"
       >
         <Marquee duration={48} gap="0.35em" className="w-full">
-          <span className="disp text-h1 whitespace-nowrap text-transparent [-webkit-text-stroke:1px_rgb(236_231_223/0.28)]">
+          <span className="disp text-h1 whitespace-nowrap text-ink [-webkit-text-stroke:2px_rgb(236_231_223/0.28)] [paint-order:stroke_fill]">
             ДАВАЙ СНИМАТЬ ·
           </span>
-          <span className="disp text-h1 whitespace-nowrap text-transparent [-webkit-text-stroke:1px_rgb(236_231_223/0.28)]">
+          <span className="disp text-h1 whitespace-nowrap text-ink [-webkit-text-stroke:2px_rgb(236_231_223/0.28)] [paint-order:stroke_fill]">
             ДАВАЙ СНИМАТЬ ·
           </span>
         </Marquee>

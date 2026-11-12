@@ -7,7 +7,7 @@ import ShowreelBlock, { WatchFilmButton } from "@/components/pages/ShowreelBlock
 import { realFilm } from "@/components/work/film";
 import { getCases, settings } from "@/lib/content";
 import { prefill, waLink } from "@/lib/links";
-import { pad2 } from "@/lib/utils";
+import { cn, isLongTitle, pad2, titleWrap } from "@/lib/utils";
 
 const { brand } = settings;
 const featured = getCases({ featured: true });
@@ -56,10 +56,15 @@ export default function ShowreelPage() {
               {featured.map((c, i) => {
                 const caseFilm = realFilm(c.fullVideo);
                 return (
-                  <li key={c.slug} className="flex min-h-14 items-center gap-4 border-b border-rule py-3 md:gap-8">
-                    <Link href={`/work/${c.slug}`} className="group flex min-w-0 flex-1 items-center gap-4 md:gap-8">
+                  <li key={c.slug} className="flex min-h-14 items-center gap-4 border-b border-rule md:gap-8">
+                    <Link href={`/work/${c.slug}`} className="group flex min-w-0 flex-1 items-center gap-4 self-stretch py-3 md:gap-8">
                       <span className="mono w-8 shrink-0 text-meta tabular-nums">{pad2(i + 1)}</span>
-                      <span className="disp text-h3 min-w-0 flex-1 overflow-x-clip text-ellipsis whitespace-nowrap transition-colors duration-300 group-hover:text-signal">
+                      <span className={cn(
+                          "disp min-w-0 flex-1 transition-colors duration-300 group-hover:text-signal",
+                          titleWrap(c.title),
+                          /* длинное название на телефоне мельче, чтобы «ANNUAL RECAP» влезало в колонку; с md — как короткие */
+                          isLongTitle(c.title) ? "text-[clamp(26px,8.5vw,32px)] md:text-h3" : "text-h3",
+                        )}>
                         {c.title}
                       </span>
                       {c.client !== c.title && <span className="mono hidden shrink-0 text-meta md:block">{c.client}</span>}
@@ -77,7 +82,7 @@ export default function ShowreelPage() {
       <Section>
         <Container className="flex flex-col items-start gap-6 py-12 pb-[calc(64px+var(--sticky-h))] md:py-20 md:pb-[calc(96px+var(--sticky-h))]">
           <p className="disp text-h2">Хочу так же</p>
-          <Button variant="signal" size="xl" href={waLink(prefill("home"))}>
+          <Button variant="signal" size="xl" href={waLink(prefill("home"))} className="w-full sm:w-auto">
             Обсудить съёмку · WhatsApp
           </Button>
         </Container>

@@ -1,8 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import type { MediaLoop } from "@/content/types";
 import { cn, isTouch, prefersReducedMotion, saveData } from "@/lib/utils";
+import { HOVER_INTENT_MS, pointerMoved } from "@/lib/media";
 
 /**
  * Единственный способ показывать беззвучные лупы на сайте.
@@ -12,8 +13,11 @@ import { cn, isTouch, prefersReducedMotion, saveData } from "@/lib/utils";
  * — режим visible: на тач-устройствах играет ОДИН луп — ближайший к центру экрана (общий
  *   планировщик, см. ниже), на десктопе — все видимые, но не больше 3;
  * — пауза в фоне (visibilitychange), autoplay заблокирован (Low Power Mode, Instagram in-app)
- *   → постер + кнопка ▶ (жест пользователя); saveData / 2g → видео не грузится вообще;
- *   prefers-reduced-motion → без автоплея.
+ *   → постер + кнопка ▶ (жест пользователя); saveData → само видео не грузится, постер + ▶: явный тап по ▶
+ *   перебивает экономию трафика (<video> при этом всегда в DOM, но без src и с preload=none — байт не качает);
+ *   prefers-reduced-motion → без автоплея;
+ * — режим hover запускает луп не по mouseenter, а по движению мыши с задержкой (HOVER_INTENT_MS): строки,
+ *   проезжающие под неподвижным курсором при скролле, ничего не качают.
  */
 
 type Mode = "visible" | "hover" | "manual";
@@ -155,13 +159,17 @@ export default function CinemaVideo({
 
   const hasV = Boolean(loop.mp4V);
 
-  /* выбрать файл — один раз, когда видео реально нужно */
-  const ensureSrc = useCallback(() => {
-    if (src) return;
-    if (saveData()) { setNoVideo(true); return; }
+  /* выбрать файл — один раз, когда видео реально нужно; вернуть выбранный src (null — Save-Data без force).
+     force — явный тап по ▶: перебивает Save-Data */
+  const ensureSrc = useCallback((force = false): string | null => {
+    if (src) return src;
+    if (!force && saveData()) { setNoVideo(true); return null; }
+    setNoVideo(false);
     const portrait =
       orientation === "v" || (orientation === "auto" && hasV && window.matchMedia("(orientation: portrait)").matches);
-    setSrc(portrait && loop.mp4V ? loop.mp4V : loop.mp4H);
+    const s = portrait && loop.mp4V ? loop.mp4V : loop.mp4H;
+    setSrc(s);
+    return s;
   }, [src, orientation, hasV, loop.mp4H, loop.mp4V]);
 
   /** force — явный жест пользователя (▶): игнорирует prefers-reduced-motion и ручную паузу */
@@ -169,7 +177,7 @@ export default function CinemaVideo({
     const v = ref.current;
     if (!v || (userPaused && !force)) return;
     if (!force && prefersReducedMotion()) { setBlocked(true); return; }
-    ensureSrc();
+    if (!ensureSrc(force)) return;
     wantPlay.current = true;
     const attempt = () => {
       if (!wantPlay.current) return;
@@ -245,9 +253,21 @@ export default function CinemaVideo({
     return () => { v.removeEventListener("playing", on); v.removeEventListener("pause", off); v.removeEventListener("ended", off); };
   }, [onPlayingChange]);
 
+  /* hover-intent: луп стартует после HOVER_INTENT_MS настоящего движения мыши внутри бокса, не по mouseenter */
+  const hoverTimer = useRef(0);
+  useEffect(() => () => window.clearTimeout(hoverTimer.current), []);
   const hoverProps =
     mode === "hover"
-      ? { onMouseEnter: () => tryPlay(), onMouseLeave: () => doPause(), onFocus: () => tryPlay(), onBlur: () => doPause() }
+      ? {
+          onPointerMove: (e: ReactPointerEvent) => {
+            if (!pointerMoved(e) || wantPlay.current) return;
+            window.clearTimeout(hoverTimer.current);
+            hoverTimer.current = window.setTimeout(() => tryPlay(), HOVER_INTENT_MS);
+          },
+          onMouseLeave: () => { window.clearTimeout(hoverTimer.current); doPause(); },
+          onFocus: () => tryPlay(),
+          onBlur: () => doPause(),
+        }
       : {};
 
   const showPlayButton = playButton && (blocked || noVideo) && !isPlaying && mode !== "hover";
@@ -273,27 +293,33 @@ export default function CinemaVideo({
           />
         </picture>
 
-        {!noVideo && (
-          <video
-            ref={ref}
-            muted
-            loop
-            playsInline
-            disablePictureInPicture
-            disableRemotePlayback
-            preload={priority ? "metadata" : "none"}
-            aria-hidden="true"
-            tabIndex={-1}
-            className={cn("absolute inset-0 h-full w-full object-cover transition-opacity duration-500", isPlaying ? "opacity-100" : "opacity-0")}
-            style={{ objectPosition: focus }}
-          />
-        )}
+        {/* всегда в DOM: без src и с preload=none он ничего не качает (Save-Data), а ref и слушатели остаются на месте */}
+        <video
+          ref={ref}
+          muted
+          loop
+          playsInline
+          disablePictureInPicture
+          disableRemotePlayback
+          preload={priority ? "metadata" : "none"}
+          aria-hidden="true"
+          tabIndex={-1}
+          className={cn("absolute inset-0 h-full w-full object-cover transition-opacity duration-500", isPlaying ? "opacity-100" : "opacity-0")}
+          style={{ objectPosition: focus }}
+        />
 
         {showPlayButton && (
           <button
             type="button"
             aria-label="Воспроизвести"
-            onClick={() => { setUserPaused(false); setBlocked(false); ensureSrc(); tryPlay(true); }}
+            onClick={() => {
+              setUserPaused(false); setBlocked(false);
+              /* src ставим синхронно внутри тапа: play() идёт, пока жив user activation (iOS Low Power Mode) */
+              const s = ensureSrc(true);
+              const v = ref.current;
+              if (v && s && v.getAttribute("src") !== s) v.setAttribute("src", s);
+              tryPlay(true);
+            }}
             className="absolute inset-0 z-10 grid place-items-center"
           >
             <span className="mono grid h-14 w-14 place-items-center border border-milk/60 bg-ink/40 text-milk backdrop-blur-[2px]">▶</span>

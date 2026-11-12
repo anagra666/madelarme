@@ -29,9 +29,12 @@ cat > "$OUT/.env" <<EOF
 # тестовый домен: индексация запрещена уже при сборке (NEXT_PUBLIC_NOINDEX=1)
 PORT=3033
 HOSTNAME=127.0.0.1
-# заявки с формы → Telegram (без этих переменных заявки пишутся в лог сервера)
+# заявки с формы → Telegram (без этих переменных форма отвечает «Не отправилось» и предлагает написать в WhatsApp)
 # TELEGRAM_BOT_TOKEN=
 # TELEGRAM_CHAT_ID=
+# IP для лимита заявок берётся из X-Real-IP, только когда он точно от нашего nginx
+# (nginx.preview.conf ставит его в $remote_addr, а Node слушает 127.0.0.1). Без прокси перед Node - не включать.
+TRUST_PROXY=1
 EOF
 
 cat > "$OUT/madelarme-preview.service" <<'EOF'
@@ -57,10 +60,12 @@ server {
     listen 80;
     server_name ТЕСТ-ДОМЕН;
 
-    # дублируем запрет индексации на уровне nginx (приложение тоже отдаёт X-Robots-Tag)
-    add_header X-Robots-Tag "noindex, nofollow, noarchive" always;
+    # Страницы и /api/lead проксируются в Next: заголовки безопасности и X-Robots-Tag шлёт он сам (next.config.ts).
+    # Статику ниже nginx отдаёт напрямую, а location со своим add_header не наследует серверные,
+    # поэтому те же заголовки подключаем в каждый такой location одним файлом.
 
-    client_max_body_size 20m;
+    # загрузок на сайте нет; заявки - маленький JSON (см. location = /api/lead)
+    client_max_body_size 1m;
 
     # статика Next.js — кэшируем навсегда (имена файлов с хэшами)
     location /_next/static/ {
@@ -68,6 +73,7 @@ server {
         expires 1y;
         access_log off;
         add_header Cache-Control "public, immutable";
+        include snippets/madelarme-headers.conf;
     }
 
     # медиа (лупы mp4, постеры) — отдаём напрямую, с Range для видео
@@ -76,6 +82,17 @@ server {
         expires 30d;
         access_log off;
         add_header Cache-Control "public";
+        include snippets/madelarme-headers.conf;
+    }
+
+    location = /api/lead {
+        client_max_body_size 64k;
+        proxy_pass http://127.0.0.1:3033;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 
     location / {
@@ -87,6 +104,15 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
+EOF
+
+# заголовки: положить в /etc/nginx/snippets/madelarme-headers.conf (политика CSP - src/lib/security.ts)
+cat > "$OUT/madelarme-headers.conf" <<'EOF'
+add_header X-Robots-Tag "noindex, nofollow, noarchive" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header X-Frame-Options "DENY" always;
+add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()" always;
 EOF
 
 cat > "$OUT/README-DEPLOY.md" <<EOF
@@ -101,10 +127,10 @@ cat > "$OUT/README-DEPLOY.md" <<EOF
 \`\`\`bash
 unzip $NAME.zip -d /var/www && mv /var/www/$NAME /var/www/madelarme-preview
 cd /var/www/madelarme-preview
-node server.js            # слушает 127.0.0.1:3033 (см. .env)
+node --env-file=.env server.js   # слушает 127.0.0.1:3033 (порт и хост из .env; без --env-file встанет на 0.0.0.0:3000 в обход nginx)
 \`\`\`
 
-Проверка: \`curl -sI http://127.0.0.1:3033/ | grep -i x-robots\` → \`noindex, nofollow, …\`; \`curl http://127.0.0.1:3033/robots.txt\` → \`Disallow: /\`.
+Проверка: \`curl -sI http://127.0.0.1:3033/ | grep -iE 'x-robots|content-security|x-frame|referrer'\` → \`noindex, nofollow, …\` и заголовки безопасности; \`curl http://127.0.0.1:3033/robots.txt\` → \`Disallow: /\`.
 
 ## Как сервис
 
@@ -113,20 +139,20 @@ cp madelarme-preview.service /etc/systemd/system/
 systemctl daemon-reload && systemctl enable --now madelarme-preview
 \`\`\`
 
-(или \`pm2 start server.js --name madelarme-preview\`)
+(или \`pm2 start server.js --name madelarme-preview --node-args="--env-file=.env"\`)
 
 ## Nginx + HTTPS
 
-\`nginx.preview.conf\` — впишите тестовый домен вместо \`ТЕСТ-ДОМЕН\`, положите в \`sites-available\`, включите, затем \`certbot --nginx -d ТЕСТ-ДОМЕН\`. Без HTTPS превью ссылок в WhatsApp/Telegram не собирается.
+\`madelarme-headers.conf\` положите в \`/etc/nginx/snippets/\` (на него ссылается конфиг: запрет индексации и заголовки безопасности для статики и медиа). \`nginx.preview.conf\` — впишите тестовый домен вместо \`ТЕСТ-ДОМЕН\`, положите в \`sites-available\`, включите, затем \`certbot --nginx -d ТЕСТ-ДОМЕН\`. Без HTTPS превью ссылок в WhatsApp/Telegram не собирается.
 
 ## Заявки с формы
 
-Форма шлёт \`POST /api/lead\`. Чтобы заявки приходили в Telegram — добавьте в \`.env\` \`TELEGRAM_BOT_TOKEN\` и \`TELEGRAM_CHAT_ID\` и перезапустите сервис. Без них заявка пишется в лог, а пользователю форма всё равно отвечает «Получила!».
+Форма шлёт \`POST /api/lead\`. Чтобы заявки приходили в Telegram — добавьте в \`.env\` \`TELEGRAM_BOT_TOKEN\` и \`TELEGRAM_CHAT_ID\` и перезапустите сервис. Без них сервер отвечает 503, а форма показывает «Не отправилось» и кнопку WhatsApp с готовым текстом заявки. В консоль заявки пишутся только при \`pnpm dev\`. Заявки принимаются только с того же домена (проверка Origin), лимит 5 в минуту на IP.
 
 ## Что внутри
 
 - \`server.js\`, \`.next/\`, \`node_modules/\` — приложение (собрано с \`NEXT_PUBLIC_SITE_URL=$PREVIEW_URL\`)
-- \`public/media/\` — демо-видео и постеры (~60 МБ). Весь контент — плейсхолдеры (Pexels/Mixkit), клиенты вымышлены.
+- \`public/media/\` — лупы, постеры и кадры, нарезанные из реальных работ Марии (~32 МБ); полные фильмы играют с YouTube в плеере сайта. Демо осталось только фото на странице «Обо мне».
 - \`.env\` — порт и переменные окружения
 EOF
 

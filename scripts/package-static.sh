@@ -34,9 +34,15 @@ cat > "$OUT/README-DEPLOY.md" <<README
 
 Статические файлы. Распаковать архив в корень сайта (httpdocs / public_html) так, чтобы index.html и .htaccess лежали прямо в нём. Node не нужен, ничего настраивать не нужно.
 Собрано под адрес $PREVIEW_URL. Индексация запрещена: robots.txt (Disallow: /), meta robots на каждой странице, X-Robots-Tag через .htaccess.
+Страницы содержат <meta> с Content-Security-Policy и referrer, но заголовки надёжнее: frame-ancestors и X-Frame-Options работают только как HTTP-заголовки.
 
 Форма заявки на этой сборке открывает WhatsApp с готовым текстом (серверной части нет).
-Если после заливки сайт отдаёт 500 — удалите .htaccess (сайт и запрет индексации работают и без него).
+
+## Заголовки безопасности
+
+.htaccess применяется, только если файлы отдаёт Apache. Если перед сайтом nginx/Caddy (Plesk: Домен -> Настройки Apache и nginx -> Дополнительные директивы nginx), впишите заголовки туда: точный список с add_header в README проекта, раздел «Заголовки безопасности на хостинге».
+Проверка: curl -sI https://ДОМЕН/ | grep -iE 'content-security|x-frame|referrer|strict-transport'
+Если после заливки сайт отдаёт 500: сначала перенесите заголовки из .htaccess в конфиг сервера, потом уже убирайте .htaccess (без заголовков сайт можно встроить в чужие страницы).
 README
 
 echo "▸ zipping"

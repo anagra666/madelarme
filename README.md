@@ -29,6 +29,42 @@ pnpm dev        # http://localhost:3000
 
 Цены, условия, форматы и тексты «Обо мне» — из ответов Маши (ноябрь 2026): тарифы по времени и поштучно (`src/content/pricing.json`, `Format.priceModel`), доплаты +10%, сдача за 2 недели. Демо осталось только фото на «Обо мне» (`toggles.aboutIsDemo`: подпись «фото — демо», счётчики скрыты). Занятость — `settings.availability` + `toggles.showAvailability` (выключено, пока нет дат; список старше 30 дней сам скрывается). `toggles.showPlaceholders` выключен: демо-кейсы и демо-reels удалены, отзывов пока нет.
 
-## Заявки
+## Заявки и переменные окружения
 
-`POST /api/lead` шлёт в Telegram при `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID` в `.env.local`, иначе пишет в консоль.
+Скопируйте `.env.example` в `.env.local` и заполните. `POST /api/lead` шлёт заявку в Telegram при `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID`. Без них в консоль заявка пишется только при `pnpm dev`; на продакшн-сборке сервер отвечает 503 `delivery_unconfigured`, форма показывает «Не отправилось» и кнопку WhatsApp с текстом заявки (тихо терять заявки нельзя).
+
+Защита маршрута: принимает только `application/json` с того же домена (Origin = Host / X-Forwarded-Host), тело до 64 КБ, поля проверяются и чистятся от управляющих символов, подпись формата сверяется со списком из `getFormatChips()`. Спам: скрытое поле формы (`hp_note`, в теле запроса `website`) - 400 `rejected`; отправка быстрее 3 с (`elapsed`) - 400 `too_fast`; в обоих случаях форма предлагает WhatsApp, так что ложное срабатывание не теряет заявку; лимит 5 заявок в минуту на IP и 20 в минуту на весь сайт. IP не уходит ни в Telegram, ни в лог.
+
+Лимит по IP работает только при `TRUST_PROXY=1`: ставьте его, когда перед Node стоит ваш прокси, который перезаписывает `X-Real-IP` (в preview-сборке nginx так и делает). Без этого все запросы делят одну корзину, 5 в минуту на весь сайт.
+
+`NEXT_PUBLIC_SITE_URL` задается без завершающего слэша (лишний слэш срезается, пустое значение возвращает `https://madelarme.kz`); общий источник - `src/lib/site.ts`.
+
+## Заголовки безопасности
+
+Политика одна на все режимы: `src/lib/security.ts` (CSP без nonce, потому что страницы пререндерятся: `'unsafe-inline'` для скриптов Next; iframe только с `youtube-nocookie.com`). Если кейсы начнут играть с Vimeo, Bunny или Kinescope, добавьте их домены в `FRAME_SRC`, иначе плеер молча не загрузится.
+
+- Node-режим (`next start`, standalone): заголовки отдает `next.config.ts` - CSP, `frame-ancestors 'none'` + `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy`, `Permissions-Policy`, HSTS (кроме dev). `X-Robots-Tag` остается на превью-домене.
+- Статический экспорт: `headers()` Next не применяет. Заголовки лежат в `scripts/static.htaccess` (работают, когда файлы отдает Apache) и дублируются в `<meta>` (CSP без `frame-ancestors`, referrer) прямо в HTML.
+- Preview-сборка Node: `package-preview.sh` кладет `madelarme-headers.conf` для nginx и подключает его в статические location.
+
+### Заголовки безопасности на хостинге
+
+Plesk с nginx/Caddy игнорирует `.htaccess` для статики. Впишите это в Домен -> Настройки Apache и nginx -> «Дополнительные директивы nginx»:
+
+```nginx
+add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self' blob:; connect-src 'self'; frame-src https://www.youtube-nocookie.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests" always;
+add_header X-Frame-Options "DENY" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()" always;
+add_header Strict-Transport-Security "max-age=31536000" always;
+# только для тестового домена (на боевом убрать):
+add_header X-Robots-Tag "noindex, nofollow, noarchive" always;
+```
+
+Если хостинг уже шлёт `X-Content-Type-Options` или `X-Robots-Tag`, не дублируйте эти строки. Если TLS заканчивается на Caddy, HSTS можно задать там (`header Strict-Transport-Security "max-age=31536000"`). Location с собственным `add_header` не наследует директивы сервера: проверьте командой
+
+```bash
+curl -sI https://ДОМЕН/ | grep -iE 'content-security|x-frame|referrer|strict-transport'
+curl -sI https://ДОМЕН/_next/static/chunks/<любой>.js | grep -i nosniff
+```

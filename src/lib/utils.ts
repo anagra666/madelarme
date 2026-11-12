@@ -21,6 +21,9 @@ export function titleWrap(title: string): string {
   return isLongTitle(title) ? "[text-wrap:balance]" : "whitespace-nowrap";
 }
 
+/** «8–12 мин» одним куском: неразрывные пробелы и word joiner вокруг тире (после «–» браузер переносит строку) */
+export const unbroken = (s: string) => s.replace(/ /g, "\u00a0").replace(/–/g, "\u2060–\u2060");
+
 /** 01, 02 … */
 export function pad2(n: number): string {
   return String(n).padStart(2, "0");

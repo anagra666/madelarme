@@ -1,15 +1,15 @@
 import type { MetadataRoute } from "next";
 import { getCases, getFormats, getReels, settings } from "@/lib/content";
+import { SITE_URL } from "@/lib/site";
 
 /** sitemap.xml статичен в любом режиме (нужно для output: export) */
 export const dynamic = "force-static";
 
 const NOINDEX = process.env.NEXT_PUBLIC_NOINDEX === "1";
-const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://madelarme.kz").replace(/\/$/, "");
 /* статический экспорт собирается с trailingSlash: true — адреса в sitemap должны совпадать с настоящими */
 const SLASH = process.env.STATIC_EXPORT === "1";
 
-const url = (path: string) => `${SITE}${path === "/" ? "/" : SLASH ? `${path}/` : path}`;
+const url = (path: string) => `${SITE_URL}${path === "/" ? "/" : SLASH ? `${path}/` : path}`;
 
 /**
  * Тестовый домен (NEXT_PUBLIC_NOINDEX=1) — пустой sitemap. Прод: все публичные страницы и реальные (не демо) кейсы.

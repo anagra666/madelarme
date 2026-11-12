@@ -31,16 +31,6 @@ function items(c: MenuCounts) {
   ];
 }
 
-export function LangRow({ className }: { className?: string }) {
-  return (
-    <div className={cn("mono flex items-center gap-4", className)} aria-label="Язык">
-      <span aria-current="true" className="text-milk">RU</span>
-      {/* казахской версии не будет (ответ Маши, 2026-11); EN — позже */}
-      <span aria-disabled="true" title="скоро" className="text-meta/60 cursor-not-allowed">EN</span>
-    </div>
-  );
-}
-
 export default function MenuOverlay({
   open,
   onClose,
@@ -115,15 +105,15 @@ export default function MenuOverlay({
                         data-autofocus={i === 0 ? "" : undefined}
                         aria-current={active ? "page" : undefined}
                         className={cn(
-                          "group flex flex-col py-3 transition-colors hover:text-signal lg:flex-row lg:items-end lg:justify-between lg:gap-6",
+                          "group flex flex-col py-3 transition-colors hover:text-signal focus-visible:outline-offset-[-2px] [@media(max-height:500px)]:flex-row [@media(max-height:500px)]:items-end [@media(max-height:500px)]:justify-between [@media(max-height:500px)]:gap-6 [@media(max-height:500px)]:py-2 lg:flex-row lg:items-end lg:justify-between lg:gap-6",
                           active && "text-signal",
                         )}
                       >
                         <span className="flex items-baseline gap-3">
                           <span className="mono-sm whitespace-nowrap text-meta">[ 0{i + 1} ]</span>
-                          <span className="disp whitespace-nowrap text-[18vw] lg:text-[clamp(64px,8vw,128px)]">{it.label}</span>
+                          <span className="disp whitespace-nowrap text-[length:min(18vw,12svh)] lg:text-[clamp(64px,8vw,128px)]">{it.label}</span>
                         </span>
-                        <span className="mono whitespace-nowrap pl-12 text-meta group-hover:text-signal lg:pb-2 lg:pl-0">{it.sub}</span>
+                        <span className="mono whitespace-nowrap pl-12 text-meta group-hover:text-signal [@media(max-height:500px)]:pb-1 [@media(max-height:500px)]:pl-0 lg:pb-2 lg:pl-0">{it.sub}</span>
                       </Link>
                     </Line>
                   </li>
@@ -140,13 +130,13 @@ export default function MenuOverlay({
             transition={{ duration: 0.6, ease: EASE, delay: 0.35 }}
           >
             <div className="grid grid-cols-3 gap-px border border-rule bg-rule">
-              <a href={waLink(text)} target="_blank" rel="noopener" className="mono flex h-14 items-center justify-center gap-2 bg-signal font-medium text-ink transition-colors hover:bg-milk">
+              <a href={waLink(text)} target="_blank" rel="noopener" className="mono flex h-14 items-center justify-center gap-2 max-[359px]:flex-col max-[359px]:gap-1 bg-signal font-medium text-ink transition-colors hover:bg-milk">
                 <WhatsAppGlyph /> <span className="mono-sm">WhatsApp</span>
               </a>
-              <a href={tgLink(text)} target="_blank" rel="noopener" className="mono flex h-14 items-center justify-center gap-2 bg-ink transition-colors hover:text-signal">
+              <a href={tgLink(text)} target="_blank" rel="noopener" className="mono flex h-14 items-center justify-center gap-2 max-[359px]:flex-col max-[359px]:gap-1 bg-ink transition-colors hover:text-signal">
                 <TelegramGlyph /> <span className="mono-sm">Telegram</span>
               </a>
-              <a href={igDmLink()} target="_blank" rel="noopener" className="mono flex h-14 items-center justify-center gap-2 bg-ink transition-colors hover:text-signal">
+              <a href={igDmLink()} target="_blank" rel="noopener" className="mono flex h-14 items-center justify-center gap-2 max-[359px]:flex-col max-[359px]:gap-1 bg-ink transition-colors hover:text-signal">
                 <InstagramGlyph /> <span className="mono-sm">Instagram</span>
               </a>
             </div>
@@ -156,7 +146,6 @@ export default function MenuOverlay({
                 <span><AlmatyClock className="text-milk" /></span>
                 <span>{settings.season}</span>
               </p>
-              <LangRow />
             </div>
           </motion.div>
         </motion.div>

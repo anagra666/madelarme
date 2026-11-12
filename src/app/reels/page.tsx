@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { ReelsFeed } from "@/components/media/ReelsStory";
+import { PageHead } from "@/components/pages/PageHead";
+import Button from "@/components/ui/Button";
+import { Section } from "@/components/ui/Section";
 import { getReels } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -14,18 +17,26 @@ export const metadata: Metadata = {
 /**
  * Лента reels — собственный скроллер (ReelsFeed), поэтому без лишних обёрток:
  * только распорка под фиксированную шапку (--header-h) и sr-only H1.
+ * Пока reels нет — обычная страница с видимым заголовком и выходом на работы (как пустой /showreel).
  */
 export default function ReelsPage() {
   const reels = getReels();
+  if (reels.length === 0) {
+    return (
+      <Section>
+        <PageHead title="Reels" sub="reels появятся здесь" className="pb-20 md:pb-32">
+          <Button variant="outline" size="lg" href="/work" className="mt-8">
+            Смотреть работы
+          </Button>
+        </PageHead>
+      </Section>
+    );
+  }
   return (
     <>
       <h1 className="sr-only">Reels</h1>
       <div aria-hidden="true" className="h-(--header-h)" />
-      {reels.length ? (
-        <ReelsFeed reels={reels} />
-      ) : (
-        <p className="mono px-gutter py-24 text-center text-meta">reels появятся здесь</p>
-      )}
+      <ReelsFeed reels={reels} />
     </>
   );
 }

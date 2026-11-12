@@ -8,7 +8,9 @@ import Footer from "@/components/layout/Footer";
 import StickyCTA from "@/components/layout/StickyCTA";
 import Player from "@/components/media/Player";
 import { ReelsStoryHost } from "@/components/media/ReelsStory";
-import { getCases, getFormats, getPricing, getReels, settings } from "@/lib/content";
+import { formatGroups, getCases, getFormatChips, getFormats, getPricing, getReels, settings } from "@/lib/content";
+import { SITE_URL } from "@/lib/site";
+import { buildCsp, REFERRER_POLICY } from "@/lib/security";
 
 /* Имена переменных next/font НЕ совпадают с токенами @theme (--font-disp/body/mono) — иначе значение
    next/font перекрывает стек из globals.css и запасные шрифты (в т.ч. Oswald для казахских букв) теряются.
@@ -45,6 +47,9 @@ const robotoMono = Roboto_Mono({
   weight: "400",
   display: "swap",
   preload: false,
+  /* без Arial-подмены с size-adjust ~135%: она на 26% шире Roboto Mono и сдвигает шапку при подмене шрифта;
+     стек --font-mono в globals.css сам откатывается на ui-monospace/Menlo с той же шириной знака */
+  adjustFontFallback: false,
 });
 
 /**
@@ -70,13 +75,15 @@ const reelPoster = settings.showreel?.loop.posterH;
 const OG_IMAGE = reelPoster && { url: reelPoster, width: 1280, height: 720, alt: "MADELARME — шоурил" };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://madelarme.kz"),
+  metadataBase: new URL(SITE_URL),
   title: { default: "MADELARME — видеограф в Алматы", template: "%s — MADELARME" },
   /* из settings, а не копией heroSub — правка подписи в hero сразу меняет и описание сайта */
   description: `${settings.brand.person}, ${settings.brand.role}. ${settings.heroSub}`,
   openGraph: { type: "website", locale: "ru_KZ", siteName: "MADELARME", images: OG_IMAGE ? [OG_IMAGE] : undefined },
   /* без twitter.images: X берёт og:image, а страницы кейсов/форматов подставляют свой постер */
   twitter: { card: "summary_large_image" },
+  /* на статике заголовков нет: referrer-политика уходит <meta name="referrer"> (на Node её дублирует заголовок) */
+  referrer: REFERRER_POLICY,
   robots:
     process.env.NEXT_PUBLIC_NOINDEX === "1"
       ? { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false, noimageindex: true } }
@@ -97,28 +104,31 @@ export const viewport: Viewport = {
  */
 function layoutData() {
   const formats = getFormats().filter((f) => !f.isAddon);
-  /* у одинаковых имён (два «Клип») добавляем первый термин: «Клип · highlight film» / «Клип · music video».
-     В /api/lead уходит именно label. */
-  const dup = new Set(formats.map((f) => f.name).filter((n, i, a) => a.indexOf(n) !== i));
   return {
     counts: { works: getCases().length, formats: formats.length, collections: getPricing().collections.length },
-    chips: formats.map((f) => ({
-      slug: f.slug,
-      label: dup.has(f.name) ? `${f.name} · ${f.term.split("/")[0].trim()}` : f.name,
-    })),
-    footerFormats: formats.map((f) => ({ slug: f.slug, name: f.name })),
+    chips: getFormatChips(),
+    /* футер получает три группы форматов со счётчиками, а не все форматы списком */
+    groups: formatGroups.map((g) => ({ key: g.key, title: g.title })),
     reels: getReels(),
   };
 }
 
+/* На статике (Plesk/nginx игнорируют .htaccess) CSP дублируем <meta>: frame-ancestors из meta не работает, он только в заголовках */
+const META_CSP = process.env.STATIC_EXPORT === "1" ? buildCsp({ meta: true }) : null;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
-  const { counts, chips, footerFormats, reels } = layoutData();
+  const { counts, chips, groups, reels } = layoutData();
   return (
     <html
       lang="ru"
       className={`${sofia.variable} ${oswald.variable} ${interTight.variable} ${robotoMono.variable} h-full antialiased`}
       style={dispVars}
     >
+      {META_CSP && (
+        <head>
+          <meta httpEquiv="Content-Security-Policy" content={META_CSP} />
+        </head>
+      )}
       <body className="min-h-full flex flex-col bg-ink text-milk">
         <a
           href="#main"
@@ -130,7 +140,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Header counts={counts} formats={chips} />
         <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">{children}</main>
         {/* пустая лента reels — без ссылки на /reels в футере (страница остаётся для прямых заходов) */}
-        <Footer formats={footerFormats} hasReels={reels.length > 0} />
+        <Footer groups={groups} hasReels={reels.length > 0} />
         <StickyCTA />
         {/* оверлеи — по одному хосту на приложение */}
         <Player />

@@ -1,14 +1,12 @@
 import Link from "next/link";
 import { collectionPrice, getPricing, settings } from "@/lib/content";
 import Button from "@/components/ui/Button";
+import { nb } from "@/lib/typo";
 import { Section, Eyebrow, Container } from "@/components/ui/Section";
-
-/** «·» приклеен неразрывным пробелом к предыдущему пункту — строка не начинается с висячей точки */
-const SEP = " · ";
 
 /**
  * 09 · Сколько стоит — тарифы строками-титрами: час / полдня / весь день и ролики для соцсетей.
- * Состав тарифа, доплаты и подробности — на странице прайса; здесь название и цена, под списком условия.
+ * Состав тарифа, доплаты и подробности — на странице прайса; здесь название и цена, под списком условия строками.
  */
 export default function PricingTeaser({ num = "09" }: { num?: string }) {
   const { collections, terms } = getPricing();
@@ -33,7 +31,7 @@ export default function PricingTeaser({ num = "09" }: { num?: string }) {
           {collections.map((c) => (
             <li key={c.slug}>
               <Link
-                href={`/pricing#${c.tab}`}
+                href={`/pricing#${c.slug}`}
                 className="group grid grid-cols-1 gap-3 border-t border-rule py-5 lg:grid-cols-12 lg:items-baseline lg:gap-x-gutter lg:py-6"
               >
                 <div className="flex min-w-0 flex-wrap items-baseline gap-x-4 gap-y-2 lg:col-span-7">
@@ -49,11 +47,19 @@ export default function PricingTeaser({ num = "09" }: { num?: string }) {
           ))}
         </ul>
 
-        <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between lg:mt-10">
+        <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between lg:mt-10">
           <Button href="/pricing" variant="outline" size="lg" className="w-full sm:w-auto">
             Весь прайс ↗
           </Button>
-          {terms.length > 0 && <p className="mono-sm max-w-[48ch] text-meta">{terms.map((t) => t.replaceAll(" · ", SEP)).join(SEP)}</p>}
+          {terms.length > 0 && (
+            <ul className="mono w-full text-meta sm:max-w-[56ch]">
+              {terms.map((t) => (
+                <li key={t} className="border-b border-rule py-2 first:border-t">
+                  {nb(t)}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </Container>
     </Section>

@@ -49,6 +49,16 @@ for (const f of (await walk(path.join(ROOT, "src"))).filter((p) => /\.(ts|tsx)$/
   }
 }
 
+// малые копии, которые код просит по правилам src/lib/media.ts (small() и still800()): их нет в JSON,
+// поэтому без этого блока они считались сиротами, а пропавшая копия не ловилась
+for (const r of [...refs]) {
+  if (/^\/media\/posters\/.+-[vh]\.webp$/.test(r.p)) {
+    refs.push({ p: r.p.replace(/-([vh])\.webp$/, "-$1-s.webp"), where: `${r.where} (копия -s)` });
+  } else if (/^\/media\/stills\/.+\.webp$/.test(r.p) && !/-(45|800)\.webp$/.test(r.p)) {
+    refs.push({ p: r.p.replace(/\.webp$/, "-800.webp"), where: `${r.where} (копия -800)` });
+  }
+}
+
 const missing = [];
 const used = new Set();
 for (const r of refs) {

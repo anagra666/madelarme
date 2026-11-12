@@ -149,6 +149,8 @@ export interface Format {
   name: string;
   /** короткое имя для <title>/SEO, если name длинное («Той и қыз ұзату») */
   seoName?: string;
+  /** язык названия, если не русский (<span lang>): казахское «Қыз ұзату · …» */
+  lang?: "kk";
   /** «wedding film / feature film» */
   term: string;
   /** «8–15 мин» */

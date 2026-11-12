@@ -8,6 +8,7 @@ import type { Still } from "@/content/types";
 import { useScrollLock } from "@/lib/hooks";
 import { Eyebrow } from "@/components/ui/Section";
 import { cn, pad2 } from "@/lib/utils";
+import { still800 } from "@/lib/media";
 import { useFocusTrap } from "@/components/layout/ContactPanel";
 import { emitOverlay } from "@/components/layout/StickyCTA";
 
@@ -73,12 +74,17 @@ export default function Stills({ stills, title }: { stills: Still[]; title: stri
               className="group relative block w-full overflow-hidden bg-ink-2"
               style={{ aspectRatio: `${s.w} / ${s.h}` }}
             >
-              <Image
-                src={s.src}
-                alt={s.alt}
-                fill
+              {/* next/image при images.unoptimized не строит srcset и тащил полный 1600px кадр в плитку 175–439px —
+                  поэтому обычный <img> с копией -800 (pnpm media); оригинал остаётся для DPR 2+ и лайтбокса */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={still800(s.src)}
+                srcSet={`${still800(s.src)} 800w, ${s.src} ${s.w}w`}
                 sizes="(min-width: 1024px) 33vw, 50vw"
-                className="object-cover opacity-85 transition-opacity duration-500 group-hover:opacity-100"
+                alt={s.alt}
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover opacity-85 transition-opacity duration-500 group-hover:opacity-100"
               />
               <span className="mono-sm absolute bottom-2 left-2 text-milk/70 opacity-0 transition-opacity group-hover:opacity-100">
                 {pad2(i + 1)}

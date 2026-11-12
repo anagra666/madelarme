@@ -10,6 +10,8 @@
  * (иначе в строке «клиент · город · год» висит « · »), title длиннее 14 символов — замечание.
  * Кадры (stills кейсов, about.portrait): числовые w/h и, если файл уже собран в public, реальный размер
  * из заголовка WebP / JPEG / PNG. reels / testimonials / clients: caseSlug ведёт на опубликованный кейс.
+ * Форматы (slug, group, priceModel, fromPrice, deliverables, loop…), pricing (тарифы, extras, terms) и faq (scope):
+ * опечатка в group / priceModel / tab молча убирает формат со страницы или цену, а без обязательного поля падает пререндер.
  * settings.showreel: файлы лупа существуют, film — как fullVideo. Наличие остальных /media — pnpm media:check.
  */
 import { readFile, stat } from "node:fs/promises";
@@ -21,8 +23,8 @@ const CONTENT = path.join(ROOT, "src/content");
 const PUBLIC = path.join(ROOT, "public");
 
 const load = async (name) => JSON.parse(await readFile(path.join(CONTENT, `${name}.json`), "utf8"));
-const [cases, formats, reels, testimonials, clients, settings] = await Promise.all(
-  ["cases", "formats", "reels", "testimonials", "clients", "settings"].map(load),
+const [cases, formats, reels, testimonials, clients, settings, pricing, faq] = await Promise.all(
+  ["cases", "formats", "reels", "testimonials", "clients", "settings", "pricing", "faq"].map(load),
 );
 
 const errors = [];
@@ -32,6 +34,8 @@ const warn = (where, msg) => warnings.push(`${where}: ${msg}`);
 
 const MOODS = ["bold", "gentle", "documentary"];
 const PROVIDERS = ["self", "bunny", "kinescope", "vimeo", "youtube"];
+/* плеер встраивает только то, что разрешает CSP: FRAME_SRC в src/lib/security.ts и строка CSP в scripts/static.htaccess */
+const PROVIDERS_IN_CSP = ["self", "youtube"];
 const DURATION = /^(\d{2}:[0-5]\d|\d+:[0-5]\d:[0-5]\d)$/;
 const TITLE_MAX = 14;
 
@@ -114,6 +118,7 @@ async function checkStill(s, where) {
 async function checkVideo(v, where) {
   if (!v || typeof v !== "object") return err(where, "не объект");
   if (!PROVIDERS.includes(v.provider)) err(where, `provider «${v.provider}» — нужен один из ${PROVIDERS.join(" / ")}`);
+  else if (!PROVIDERS_IN_CSP.includes(v.provider)) err(where, `provider «${v.provider}» заблокирует CSP: добавьте его домен в FRAME_SRC (src/lib/security.ts) и в scripts/static.htaccess, затем в PROVIDERS_IN_CSP здесь`);
   if (!isStr(v.id)) err(where, "нет id");
   else if (v.provider === "youtube" && !/^[\w-]{11}$/.test(v.id)) err(where, `id «${v.id}» не похож на YouTube id (11 символов)`);
   else if (v.provider === "self" && !(await exists(path.join(PUBLIC, v.id)))) err(where, `нет файла public${v.id}`);
@@ -249,6 +254,76 @@ for (const [i, cl] of clients.entries()) {
   if (!isStr(cl.name)) err(where, "нет name");
   if (typeof cl.confirmed !== "boolean") err(where, "confirmed должен быть true / false");
   checkCaseRef(cl.caseSlug, where);
+}
+
+// ── форматы, тарифы, FAQ ─────────────────────────────────────────────────────
+
+const GROUPS = ["wedding", "brand", "content"];
+const PRICE_MODELS = ["time", "unit", "custom"];
+const TABS = ["time", "unit"];
+const FAQ_SCOPES = ["pricing", "wedding", "brand", "contact"];
+const SLUG = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+const isPosInt = (v) => Number.isInteger(v) && v > 0;
+const strList = (v) => Array.isArray(v) && v.every(isStr);
+const qaList = (v, where) => {
+  if (!Array.isArray(v)) return err(where, "не массив");
+  v.forEach((x, j) => { for (const k of ["q", "a"]) if (!isStr(x?.[k])) err(`${where}[${j}]`, `нет ${k}`); });
+};
+
+for (const [i, f] of formats.entries()) {
+  const where = `formats[${isStr(f.slug) ? f.slug : i}]`;
+  for (const k of ["slug", "name", "term", "duration", "intro"]) if (!isStr(f[k])) err(where, `нет ${k}`);
+  if (isStr(f.slug) && !SLUG.test(f.slug)) err(where, "slug — только латиница, цифры и дефисы");
+  if (!GROUPS.includes(f.group)) err(where, `group «${f.group}» — нужен один из ${GROUPS.join(" / ")} (иначе формат пропадёт со страницы /formats)`);
+  if (f.priceModel != null && !PRICE_MODELS.includes(f.priceModel)) err(where, `priceModel «${f.priceModel}» — нужен один из ${PRICE_MODELS.join(" / ")}`);
+  if (f.fromPrice != null && !isPosInt(f.fromPrice)) err(where, `fromPrice «${f.fromPrice}» — целое число ₸ без пробелов и кавычек`);
+  if (typeof f.isPublished !== "boolean") err(where, "isPublished должен быть true / false");
+  if (f.isAddon != null && typeof f.isAddon !== "boolean") err(where, "isAddon должен быть true / false");
+  if (!Number.isFinite(f.sortOrder)) err(where, "нет sortOrder");
+  if (!strList(f.deliverables)) err(where, "deliverables — массив непустых строк");
+  else if (!f.deliverables.length) warn(where, "deliverables пуст");
+  if (f.process != null && !strList(f.process)) err(where, "process — массив непустых строк");
+  if (f.faq != null) qaList(f.faq, `${where}.faq`);
+  optionalStrings(f, ["seoName", "turnaround"], where);
+  if (f.lang != null && f.lang !== "kk") err(where, `lang «${f.lang}» — пока поддержан только "kk"`);
+  if (f.loop != null) await checkLoop(f.loop, `${where}.loop`, { files: true, og: true });
+}
+
+if (!pricing || !Array.isArray(pricing.collections)) err("pricing", "нет collections");
+else {
+  unique(pricing.collections, "slug", "pricing.collections");
+  for (const [i, c] of pricing.collections.entries()) {
+    const where = `pricing.collections[${isStr(c.slug) ? c.slug : i}]`;
+    for (const k of ["slug", "name"]) if (!isStr(c[k])) err(where, `нет ${k}`);
+    if (isStr(c.slug) && !SLUG.test(c.slug)) err(where, "slug — только латиница, цифры и дефисы (это якорь /pricing#slug)");
+    if (!TABS.includes(c.tab)) err(where, `tab «${c.tab}» — нужен один из ${TABS.join(" / ")}`);
+    if (!isPosInt(c.fromPrice)) err(where, `fromPrice «${c.fromPrice}» — целое число ₸ без пробелов и кавычек`);
+    if (!Number.isFinite(c.sortOrder)) err(where, "нет sortOrder");
+    if (!Array.isArray(c.lines)) err(where, "нет lines");
+    else c.lines.forEach((l, j) => { for (const k of ["k", "v"]) if (!isStr(l?.[k])) err(`${where}.lines[${j}]`, `нет ${k}`); });
+    optionalStrings(c, ["unit", "badge", "note"], where);
+  }
+  // формат с моделью time / unit без своей fromPrice берёт цену из самого дешёвого тарифа своей вкладки
+  for (const tab of TABS) {
+    const needs = formats.filter((f) => f.isPublished && (f.priceModel ?? (f.isAddon && !f.fromPrice ? undefined : "time")) === tab && f.fromPrice == null);
+    if (needs.length && !pricing.collections.some((c) => c.tab === tab)) {
+      err("pricing", `нет тарифа с tab «${tab}», а он нужен форматам ${needs.map((f) => f.slug).join(", ")} — у них будет «индивидуально»`);
+    }
+  }
+}
+if (!Array.isArray(pricing?.extras)) err("pricing", "нет extras");
+else pricing.extras.forEach((x, j) => {
+  for (const k of ["name", "price"]) if (!isStr(x?.[k])) err(`pricing.extras[${j}]`, `нет ${k}`);
+  optionalStrings(x, ["note"], `pricing.extras[${j}]`);
+});
+if (!strList(pricing?.terms)) err("pricing", "terms — массив непустых строк");
+
+if (!Array.isArray(faq)) err("faq", "не массив");
+else for (const [i, q] of faq.entries()) {
+  const where = `faq[${i}]`;
+  for (const k of ["q", "a"]) if (!isStr(q[k])) err(where, `нет ${k}`);
+  if (!Array.isArray(q.scope) || !q.scope.length) err(where, "scope — непустой массив");
+  else for (const s of q.scope) if (!FAQ_SCOPES.includes(s)) err(where, `scope «${s}» — нужен один из ${FAQ_SCOPES.join(" / ")}`);
 }
 
 // ── настройки ─────────────────────────────────────────────────────────────────

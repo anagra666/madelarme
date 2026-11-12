@@ -242,6 +242,8 @@ function Film({
           )
         )}
       </div>
+      {/* сторож: Tab из кросс-доменного iframe не доходит до keydown-ловушки, фокус возвращаем на крестик сами */}
+      <span tabIndex={0} data-focus-guard className="sr-only" onFocus={() => closeRef.current?.focus({ preventScroll: true })} />
     </div>
   );
 }

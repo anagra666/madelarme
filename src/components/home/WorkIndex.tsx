@@ -1,25 +1,17 @@
-import Image from "next/image";
-import Link from "next/link";
 import type { Case } from "@/content/types";
 import { getCases, getFormat } from "@/lib/content";
-import { cn, isLongTitle, pad2 } from "@/lib/utils";
-import { Section, Container } from "@/components/ui/Section";
+import { pad2 } from "@/lib/utils";
 import { realFilm } from "@/components/work/film";
-import WorkIndexDesktop, { type IndexRow } from "./WorkIndex.client";
+import WorkIndexView, { type IndexRow } from "./WorkIndexView";
 
 /**
- * Индекс работ (план §05 / §07-03). Десктоп: список с лупом за строками или сетка (клиент).
- * Телефон: строки 112px с кадром 9:16 справа (сервер; только постер — полный 720×1280 луп ради плашки 56px
- * не качаем). Переиспользуется на /work через пропсы.
+ * Индекс работ (план §05 / §07-03), серверная обёртка: берёт кейсы из контента, считает строки
+ * и отдаёт их презентационному WorkIndexView. Каталог /work рисует WorkIndexView сам, из готовых строк.
  */
 export default function WorkIndex({
   cases,
   limit = 8,
-  showAllLink = true,
-  title = "ИЗБРАННЫЕ РАБОТЫ",
-  num = "03",
-  sectionClassName,
-  showCounter = true,
+  ...rest
 }: {
   cases?: Case[];
   limit?: number;
@@ -32,73 +24,8 @@ export default function WorkIndex({
   /** счётчик «[ 06 / 11 ]» у подписи; на /work он уже стоит у H1 */
   showCounter?: boolean;
 }) {
-  const total = getCases().length;
   const rows = (cases ?? getCases({ featured: true })).slice(0, limit).map(toRow);
-  if (rows.length === 0) return null;
-  const counter = showCounter ? `${pad2(rows.length)} / ${pad2(total)}` : "";
-  const eyebrow = `[ ${num} ] · ${title}`;
-
-  return (
-    <Section id="work" aria-labelledby="work-title" className={cn("py-[clamp(64px,10vw,160px)]", sectionClassName)}>
-      <Container>
-        <h2 id="work-title" className="sr-only">{title}</h2>
-
-        <WorkIndexDesktop rows={rows} eyebrow={eyebrow} counter={counter} total={total} showAllLink={showAllLink} />
-
-        {/* ── телефон: две строки текста + кадр справа, tap = кейс ── */}
-        <div className="lg:hidden">
-          <header className="mono flex items-center justify-between gap-4 text-meta">
-            <span className="truncate">{eyebrow}</span>
-            {counter && <span className="shrink-0">[ {counter} ]</span>}
-          </header>
-          <ul className="mt-6 border-b border-rule">
-            {rows.map((r) => (
-              <li key={r.slug} className="border-t border-rule">
-                <div className="cq relative grid h-28 grid-cols-[minmax(0,1fr)_56px] items-center gap-3">
-                  <Link
-                    href={`/work/${r.slug}`}
-                    prefetch={false}
-                    className="block min-w-0 active:text-signal after:absolute after:inset-0 after:z-10 after:content-['']"
-                  >
-                    {/* город почти у всех «Алматы» — в узкой строке важнее длительность */}
-                    <span className="mono-sm block truncate normal-case text-meta">
-                      {[r.num, r.formatName.toLowerCase(), r.year, r.duration].filter(Boolean).join(" · ")}
-                    </span>
-                    {/* overflow-x-clip, не hidden: по вертикали бреве «Й»/«Ё» выходит за строку (.disp lh .86) */}
-                    <span
-                      className={cn(
-                        "disp mt-2 block overflow-x-clip whitespace-nowrap",
-                        isLongTitle(r.title) ? "text-[8.5cqw]" : "text-[11cqw]",
-                      )}
-                    >
-                      {r.title}
-                    </span>
-                  </Link>
-                  <Image
-                    src={r.loop.posterV ?? r.loop.posterH}
-                    alt=""
-                    width={56}
-                    height={100}
-                    sizes="56px"
-                    className="h-[100px] w-14 shrink-0 border border-rule bg-ink-2 object-cover"
-                  />
-                </div>
-              </li>
-            ))}
-          </ul>
-          {showAllLink && (
-            <Link
-              href="/work"
-              className="mono flex h-14 items-center justify-between border-b border-rule text-milk active:text-signal"
-            >
-              <span>ВСЕ РАБОТЫ ({total})</span>
-              <span aria-hidden="true">↗</span>
-            </Link>
-          )}
-        </div>
-      </Container>
-    </Section>
-  );
+  return <WorkIndexView rows={rows} total={getCases().length} {...rest} />;
 }
 
 function toRow(c: Case, i: number): IndexRow {
@@ -110,7 +37,6 @@ function toRow(c: Case, i: number): IndexRow {
     formatName: getFormat(c.format)?.name ?? c.format,
     year: c.year,
     duration: realFilm(c.fullVideo)?.duration,
-    city: c.city,
     loop: c.loop,
   };
 }

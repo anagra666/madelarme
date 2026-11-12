@@ -58,17 +58,20 @@ body {
   color: var(--color-ink);
 }
 
-:focus-visible {
-  outline: 2px solid var(--color-signal);
-  outline-offset: 3px;
-}
-/* signal на бумаге даёт 2.9:1 — кольцо фокуса там чернильное */
-.paper :focus-visible {
-  outline-color: #141210;
-}
-/* цель ссылки «К содержимому» — фокус переносится, но рамка вокруг всей страницы не нужна */
-#main:focus-visible {
-  outline: none;
+/* в @layer base: утилиты Tailwind (focus-visible:outline-ink, -outline-offset-…) могут переопределять кольцо */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 3px;
+  }
+  /* signal на бумаге даёт 2.9:1 — кольцо фокуса там чернильное */
+  .paper :focus-visible {
+    outline-color: #141210;
+  }
+  /* цель ссылки «К содержимому» — фокус переносится, но рамка вокруг всей страницы не нужна */
+  #main:focus-visible {
+    outline: none;
+  }
 }
 
 /* All media reserve space — CLS 0 */
@@ -171,12 +174,10 @@ video, img {
 
 /* Страница начинается с бумаги (about, privacy, formats/[slug] без лупа): прозрачная шапка
    с градиентом под видео легла бы грязной полосой — сразу плотная, как после прокрутки.
-   Верхняя метка «+» уходит под шапку. */
+   Верхняя метка «+» уходит под шапку. Фон сплошной ink: полупрозрачный над бумагой давал серый #3B3A38 вне палитры. */
 body:has(> main > section.paper:first-of-type) > header {
   background-image: none;
-  background-color: color-mix(in oklab, var(--color-ink) 80%, transparent);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
+  background-color: var(--color-ink);
 }
 main > section.cropmarks:first-of-type::before { top: calc(var(--header-h) + 12px); }
 
@@ -207,8 +208,8 @@ main > section.cropmarks:first-of-type::before { top: calc(var(--header-h) + 12p
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scroll-padding-inline: 24px;
-  padding-inline: 24px;
+  scroll-padding-inline: var(--spacing-gutter);
+  padding-inline: var(--spacing-gutter);
   gap: 12px;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
@@ -227,6 +228,13 @@ main > section.cropmarks:first-of-type::before { top: calc(var(--header-h) + 12p
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Reveal/Fade стартуют скрытыми через inline-style motion прямо в SSR-разметке. Без JS и при reduced motion
+   показываем сразу: !important автора бьёт inline-style, а разметка сервера и клиента остаётся одинаковой. */
+@media (scripting: none), (prefers-reduced-motion: reduce) {
+  .reveal-line { transform: none !important; }
+  .reveal-fade { opacity: 1 !important; transform: none !important; }
 }
 
 /* Lenis */

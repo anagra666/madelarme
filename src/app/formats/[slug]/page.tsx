@@ -13,7 +13,8 @@ import {
   collectionPrice, formatPriceFrom, formatPriceText, getCases, getFaq, getFormat, getFormats, getPricing, settings,
 } from "@/lib/content";
 import { prefill, waLink } from "@/lib/links";
-import { pad2 } from "@/lib/utils";
+import { nb } from "@/lib/typo";
+import { pad2, unbroken } from "@/lib/utils";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -59,12 +60,15 @@ export default async function FormatPage({ params }: Props) {
   if (!f) notFound();
 
   const cases = getCases({ format: f.slug }).slice(0, 6);
-  const meta = [f.term, f.duration, f.turnaround].filter((x) => x && x !== "—").join(" · ");
+  /* срок и хронометраж не рвутся посреди («8–12 мин»), «·» приклеен к предыдущему пункту; термин переносится свободно */
+  const meta = [f.term, ...[f.duration, f.turnaround].filter((x) => x && x !== "—").map((x) => unbroken(x!))].join("\u00a0· ");
   const showPrice = settings.toggles.showPrices;
   const quiet = QUIET.has(f.slug);
   /* семье — нейтральное «Хочу обсудить съёмку», а не «Хочу обсудить формат «Прощание»» */
   const text = quiet ? prefill("home") : prefill("format", f.name);
   const model = f.priceModel ?? "time";
+  /* «весь прайс» ведёт на первый тариф своей модели: по времени — час, за ролик — для соцсетей */
+  const priceAnchor = getPricing().collections.find((c) => c.tab === (model === "unit" ? "unit" : "time"))?.slug;
   /* число «от» для Offer: custom («индивидуально») — undefined, Offer не отдаём */
   const price = formatPriceFrom(f);
   /* под ценой — как она считается (ответы Маши, 2026-11): у «по времени» — остальные тарифы (час уже в строке цены),
@@ -106,21 +110,24 @@ export default async function FormatPage({ params }: Props) {
 
       {f.loop ? (
         <section className="relative flex min-h-[max(60svh,420px)] flex-col justify-end pt-[calc(var(--header-h)+24px)]">
-          <CinemaVideo loop={f.loop} priority mode="visible" orientation="auto" className="absolute inset-0" alt={f.name} />
+          <CinemaVideo loop={f.loop} priority pauseButton mode="visible" orientation="auto" className="absolute inset-0" alt={f.name} />
           <div className="scrim-b absolute inset-x-0 bottom-0 h-2/3" />
+          {/* слева под H1 — равномерное затемнение: верхняя строка заголовка выше нижнего скрима, на светлом кадре (белый костюм) не читалась */}
+          <div className="pointer-events-none absolute inset-0 hidden bg-linear-to-r from-ink/60 via-ink/40 via-60% to-transparent md:block" aria-hidden="true" />
           <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-linear-to-b from-ink/70 to-transparent" aria-hidden="true" />
-          <Container className="relative pb-8 md:pb-12">
+          {/* на телефоне внизу — место под кнопку паузы (16 + 44 + 16), чтобы она не накрывала заголовок */}
+          <Container className="relative pb-[76px] md:pb-12">
             <p className="mono mb-4 self-start text-milk"><span className="bg-ink/50 px-1.5 py-0.5 backdrop-blur-[2px]">
               {f.group === "wedding" ? "01" : f.group === "brand" ? "02" : "03"} · {meta}
             </span></p>
-            <h1 className={cn("disp max-w-[14ch] text-balance", f.name.length > 18 ? "text-[clamp(44px,8vw,120px)]" : "text-h1")}>{f.name}</h1>
+            <h1 className={cn("disp max-w-[14ch] text-balance", f.name.length > 18 ? "text-[clamp(44px,8vw,120px)]" : "text-h1")} lang={f.lang}>{nb(f.name)}</h1>
           </Container>
         </section>
       ) : (
         <Section paper>
           <Container className="pt-[calc(var(--header-h)+40px)] pb-10 md:pt-[calc(var(--header-h)+72px)] md:pb-16">
             <p className="mono mb-4 text-meta">{meta}</p>
-            <h1 className="disp text-h1 max-w-[14ch] text-balance">{f.name}</h1>
+            <h1 className="disp text-h1 max-w-[14ch] text-balance" lang={f.lang}>{nb(f.name)}</h1>
           </Container>
         </Section>
       )}
@@ -166,7 +173,7 @@ export default async function FormatPage({ params }: Props) {
               {price !== undefined && settings.toggles.pricesAreDemo && <p className="mono-sm mt-3 text-meta">цены — демо, до согласования</p>}
             </div>
             {/* вкладка прайса по модели цены: «по времени» или «для соцсетей» */}
-            <Button variant="outline" size="lg" href={`/pricing#${model === "unit" ? "unit" : "time"}`}>
+            <Button variant="outline" size="lg" href={priceAnchor ? `/pricing#${priceAnchor}` : "/pricing"}>
               весь прайс →
             </Button>
           </Container>
@@ -198,12 +205,12 @@ export default async function FormatPage({ params }: Props) {
       <Section>
         <Container className="flex flex-col items-start gap-6 py-16 pb-[calc(64px+var(--sticky-h))] md:py-24 md:pb-[calc(96px+var(--sticky-h))]">
           <p className="mono text-meta">[ следующий шаг ]</p>
-          <Button variant="signal" size="xl" href={waLink(text)} className="max-w-full">
+          <Button variant="signal" size="xl" href={waLink(text)} className="w-full max-w-full sm:w-auto">
             {quiet ? (
               "Написать в WhatsApp"
             ) : (
               <>
-                Хочу обсудить формат<span className="sr-only"> {f.name}</span>
+                Хочу обсудить формат<span className="sr-only" lang={f.lang}> {f.name}</span>
               </>
             )}
           </Button>

@@ -7,6 +7,10 @@ export interface LeadPayload {
   when?: string;
   message?: string;
   consent: true;
+  /** Ловушка для ботов: значение скрытого поля формы (name="hp_note" — имя, которое не узнаёт автозаполнение), у человека пустое. leadToText его не выводит. */
+  website?: string;
+  /** Миллисекунды от открытия формы до отправки. Сервер отвечает ошибкой, если быстрее 3 с (форма покажет WhatsApp-фолбэк). */
+  elapsed?: number;
 }
 
 /** На статическом хостинге (NEXT_PUBLIC_STATIC=1) API нет — заявка уходит текстом в WhatsApp. */
@@ -41,6 +45,7 @@ export type LeadResult = "sent" | "wa" | "fail";
 
 export async function sendLead(p: LeadPayload, intro?: string): Promise<LeadResult> {
   if (STATIC_SITE) {
+    if (p.website) return "wa"; // бот заполнил скрытое поле: WhatsApp не открываем
     window.open(leadWaLink(p, intro), "_blank", "noopener");
     return "wa";
   }

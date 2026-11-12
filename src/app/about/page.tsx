@@ -6,6 +6,7 @@ import { Reveal, Line } from "@/components/ui/Reveal";
 import { SectionTitle } from "@/components/pages/PageHead";
 import { ProcessList } from "@/components/pages/ProcessList";
 import { getClients, settings } from "@/lib/content";
+import { nb } from "@/lib/typo";
 
 export const metadata: Metadata = {
   title: "Я Маша — видеограф в Алматы",
@@ -32,7 +33,7 @@ export default function AboutPage() {
                 [ {brand.role} · {brand.city} ]
               </p>
             </div>
-            <p className="max-w-[34ch] text-[19px] leading-[1.4] md:text-[22px]">{settings.heroSub}</p>
+            <p className="max-w-[34ch] text-[19px] leading-[1.4] md:text-[22px]">{nb(settings.heroSub)}</p>
           </div>
           {about.portrait && (
             <figure className="md:col-span-5">
@@ -142,7 +143,7 @@ export default function AboutPage() {
         <Container className="flex flex-col items-start gap-6 py-16 pb-[calc(64px+var(--sticky-h))] md:py-24 md:pb-[calc(96px+var(--sticky-h))]">
           <p className="disp text-h2">Снимем?</p>
           <p className="mono text-meta">{[settings.season, !demo && settings.statusNow].filter(Boolean).join(" · ")}</p>
-          <Button variant="signal" size="xl" href="/contact">
+          <Button variant="signal" size="xl" href="/contact" className="w-full sm:w-auto">
             Проверить дату
           </Button>
         </Container>

@@ -7,6 +7,7 @@ import { FormatRows } from "@/components/pages/FormatRows";
 import { ProcessList } from "@/components/pages/ProcessList";
 import { formatGroups, getFormats, settings } from "@/lib/content";
 import { prefill, waLink } from "@/lib/links";
+import { nb } from "@/lib/typo";
 
 export const metadata: Metadata = {
   title: "Форматы съёмки — свадьбы, ивенты, бренды, контент · Алматы",
@@ -38,8 +39,8 @@ export default function FormatsPage() {
                   {addons.map((a, i) => (
                     <span key={a.slug}>
                       {i > 0 && " · "}
-                      <Link href={`/formats/${a.slug}`} className="underline-offset-4 hover:text-signal hover:underline">
-                        {a.name}
+                      <Link href={`/formats/${a.slug}`} className="inline-flex min-h-11 items-center underline-offset-4 hover:text-signal hover:underline">
+                        <span lang={a.lang}>{nb(a.name)}</span>
                       </Link>
                     </span>
                   ))}
@@ -63,7 +64,7 @@ export default function FormatsPage() {
         <Container className="flex flex-col items-start gap-6 py-16 pb-[calc(64px+var(--sticky-h))] md:py-24 md:pb-[calc(96px+var(--sticky-h))]">
           <p className="disp text-h2">Не нашли свой формат?</p>
           <p className="mono text-meta">напишите, что хотите снять — разберёмся</p>
-          <Button variant="signal" size="xl" href={waLink(prefill("home"))}>
+          <Button variant="signal" size="xl" href={waLink(prefill("home"))} className="w-full sm:w-auto">
             Обсудить съёмку · WhatsApp
           </Button>
         </Container>

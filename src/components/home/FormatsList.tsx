@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { countByFormat, formatPriceText, getFormat, settings } from "@/lib/content";
-import { pad2 } from "@/lib/utils";
+import { countByFormat, formatPriceText, getFormat, getFormats, settings } from "@/lib/content";
+import { small } from "@/lib/media";
+import { nb } from "@/lib/typo";
+import { pad2, unbroken } from "@/lib/utils";
 import { Section, Eyebrow, Container } from "@/components/ui/Section";
 import FormatsPreview, { type PreviewItem } from "./FormatsPreview.client";
 
@@ -15,9 +17,6 @@ const ORDER = ["wedding-film", "love-story", "aftermovie", "activation", "corpor
 /* форматы, где плывущий кадр за курсором неуместен: строка остаётся обычной ссылкой, без превью */
 const QUIET = new Set(["funeral"]);
 
-/** «8–12 мин» одним куском: неразрывные пробелы и word joiner вокруг тире (после «–» браузер переносит строку) */
-const unbroken = (s: string) => s.replace(/ /g, "\u00a0").replace(/–/g, "\u2060–\u2060");
-
 /** Опубликованные форматы в порядке главной — и для секции, и для нумерации секций в page.tsx */
 export function homeFormats() {
   return ORDER.map((slug) => getFormat(slug)).filter((f) => f !== undefined);
@@ -27,6 +26,8 @@ export function homeFormats() {
 export default function FormatsList({ num = "06" }: { num?: string }) {
   const formats = homeFormats();
   if (formats.length === 0) return null;
+  /* тот же счёт, что в меню и подвале: форматы без допов */
+  const total = getFormats().filter((f) => !f.isAddon).length;
 
   const showPrices = settings.toggles.showPrices;
   /* без лупа — титр с термином формата («music video»), а не пустой кадр */
@@ -43,7 +44,7 @@ export default function FormatsList({ num = "06" }: { num?: string }) {
         <div className="mb-8 flex items-end justify-between gap-4 lg:mb-12">
           <Eyebrow>[ {num} ] · ЧТО СНИМАЮ</Eyebrow>
           <span className="mono hidden text-meta lg:block">
-            {formats.length} форматов{showPrices && settings.toggles.pricesAreDemo && " · цены — демо"}
+            основные · {formats.length} из {total}{showPrices && settings.toggles.pricesAreDemo && " · цены — демо"}
           </span>
         </div>
         <h2 id="formats-title" className="sr-only">Что снимаю</h2>
@@ -56,10 +57,10 @@ export default function FormatsList({ num = "06" }: { num?: string }) {
             /* «—» в duration — хронометраж не называем (прощание); «8–12 мин» на телефоне переносится целиком */
             const meta = [showPrices ? formatPriceText(f) : null, f.duration !== "—" ? unbroken(f.duration) : null]
               .filter(Boolean)
-              .join(" · ");
+              .join("\u00a0· ");
             /* «(0)» читается как «таких работ нет» — счётчик только когда есть что показать */
             const counter = count > 0 ? `(${count})` : null;
-            const metaMobile = [counter, meta].filter(Boolean).join(" · ");
+            const metaMobile = [counter, meta].filter(Boolean).join("\u00a0· ");
             return (
               <li key={f.slug}>
                 <Link
@@ -71,7 +72,7 @@ export default function FormatsList({ num = "06" }: { num?: string }) {
                   <div className="flex min-w-0 flex-col gap-2 lg:flex-row lg:items-baseline lg:gap-5">
                     <span className="mono-sm hidden w-8 text-meta lg:block">{pad2(i + 1)}</span>
                     <span className="disp text-row leading-[.86] transition-colors duration-300 group-hover:text-signal">
-                      {f.name}
+                      <span lang={f.lang}>{nb(f.name)}</span>
                       {counter && <span className="mono ml-3 hidden align-top text-meta lg:inline">{counter}</span>}
                     </span>
                     {metaMobile && <span className="mono text-meta lg:hidden">{metaMobile}</span>}
@@ -83,7 +84,7 @@ export default function FormatsList({ num = "06" }: { num?: string }) {
                   {/* телефон: квадратный стилл 64px; без лупа — номер строки дисплеем в рамке (как хлопушка), не пустая плашка */}
                   {f.loop?.posterH ? (
                     <span className="relative block h-16 w-16 shrink-0 overflow-hidden bg-ink-2 lg:hidden">
-                      <Image src={f.loop.posterH} alt="" fill sizes="64px" className="object-cover" />
+                      <Image src={small(f.loop.posterH)} alt="" fill sizes="64px" className="object-cover" />
                     </span>
                   ) : (
                     <span

@@ -29,6 +29,10 @@
  *                    размеры чётные (1067 выйдет как 1066 — и разойдётся с w/h в контенте, см. pnpm content:check);
  *                    одно из них — масштаб с сохранением пропорций; ни одного — 1600 по ширине, но не больше исходника
  *
+ * Малые копии (мини-превью, next/image работает unoptimized и srcset не строит): после основных файлов для каждого
+ * постера -v / -h делается posters/{name}-v-s.webp (180×320) и -h-s.webp (400×225), для каждого кадра —
+ * stills/{name}-800.webp (800 по ширине). Маппинг пути — src/lib/media.ts. -45 копий не получают.
+ *
  * Время (start, end, startV, endV, at, posterAt, posterAtV): секунды числом или «m:ss(.f)» / «h:mm:ss(.f)».
  * Отрезок — start + end или start + duration (по умолчанию 8 с); у V свои startV / endV / durationV, иначе как у H.
  * Постер — кадр start + min(1 с, полотрезка); posterAt / posterAtV (абсолютное время источника) — свой кадр.
@@ -44,7 +48,7 @@
  */
 import { createRequire } from "node:module";
 import { spawn } from "node:child_process";
-import { mkdir, stat, writeFile, readFile } from "node:fs/promises";
+import { mkdir, stat, writeFile, readFile, readdir } from "node:fs/promises";
 import { createWriteStream } from "node:fs";
 import { pipeline } from "node:stream/promises";
 import { Readable } from "node:stream";
@@ -223,6 +227,38 @@ async function still(src, out, { w, h, at, ...crop }) {
   await run([...seek, "-i", src, "-frames:v", "1", "-vf", vf, "-c:v", "libwebp", "-quality", "80", out]);
 }
 
+/** малые копии постеров и кадров из уже готовых webp (см. шапку); с --only — только для выбранных имён */
+async function smallCopies(noSmall = new Set()) {
+  const keep = (file) => !ONLY || [...ONLY].some((n) => file.startsWith(`${n}-`) || file.startsWith(`${n}.`));
+  const jobs = [];
+  for (const f of await readdir(OUT.posters)) {
+    const m = f.match(/^(.+)-([vh])\.webp$/);
+    if (!m || !keep(f)) continue;
+    const [w, h] = m[2] === "v" ? [180, 320] : [400, 225];
+    jobs.push({ item: m[1], from: path.join(OUT.posters, f), to: path.join(OUT.posters, `${m[1]}-${m[2]}-s.webp`), vf: `scale=${w}:${h}` });
+  }
+  for (const f of await readdir(OUT.stills)) {
+    const m = f.match(/^(.+)\.webp$/);
+    if (!m || /-(45|800)$/.test(m[1]) || !keep(f) || noSmall.has(m[1])) continue; // "small": false в манифесте — копия не нужна (портрет)
+    jobs.push({ item: m[1], from: path.join(OUT.stills, f), to: path.join(OUT.stills, `${m[1]}-800.webp`), vf: "scale='min(800,iw)':-2" });
+  }
+  let made = 0;
+  const failed = [];
+  for (const j of jobs) {
+    // копия свежая, только если она не старше оригинала (оригинал перерезали — копию делаем заново)
+    if (!FORCE && (await exists(j.to)) && (await stat(j.from)).mtimeMs <= (await stat(j.to)).mtimeMs) continue;
+    try {
+      await run(["-i", j.from, "-frames:v", "1", "-vf", j.vf, "-c:v", "libwebp", "-quality", "78", j.to]);
+      made++;
+    } catch (e) {
+      console.error(`  ✗ ${path.basename(j.to)}: ${e.message}`);
+      failed.push({ name: j.item, error: `${path.basename(j.to)}: ${e.message}` }); // name — имя элемента: --only чистит отчёт по нему
+    }
+  }
+  console.log(`малые копии: ${made} новых из ${jobs.length}`);
+  return failed;
+}
+
 async function sizeKB(p) {
   return Math.round((await stat(p)).size / 1024);
 }
@@ -316,6 +352,8 @@ async function main() {
       report.push({ name, error: e.message });
     }
   }
+
+  report.push(...(await smallCopies(new Set(manifest.items.filter((i) => i.small === false).map((i) => i.name)))));
 
   const over = report.filter((r) => r.kb && ((r.file.endsWith("-h.mp4") && r.kb > 4200) || (r.file.endsWith("-v.mp4") && r.kb > 3200)));
   // с --only дописываем в прежний отчёт, а не затираем его частичным

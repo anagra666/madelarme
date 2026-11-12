@@ -14,7 +14,7 @@ import { useOverlayOpen, useScrollDirection, useStickyPrefill, WhatsAppGlyph } f
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 /**
- * Шапка 56px: прозрачная над hero, после 80px — bg-ink/80 + blur.
+ * Шапка 56px: прозрачная над hero, после 80px — bg-ink/95 + blur.
  * Прячется при скролле вниз, возвращается вверх; не прячется, пока открыт оверлей
  * или пока фокус клавиатуры внутри неё (иначе Tab попадал бы в невидимые ссылки).
  * На главной не прячется, пока вордмарк hero «летит» в шапку (первые 1.2 экрана).
@@ -26,7 +26,7 @@ export default function Header({ counts, formats }: { counts: MenuCounts; format
   const reduce = useReducedMotion();
   const { dir, y } = useScrollDirection();
   const overlay = useOverlayOpen();
-  const { open: openContact } = useContactPanel();
+  const { isOpen: contactOpen, open: openContact } = useContactPanel();
   const text = useStickyPrefill();
 
   const [menu, setMenu] = useState(false);
@@ -67,10 +67,10 @@ export default function Header({ counts, formats }: { counts: MenuCounts; format
         className={cn(
           "fixed inset-x-0 top-0 z-40 flex h-(--header-h) items-center justify-between px-gutter",
           "transition-[background-color,backdrop-filter] duration-500",
-          solid ? "bg-ink/80 backdrop-blur-md" : "bg-linear-to-b from-ink/60 to-transparent",
+          solid ? "bg-ink/95 backdrop-blur-md" : "bg-linear-to-b from-ink/60 to-transparent",
         )}
       >
-        <Link href="/" prefetch={false} className="disp -ml-1 flex h-11 items-center px-1 text-[28px] leading-none text-milk hover:text-signal" aria-label={`${settings.brand.wordmark} — на главную`}>
+        <Link href="/" prefetch={false} className="disp -ml-1 flex h-11 min-w-11 items-center px-1 text-[28px] leading-none text-milk hover:text-signal" aria-label={`${settings.brand.wordmark} — на главную`}>
           {settings.brand.monogram}
         </Link>
 
@@ -82,7 +82,7 @@ export default function Header({ counts, formats }: { counts: MenuCounts; format
               href={n.href}
               aria-current={isActive(n.href) ? "page" : undefined}
               className={cn(
-                "flex h-11 items-center transition-colors hover:text-signal",
+                "flex h-11 min-w-11 items-center justify-center transition-colors hover:text-signal",
                 isActive(n.href) ? "text-signal" : "text-milk",
               )}
             >
@@ -92,6 +92,8 @@ export default function Header({ counts, formats }: { counts: MenuCounts; format
           <button
             type="button"
             onClick={openContact}
+            aria-haspopup="dialog"
+            aria-expanded={contactOpen}
             className="flex h-11 items-center uppercase text-milk transition-colors hover:text-signal"
           >
             [ Написать ]

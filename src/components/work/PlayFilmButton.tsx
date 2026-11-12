@@ -19,7 +19,7 @@ export default function PlayFilmButton({
   const { open } = usePlayer();
   return (
     <Button variant="signal" size={size} className={className} onClick={() => open(video, title)} aria-haspopup="dialog">
-      <span aria-hidden="true">▶</span> Смотреть фильм <span className="opacity-70">{video.duration}</span>
+      <span aria-hidden="true">▶</span> Смотреть фильм <span className="tabular-nums">[ {video.duration} ]</span>
     </Button>
   );
 }

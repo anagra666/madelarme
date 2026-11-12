@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useReducedMotion } from "motion/react";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 
 /** Обратный отсчёт киноракорда 8 → 3, шаг 1 с. При reduced motion — сразу конечное значение. */
 export default function Countdown({ from = 8, to = 3, className }: { from?: number; to?: number; className?: string }) {
-  const reduce = useReducedMotion();
+  const reduce = usePrefersReducedMotion();
   const [n, setN] = useState(from);
 
   useEffect(() => {

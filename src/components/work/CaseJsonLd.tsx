@@ -1,6 +1,7 @@
 import type { Case } from "@/content/types";
 import { settings } from "@/lib/content";
 import { parseDuration } from "@/lib/utils";
+import { SITE_URL } from "@/lib/site";
 import { caseTitle, embedUrl, realFilm } from "@/components/work/film";
 
 /** «08:12» → PT8M12S; пустая или битая длительность → undefined (поле не выводим) */
@@ -48,7 +49,7 @@ function contentUrl(c: Case, site: string): string | undefined {
 
 /** JSON-LD VideoObject для страницы кейса. */
 export default function CaseJsonLd({ c }: { c: Case }) {
-  const site = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://madelarme.kz").replace(/\/$/, "");
+  const site = SITE_URL;
   const film = realFilm(c.fullVideo);
   const duration = film && isoDuration(film.duration);
   const content = contentUrl(c, site);

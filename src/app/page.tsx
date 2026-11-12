@@ -12,6 +12,7 @@ import FinalCTA from "@/components/home/FinalCTA";
 import { getCases, getPricing, settings } from "@/lib/content";
 import { igLink } from "@/lib/links";
 import { pad2 } from "@/lib/utils";
+import { SITE_URL } from "@/lib/site";
 
 /* title/description/OG — из layout (default); здесь только canonical: склеивает «/?utm=…» и т. п. */
 export const metadata: Metadata = {
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
 
 /** JSON-LD Person (план, SEO): кто, где, как связаться. */
 function PersonJsonLd() {
-  const site = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://madelarme.kz").replace(/\/$/, "");
+  const site = SITE_URL;
   const { brand, contacts, about } = settings;
   const data = {
     "@context": "https://schema.org",

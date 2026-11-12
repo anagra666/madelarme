@@ -29,15 +29,17 @@ export default function Hero() {
   return (
     /* isolation-auto!: grain делает секцию stacking context (isolate), и fixed-вордмарк (z-45) не мог подняться
        над шапкой (z-40) — «посадка» в слот шапки пряталась под её фоном */
-    <section id="hero" className="grain relative h-svh overflow-hidden bg-ink text-milk isolation-auto!">
+    <section id="hero" className="grain relative min-h-svh overflow-hidden bg-ink text-milk isolation-auto!">
       {showreel && (
         <CinemaVideo loop={showreel.loop} priority pauseButton mode="visible" className="absolute inset-0" alt="" />
       )}
-      <div className="scrim-b pointer-events-none absolute inset-x-0 bottom-0 h-[60%]" aria-hidden="true" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-56 bg-linear-to-b from-ink/80 to-transparent" aria-hidden="true" />
+      {/* свой скрим, а не общий scrim-b: выше и плотнее у подписи, чтобы текст читался на светлых кадрах (свадебное платье, небо) */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] bg-linear-to-b from-transparent via-ink/60 via-35% to-ink/85" aria-hidden="true" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-56 bg-linear-to-b from-ink/90 via-ink/65 via-45% to-transparent" aria-hidden="true" />
       <HeroWordmark />
 
-      <div className="pointer-events-none absolute inset-0 z-10 flex flex-col justify-between px-gutter pb-[calc(var(--spacing-gutter)+60px)] pt-[calc(var(--header-h)+8px)] lg:pt-[calc(var(--header-h)+12px)]">
+      {/* в потоке (min-h-svh), а не absolute: в горизонтальном телефоне секция вырастает, и CTA не обрезаются */}
+      <div className="pointer-events-none relative z-10 flex min-h-svh flex-col justify-between px-gutter pb-[calc(var(--spacing-gutter)+60px)] pt-[calc(var(--header-h)+8px)] lg:pt-[calc(var(--header-h)+12px)]">
         {/* верх: моно-строка слева, OSD справа (десктоп) */}
         <div className="flex items-start justify-between gap-6">
           {/* «·» рисует каждый пункт перед собой; ряд сдвинут на ширину разделителя внутри overflow-x: clip —
@@ -58,7 +60,7 @@ export default function Hero() {
         {/* низ: H1 + подпись слева, кнопки справа (десктоп) / в столбик (телефон) */}
         <HeroFade className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
           <div className="min-w-0">
-            <h1 className="disp text-[15vw] lg:text-[clamp(72px,9.5vw,150px)]">
+            <h1 className="disp text-[length:min(15vw,19svh)] lg:text-[clamp(72px,min(9.5vw,16svh),150px)]">
               {manifest.map((line) => {
                 const [word, dot] = splitDot(line);
                 return (
@@ -69,7 +71,7 @@ export default function Hero() {
                 );
               })}
             </h1>
-            <p className="mt-4 max-w-[40ch] text-[15px] leading-snug text-milk/85 lg:mt-6 lg:text-[17px]">{heroSub}</p>
+            <p className="mt-4 max-w-[22em] text-[15px] leading-snug text-milk/85 lg:mt-6 lg:text-[17px]">{heroSub}</p>
           </div>
 
           <div className="pointer-events-auto flex shrink-0 flex-col items-stretch gap-3 sm:items-start lg:flex-row lg:items-center lg:gap-3">

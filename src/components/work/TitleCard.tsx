@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
  */
 function Cell({ label, children, className = "" }: { label: string; children: ReactNode; className?: string }) {
   return (
-    <div className={`flex min-w-0 flex-col gap-2 border-rule px-gutter py-5 lg:px-6 lg:py-6 ${className}`}>
+    <div className={`flex min-w-0 flex-col gap-2 border-rule px-gutter py-5 lg:px-6 lg:py-6 lg:first:pl-gutter lg:last:pr-gutter ${className}`}>
       <div className="mono-sm text-meta">{label}</div>
       <div className="text-[15px] leading-snug lg:text-[16px]">{children}</div>
     </div>
@@ -40,7 +40,7 @@ export default function TitleCard({ c, format }: { c: Case; format?: Format }) {
       body: (
         <>
           <span className="block">{format?.name ?? c.format}</span>
-          {format?.term && <span className="mono-sm block text-signal">{format.term}</span>}
+          {format?.term && <span className="mono-sm block text-meta">{format.term}</span>}
         </>
       ),
     },

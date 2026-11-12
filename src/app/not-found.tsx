@@ -21,8 +21,8 @@ export default function NotFound() {
         </div>
 
         <div className="flex flex-col items-start gap-6 py-10 md:flex-row md:items-end md:justify-between">
-          {/* leading выше дисплейного .86: иначе ножка «Д» в «КАДР» ложится на бреве «Й» в «НАЙДЕН» */}
-          <h1 className="disp text-h1 max-w-[8ch] leading-[1.06]">Кадр не найден</h1>
+          {/* перенос задан явно: «не» не висит в конце строки, а «Д» и «Й» не стоят друг над другом, поэтому подходит дисплейный leading .86 */}
+          <h1 className="disp text-h1">Кадр<br />не&nbsp;найден</h1>
           <div className="flex items-end gap-4">
             <span className="mono text-meta">отсчёт</span>
             <Countdown from={8} to={3} className="disp text-h1 tabular-nums text-signal" />

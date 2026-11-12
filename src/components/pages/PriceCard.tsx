@@ -22,8 +22,11 @@ export function PriceCard({ c, id }: { c: PriceCollection; id?: string }) {
       <dl className="mono mt-8 flex flex-col gap-3 text-milk">
         {c.lines.map((l) => (
           <div key={l.k} className="flex min-w-0 items-baseline gap-2">
-            <dt className="shrink-0 text-meta">{l.k}</dt>
-            <span aria-hidden="true" className="mb-[3px] min-w-4 flex-1 border-b border-dotted border-meta/60" />
+            {/* пунктир-лидер внутри dt: в dl>div бывают только dt и dd */}
+            <dt className="flex min-w-0 flex-1 items-baseline gap-2 text-meta">
+              <span className="shrink-0">{l.k}</span>
+              <span aria-hidden="true" className="mb-[3px] min-w-4 flex-1 border-b border-dotted border-meta/60" />
+            </dt>
             <dd className="min-w-0 max-w-[62%] text-right normal-case">{l.v}</dd>
           </div>
         ))}
@@ -32,8 +35,8 @@ export function PriceCard({ c, id }: { c: PriceCollection; id?: string }) {
       {c.note && <p className="mt-6 max-w-[40ch] text-[15px] leading-relaxed text-meta">{c.note}</p>}
 
       <div className="mt-auto pt-8">
-        {/* ролики для соцсетей — не про дату, а про объём: «Обсудить» */}
-        <Button variant="signal" size="lg" href={waLink(prefill("pricing", c.name))} className="w-full">
+        {/* signal — только у тарифа с бейджем, остальные outline: единственный акцент; ролики для соцсетей — не про дату, а про объём: «Обсудить» */}
+        <Button variant={c.badge ? "signal" : "outline"} size="lg" href={waLink(prefill("pricing", c.name))} className="w-full">
           {c.tab === "unit" ? "Обсудить ролики →" : "Проверить дату →"}
         </Button>
       </div>
