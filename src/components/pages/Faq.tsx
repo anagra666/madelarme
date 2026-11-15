@@ -21,7 +21,7 @@ export function Faq({
               +
             </span>
           </summary>
-          <p className="max-w-[64ch] pb-6 pl-11 text-[16px] leading-relaxed text-meta md:pl-18 md:text-[17px]">{it.a}</p>
+          <p className="max-w-[64ch] pb-6 pl-11 text-[17px] leading-relaxed text-milk/80 md:pl-18 md:text-[18px]">{it.a}</p>
         </details>
       ))}
     </div>

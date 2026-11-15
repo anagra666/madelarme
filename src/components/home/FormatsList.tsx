@@ -55,12 +55,13 @@ export default function FormatsList({ num = "06" }: { num?: string }) {
           {formats.map((f, i) => {
             const count = countByFormat(f.slug);
             /* «—» в duration — хронометраж не называем (прощание); «8–12 мин» на телефоне переносится целиком */
-            const meta = [showPrices ? formatPriceText(f) : null, f.duration !== "—" ? unbroken(f.duration) : null]
-              .filter(Boolean)
-              .join("\u00a0· ");
+            const price = showPrices ? formatPriceText(f) : null;
+            const duration = f.duration !== "—" ? unbroken(f.duration) : null;
+            const meta = [price, duration].filter(Boolean).join("\u00a0· ");
             /* «(0)» читается как «таких работ нет» — счётчик только когда есть что показать */
             const counter = count > 0 ? `(${count})` : null;
-            const metaMobile = [counter, meta].filter(Boolean).join("\u00a0· ");
+            /* телефон: цена своей строкой и крупнее подписи; счётчик и хронометраж — под ней, без точки на конце строки */
+            const subMobile = [counter, duration].filter(Boolean).join("\u00a0· ");
             return (
               <li key={f.slug}>
                 <Link
@@ -75,11 +76,16 @@ export default function FormatsList({ num = "06" }: { num?: string }) {
                       <span lang={f.lang}>{nb(f.name)}</span>
                       {counter && <span className="mono ml-3 hidden align-top text-meta lg:inline">{counter}</span>}
                     </span>
-                    {metaMobile && <span className="mono text-meta lg:hidden">{metaMobile}</span>}
+                    {(price || subMobile) && (
+                      <span className="flex flex-col gap-1 lg:hidden">
+                        {price && <span className="mono-lg text-milk">{price}</span>}
+                        {subMobile && <span className="mono-sm text-meta">{subMobile}</span>}
+                      </span>
+                    )}
                   </div>
 
                   {/* десктоп: цена · хронометраж */}
-                  <span className="mono hidden shrink-0 text-meta lg:block">{meta}</span>
+                  <span className="mono-lg hidden shrink-0 text-milk lg:block">{meta}</span>
 
                   {/* телефон: квадратный стилл 64px; без лупа — номер строки дисплеем в рамке (как хлопушка), не пустая плашка */}
                   {f.loop?.posterH ? (

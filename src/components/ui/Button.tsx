@@ -9,7 +9,7 @@ const base =
   "mono inline-flex items-center justify-center gap-2 border transition-colors duration-300 ease-out-expo select-none whitespace-nowrap";
 const variants: Record<Variant, string> = {
   /* цвета берутся из токенов milk / on-milk, которые секция .paper переключает сама */
-  signal: "border-signal bg-signal text-ink hover:bg-milk hover:border-milk hover:text-on-milk font-medium",
+  signal: "border-signal bg-signal text-ink hover:bg-milk hover:border-milk hover:text-on-milk font-semibold",
   outline: "border-milk/50 text-milk hover:border-milk hover:bg-milk hover:text-on-milk",
   ghost: "border-transparent text-milk hover:text-signal",
   paper: "border-milk bg-milk text-on-milk hover:bg-signal hover:border-signal hover:text-ink",
@@ -17,7 +17,7 @@ const variants: Record<Variant, string> = {
 const sizes: Record<Size, string> = {
   md: "h-11 px-5",
   lg: "h-14 px-7",
-  xl: "h-16 px-8 text-[13px]",
+  xl: "h-16 px-8 text-[14px] min-[100rem]:text-[15px]",
 };
 
 export type ButtonProps = {

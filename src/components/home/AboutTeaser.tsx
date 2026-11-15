@@ -55,7 +55,7 @@ export default function AboutTeaser({ num = "07" }: { num?: string }) {
               ))}
             </Reveal>
 
-            <div className="grid max-w-[60ch] gap-4 text-[16px] leading-relaxed lg:text-[18px]">
+            <div className="grid max-w-[60ch] gap-4 text-[17px] leading-relaxed lg:text-[19px]">
               {/* на телефоне — один абзац (план §07-07) */}
               {paragraphs.map((p, i) => (
                 <p key={p.slice(0, 24)} className={i > 0 ? "hidden sm:block" : undefined}>

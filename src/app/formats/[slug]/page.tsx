@@ -169,7 +169,7 @@ export default async function FormatPage({ params }: Props) {
             <div>
               <p className="mono text-meta">[ цена ]</p>
               <p className="disp text-h2 mt-3 tabular-nums">{formatPriceText(f)}</p>
-              {priceNote && <p className="mono mt-3 max-w-[52ch] text-meta">{priceNote}</p>}
+              {priceNote && <p className="mono-lg mt-3 max-w-[52ch] text-milk/85">{priceNote}</p>}
               {price !== undefined && settings.toggles.pricesAreDemo && <p className="mono-sm mt-3 text-meta">цены — демо, до согласования</p>}
             </div>
             {/* вкладка прайса по модели цены: «по времени» или «для соцсетей» */}

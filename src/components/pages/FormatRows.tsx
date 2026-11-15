@@ -15,8 +15,9 @@ const LONG_NAME = 18;
 export function FormatRows({ formats }: { formats: Format[] }) {
   const showPrices = settings.toggles.showPrices;
   return (
-    /* на md+ все строки делят одни колонки (subgrid): термин и цена не «гуляют» от строки к строке */
-    <ul className="border-t border-rule md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto_auto] md:gap-x-8">
+    /* на md+ все строки делят одни колонки (subgrid): термин и цена не «гуляют» от строки к строке;
+       колонка цены фиксирована (13.5rem под «от 40 000 ₸ за ролик»), иначе группы на странице встают в разные сетки */
+    <ul className="border-t border-rule md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_13.5rem_auto] md:gap-x-8">
       {formats.map((f) => (
         <li key={f.slug} className="border-b border-rule md:col-span-4 md:grid md:grid-cols-subgrid">
           <Link
@@ -36,7 +37,7 @@ export function FormatRows({ formats }: { formats: Format[] }) {
               {nb([f.term, f.duration && f.duration !== "—" ? unbroken(f.duration) : null].filter(Boolean).join(" · "))}
             </span>
             {showPrices && (
-              <span className="mono order-2 col-span-2 mt-3 text-meta group-hover:text-signal md:order-none md:col-span-1 md:mt-0 md:justify-self-end">
+              <span className="mono-lg order-2 col-span-2 mt-3 text-milk group-hover:text-signal md:order-none md:col-span-1 md:mt-0 md:justify-self-end">
                 {formatPriceText(f)}
               </span>
             )}

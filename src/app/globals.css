@@ -9,8 +9,8 @@
   --color-paper-2: #e9e2d7;    /* поверхности на бумаге */
   --color-milk: #ece7df;       /* текст на тёмном */
   --color-signal: #ff4d2e;     /* единственный акцент: интерактив, REC, подпись */
-  --color-meta: #8f877d;       /* таймкоды, служебный текст на тёмном */
-  --color-meta-paper: #6b635a; /* служебный текст на бумаге (5.1:1 на paper, 4.6:1 на paper-2) */
+  --color-meta: #a69e93;       /* таймкоды, служебный текст на тёмном (7.3:1 на ink) */
+  --color-meta-paper: #5a534b; /* служебный текст на бумаге (6.5:1 на paper, 5.9:1 на paper-2) */
   --color-rule: #2b2724;       /* линейки на тёмном */
   --color-rule-paper: #d9d0c3; /* линейки на бумаге */
   --color-on-milk: #0e0d0c;    /* текст поверх milk-заливки (кнопки); на бумаге — светлый */
@@ -48,6 +48,8 @@ html {
 body {
   font-family: var(--font-body);
   font-size: 17px;
+  /* 450, а не 400: светлый текст на тёмном при сглаживании antialiased тоньше номинала; на бумаге — 400 (.paper) */
+  font-weight: 450;
   line-height: 1.5;
   font-feature-settings: "ss01", "cv11";
   overflow-x: clip;
@@ -91,18 +93,47 @@ video, img {
   letter-spacing: -0.005em;
 }
 
+/* Моно-подписи. Вес 500 задан явно: 400 на тёмном читался тонко, а внутри .disp подпись наследовала бы 800.
+   На широких экранах кегль на ступень больше — подпись не мельчает относительно дисплея. */
 @utility mono {
   font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.1em;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   font-variant-numeric: tabular-nums;
+  @media (min-width: 100rem) { font-size: 14px; }
 }
 
 @utility mono-sm {
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  @media (min-width: 100rem) { font-size: 13px; }
+}
+
+/* Моно для строк, которые читают, а не сканируют: условия, состав тарифа, строки прайса */
+@utility mono-lg {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  line-height: 1.45;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+  @media (min-width: 100rem) { font-size: 16px; }
+}
+
+/* Цена: цифра читается первой — крупнее и плотнее любой подписи */
+@utility price {
+  font-family: var(--font-mono);
+  font-size: clamp(20px, 1.9vw, 30px);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.15;
   text-transform: uppercase;
   font-variant-numeric: tabular-nums;
 }
@@ -124,6 +155,7 @@ video, img {
   --color-ink-2: var(--color-paper-2);
   --color-on-milk: #f3eee6;
   color-scheme: light;
+  font-weight: 400;
 }
 
 /* film grain over dark sections — only on pointer devices, cheap on compositor */

@@ -19,7 +19,7 @@ function Block({ label, children }: { label: string; children: string }) {
   return (
     <div className="border-t border-rule pt-3">
       <div className="mono-sm text-meta">[ {label} ]</div>
-      <p className="mt-2 max-w-[44ch] text-[15px] leading-snug lg:text-[16px]">{nb(children)}</p>
+      <p className="mt-2 max-w-[44ch] text-[16px] leading-snug lg:text-[18px]">{nb(children)}</p>
     </div>
   );
 }

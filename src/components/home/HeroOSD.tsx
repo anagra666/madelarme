@@ -49,7 +49,7 @@ export default function HeroOSD() {
         REC
       </span>
       <span ref={tc} className="text-milk/85">00:00:00:00</span>
-      {/* не text-meta: #8F877D на сером небе ≈1.3:1 — эффект «экрана камеры» пропадал */}
+      {/* не text-meta: серый meta на светлом небе почти не виден — эффект «экрана камеры» пропадал */}
       <span className="text-milk/70">4K · {FPS} FPS</span>
       <span className="text-milk/70">ЗВУК: ВЫКЛ</span>
       <style>{`@keyframes rec{50%{opacity:0}}`}</style>

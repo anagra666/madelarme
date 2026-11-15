@@ -11,7 +11,7 @@ function Cell({ label, children, className = "" }: { label: string; children: Re
   return (
     <div className={`flex min-w-0 flex-col gap-2 border-rule px-gutter py-5 lg:px-6 lg:py-6 lg:first:pl-gutter lg:last:pr-gutter ${className}`}>
       <div className="mono-sm text-meta">{label}</div>
-      <div className="text-[15px] leading-snug lg:text-[16px]">{children}</div>
+      <div className="text-[16px] leading-snug lg:text-[18px]">{children}</div>
     </div>
   );
 }

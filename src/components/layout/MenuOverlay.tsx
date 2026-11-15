@@ -130,7 +130,7 @@ export default function MenuOverlay({
             transition={{ duration: 0.6, ease: EASE, delay: 0.35 }}
           >
             <div className="grid grid-cols-3 gap-px border border-rule bg-rule">
-              <a href={waLink(text)} target="_blank" rel="noopener" className="mono flex h-14 items-center justify-center gap-2 max-[359px]:flex-col max-[359px]:gap-1 bg-signal font-medium text-ink transition-colors hover:bg-milk">
+              <a href={waLink(text)} target="_blank" rel="noopener" className="mono flex h-14 items-center justify-center gap-2 max-[359px]:flex-col max-[359px]:gap-1 bg-signal font-semibold text-ink transition-colors hover:bg-milk">
                 <WhatsAppGlyph /> <span className="mono-sm">WhatsApp</span>
               </a>
               <a href={tgLink(text)} target="_blank" rel="noopener" className="mono flex h-14 items-center justify-center gap-2 max-[359px]:flex-col max-[359px]:gap-1 bg-ink transition-colors hover:text-signal">

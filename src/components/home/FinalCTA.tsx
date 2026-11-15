@@ -15,7 +15,7 @@ export default function FinalCTA() {
       aria-labelledby="cta-title"
       className="overflow-hidden bg-ink"
     >
-      <div className="relative flex w-full items-center pb-[calc(var(--sticky-h)+env(safe-area-inset-bottom)+clamp(96px,16vw,144px))] pt-[clamp(64px,10vw,160px)] lg:min-h-svh lg:pb-[clamp(64px,10vw,160px)]">
+      <div className="relative flex w-full items-center pb-[calc(var(--sticky-h)+env(safe-area-inset-bottom)+clamp(96px,16vw,144px))] pt-[clamp(64px,10vw,160px)] lg:py-[clamp(96px,8vw,136px)]">
       {/* контурная марка на фоне — декорация. На телефоне — под контактами (в нижнем отступе над sticky-полосой),
           чтобы контур не шёл по подписям кнопок; на десктопе — по центру, за текстом (§07-10) */}
       <div

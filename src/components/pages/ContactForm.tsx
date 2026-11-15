@@ -164,8 +164,8 @@ export default function ContactForm({ formats, waHref }: { formats: FormatChip[]
           onChange={(e) => setConsent(e.target.checked)}
           className="mt-1 h-5 w-5 shrink-0 appearance-none border border-meta checked:border-signal checked:bg-signal"
         />
-        <span className="text-[14px] leading-snug text-meta">
-          Согласна(ен) на обработку персональных данных
+        <span className="text-[15px] leading-snug text-meta">
+          Согласна(ен) на обработку персональных{"\u00a0"}данных
         </span>
       </label>
       <Link href="/privacy" target="_blank" rel="noopener" className="mono-sm -mt-3 inline-flex min-h-11 items-center self-start text-meta underline underline-offset-4 hover:text-milk">
@@ -175,7 +175,7 @@ export default function ContactForm({ formats, waHref }: { formats: FormatChip[]
       {status === "error" && (
         <div role="alert" className="border border-signal p-4">
           <p className="mono text-signal">Не отправилось</p>
-          <p className="mt-2 text-[15px] text-meta">Напишите в WhatsApp — так даже быстрее.</p>
+          <p className="mt-2 text-[16px] text-meta">Напишите в WhatsApp — так даже быстрее.</p>
           <Button variant="signal" size="lg" href={lead ? leadWaLink(lead) : waHref} className="mt-4 w-full">
             Написать в WhatsApp
           </Button>

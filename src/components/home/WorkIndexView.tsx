@@ -62,12 +62,12 @@ export default function WorkIndexView({
                     prefetch={false}
                     className="block min-w-0 active:text-signal after:absolute after:inset-0 after:z-10 after:content-['']"
                   >
-                    {/* город почти у всех «Алматы» — в узкой строке важнее длительность: номер, год и длительность не сжимаются,
-                        многоточие получает только название формата (NBSP вокруг точек — иначе пробел в flex-элементе схлопывается) */}
-                    <span className="mono-sm flex min-w-0 normal-case text-meta">
-                      <span className="shrink-0">{r.num}{"\u00a0·\u00a0"}</span>
-                      <span className="min-w-0 truncate">{r.formatName.toLowerCase()}</span>
-                      <span className="shrink-0">{[r.year, r.duration].filter(Boolean).map((v) => `\u00a0·\u00a0${v}`).join("")}</span>
+                    {/* город почти у всех «Алматы» — в узкой строке важнее длительность. Длинное название формата не режем
+                        многоточием: строка переносится (в ячейке h-28 место под вторую есть); .dots убирает точку на стыке строк */}
+                    <span className="dots mono-sm normal-case text-meta">
+                      {[r.num, r.formatName.toLowerCase(), r.year, r.duration].filter(Boolean).map((v, k) => (
+                        <span key={k}>{v}</span>
+                      ))}
                     </span>
                     {/* overflow-x-clip, не hidden: по вертикали бреве «Й»/«Ё» выходит за строку (.disp lh .86) */}
                     <span

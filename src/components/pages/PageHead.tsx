@@ -24,7 +24,7 @@ export function PageHead({
     <Container className={cn("pt-[calc(var(--header-h)+40px)] pb-10 md:pt-[calc(var(--header-h)+72px)] md:pb-16", className)}>
       {eyebrow && <div className="mono text-meta mb-6">{eyebrow}</div>}
       <h1 className="disp text-h1 max-w-[12ch] text-balance">{title}</h1>
-      {sub && <p className="mono text-meta mt-5 md:mt-8 max-w-[48ch] text-balance">{typeof sub === "string" ? nb(sub) : sub}</p>}
+      {sub && <p className="mono-lg mt-5 max-w-[48ch] text-balance text-milk/85 md:mt-8">{typeof sub === "string" ? nb(sub) : sub}</p>}
       {children}
     </Container>
   );

@@ -71,7 +71,7 @@ export default function Hero() {
                 );
               })}
             </h1>
-            <p className="mt-4 max-w-[22em] text-[15px] leading-snug text-milk/85 lg:mt-6 lg:text-[17px]">{heroSub}</p>
+            <p className="mt-4 max-w-[22em] text-[16px] leading-snug text-pretty text-milk lg:mt-6 lg:text-[18px]">{heroSub}</p>
           </div>
 
           <div className="pointer-events-auto flex shrink-0 flex-col items-stretch gap-3 sm:items-start lg:flex-row lg:items-center lg:gap-3">

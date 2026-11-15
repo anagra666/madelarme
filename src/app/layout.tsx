@@ -34,9 +34,10 @@ const oswald = Oswald({
   display: "swap",
   preload: false,
 });
+/* Вариативные файлы (ось wght): тексту на тёмном нужна промежуточная насыщенность 450 —
+   светлое на чёрном со сглаживанием antialiased выглядит тоньше, чем тот же вес на бумаге. */
 const interTight = Inter_Tight({
   variable: "--font-inter-tight",
-  weight: ["400", "500"],
   subsets: ["latin", "cyrillic"],
   display: "swap",
   preload: false,
@@ -44,7 +45,6 @@ const interTight = Inter_Tight({
 const robotoMono = Roboto_Mono({
   variable: "--font-roboto-mono",
   subsets: ["latin", "cyrillic"],
-  weight: "400",
   display: "swap",
   preload: false,
   /* без Arial-подмены с size-adjust ~135%: она на 26% шире Roboto Mono и сдвигает шапку при подмене шрифта;

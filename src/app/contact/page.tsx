@@ -77,7 +77,7 @@ export default function ContactPage() {
         <Container className="grid grid-cols-1 gap-10 py-14 md:grid-cols-12 md:py-20">
           <div className="md:col-span-4 lg:sticky lg:top-[calc(var(--header-h)+24px)] lg:self-start">
             <SectionTitle num="01">Или форма</SectionTitle>
-            <p className="mt-4 max-w-[36ch] text-[15px] leading-relaxed text-meta">
+            <p className="mt-4 max-w-[36ch] text-[16px] leading-relaxed text-milk/80">
               {STATIC_SITE
                 ? "Пять полей, без email. Заявка откроется в WhatsApp уже заполненной — останется нажать «Отправить». Отвечаю в тот же день."
                 : "Пять полей, без email. Заявка приходит мне в Telegram — отвечаю в тот же день."}

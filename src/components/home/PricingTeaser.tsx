@@ -38,9 +38,9 @@ export default function PricingTeaser({ num = "09" }: { num?: string }) {
                   <span className="disp text-row transition-colors duration-300 group-hover:text-signal">{c.name}</span>
                   {c.badge && <span className="mono-sm text-signal">{c.badge}</span>}
                 </div>
-                <span className="mono text-milk lg:col-span-5 lg:text-right">
+                <span className="price text-milk lg:col-span-5 lg:text-right">
                   {collectionPrice(c)}
-                  {showPrices && c.unit && <span className="text-meta"> {c.unit}</span>}
+                  {showPrices && c.unit && <span className="mono text-meta"> {c.unit}</span>}
                 </span>
               </Link>
             </li>
@@ -52,9 +52,9 @@ export default function PricingTeaser({ num = "09" }: { num?: string }) {
             Весь прайс ↗
           </Button>
           {terms.length > 0 && (
-            <ul className="mono w-full text-meta sm:max-w-[56ch]">
+            <ul className="mono-lg w-full text-milk/85 sm:max-w-[60ch]">
               {terms.map((t) => (
-                <li key={t} className="border-b border-rule py-2 first:border-t">
+                <li key={t} className="border-b border-rule py-2.5 first:border-t">
                   {nb(t)}
                 </li>
               ))}

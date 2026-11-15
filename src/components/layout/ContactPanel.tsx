@@ -244,7 +244,7 @@ export default function ContactPanel({ formats }: { formats: FormatChip[] }) {
 
               {/* мессенджеры */}
               <div className="grid grid-cols-1 gap-px bg-rule border border-rule">
-                <a href={waLink(text)} target="_blank" rel="noopener" data-autofocus className="mono flex h-14 items-center gap-3 bg-signal px-5 font-medium text-ink transition-colors hover:bg-milk">
+                <a href={waLink(text)} target="_blank" rel="noopener" data-autofocus className="mono flex h-14 items-center gap-3 bg-signal px-5 font-semibold text-ink transition-colors hover:bg-milk">
                   <WhatsAppGlyph /> WhatsApp
                   <span className="ml-auto normal-case tracking-normal text-ink/70">быстрее всего</span>
                 </a>
@@ -364,8 +364,8 @@ export default function ContactPanel({ formats }: { formats: FormatChip[] }) {
                       onChange={(e) => setConsent(e.target.checked)}
                       className="mt-1 h-5 w-5 shrink-0 appearance-none border border-meta checked:border-signal checked:bg-signal"
                     />
-                    <span className="text-[14px] leading-snug text-meta">
-                      Согласна(ен) на обработку персональных данных
+                    <span className="text-[15px] leading-snug text-meta">
+                      Согласна(ен) на обработку персональных{"\u00a0"}данных
                     </span>
                   </label>
                   <Link href="/privacy" target="_blank" rel="noopener" className="mono-sm -mt-3 inline-flex min-h-11 items-center self-start text-meta underline underline-offset-4 hover:text-milk">
@@ -375,7 +375,7 @@ export default function ContactPanel({ formats }: { formats: FormatChip[] }) {
                   {status === "fail" && (
                     <div role="alert" className="flex flex-col gap-3 border border-signal p-4">
                       <p className="mono text-signal">Не отправилось — напишите в WhatsApp</p>
-                      <a href={waLink(fallbackText)} target="_blank" rel="noopener" className="mono flex h-12 items-center justify-center gap-2 bg-signal text-ink font-medium hover:bg-milk">
+                      <a href={waLink(fallbackText)} target="_blank" rel="noopener" className="mono flex h-12 items-center justify-center gap-2 bg-signal text-ink font-semibold hover:bg-milk">
                         <WhatsAppGlyph /> WhatsApp
                       </a>
                     </div>
@@ -384,7 +384,7 @@ export default function ContactPanel({ formats }: { formats: FormatChip[] }) {
                   <button
                     type="submit"
                     aria-disabled={status === "sending" || undefined}
-                    className="mono flex h-14 items-center justify-center border border-milk font-medium text-milk transition-colors hover:bg-milk hover:text-ink aria-disabled:cursor-wait aria-disabled:opacity-60"
+                    className="mono flex h-14 items-center justify-center border border-milk text-milk transition-colors hover:bg-milk hover:text-ink aria-disabled:cursor-wait aria-disabled:opacity-60"
                   >
                     {status === "sending" ? "Отправляю…" : "Отправить"}
                   </button>

@@ -207,7 +207,7 @@ export default function StickyCTA() {
           target="_blank"
           rel="noopener"
           tabIndex={visible ? 0 : -1}
-          className="mono flex w-[60%] items-center justify-center gap-2.5 bg-signal px-3 font-medium text-ink transition-colors hover:bg-milk"
+          className="mono flex w-[60%] items-center justify-center gap-2.5 bg-signal px-3 font-semibold text-ink transition-colors hover:bg-milk"
         >
           <WhatsAppGlyph />
           Обсудить съёмку

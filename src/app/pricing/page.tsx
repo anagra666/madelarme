@@ -48,7 +48,7 @@ export default function PricingPage() {
       <Section paper>
         <Container className="py-14 md:py-20">
           <SectionTitle num="01">Дополнительно</SectionTitle>
-          <dl className="mono mt-8 border-t border-rule">
+          <dl className="mono-lg mt-8 border-t border-rule">
             {extras.map((x) => (
               <div key={x.name} className="grid min-h-12 grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-4 md:gap-x-6 border-b border-rule py-3">
                 <dt className="min-w-0">
@@ -68,7 +68,7 @@ export default function PricingPage() {
           <SectionTitle num="02">Условия</SectionTitle>
           <ul className="mt-8 border-t border-rule">
             {terms.map((t) => (
-              <li key={t} className="border-b border-rule py-5 font-mono text-[clamp(16px,2.4vw,28px)] uppercase leading-tight tracking-[0.06em] md:py-7">
+              <li key={t} className="border-b border-rule py-5 font-mono text-[clamp(16px,2.4vw,28px)] font-medium uppercase leading-tight tracking-[0.06em] md:py-7">
                 {t}
               </li>
             ))}
