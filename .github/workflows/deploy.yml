@@ -1,0 +1,72 @@
+# Выкладка на тестовый домен https://madelarme.seoweb.kz
+# push в main -> проверки и статическая сборка -> ветка deploy (готовые файлы сайта).
+# Офисный сервер раз в минуту забирает ветку deploy и переключает сайт (deploy/office/README.md).
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  build:
+    # ручной запуск с другой ветки на сайт не попадает
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Install pnpm (version from package.json)
+        run: npm install --global "$(node -p "require('./package.json').packageManager")"
+
+      # без install-скриптов: ffmpeg и sharp для сборки сайта не нужны
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Checks
+        run: |
+          pnpm content:check
+          pnpm media:check
+          pnpm lint
+
+      - name: Build static site
+        run: bash scripts/build-static.sh
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Publish to the deploy branch
+        run: |
+          set -euo pipefail
+          test -s out/index.html
+          sha=$(git rev-parse --short HEAD)
+          msg=$(git log -1 --format=%s)
+          if git fetch --quiet --depth=1 origin deploy:refs/remotes/origin/deploy; then
+            git worktree add --quiet -B deploy ../site origin/deploy
+          else
+            git worktree add --quiet --orphan -b deploy ../site
+          fi
+          find ../site -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -R out/. ../site/
+          cd ../site
+          git add --all
+          if git diff --cached --quiet; then
+            echo "Сборка не отличается от выложенной"
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit --quiet -m "deploy $sha: $msg"
+          git push --quiet origin deploy

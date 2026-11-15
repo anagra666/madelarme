@@ -10,23 +10,12 @@ NAME="madelarme-site-$STAMP"
 OUT="dist/$NAME"
 PREVIEW_URL="${PREVIEW_URL:-https://madelarme.seoweb.kz}"
 
-# route handler (POST) не экспортируется — на время сборки убираем его из дерева
-API_DIR="src/app/api"
-API_TMP=".cache/api-aside"
-restore() { if [ -d "$API_TMP" ]; then rm -rf "$API_DIR"; mv "$API_TMP" "$API_DIR"; fi; }
-trap restore EXIT
-mkdir -p .cache && rm -rf "$API_TMP" && mv "$API_DIR" "$API_TMP"
-
 echo "▸ next build (static export, noindex)"
-rm -rf out
-STATIC_EXPORT=1 NEXT_PUBLIC_STATIC=1 NEXT_PUBLIC_NOINDEX=1 NEXT_PUBLIC_SITE_URL="$PREVIEW_URL" pnpm exec next build >/dev/null
-restore
-trap - EXIT
+PREVIEW_URL="$PREVIEW_URL" bash scripts/build-static.sh >/dev/null
 
 echo "▸ assembling $OUT"
 rm -rf "$OUT" && mkdir -p "$OUT"
 cp -R out/. "$OUT/"
-rm -f "$OUT/media/manifest.json"
 cp scripts/static.htaccess "$OUT/.htaccess"
 
 cat > "$OUT/README-DEPLOY.md" <<README

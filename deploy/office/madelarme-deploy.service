@@ -1,0 +1,15 @@
+[Unit]
+Description=MADELARME: выкладка ветки deploy из GitHub
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/lib/madelarme-deploy/madelarme-deploy.sh
+SuccessExitStatus=75
+TimeoutStartSec=600
+Nice=10
+ProtectSystem=full
+ProtectHome=yes
+PrivateTmp=yes
+NoNewPrivileges=yes

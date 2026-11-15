@@ -1,0 +1,46 @@
+# /srv/server/projects/madelarme/compose.yaml (root 0644)
+# Папки проекта: www/releases/<сборка> — файлы сайта, www/current — ссылка на выложенную сборку,
+#                nginx/ — конфиг, deployments/ — журнал выкладок. Всё попадает в общий ежедневный бэкап сервера.
+# Образ тот же, что у остальных статических сайтов сервера: ничего не собирается и не скачивается.
+name: madelarme
+services:
+  web:
+    image: nginx:1.28-alpine@sha256:a8b39bd9cf0f83869a2162827a0caf6137ddf759d50a171451b335cecc87d236
+    pull_policy: never
+    restart: unless-stopped
+    init: true
+    entrypoint: [nginx]
+    command: ["-c", "/etc/nginx/madelarme/nginx.conf", "-g", "daemon off;"]
+    user: "101:101"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=8m,uid=101,gid=101,mode=0700
+    volumes:
+      - ./www:/var/www:ro
+      # папка целиком, а не отдельные файлы: после замены конфига достаточно install.sh up (nginx -s reload)
+      - ./nginx:/etc/nginx/madelarme:ro
+    mem_limit: 64m
+    memswap_limit: 64m
+    cpus: "0.5"
+    pids_limit: 32
+    stop_grace_period: 10s
+    healthcheck:
+      test: [CMD, wget, -q, -O, /dev/null, "http://127.0.0.1:8080/__health"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      server-public-edge:
+        aliases: [madelarme-web]
+networks:
+  server-public-edge:
+    external: true
+    name: server-public-edge

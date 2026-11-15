@@ -41,8 +41,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# demo media (regenerate with `pnpm media`)
-/public/media/
+# media sources and build cache (public/media itself is tracked: the site is built from the repo on GitHub)
 /.cache/
 
 # preview bundles

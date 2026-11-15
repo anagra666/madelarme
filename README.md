@@ -12,7 +12,11 @@ pnpm dev        # http://localhost:3000
 
 `pnpm build && pnpm start` — продакшн. `pnpm typecheck`, `pnpm lint`, `pnpm media:check` (все ссылки на /media существуют), `pnpm content:check` (контент сходится с контрактом types.ts) — проверки.
 
-Исходники для `pnpm media` — сами фильмы с YouTube-канала Madelarme, по одному файлу на ролик: `.cache/sources/{youtubeId}.mp4` (папка в .gitignore). Id — в поле `youtube` у элементов `scripts/media.manifest.json`; скачать заново, например, `yt-dlp -f "137/bv*[height<=1080][vcodec^=avc1]" -o ".cache/sources/%(id)s.%(ext)s" <id>`.
+Готовые файлы `public/media` лежат в git: из них сайт собирается на GitHub, поэтому после `pnpm media` результат нужно закоммитить. Исходники для `pnpm media` — сами фильмы с YouTube-канала Madelarme, по одному файлу на ролик: `.cache/sources/{youtubeId}.mp4` (папка в .gitignore). Id — в поле `youtube` у элементов `scripts/media.manifest.json`; скачать заново, например, `yt-dlp -f "137/bv*[height<=1080][vcodec^=avc1]" -o ".cache/sources/%(id)s.%(ext)s" <id>`.
+
+## Выкладка
+
+Тестовый домен https://madelarme.seoweb.kz обновляется сам после `git push origin main` (сборка на GitHub, сервер забирает готовые файлы). Подробности, журнал и откат: [deploy/office/README.md](deploy/office/README.md). Архив для обычного хостинга по-прежнему собирает `pnpm package:static`.
 
 ## Где что
 
