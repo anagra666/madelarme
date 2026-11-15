@@ -4,6 +4,7 @@
 # www/releases/<время>-<коммит> и переключает ссылку www/current. Прошлые сборки остаются для отката.
 # Ставится в /usr/local/lib/madelarme-deploy/madelarme-deploy.sh (root), запускается таймером madelarme-deploy.timer.
 #   Повторить ту же сборку:  sudo FORCE=1 /usr/local/lib/madelarme-deploy/madelarme-deploy.sh
+#   Почему не забирает:      sudo cat /var/lib/madelarme-deploy/fetch-error (пусто или нет файла — всё в порядке)
 #   Вернуть прошлую сборку:  sudo /usr/local/lib/madelarme-deploy/madelarme-deploy.sh rollback
 set -euo pipefail
 umask 022
@@ -67,7 +68,13 @@ if [ "${1:-}" = rollback ]; then
 fi
 
 [ -d "$REPO" ] || git init -q --bare "$REPO"
-git -C "$REPO" fetch -q --no-tags "$REMOTE" +refs/heads/deploy:refs/heads/deploy
+# NOFETCH=1 — взять уже лежащую в $REPO ветку deploy (первая установка из git bundle, пока ключ не добавлен в GitHub)
+if [ "${NOFETCH:-}" != 1 ]; then
+  # GitHub недоступен или ключ не принят: не ошибка службы, просто ждём следующего запуска
+  git -C "$REPO" fetch -q --no-tags "$REMOTE" +refs/heads/deploy:refs/heads/deploy 2> "$STATE/fetch-error" \
+    || { echo "fetch failed: $(tail -n 1 "$STATE/fetch-error")"; exit 75; }
+  rm -f "$STATE/fetch-error"
+fi
 NEW=$(git -C "$REPO" rev-parse --verify -q 'refs/heads/deploy^{commit}')
 if [ "${FORCE:-}" != 1 ]; then
   [ "$NEW" != "$(cat "$STATE/current" 2>/dev/null)" ] || exit 0

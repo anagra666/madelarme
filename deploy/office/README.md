@@ -40,6 +40,8 @@ sudo tail /srv/server/projects/madelarme/deployments/releases.log
 sudo /usr/local/lib/madelarme-deploy/madelarme-deploy.sh rollback
 # выложить текущую ветку deploy ещё раз
 sudo FORCE=1 /usr/local/lib/madelarme-deploy/madelarme-deploy.sh
+# сервер не забирает сборки: причина последней неудачи (нет файла — всё в порядке)
+sudo cat /var/lib/madelarme-deploy/fetch-error
 ```
 
 ## Заголовки безопасности
