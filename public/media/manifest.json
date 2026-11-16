@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-12T14:09:29.859Z",
+  "generated": "2026-11-16T09:42:03.219Z",
   "report": [
     {
       "name": "reel",
@@ -334,7 +334,7 @@
     {
       "name": "portrait",
       "file": "stills/portrait.webp",
-      "kb": 131
+      "kb": 101
     }
   ]
 }

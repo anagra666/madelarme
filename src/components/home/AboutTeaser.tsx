@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { settings } from "@/lib/content";
+import { still800 } from "@/lib/media";
 import { Reveal, Line } from "@/components/ui/Reveal";
 import Button from "@/components/ui/Button";
 import { Section, Eyebrow, Container } from "@/components/ui/Section";
@@ -29,17 +29,22 @@ export default function AboutTeaser({ num = "07" }: { num?: string }) {
           {/* портрет 4:5 */}
           <div className="relative aspect-[4/5] w-full overflow-hidden bg-ink-2 lg:col-span-5">
             {portrait?.src ? (
-              <Image
-                src={portrait.src}
-                alt={portrait.alt}
-                fill
+              /* обычный <img> с копией -800: next/image при images.unoptimized не строит srcset (см. Stills.tsx) */
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                src={still800(portrait.src)}
+                srcSet={`${still800(portrait.src)} 800w, ${portrait.src} ${portrait.w}w`}
                 sizes="(min-width: 1024px) 40vw, 100vw"
-                className="object-cover"
+                alt={portrait.alt}
+                loading="lazy"
+                decoding="async"
+                className="absolute inset-0 h-full w-full object-cover"
               />
             ) : (
               <div className="mono absolute inset-0 grid place-items-center text-meta">[ портрет ]</div>
             )}
-            {/* подпись поверх фото — всегда светлая, независимо от paper-перевёртыша */}
+            {/* подпись поверх фото — всегда светлая, независимо от paper-перевёртыша; под ней затемнение, чтобы читалась на светлом кадре */}
+            <span aria-hidden="true" className="scrim-b pointer-events-none absolute inset-x-0 bottom-0 h-24" />
             <span className="mono-sm absolute bottom-3 left-3 text-paper">
               {demo ? "[ фото — демо, до согласования ]" : `${brand.person} · ${brand.role}`}
             </span>

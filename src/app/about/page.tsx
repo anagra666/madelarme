@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { Section, Container } from "@/components/ui/Section";
 import Button from "@/components/ui/Button";
 import { Reveal, Line } from "@/components/ui/Reveal";
@@ -7,6 +6,7 @@ import { SectionTitle } from "@/components/pages/PageHead";
 import { ProcessList } from "@/components/pages/ProcessList";
 import { getClients, settings } from "@/lib/content";
 import { nb } from "@/lib/typo";
+import { still800 } from "@/lib/media";
 
 export const metadata: Metadata = {
   title: "Я Маша — видеограф в Алматы",
@@ -38,14 +38,19 @@ export default function AboutPage() {
           {about.portrait && (
             <figure className="md:col-span-5">
               <div className="relative aspect-[4/5] w-full overflow-hidden bg-paper-2">
-                <Image
+                {/* обычный <img>: next/image при images.unoptimized не строит srcset (см. Stills.tsx) —
+                    копия -800 для экранов 1x, полный кадр для телефонов и ретины */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={about.portrait.src}
+                  srcSet={`${still800(about.portrait.src)} 800w, ${about.portrait.src} ${about.portrait.w}w`}
+                  sizes="(min-width: 768px) 40vw, 100vw"
                   alt={about.portrait.alt}
                   width={about.portrait.w}
                   height={about.portrait.h}
                   loading="eager"
                   fetchPriority="high"
-                  sizes="(min-width: 768px) 40vw, 100vw"
+                  decoding="async"
                   className="h-full w-full object-cover"
                 />
               </div>

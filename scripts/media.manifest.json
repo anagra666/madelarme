@@ -661,11 +661,11 @@
     {
       "name": "portrait",
       "kind": "still",
-      "src": "https://images.unsplash.com/photo-1617461073601-b8222743b613?w=2000&q=80&fm=jpg",
-      "w": 1600,
-      "also45": true,
-      "small": false,
-      "stock": "Unsplash"
+      "note": "настоящий портрет Марии (прислан в Telegram 10.11.2026, оригинал IMG_0330.JPG 4672×7008); исходник в git не хранится",
+      "src": ".cache/sources/portrait-maria.jpg",
+      "precrop": "3320:4150:0:600",
+      "w": 1200,
+      "h": 1500
     }
   ]
 }

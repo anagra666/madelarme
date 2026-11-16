@@ -44,15 +44,15 @@
     "showClients": true,
     "showPlaceholders": false,
     "pricesAreDemo": false,
-    "aboutIsDemo": true,
+    "aboutIsDemo": false,
     "showAvailability": false
   },
   "about": {
     "portrait": {
-      "src": "/media/stills/portrait-45.webp",
-      "alt": "Демо-фото до портрета Марии: девушка с камерой",
-      "w": 864,
-      "h": 1080
+      "src": "/media/stills/portrait.webp",
+      "alt": "Мария Волкова, видеограф: портрет в закатном свете",
+      "w": 1200,
+      "h": 1500
     },
     "paragraphs": [
       "Привет, я Маша. Снимаю одна — чтобы вы забыли, что вас снимают. Одна пара глаз и весь ваш день без постановки и «встаньте вот сюда».",
